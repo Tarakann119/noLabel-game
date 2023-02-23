@@ -3,4 +3,7 @@ pre-commit:
   commands:
     lint:
       glob: '*.{ts,tsx}'
-      run: yarn eslint {staged_files}
+      run: yarn eslint {staged_files} && git add {staged_files}
+    stylelint:
+      glob: '*.{css,scss}'
+      run: yarn stylelint {staged_files} && git add {staged_files}
