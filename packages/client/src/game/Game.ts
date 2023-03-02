@@ -1,5 +1,6 @@
 import { PlacementTile } from './PlacementTile';
-import { TGameSettings } from '../../typings/app.typings';
+import { TGameSettings, TowerType } from '../../typings/app.typings';
+import { Building } from './Bulding';
 
 export class Game {
   private readonly pathToMap = '../../public/game/maps/';
@@ -9,6 +10,7 @@ export class Game {
   private settings: TGameSettings | null = null;
 
   private placementTiles: PlacementTile[] = [];
+  private buildings: Building[] = [];
 
   constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
     this.context = this.canvas.getContext('2d');
@@ -27,7 +29,7 @@ export class Game {
     const { settings, context } = this;
 
     if (settings && context) {
-      const { canvas, imageSrc, placementTiles } = this;
+      const { canvas, imageSrc, placementTiles, buildings } = this;
       const { tileSize, width, height } = settings;
 
       canvas.width = width * tileSize;
@@ -43,6 +45,28 @@ export class Game {
         activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
       });
 
+      canvas.addEventListener('click', () => {
+        if (activeTile && !activeTile.isOccupied) {
+          buildings.push(
+            new Building(
+              context,
+              {
+                x: activeTile.position.x,
+                y: activeTile.position.y,
+              },
+              TowerType.STONE,
+              tileSize
+            )
+          );
+
+          activeTile.isOccupied = true;
+
+          buildings.sort((a, b) => {
+            return a.position.y - b.position.y;
+          });
+        }
+      });
+
       this.createPlacementTiles();
 
       this.loadBackground(imageSrc).then((img) => {
@@ -53,6 +77,10 @@ export class Game {
 
           placementTiles.forEach((tile) => {
             tile.update(cursor);
+          });
+
+          buildings.forEach((building) => {
+            building.update();
           });
         };
 
