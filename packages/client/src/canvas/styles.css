@@ -1,0 +1,71 @@
+body {
+    background-color: black;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 70px;
+    background: rgb(0, 0, 0);
+    border-bottom-left-radius: 30px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.7229924057469224) 25%, rgba(0, 0, 0, 0.5139014966560133) 55%, rgba(0, 0, 0, 0.5139014966560133) 88%);
+}
+
+.canvas_wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.number_of_lives,
+.number_of_counts,
+.waves {
+    font-size: 40px;
+    font-weight: bold;
+    position: absolute;
+    top: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.number_of_lives {
+    color: rgb(255, 0, 0);
+    right: 8px;
+
+}
+
+.waves {
+    right: 600px;
+    font-size: 50px;
+}
+
+.number_of_counts {
+    color: rgb(255 244 0);
+    right: 110px;
+}
+
+.game-over,
+.you-win-over {
+    position: absolute;
+    width: 1280px;
+    height: 768px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+    font-size: 128px;
+    -webkit-text-stroke: 3px black;
+}
+
+.game-over {
+    background-image: url("./images/game-over.png");
+}
+
+.you-win-over {
+    background-image: url("./images/youWin.png");
+}
