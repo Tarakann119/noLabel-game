@@ -1,9 +1,9 @@
 import { PlacementTile } from './PlacementTile';
 import { Building } from './Bulding';
 import { Enemy } from './Enemy';
-
-import { EnemyType, TGameSettings, TowerType } from '../../typings/app.typings';
 import { Resource } from './Resources';
+import { Menu } from './Menu';
+import { EnemyType, TGameSettings, TowerType } from '../../typings/app.typings';
 
 export class Game {
   private readonly pathToMap = '../../public/game/maps/';
@@ -41,13 +41,17 @@ export class Game {
       canvas.width = width * tileSize;
       canvas.height = height * tileSize;
 
+      const menu = new Menu(context, {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+      });
       const { hearts, coins, points } = this.createResources();
       this.createPlacementTiles();
       this.spawnEnemiesWave(this.waveIndex);
 
       this.loadBackground(imageSrc).then((img) => {
         const animate = () => {
-          requestAnimationFrame(animate);
+          const animationId = requestAnimationFrame(animate);
 
           context.drawImage(img, 0, 0);
 
@@ -68,12 +72,36 @@ export class Game {
           for (let i = enemies.length - 1; i >= 0; i--) {
             const enemy = enemies[i];
             enemy.update();
+
+            if (enemy.isAtTheEndPoint(canvas)) {
+              hearts.setCount(hearts.getCount() - 1);
+              enemies.splice(i, 1);
+
+              if (hearts.getCount() <= 0) {
+                hearts.update();
+
+                menu.setText('Поражение!');
+                menu.setPoints(points.getCount());
+                menu.update();
+
+                cancelAnimationFrame(animationId);
+              }
+            }
           }
 
           if (enemies.length === 0) {
             if (this.waveIndex < waves.length - 1) {
               this.waveIndex += 1;
               this.spawnEnemiesWave(this.waveIndex);
+            } else {
+              coins.update();
+              points.update();
+
+              menu.setText('Победа!');
+              menu.setPoints(points.getCount());
+              menu.update();
+
+              cancelAnimationFrame(animationId);
             }
           }
         };

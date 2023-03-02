@@ -25,6 +25,15 @@ export class Enemy extends Sprite {
     };
   }
 
+  public isAtTheEndPoint(canvas: HTMLCanvasElement) {
+    const { position, waypoints, waypointIndex } = this;
+
+    return (
+      waypointIndex >= waypoints.length - 1 &&
+      (position.x > canvas.width || position.y > canvas.height || position.x < 0 || position.y < 0)
+    );
+  }
+
   protected draw() {
     super.draw();
 
