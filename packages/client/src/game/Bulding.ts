@@ -1,10 +1,14 @@
 import { Sprite } from './Sprite';
+import { Enemy } from './Enemy';
+import { Projectile } from './Projectile';
 import { TBuildingSettings, TowerType } from '../../typings/app.typings';
 import { settings } from './settings/buldings';
 
 export class Building extends Sprite {
   public readonly settings: TBuildingSettings;
-  public center: { x: number; y: number };
+  private center: { x: number; y: number };
+  private target: Enemy | null = null;
+  public readonly projectiles: Projectile[] = [];
 
   constructor(
     protected readonly context: CanvasRenderingContext2D,
@@ -28,6 +32,65 @@ export class Building extends Sprite {
     };
   }
 
+  public shoot(enemies: Enemy[]) {
+    const { projectiles } = this;
+
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      const projectile = projectiles[i];
+
+      projectile.update();
+
+      if (this.isValidEnemy(projectile.enemy, projectile.position, projectile.settings.radius)) {
+        projectile.enemy.wounds += projectile.settings.damage;
+
+        if (projectile.enemy.wounds >= projectile.enemy.settings.health) {
+          const enemyIndex = enemies.findIndex((enemy) => {
+            return projectile.enemy === enemy;
+          });
+
+          if (enemyIndex > -1) {
+            enemies.splice(enemyIndex, 1);
+          }
+        }
+
+        projectiles.splice(i, 1);
+      }
+    }
+  }
+
+  public setTarget(enemies: Enemy[]) {
+    const { position, settings } = this;
+    const validEnemies = enemies.filter((enemy) =>
+      this.isValidEnemy(enemy, position, settings.radius)
+    );
+
+    this.target = validEnemies[0] || null;
+  }
+
+  public isValidEnemy(enemy: Enemy, position: { x: number; y: number }, radius: number) {
+    const xDifference = enemy.center.x - position.x;
+    const yDifference = enemy.center.y - position.y;
+    const distance = Math.hypot(xDifference, yDifference);
+
+    return distance < enemy.settings.radius + radius;
+  }
+
+  private createProjectile() {
+    const { projectiles, context, center, settings, target } = this;
+
+    projectiles.push(
+      new Projectile(
+        context,
+        {
+          x: center.x - 20,
+          y: center.y - 120,
+        },
+        settings.projectile,
+        <Enemy>target
+      )
+    );
+  }
+
   protected draw() {
     const { context, settings, center } = this;
     context.beginPath();
@@ -40,5 +103,15 @@ export class Building extends Sprite {
 
   public update() {
     this.draw();
+
+    const { target, frames } = this;
+
+    if (target || (!target && frames.current !== 0)) {
+      super.update();
+    }
+
+    if (target && frames.current === 6 && frames.elapsed % frames.hold === 0) {
+      this.createProjectile();
+    }
   }
 }

@@ -87,6 +87,8 @@ export class Game {
 
           buildings.forEach((building) => {
             building.update();
+            building.setTarget(enemies);
+            building.shoot(enemies);
           });
 
           for (let i = enemies.length - 1; i >= 0; i--) {
