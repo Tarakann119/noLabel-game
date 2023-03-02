@@ -1,3 +1,4 @@
+import { PlacementTile } from './PlacementTile';
 import { TGameSettings } from '../../typings/app.typings';
 
 export class Game {
@@ -6,6 +7,8 @@ export class Game {
   private readonly settingsSrc: string;
   private context: CanvasRenderingContext2D | null;
   private settings: TGameSettings | null = null;
+
+  private placementTiles: PlacementTile[] = [];
 
   constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
     this.context = this.canvas.getContext('2d');
@@ -24,17 +27,33 @@ export class Game {
     const { settings, context } = this;
 
     if (settings && context) {
-      const { canvas, imageSrc } = this;
+      const { canvas, imageSrc, placementTiles } = this;
       const { tileSize, width, height } = settings;
 
       canvas.width = width * tileSize;
       canvas.height = height * tileSize;
+
+      const cursor: { x: number; y: number } = { x: 0, y: 0 };
+      let activeTile: PlacementTile | undefined = undefined;
+
+      canvas.addEventListener('mousemove', (event) => {
+        cursor.x = event.clientX;
+        cursor.y = event.clientY;
+
+        activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
+      });
+
+      this.createPlacementTiles();
 
       this.loadBackground(imageSrc).then((img) => {
         const animate = () => {
           requestAnimationFrame(animate);
 
           context.drawImage(img, 0, 0);
+
+          placementTiles.forEach((tile) => {
+            tile.update(cursor);
+          });
         };
 
         animate();
@@ -49,6 +68,33 @@ export class Game {
       img.addEventListener('load', () => resolve(img));
       img.addEventListener('error', reject);
       img.src = src;
+    });
+  }
+
+  private createPlacementTiles() {
+    const { placementTiles: placementTilesArr, width, tileSize } = <TGameSettings>this.settings;
+    const { placementTiles, context } = this;
+    const placementTilesData2D: number[][] = [];
+
+    for (let i = 0; i < placementTilesArr.length; i += width) {
+      placementTilesData2D.push(placementTilesArr.slice(i, i + width));
+    }
+
+    placementTilesData2D.forEach((row, y) => {
+      row.forEach((symbol, x) => {
+        if (symbol === 14) {
+          placementTiles.push(
+            new PlacementTile(
+              <CanvasRenderingContext2D>context,
+              {
+                x: x * tileSize,
+                y: y * tileSize,
+              },
+              tileSize
+            )
+          );
+        }
+      });
     });
   }
 }
