@@ -3,6 +3,7 @@ import { Building } from './Bulding';
 import { Enemy } from './Enemy';
 
 import { EnemyType, TGameSettings, TowerType } from '../../typings/app.typings';
+import { Resource } from './Resources';
 
 export class Game {
   private readonly pathToMap = '../../public/game/maps/';
@@ -40,6 +41,46 @@ export class Game {
       canvas.width = width * tileSize;
       canvas.height = height * tileSize;
 
+      const { hearts, coins, points } = this.createResources();
+      this.createPlacementTiles();
+      this.spawnEnemiesWave(this.waveIndex);
+
+      this.loadBackground(imageSrc).then((img) => {
+        const animate = () => {
+          requestAnimationFrame(animate);
+
+          context.drawImage(img, 0, 0);
+
+          coins.update();
+          hearts.update();
+          points.update();
+
+          placementTiles.forEach((tile) => {
+            tile.update(cursor);
+          });
+
+          buildings.forEach((building) => {
+            building.update();
+            building.setTarget(enemies);
+            building.shoot(enemies, coins, points);
+          });
+
+          for (let i = enemies.length - 1; i >= 0; i--) {
+            const enemy = enemies[i];
+            enemy.update();
+          }
+
+          if (enemies.length === 0) {
+            if (this.waveIndex < waves.length - 1) {
+              this.waveIndex += 1;
+              this.spawnEnemiesWave(this.waveIndex);
+            }
+          }
+        };
+
+        animate();
+      });
+
       const cursor: { x: number; y: number } = { x: 0, y: 0 };
       let activeTile: PlacementTile | undefined = undefined;
 
@@ -51,7 +92,9 @@ export class Game {
       });
 
       canvas.addEventListener('click', () => {
-        if (activeTile && !activeTile.isOccupied) {
+        if (activeTile && !activeTile.isOccupied && coins.getCount() >= 25) {
+          coins.setCount(coins.getCount() - 25);
+
           buildings.push(
             new Building(
               context,
@@ -71,41 +114,6 @@ export class Game {
           });
         }
       });
-
-      this.createPlacementTiles();
-      this.spawnEnemiesWave(this.waveIndex);
-
-      this.loadBackground(imageSrc).then((img) => {
-        const animate = () => {
-          requestAnimationFrame(animate);
-
-          context.drawImage(img, 0, 0);
-
-          placementTiles.forEach((tile) => {
-            tile.update(cursor);
-          });
-
-          buildings.forEach((building) => {
-            building.update();
-            building.setTarget(enemies);
-            building.shoot(enemies);
-          });
-
-          for (let i = enemies.length - 1; i >= 0; i--) {
-            const enemy = enemies[i];
-            enemy.update();
-          }
-
-          if (enemies.length === 0) {
-            if (this.waveIndex < waves.length - 1) {
-              this.waveIndex += 1;
-              this.spawnEnemiesWave(this.waveIndex);
-            }
-          }
-        };
-
-        animate();
-      });
     }
   }
 
@@ -117,6 +125,41 @@ export class Game {
       img.addEventListener('error', reject);
       img.src = src;
     });
+  }
+
+  private createResources() {
+    const { canvas, context, settings } = this;
+    const { coins: initialСoins, hearts: initialHearts } = <TGameSettings>settings;
+
+    const hearts = new Resource(
+      <CanvasRenderingContext2D>context,
+      {
+        x: canvas.width - 190,
+        y: 0,
+      },
+      initialHearts,
+      'heart.png'
+    );
+    const coins = new Resource(
+      <CanvasRenderingContext2D>context,
+      {
+        x: canvas.width - 120,
+        y: 0,
+      },
+      initialСoins,
+      'coin.png'
+    );
+    const points = new Resource(
+      <CanvasRenderingContext2D>context,
+      {
+        x: 20,
+        y: 0,
+      },
+      0,
+      'points.png'
+    );
+
+    return { hearts, coins, points };
   }
 
   private createPlacementTiles() {

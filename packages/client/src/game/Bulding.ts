@@ -3,6 +3,7 @@ import { Enemy } from './Enemy';
 import { Projectile } from './Projectile';
 import { TBuildingSettings, TowerType } from '../../typings/app.typings';
 import { settings } from './settings/buldings';
+import { Resource } from './Resources';
 
 export class Building extends Sprite {
   public readonly settings: TBuildingSettings;
@@ -32,7 +33,7 @@ export class Building extends Sprite {
     };
   }
 
-  public shoot(enemies: Enemy[]) {
+  public shoot(enemies: Enemy[], coins: Resource, points: Resource) {
     const { projectiles } = this;
 
     for (let i = projectiles.length - 1; i >= 0; i--) {
@@ -50,6 +51,8 @@ export class Building extends Sprite {
 
           if (enemyIndex > -1) {
             enemies.splice(enemyIndex, 1);
+            coins.setCount(coins.getCount() + projectile.enemy.settings.coins);
+            points.setCount(points.getCount() + projectile.enemy.settings.points);
           }
         }
 
