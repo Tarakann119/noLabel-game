@@ -1,6 +1,8 @@
 import { PlacementTile } from './PlacementTile';
-import { TGameSettings, TowerType } from '../../typings/app.typings';
 import { Building } from './Bulding';
+import { Enemy } from './Enemy';
+
+import { EnemyType, TGameSettings, TowerType } from '../../typings/app.typings';
 
 export class Game {
   private readonly pathToMap = '../../public/game/maps/';
@@ -11,6 +13,9 @@ export class Game {
 
   private placementTiles: PlacementTile[] = [];
   private buildings: Building[] = [];
+  private enemies: Enemy[] = [];
+
+  private waveIndex = 0;
 
   constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
     this.context = this.canvas.getContext('2d');
@@ -29,8 +34,8 @@ export class Game {
     const { settings, context } = this;
 
     if (settings && context) {
-      const { canvas, imageSrc, placementTiles, buildings } = this;
-      const { tileSize, width, height } = settings;
+      const { canvas, imageSrc, placementTiles, buildings, enemies } = this;
+      const { tileSize, width, height, waves } = settings;
 
       canvas.width = width * tileSize;
       canvas.height = height * tileSize;
@@ -68,6 +73,7 @@ export class Game {
       });
 
       this.createPlacementTiles();
+      this.spawnEnemiesWave(this.waveIndex);
 
       this.loadBackground(imageSrc).then((img) => {
         const animate = () => {
@@ -82,6 +88,18 @@ export class Game {
           buildings.forEach((building) => {
             building.update();
           });
+
+          for (let i = enemies.length - 1; i >= 0; i--) {
+            const enemy = enemies[i];
+            enemy.update();
+          }
+
+          if (enemies.length === 0) {
+            if (this.waveIndex < waves.length - 1) {
+              this.waveIndex += 1;
+              this.spawnEnemiesWave(this.waveIndex);
+            }
+          }
         };
 
         animate();
@@ -123,6 +141,37 @@ export class Game {
           );
         }
       });
+    });
+  }
+
+  private createEnemy(enemyType: EnemyType, xOffset: number) {
+    const { enemies, context, settings } = this;
+    const { waypoints } = <TGameSettings>settings;
+
+    enemies.push(
+      new Enemy(
+        <CanvasRenderingContext2D>context,
+        {
+          x: waypoints[0].x - xOffset,
+          y: waypoints[0].y,
+        },
+        enemyType,
+        waypoints
+      )
+    );
+  }
+
+  private spawnEnemiesWave(waveNumber: number) {
+    const { waves } = <TGameSettings>this.settings;
+
+    const wave = waves[waveNumber].enemies;
+
+    wave.forEach(({ type, count }) => {
+      for (let i = 0; i < count; i += 1) {
+        const xOffset = i * 150;
+
+        this.createEnemy(type, xOffset);
+      }
     });
   }
 }
