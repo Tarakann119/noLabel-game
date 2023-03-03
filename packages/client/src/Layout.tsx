@@ -13,8 +13,9 @@ import ForumTheme from './pages/Forum/ForumTheme'
 import AboutUs from './pages/AboutUs'
 import ChangePassword from './pages/Profile/ChangePassword'
 import ChangeAvatar from './pages/Profile/ChangeAvatar'
-import Game from './pages/Game/inde'
+
 import ChangeProfile from './pages/Profile/ChangeProfile'
+import Game from './pages/Game'
 
 const Layout = () => {
     return (
