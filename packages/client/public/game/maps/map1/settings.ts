@@ -18,10 +18,6 @@ export const settings = {
     {
       enemies: [
         {
-          type: EnemyType.GOBLIN,
-          count: 5,
-        },
-        {
           type: EnemyType.HOBGOBLIN,
           count: 3,
         },
@@ -29,14 +25,6 @@ export const settings = {
     },
     {
       enemies: [
-        {
-          type: EnemyType.GOBLIN,
-          count: 5,
-        },
-        {
-          type: EnemyType.HOBGOBLIN,
-          count: 3,
-        },
         {
           type: EnemyType.ORC,
           count: 1,

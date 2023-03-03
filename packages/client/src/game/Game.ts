@@ -64,7 +64,7 @@ export class Game {
           });
 
           buildings.forEach((building) => {
-            building.update();
+            building.updateTower(cursor);
             building.setTarget(enemies);
             building.shoot(enemies, coins, points);
           });
@@ -236,15 +236,12 @@ export class Game {
 
   private spawnEnemiesWave(waveNumber: number) {
     const { waves } = <TGameSettings>this.settings;
-
     const wave = waves[waveNumber].enemies;
 
-    wave.forEach(({ type, count }) => {
-      for (let i = 0; i < count; i += 1) {
-        const xOffset = i * 150;
+    for (let i = 1; i < wave[0].count + 1; i++) {
+      const xOffset = i * 150;
 
-        this.createEnemy(type, xOffset);
-      }
-    });
+      this.createEnemy(wave[0].type, xOffset);
+    }
   }
 }
