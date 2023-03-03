@@ -1,5 +1,8 @@
 import { useEffect } from 'react'
 import './App.css'
+import "react-toastify/dist/ReactToastify.css";
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import Layout from './Layout';
 
 function App() {
   useEffect(() => {
@@ -12,7 +15,15 @@ function App() {
 
     fetchServerData()
   }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/*" element={<Layout />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
 }
 
 export default App
