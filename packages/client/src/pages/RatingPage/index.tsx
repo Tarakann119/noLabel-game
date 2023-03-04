@@ -1,13 +1,18 @@
-const RatingPage = () =>{
-    return(
-<div>
-    <h2>Рейтинг игроков</h2>
-    <div>
-        <div>АВАТАР</div>
-        <div>Ник</div>
-        <div>СЧЕТ</div>
-    </div>
-</div>
-    )
-}
-export default RatingPage
+import { useSelector } from 'react-redux';
+import { State } from '../../../typings/app.typings';
+
+const RatingPage = () => {
+  const { points } = useSelector((state: State) => state.game);
+
+  return (
+    <ol>
+      <li>
+        <div className='avatar'></div>
+        <div className='nickname'></div>
+        <div className='points'>{points}</div>
+      </li>
+    </ol>
+  );
+};
+
+export default RatingPage;
