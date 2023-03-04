@@ -1,0 +1,32 @@
+.layout {
+    padding: 0px 120px;
+    height: 100%;
+    background-color: var(--color-background);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("/packages/client/src/assets/images/back.png");
+}
+.main-wrapper {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.content-wrapper {
+    height: 100%;
+}
+
+.text-description {
+    font-family: var(--font-secondary);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in;
+    text-align: -webkit-center;
+}

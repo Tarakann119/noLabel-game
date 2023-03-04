@@ -5,7 +5,13 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 import {useNavigate} from 'react-router-dom'
 import { useEffect } from 'react';
-
+import '../../components/Button/index.css'
+import '../../components/Header/index.css'
+import '../../components/Input/index.css'
+import '../StartScreen/index.css'
+import './index.css'
+import { Button } from '../../components/Button'
+import { Title } from '../../components/Title'
 
 type LoginType ={
     login: string,
@@ -52,7 +58,12 @@ const LoginPage = () => {
     }
 
     return (
-        <div>
+      <div className="main-page-wrapper">
+          <div className="main-wrapper"
+               style={{
+                   backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
+               }}>
+        <div className="form-login">
             <div>
                 <Formik
                     initialValues={{
@@ -67,23 +78,35 @@ const LoginPage = () => {
                 >
                     {({ errors, touched }) => (
                         <Form>
-                            <Field name="login" type='text' />
+                          <Title className="form-login-title" text="Вход" />
+                            <Field name="login" type='text' className="input__control" placeholder="login" />
                             {errors.login && touched.login ? (
                                 <div>{errors.login}</div>
                             ) : null}
-                            <Field 
+                            <Field
                             type= "password"
-                            name= "password" />
+                            placeholder="*****"
+                            name= "password"
+                            className="input__control" />
                             {errors.password && touched.password ? (
                                 <div>{errors.password}</div>
                             ) : null}
-                            <button type="submit">Войти</button>
-                            <Link to={'/register'}>Зарегистрироваться</Link>
+                            <Button
+                              text="Войти"
+                              type={'submit'}
+                              onClick={()=>navigate('/login')}
+                              className="button button_view_primary"
+                            />
+                            <div>
+                                <Link className="plane-link" to={'/registration'}>Зарегистрироваться</Link>
+                            </div>
                         </Form>
                     )}
                 </Formik>
             </div>
         </div>
+          </div>
+      </div>
     )
 }
 export default LoginPage
