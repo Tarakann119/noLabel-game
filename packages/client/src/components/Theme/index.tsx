@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import cn from 'classnames'
-
+import './index.css'
 import { set } from './slice'
 import styles from './index.module.css'
 import { useEffect } from 'react'
@@ -21,13 +21,18 @@ const Theme = ({ className }:any) => {
 
   return (
     <div
-      className={cn(
+      className= {cn(
     		className,
     		styles.root,
     		theme === 'dark' ? styles.dark : styles.light)}
       onClick={handleChange}
-    >Смнена темы</div>
-  )
+    >
+      <div className="theme-wrapper">
+        <div className="navigation-link-invert">Активная тема </div>
+        <div className="navigation-link"> Нективная тема</div>
+      </div>
+    </div>
+      )
 }
 
 export default Theme

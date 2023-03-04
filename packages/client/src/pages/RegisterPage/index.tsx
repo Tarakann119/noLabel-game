@@ -4,7 +4,14 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom'
-
+import '../../components/Button/index.css'
+import '../../components/Header/index.css'
+import '../../components/Input/index.css'
+import '../LoginPage/index.css'
+import '../StartScreen/index.css'
+import './index.css'
+import { Button } from '../../components/Button'
+import { Title } from '../../components/Title'
 
 type ProfileType = {
     first_name: string,
@@ -66,7 +73,12 @@ const LoginPage = () => {
             .catch(() => { toast.error('Что-то не так...') })
     }
     return (
-        <div>
+      <div className="main-page-wrapper">
+          <div className="main-wrapper"
+               style={{
+                   backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
+               }}>
+        <div className="form-login">
             <div>
                 <div>
                     <Formik
@@ -87,9 +99,12 @@ const LoginPage = () => {
                     >
                         {({ errors, touched }) => (
                             <Form>
+                                <Title className="form-login-title" text="Регистрация" />
                                 <Field
                                     name="first_name"
                                     type='text'
+                                    className="input__control"
+                                    placeholder="Иван"
                                 />
                                 {errors.first_name && touched.first_name ? (
                                     <div>{errors.first_name}</div>
@@ -97,6 +112,8 @@ const LoginPage = () => {
                                 <Field
                                     name="second_name"
                                     type='text'
+                                    className="input__control"
+                                    placeholder="Иванов"
                                 />
                                 {errors.second_name && touched.second_name ? (
                                     <div>{errors.second_name}</div>
@@ -104,6 +121,8 @@ const LoginPage = () => {
                                 <Field
                                     name="login"
                                     type='text'
+                                    className="input__control"
+                                    placeholder="tmj1"
                                 />
                                 {errors.login && touched.login ? (
                                     <div>{errors.login}</div>
@@ -111,6 +130,8 @@ const LoginPage = () => {
                                 <Field
                                     name="email"
                                     type='email'
+                                    className="input__control"
+                                    placeholder="tmj1@mail.com"
                                 />
                                 {errors.email && touched.email ? (
                                     <div>{errors.email}</div>
@@ -118,6 +139,8 @@ const LoginPage = () => {
                                 <Field
                                     name="phone"
                                     type='text'
+                                    className="input__control"
+                                    placeholder="+798881234576"
                                 />
                                 {errors.phone && touched.phone ? (
                                     <div>{errors.phone}</div>
@@ -125,22 +148,30 @@ const LoginPage = () => {
                                 <Field
                                     name="password"
                                     type='password'
+                                    className="input__control"
+                                    placeholder="*****"
                                 />
                                 {errors.password && touched.password ? (
                                     <div>{errors.password}</div>
                                 ) : null}
-                                <Field name="confirmPassword" />
+                                <Field name="confirmPassword" className="input__control" placeholder="*****"/>
                                 {errors.confirmPassword && touched.confirmPassword ? (
                                     <div>{errors.confirmPassword}</div>
                                 ) : null}
-                                <button type='submit'>Зарегистрироваться</button>
+                                <Button
+                                  text="Зарегистрироваться"
+                                  type={'submit'}
+                                  onClick={()=>navigate('/login')}
+                                  className="button button_view_primary"
+                                />
+                                <Link className="plane-link" to={'/login'}>Уже зарегистрированы? Войти!</Link>
                             </Form>)}
                     </Formik>
-
-                    <Link to={'/login'}>Уже зарегистрированы? Войти!</Link>
                 </div>
             </div>
         </div>
+          </div>
+      </div>
     )
 }
 export default LoginPage
