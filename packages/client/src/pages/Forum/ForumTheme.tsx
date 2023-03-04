@@ -1,11 +1,9 @@
-const ForumTheme =()=>{
-    return(
-        <>
-        Название темы 
-        Комментарии
-        
-        <input/>
-        </>
-    )
-}
-export default ForumTheme
+const ForumTheme = () => {
+  return (
+    <>
+      Название темы Комментарии
+      <input />
+    </>
+  );
+};
+export default ForumTheme;
