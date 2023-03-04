@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import InputWrapper from '../../components/InputWrapper';
+import './index.scss';
 
 type LoginType = {
   login: string;
@@ -51,43 +52,41 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <div>
-        <Formik
-          initialValues={{
-            login: '',
-            password: '',
-          }}
-          validationSchema={SigninSchema}
-          onSubmit={(values) => {
-            console.log(JSON.stringify(values));
-            handleSubmit(values);
-          }}>
-          {({ errors, touched }) => (
-            <Form>
-              <InputWrapper error={errors.login} label='Логин'>
-                <Field name='login' type='text' className='input' />
-                {errors.login && touched.login ? (
-                  <div className='input__error-message'>{errors.login}</div>
-                ) : null}
-              </InputWrapper>
-              <InputWrapper error={errors.login} label='Пароль'>
-                <Field name='password' type='password' className='input' />
-                {errors.password && touched.password ? (
-                  <>
-                    <div className='input__error-message'>{errors.password}</div>
-                  </>
-                ) : null}
-              </InputWrapper>
+    <div className='container-content container-content_main'>
+      <Formik
+        initialValues={{
+          login: '',
+          password: '',
+        }}
+        validationSchema={SigninSchema}
+        onSubmit={(values) => {
+          console.log(JSON.stringify(values));
+          handleSubmit(values);
+        }}>
+        {({ errors, touched }) => (
+          <Form className='container__login-form colum-5'>
+            <InputWrapper error={errors.login} label='Логин'>
+              <Field name='login' type='text' className='input__field' />
+              {errors.login && touched.login ? (
+                <div className='input__error-message'>{errors.login}</div>
+              ) : null}
+            </InputWrapper>
+            <InputWrapper error={errors.password} label='Пароль'>
+              <Field name='password' type='password' className='input__field' />
+              {errors.password && touched.password ? (
+                <>
+                  <div className='input__error-message'>{errors.password}</div>
+                </>
+              ) : null}
+            </InputWrapper>
 
-              <button type='submit' className='button'>
-                Войти
-              </button>
-              {/*<Link to={'/register'}>Зарегистрироваться</Link>*/}
-            </Form>
-          )}
-        </Formik>
-      </div>
+            <button type='submit' className='custom-button'>
+              Войти
+            </button>
+            <Link to={'/register'}>Нет аккаунта?</Link>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

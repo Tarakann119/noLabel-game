@@ -15,6 +15,7 @@ import ChangePassword from './pages/Profile/ChangePassword';
 import ChangeAvatar from './pages/Profile/ChangeAvatar';
 import Game from './pages/Game';
 import ChangeProfile from './pages/Profile/ChangeProfile';
+import Footer from './components/Footer';
 
 const Layout = () => {
   return (
@@ -36,6 +37,7 @@ const Layout = () => {
         <Route path='/game' element={<Game />} />
         <Route path='/*' element={<Eror404 />} />
       </Routes>
+      <Footer />
       <ToastContainer
         theme='dark'
         position='top-right'

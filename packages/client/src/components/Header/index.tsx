@@ -9,25 +9,25 @@ const Header = () => {
         <div className='header__logo'></div>
         <div className='header__container header__container_link-autch'>
           <div className='header__container header__container_link'>
-            <Link to={'/'} className='link'>
+            <Link to={'/'} className='custom-link'>
               Главная
             </Link>
-            <Link to={'/game'} className='link'>
+            <Link to={'/game'} className='custom-link'>
               Игра
             </Link>
-            <Link to={'/rating'} className='link'>
+            <Link to={'/rating'} className='custom-link'>
               Рейтинг
             </Link>
-            <Link to={'/forum'} className='link'>
+            <Link to={'/forum'} className='custom-link'>
               Форум
             </Link>
-            <Link to={'/aboutUs'} className='link'>
+            <Link to={'/aboutUs'} className='custom-link'>
               О нас
             </Link>
           </div>
           {location.pathname === '/' ? (
             <div className='header__container header__container_autch'>
-              <Link to={'/login'} className='button'>
+              <Link to={'/login'} className='custom-button'>
                 Вход
               </Link>
               {/*<Link to={'/registration'} className='button'>Регистрация</Link>*/}

@@ -68,7 +68,7 @@ const LoginPage = () => {
       });
   };
   return (
-    <div>
+    <div className='container-content container-content_main'>
       <div>
         <div>
           <Formik

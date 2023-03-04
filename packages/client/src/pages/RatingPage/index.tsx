@@ -1,6 +1,6 @@
 const RatingPage = () => {
   return (
-    <div>
+    <div className='container-content container-content_main'>
       <h2>Рейтинг игроков</h2>
       <div>
         <div>АВАТАР</div>

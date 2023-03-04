@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import './App.css';
+import './assets/styles/App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Layout from './Layout';

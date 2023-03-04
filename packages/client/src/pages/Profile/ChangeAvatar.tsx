@@ -42,7 +42,7 @@ const ChangeAvatar = () => {
   };
 
   const thumbs = files.map((file) => (
-    <div key={file.lastModified}>
+    <div key={file.lastModified} className='container-content container-content_main'>
       <div>
         <div onClick={removeFile(file)}>Закрыть</div>
         <img
