@@ -2,14 +2,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import InputWrapper from '../../components/InputWrapper';
-import './index.scss';
 
-type LoginType = {
-  login: string;
-  password: string;
-};
+import { toast } from "react-toastify";
+import {useNavigate} from 'react-router-dom'
+import { useEffect } from 'react';
+import '../../components/Button/index.css'
+import '../../components/Header/index.css'
+import '../../components/Input/index.css'
+import '../StartScreen/index.css'
+import './index.css'
+import { Button } from '../../components/Button'
+import { Title } from '../../components/Title'
+
+type LoginType ={
+    login: string,
+    password: string
+}
+
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -80,14 +89,57 @@ const LoginPage = () => {
               ) : null}
             </InputWrapper>
 
-            <button type='submit' className='custom-button'>
-              Войти
-            </button>
-            <Link to={'/register'}>Нет аккаунта?</Link>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
-};
-export default LoginPage;
+
+    return (
+      <div className="main-page-wrapper">
+          <div className="main-wrapper"
+               style={{
+                   backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
+               }}>
+        <div className="form-login">
+            <div>
+                <Formik
+                    initialValues={{
+                        login: '',
+                        password: ''
+                    }}
+                    validationSchema={SigninSchema}
+                    onSubmit={values => {
+                        console.log(JSON.stringify(values));
+                        handleSubmit(values)
+                    }}
+                >
+                    {({ errors, touched }) => (
+                        <Form>
+                          <Title className="form-login-title" text="Вход" />
+                            <Field name="login" type='text' className="input__control" placeholder="login" />
+                            {errors.login && touched.login ? (
+                                <div>{errors.login}</div>
+                            ) : null}
+                            <Field
+                            type= "password"
+                            placeholder="*****"
+                            name= "password"
+                            className="input__control" />
+                            {errors.password && touched.password ? (
+                                <div>{errors.password}</div>
+                            ) : null}
+                            <Button
+                              text="Войти"
+                              type={'submit'}
+                              onClick={()=>navigate('/login')}
+                              className="button button_view_primary"
+                            />
+                            <div>
+                                <Link className="plane-link" to={'/registration'}>Зарегистрироваться</Link>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
+            </div>
+        </div>
+          </div>
+      </div>
+    )
+}
+export default LoginPage

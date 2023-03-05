@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './index.scss';
 
 const Header = () => {
+
   const location = useLocation();
   return (
     <>
@@ -41,3 +42,4 @@ const Header = () => {
   );
 };
 export default Header;
+
