@@ -35,12 +35,23 @@ const LoginPage = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     })
       .then(() => {
         toast.success('Успешно!');
         navigate('/profile');
       })
-      .then(() => fetch(`https://ya-praktikum.tech/api/v2/auth/user`))
+      .then(() =>
+        axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
+          method: 'get',
+          data: data,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        })
+      )
       // TODO: Нужно типизировать ответ
       .then((response: any) => {
         console.log(response);
