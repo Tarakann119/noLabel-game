@@ -1,0 +1,148 @@
+@import 'varThemeDefault';
+@import 'customButton';
+@import 'customLink';
+@import 'avatar';
+
+* {
+  z-index: 2;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+li {
+  list-style-type: none;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 1320px;
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='tel'],
+input[type='search'] {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.input__field {
+  max-width: 224px;
+  padding: 0 16px;
+  color: $color-text-secondary;
+  font-size: 32px;
+  font-family: $font-primary;
+  line-height: 1.6;
+  text-align: right;
+  background: transparent;
+  border: none;
+}
+
+// containers
+
+.container-content {
+  flex: 1 0 auto;
+
+  &:last-child {
+    margin-left: 0;
+  }
+
+  &_main {
+    background: url('../img/metall-texture.png') no-repeat;
+    background-size: cover;
+  }
+}
+
+// В макете используем 12-ти колоночную сетку, по аналогии с bootstrap,
+// ширина сетки = 1320px, отступы 20px
+// в контентной части, для задания ширины контейнера можно следующие классы:
+
+.colum {
+  &-1 {
+    width: 92px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-2 {
+    width: 202px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-3 {
+    width: 314px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-4 {
+    width: 426px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-5 {
+    width: 538px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-6 {
+    width: 650px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-7 {
+    width: 762px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-8 {
+    width: 874px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-9 {
+    width: 986px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-10 {
+    width: 1098px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-11 {
+    width: 1210px;
+    height: 100%;
+    margin-left: 20px;
+  }
+
+  &-12 {
+    width: 1320px;
+    height: 100%;
+    margin-left: 20px;
+  }
+}

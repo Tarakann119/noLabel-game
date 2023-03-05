@@ -1,38 +1,45 @@
-import { Fragment } from "react";
-import { Link, useLocation } from "react-router-dom"
-
+import { Link, useLocation } from 'react-router-dom';
+import './index.scss';
 
 const Header = () => {
-    const location = useLocation();
-    return (
 
-
-      <header className="header-component">
-        <div className="logo"></div>
-        <nav className="navigation-wrapper">
-          <div className="navigation-list">
-                <Link className="navigation-link" to={'/'}>Главная</Link>
-                <Link className="navigation-link" to={'/game'}>Игра</Link>
-                <Link className="navigation-link" to={'/rating'}>Рейтинг</Link>
-                <Link className="navigation-link" to={'/forum'}>Форум</Link>
-                <Link className="navigation-link" to={'/aboutUs'}>О нас</Link>
-
+  const location = useLocation();
+  return (
+    <>
+      <div className='header'>
+        <div className='header__logo'></div>
+        <div className='header__container header__container_link-autch'>
+          <div className='header__container header__container_link'>
+            <Link to={'/'} className='custom-link'>
+              Главная
+            </Link>
+            <Link to={'/game'} className='custom-link'>
+              Игра
+            </Link>
+            <Link to={'/rating'} className='custom-link'>
+              Рейтинг
+            </Link>
+            <Link to={'/forum'} className='custom-link'>
+              Форум
+            </Link>
+            <Link to={'/aboutUs'} className='custom-link'>
+              О нас
+            </Link>
+          </div>
+          {location.pathname === '/' ? (
+            <div className='header__container header__container_autch'>
+              <Link to={'/login'} className='custom-button'>
+                Вход
+              </Link>
+              {/*<Link to={'/registration'} className='button'>Регистрация</Link>*/}
             </div>
-         </nav>
-            <div className="navigation-side">
-              <div>
-                <Link className="navigation-link-profile" to={'/profile'}><div className="profile-link"></div></Link>
-              </div>
-              <div>
-                <Link className="navigation-link" to={'/logout'}><div className="exit-link"></div></Link>
-              </div>
-                {location.pathname==='/'&&
-                <Fragment>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+export default Header;
 
-                </Fragment>
-                }
-            </div>
-      </header>
-    )
-}
-export default Header
