@@ -17,6 +17,8 @@ export class Game {
   private enemies: Enemy[] = [];
 
   private waveIndex = 0;
+  private cursor: { x: number; y: number } = { x: 0, y: 0 };
+  private activeTile: PlacementTile | undefined = undefined;
 
   constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
     this.context = this.canvas.getContext('2d');
@@ -25,7 +27,10 @@ export class Game {
   }
 
   private async init() {
-    const { settings } = await import(this.settingsSrc);
+    const { settings } = await import(
+      /* @vite-ignore */
+      this.settingsSrc
+    );
     this.settings = settings;
   }
 
@@ -35,112 +40,120 @@ export class Game {
     const { settings, context } = this;
 
     if (settings && context) {
-      const { canvas, imageSrc, placementTiles, buildings, enemies } = this;
+      const { canvas, imageSrc, cursor, placementTiles, buildings, enemies } = this;
       const { tileSize, width, height, waves } = settings;
 
       canvas.width = width * tileSize;
       canvas.height = height * tileSize;
 
-      const menu = new Menu(context, {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-      });
-      const { hearts, coins, points } = this.createResources();
-      this.createPlacementTiles();
-      this.spawnEnemiesWave(this.waveIndex);
+      const img = await this.loadBackground(imageSrc);
 
-      this.loadBackground(imageSrc).then((img) => {
-        const animate = () => {
-          const animationId = requestAnimationFrame(animate);
+      if (img) {
+        const menu = new Menu(context, { x: canvas.width / 2, y: canvas.height / 2 });
+        const { hearts, coins, points } = this.createResources();
+        this.createPlacementTiles();
+        this.spawnEnemiesWave(this.waveIndex);
 
-          context.drawImage(img, 0, 0);
+        canvas.addEventListener('mousemove', (event) => this.handleMouseMove(event));
+        canvas.addEventListener('click', () => this.handleClick(coins));
 
-          coins.update();
-          hearts.update();
-          points.update();
+        return new Promise<number>((resolve) => {
+          const animate = () => {
+            const animationId = requestAnimationFrame(animate);
 
-          placementTiles.forEach((tile) => {
-            tile.update(cursor);
-          });
+            context.drawImage(img, 0, 0);
 
-          buildings.forEach((building) => {
-            building.update();
-            building.setTarget(enemies);
-            building.shoot(enemies, coins, points);
-          });
+            coins.update();
+            hearts.update();
+            points.update();
 
-          for (let i = enemies.length - 1; i >= 0; i--) {
-            const enemy = enemies[i];
-            enemy.update();
+            placementTiles.forEach((tile) => {
+              tile.update(cursor);
+            });
 
-            if (enemy.isAtTheEndPoint(canvas)) {
-              hearts.setCount(hearts.getCount() - 1);
-              enemies.splice(i, 1);
+            buildings.forEach((building) => {
+              building.update();
+              building.setTarget(enemies);
+              building.shoot(enemies, coins, points);
+            });
 
-              if (hearts.getCount() <= 0) {
-                hearts.update();
+            for (let i = enemies.length - 1; i >= 0; i -= 1) {
+              const enemy = enemies[i];
+              enemy.update();
 
-                menu.setText('Поражение!');
+              if (enemy.isAtTheEndPoint(canvas)) {
+                hearts.setCount(hearts.getCount() - 1);
+                enemies.splice(i, 1);
+
+                if (hearts.getCount() <= 0) {
+                  hearts.update();
+
+                  menu.setText('Поражение!');
+                  menu.setPoints(points.getCount());
+                  menu.update();
+
+                  cancelAnimationFrame(animationId);
+                  resolve(points.getCount());
+                }
+              }
+            }
+
+            if (enemies.length === 0) {
+              if (this.waveIndex < waves.length - 1) {
+                this.waveIndex += 1;
+                this.spawnEnemiesWave(this.waveIndex);
+              } else {
+                coins.update();
+                points.update();
+
+                menu.setText('Победа!');
                 menu.setPoints(points.getCount());
                 menu.update();
 
                 cancelAnimationFrame(animationId);
+                resolve(points.getCount());
               }
             }
-          }
+          };
 
-          if (enemies.length === 0) {
-            if (this.waveIndex < waves.length - 1) {
-              this.waveIndex += 1;
-              this.spawnEnemiesWave(this.waveIndex);
-            } else {
-              coins.update();
-              points.update();
+          requestAnimationFrame(animate);
+        });
+      }
+    }
+  }
 
-              menu.setText('Победа!');
-              menu.setPoints(points.getCount());
-              menu.update();
+  private handleMouseMove(event: MouseEvent) {
+    const { placementTiles, cursor } = this;
 
-              cancelAnimationFrame(animationId);
-            }
-          }
-        };
+    cursor.x = event.clientX;
+    cursor.y = event.clientY;
 
-        animate();
-      });
+    this.activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
+  }
 
-      const cursor: { x: number; y: number } = { x: 0, y: 0 };
-      let activeTile: PlacementTile | undefined = undefined;
+  private handleClick(coins: Resource) {
+    const { activeTile, buildings, context, settings } = this;
+    const { tileSize } = <TGameSettings>settings;
 
-      canvas.addEventListener('mousemove', (event) => {
-        cursor.x = event.clientX;
-        cursor.y = event.clientY;
+    if (activeTile && !activeTile.isOccupied && coins.getCount() >= 25) {
+      coins.setCount(coins.getCount() - 25);
 
-        activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
-      });
+      buildings.push(
+        new Building(
+          <CanvasRenderingContext2D>context,
+          {
+            x: activeTile.position.x,
+            y: activeTile.position.y,
+          },
+          TowerType.STONE,
+          tileSize
+        )
+      );
 
-      canvas.addEventListener('click', () => {
-        if (activeTile && !activeTile.isOccupied && coins.getCount() >= 25) {
-          coins.setCount(coins.getCount() - 25);
+      activeTile.isOccupied = true;
 
-          buildings.push(
-            new Building(
-              context,
-              {
-                x: activeTile.position.x,
-                y: activeTile.position.y,
-              },
-              TowerType.STONE,
-              tileSize
-            )
-          );
-
-          activeTile.isOccupied = true;
-
-          buildings.sort((a, b) => {
-            return a.position.y - b.position.y;
-          });
-        }
+      buildings.sort((a, b) => {
+        return a.position.y - b.position.y;
       });
     }
   }

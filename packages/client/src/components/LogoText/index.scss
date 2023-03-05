@@ -1,0 +1,23 @@
+@import '../../assets/styles/varThemeDefault';
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  text-align: center;
+
+  &-symbols {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 96px;
+    font-family: $font-defence;
+    font-style: normal;
+    line-height: 120px;
+    white-space: break-spaces;
+    text-transform: capitalize;
+    background: $color-text-primary;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
