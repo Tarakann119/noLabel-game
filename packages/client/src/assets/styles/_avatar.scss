@@ -1,0 +1,21 @@
+@import 'varThemeDefault';
+
+.avatar {
+  display: block;
+  object-fit: cover;
+  border: 3px solid $color-ui-primary;
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+.avatar-active {
+  border: 3px solid $color-ui-secondary;
+}
+
+.avatar-size-default {
+  width: 68px;
+}
+
+.avatar-size-small {
+  width: 36px;
+}

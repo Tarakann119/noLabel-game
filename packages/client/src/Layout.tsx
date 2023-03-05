@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import Profile from './pages/Profile';
 import MainMenu from './pages/MainMenu';
 import Header from './components/Header';
-import Eror404 from './pages/ErrorPages/404';
+import Error404 from './pages/ErrorPages/404';
 import Forum from './pages/Forum';
 import ForumTheme from './pages/Forum/ForumTheme';
 import AboutUs from './pages/AboutUs';
@@ -15,6 +15,7 @@ import ChangePassword from './pages/Profile/ChangePassword';
 import ChangeAvatar from './pages/Profile/ChangeAvatar';
 import Game from './pages/Game';
 import ChangeProfile from './pages/Profile/ChangeProfile';
+import Footer from './components/Footer';
 
 const Layout = () => {
   return (
@@ -32,10 +33,11 @@ const Layout = () => {
         <Route path='/forum' element={<Forum />} />
         <Route path='/forum/:id' element={<ForumTheme />} />
         <Route path='/aboutUs' element={<AboutUs />} />
-        <Route path='profile/edit' element={<ChangeProfile />} />
+        <Route path='/profile/edit' element={<ChangeProfile />} />
         <Route path='/game' element={<Game />} />
-        <Route path='/*' element={<Eror404 />} />
+        <Route path='/*' element={<Error404 />} />
       </Routes>
+      <Footer />
       <ToastContainer
         theme='dark'
         position='top-right'
