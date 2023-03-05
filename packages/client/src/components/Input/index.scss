@@ -1,15 +1,17 @@
+@import '../../assets/styles/varThemeDefault';
+
 input {
   display: flex;
   flex-direction: column;
   max-width: 380px;
-  font-family: var(--font-primary);
+  font-family: $font-primary;
 }
 
 input label {
   margin-bottom: 8px;
+  color: $color-text-primary;
   font-weight: 600;
   font-size: 18px;
-  color: var(--color-text-primary);
   line-height: 1.5;
 }
 
@@ -20,13 +22,13 @@ input label {
 .input__control {
   height: 48px;
   padding: 8px 16px;
-  font-family: var(--font-primary);
+  color: $color-text-secondary;
   font-size: 20px;
+  font-family: $font-primary;
   line-height: 1.6;
-  color: var(--color-text-secondary);
   text-transform: capitalize;
+  background-color: $color-background;
   border-radius: 6px;
-  background-color: var(--color-background);
   opacity: 0.7;
   transition: 0.3s ease-in;
 }
@@ -35,31 +37,30 @@ input label {
   opacity: 0.4;
 }
 
-.input__control::-webkit-input-placeholder,
-.input__control::-moz-placeholder,
+.input__control::placeholder,
 .input__control::placeholder {
-  color: var(--color-text-secondary);
+  color: $color-text-secondary;
   opacity: 1;
 }
 
 .input_type_read-only .input__control {
-  color: var(--color-text-primary);
-  border-radius: 0;
+  color: $color-text-primary;
   border: none;
-  border-bottom: 1px solid var(--color-ui-primary);
-  opacity: 1;
+  border-bottom: 1px solid $color-ui-primary;
+  border-radius: 0;
   cursor: default;
+  opacity: 1;
 }
 
 .input_invalid .input__control {
-  color: var(--color-error);
-  border: 2px solid var(--color-error);
+  color: $color-error;
+  border: 2px solid $color-error;
 }
 
 .input__error {
+  color: $color-error;
   font-size: 0;
   line-height: 1.6;
-  color: var(--color-error);
   transition: 0.3s ease-in;
 }
 

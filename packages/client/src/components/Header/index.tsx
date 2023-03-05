@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom';
 import './index.scss';
 
 const Header = () => {
-
   const location = useLocation();
   return (
     <>
@@ -34,7 +33,7 @@ const Header = () => {
               {/*<Link to={'/registration'} className='button'>Регистрация</Link>*/}
             </div>
           ) : (
-            <div></div>
+            <div>{/*{// TODO: Нужно добавить компонент карточки юзера}*/}</div>
           )}
         </div>
       </div>
@@ -42,4 +41,3 @@ const Header = () => {
   );
 };
 export default Header;
-

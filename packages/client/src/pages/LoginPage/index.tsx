@@ -1,24 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-import { toast } from "react-toastify";
-import {useNavigate} from 'react-router-dom'
-import { useEffect } from 'react';
-import '../../components/Button/index.css'
-import '../../components/Header/index.css'
-import '../../components/Input/index.css'
-import '../StartScreen/index.css'
-import './index.css'
-import { Button } from '../../components/Button'
-import { Title } from '../../components/Title'
+import { toast } from 'react-toastify';
+import InputWrapper from '../../components/InputWrapper';
 
-type LoginType ={
-    login: string,
-    password: string
-}
-
+type LoginType = {
+  login: string;
+  password: string;
+};
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -50,7 +41,8 @@ const LoginPage = () => {
         navigate('/profile');
       })
       .then(() => fetch(`https://ya-praktikum.tech/api/v2/auth/user`))
-      // TODO: Нужно типизировать ответ
+      // TODO: Типизировать
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((response: any) => {
         console.log(response);
         const user = response;
@@ -83,63 +75,13 @@ const LoginPage = () => {
             <InputWrapper error={errors.password} label='Пароль'>
               <Field name='password' type='password' className='input__field' />
               {errors.password && touched.password ? (
-                <>
-                  <div className='input__error-message'>{errors.password}</div>
-                </>
+                <div className='input__error-message'>{errors.password}</div>
               ) : null}
             </InputWrapper>
-
-
-    return (
-      <div className="main-page-wrapper">
-          <div className="main-wrapper"
-               style={{
-                   backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
-               }}>
-        <div className="form-login">
-            <div>
-                <Formik
-                    initialValues={{
-                        login: '',
-                        password: ''
-                    }}
-                    validationSchema={SigninSchema}
-                    onSubmit={values => {
-                        console.log(JSON.stringify(values));
-                        handleSubmit(values)
-                    }}
-                >
-                    {({ errors, touched }) => (
-                        <Form>
-                          <Title className="form-login-title" text="Вход" />
-                            <Field name="login" type='text' className="input__control" placeholder="login" />
-                            {errors.login && touched.login ? (
-                                <div>{errors.login}</div>
-                            ) : null}
-                            <Field
-                            type= "password"
-                            placeholder="*****"
-                            name= "password"
-                            className="input__control" />
-                            {errors.password && touched.password ? (
-                                <div>{errors.password}</div>
-                            ) : null}
-                            <Button
-                              text="Войти"
-                              type={'submit'}
-                              onClick={()=>navigate('/login')}
-                              className="button button_view_primary"
-                            />
-                            <div>
-                                <Link className="plane-link" to={'/registration'}>Зарегистрироваться</Link>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        </div>
-          </div>
-      </div>
-    )
-}
-export default LoginPage
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+export default LoginPage;
