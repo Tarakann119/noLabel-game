@@ -2,6 +2,7 @@ export enum EnemyType {
   GOBLIN,
   HOBGOBLIN,
   ORC,
+  ORC_WARRIOR,
 }
 
 export enum TowerType {
