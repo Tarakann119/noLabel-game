@@ -10,6 +10,5 @@
 
 body {
   color: var(--text-color);
-  font-family: Romvel, sans-serif;
   background: var(--background-color);
 }

@@ -4,8 +4,11 @@ import cn from 'classnames';
 import { set } from './slice';
 import styles from './index.module.css';
 import { useEffect } from 'react';
-
+// TODO: Типизировать
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Theme = ({ className }: any) => {
+  // TODO: Типизировать
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const theme = useSelector((state: any) => state.theme);
   const dispatch = useDispatch();
 
@@ -23,7 +26,7 @@ const Theme = ({ className }: any) => {
     <div
       className={cn(className, styles.root, theme === 'dark' ? styles.dark : styles.light)}
       onClick={handleChange}>
-      Смнена темы
+      Смена темы
     </div>
   );
 };

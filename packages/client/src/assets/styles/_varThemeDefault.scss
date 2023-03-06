@@ -25,34 +25,8 @@ $color-ui-form-bg: #323435;
 
 // Fonts
 $font-safe: tahoma, geneva, verdana, sans-serif;
-$font-primary: cormorant, $font-safe;
-$font-defence: 'Romvel';
-
-//@font-face {
-//  font-weight: 400;
-//  font-family: Cormorant;
-//  font-style: normal;
-//  src: url('../fonts/Cormorant-Regular.woff2') format('woff2'),
-//    url('../fonts/Cormorant-Regular.woff') format('woff');
-//  font-display: swap;
-//}
-//
-//@font-face {
-//  font-weight: 700;
-//  font-family: Cormorant;
-//  font-style: normal;
-//  src: url('../fonts/Cormorant-Bold.woff2') format('woff2'),
-//    url('../fonts/Cormorant-Bold.woff') format('woff');
-//  font-display: swap;
-//}
-//
-//@font-face {
-//  font-weight: 700;
-//  font-family: Romvel;
-//  font-style: normal;
-//  src:  url('Romvel.ttf') format('ttf');
-//  font-display: swap;
-//}
+$font-primary: 'Cormorant-Bold', $font-safe;
+$font-defence: 'American TextC', $font-safe;
 
 //Border
 %border-button {

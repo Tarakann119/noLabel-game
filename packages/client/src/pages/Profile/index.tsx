@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { useEffect } from 'react';
 import Theme from '../../components/Theme';
 
 const Profile = () => {

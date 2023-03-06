@@ -16,8 +16,22 @@ export default defineConfig({
     react(),
     VitePluginFonts({
       custom: {
-        families: [{ name: 'Romvel', local: 'Romvel', src: './src/assets/fonts/Romvel.ttf' }],
+        families: [
+          { name: 'Romvel', local: 'Romvel.ttf', src: './src/assets/fonts/Romvel.ttf' },
+          {
+            name: 'American TextC',
+            local: 'American TextC.ttf',
+            src: './src/assets/fonts/American TextC.ttf',
+          },
+          {
+            name: 'Cormorant-Bold',
+            local: 'Cormorant-Bold.woff2',
+            src: './src/assets/fonts/Cormorant-Bold.woff2',
+          },
+        ],
       },
     }),
   ],
 });
+
+//American TextC.ttf

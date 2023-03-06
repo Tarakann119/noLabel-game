@@ -42,16 +42,18 @@ a {
   text-decoration: none;
 }
 
-.input__field {
-  max-width: 224px;
-  padding: 0 16px;
-  color: $color-text-secondary;
-  font-size: 32px;
-  font-family: $font-primary;
-  line-height: 1.6;
-  text-align: right;
-  background: transparent;
-  border: none;
+.input {
+  &__field {
+    max-width: 224px;
+    padding: 0 16px;
+    color: $color-text-secondary;
+    font-size: 32px;
+    font-family: $font-primary;
+    line-height: 1.6;
+    text-align: right;
+    background: transparent;
+    border: none;
+  }
 }
 
 // containers
@@ -64,7 +66,7 @@ a {
   }
 
   &_main {
-    background: url('../img/metall-texture.png') no-repeat;
+    background: url('../img/metall-texture.jpg') no-repeat;
     background-size: cover;
   }
 }
