@@ -53,3 +53,11 @@ export type TBuildingSettings = {
     damage: number;
   };
 };
+
+export type State = {
+  game: GameState;
+};
+
+export type GameState = {
+  points: number;
+};
