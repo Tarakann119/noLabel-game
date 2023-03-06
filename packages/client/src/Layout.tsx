@@ -16,6 +16,7 @@ import ChangeAvatar from './pages/Profile/ChangeAvatar';
 import Game from './pages/Game';
 import ChangeProfile from './pages/Profile/ChangeProfile';
 import Footer from './components/Footer';
+import DevPage from './pages/DevPage';
 
 const Layout = () => {
   return (
@@ -36,6 +37,7 @@ const Layout = () => {
         <Route path='profile/edit' element={<ChangeProfile />} />
         <Route path='/game' element={<Game />} />
         <Route path='/*' element={<Eror404 />} />
+        <Route path='/devpage' element={<DevPage />} />
       </Routes>
       <Footer />
       <ToastContainer
