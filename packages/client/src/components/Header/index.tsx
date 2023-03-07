@@ -1,8 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './index.scss';
+import { Button } from '../Button';
+import Spacer from '../../ui/Spacer';
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   return (
     <>
       <div className='header'>
@@ -13,7 +16,7 @@ const Header = () => {
               Главная
             </Link>
             <Link to={'/game'} className='custom-link'>
-              Игра
+              Game
             </Link>
             <Link to={'/rating'} className='custom-link'>
               Рейтинг
@@ -27,16 +30,14 @@ const Header = () => {
           </div>
           {location.pathname === '/' ? (
             <div className='header__container header__container_autch'>
-              <Link to={'/login'} className='custom-button'>
-                Вход
-              </Link>
-              {/*<Link to={'/registration'} className='button'>Регистрация</Link>*/}
+              <Button text={'ВХОД'} onClick={() => navigate('/login')} />
             </div>
           ) : (
-            <div></div>
+            <div>{/*{TODO: добавить карточку юзера}*/}</div>
           )}
         </div>
       </div>
+      <Spacer />
     </>
   );
 };

@@ -5,6 +5,9 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import InputWrapper from '../../components/InputWrapper';
 import './index.scss';
+import classNames from 'classnames';
+import HeaderH1 from '../../ui/HeaderH1';
+import { Button } from '../../components/Button';
 
 type LoginType = {
   login: string;
@@ -41,7 +44,7 @@ const LoginPage = () => {
         toast.success('Успешно!');
         navigate('/profile');
       })
-      .then(() =>
+      .then(() => {
         axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
           method: 'get',
           data: data,
@@ -50,9 +53,11 @@ const LoginPage = () => {
             'Content-Type': 'application/json',
           },
           withCredentials: true,
-        })
-      )
+        });
+      })
+
       // TODO: Нужно типизировать ответ
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((response: any) => {
         console.log(response);
         const user = response;
@@ -63,7 +68,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='container-content container-content_main'>
+    <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
       <Formik
         initialValues={{
           login: '',
@@ -75,7 +80,8 @@ const LoginPage = () => {
           handleSubmit(values);
         }}>
         {({ errors, touched }) => (
-          <Form className='container__login-form colum-5'>
+          <Form className={classNames('colum-5', 'container__login-form')}>
+            <HeaderH1 label={'ВХОД'} />
             <InputWrapper error={errors.login} label='Логин'>
               <Field name='login' type='text' className='input__field' />
               {errors.login && touched.login ? (
@@ -91,10 +97,13 @@ const LoginPage = () => {
               ) : null}
             </InputWrapper>
 
-            <button type='submit' className='custom-button'>
-              Войти
-            </button>
-            <Link to={'/register'}>Нет аккаунта?</Link>
+            {/*<button type='submit' className='custom-button'>*/}
+            {/*  Войти*/}
+            {/*</button>*/}
+            <Button text='Вход' type='submit' className='custom-button' />
+            <Link className='plane-link' to={'/registration'}>
+              Нет аккаунта?
+            </Link>
           </Form>
         )}
       </Formik>

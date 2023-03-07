@@ -2,15 +2,16 @@
 @import 'customButton';
 @import 'customLink';
 @import 'avatar';
+@import 'link';
 
 * {
-  z-index: 2;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
+  background: $color-background;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,8 +45,8 @@ a {
 
 .input {
   &__field {
-    max-width: 224px;
-    padding: 0 16px;
+    width: 290px;
+    padding: 0;
     color: $color-text-secondary;
     font-size: 32px;
     font-family: $font-primary;
@@ -58,16 +59,35 @@ a {
 
 // containers
 
-.container-content {
-  flex: 1 0 auto;
-
-  &:last-child {
-    margin-left: 0;
+.container {
+  &_center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &_start {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  &_main {
-    background: url('../img/metall-texture.jpg') no-repeat;
-    background-size: cover;
+  &-content {
+    display: flex;
+    height: 100%;
+    flex: 1 0 auto;
+    align-items: center;
+    justify-content: flex-start;
+
+    &:last-child {
+      margin-left: 0;
+    }
+
+    &_main {
+      background: url('../img/metall-texture.jpg') no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: flex-start;
+    }
   }
 }
 

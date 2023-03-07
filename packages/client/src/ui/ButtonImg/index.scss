@@ -1,0 +1,11 @@
+@import '../src/assets/styles/varThemeDefault';
+
+.button-img {
+  width: 30px;
+  height: 30px;
+
+  &_close {
+    background: url('./img/Close.png') no-repeat;
+    background-size: cover;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import './index.scss';
+import classNames from 'classnames';
 
 interface InputWrapperProps {
   label?: string;
@@ -13,7 +14,7 @@ const InputWrapper: React.FC<InputWrapperProps> = ({ label, children, error }) =
       <label className='input__label' htmlFor='login'>
         {label}
       </label>
-      <div className={error ? 'input__wrapper input__wrapper-error' : 'input__wrapper'}>
+      <div className={classNames('input__wrapper', { 'input__wrapper-error': error })}>
         {children}
       </div>
     </div>
