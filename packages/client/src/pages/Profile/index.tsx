@@ -1,24 +1,58 @@
 import Theme from '../../components/Theme';
+import './index.scss';
+import { Title } from '../../components/Title';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
+import { Fragment } from 'react';
+import classNames from 'classnames';
+
+type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Телефон';
 
 const Profile = () => {
-  //     useEffect(()=>{
-  //         axios.get(`https://ya-praktikum.tech/api/v2/auth/user`)
-  //         .then((response: any) => {
-  //           const user = response;
-  //           localStorage.setItem("userId", user.id)
-  // console.log(response)
-  //         })
-  //     },[])
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const userData = [
+    { Логин: user.login },
+    { Имя: user.first_name },
+    { Фамилия: user.second_name },
+    { Почта: user.email },
+    { Телефон: user.phone },
+  ];
+
   return (
-    <>
-      <h2>Профиль username</h2>
-      <div>аватар</div>
-      <div>
-        <div>key</div>
-        <div>value</div>
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      <div className={classNames('colum-6', 'container__reg-form')}>
+        <>
+          <Title text='Данные вашего Профиля' />
+          <div className='profile-image-name'>
+            <Link className='navigation-link profile-navigation-link' to={'./change-avatar'}>
+              <div className='profile-link-page'></div>
+            </Link>
+            <div className='navigation-link-invert'>{user.login}</div>
+          </div>
+          <div>
+            <div className='profile-image-name'>
+              {userData.map((items, index) =>
+                Object.keys(items).map((key: string) => (
+                  <Fragment key={index}>
+                    <div className='navigation-link profile-navigation-link'>{key}</div>
+                    <div className='navigation-link-invert'>{items[key as UserKeys]}</div>
+                  </Fragment>
+                ))
+              )}
+            </div>
+          </div>
+          <Theme />
+          <Link className='plane-link' to={'./edit'}>
+            Изменить данные профиля
+          </Link>
+          <Link className='plane-link' to={'./change-password'}>
+            Изменить пароль
+          </Link>
+        </>
       </div>
-      <Theme />
-    </>
+    </div>
   );
 };
 export default Profile;

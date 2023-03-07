@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-const Eror404 = () => {
+import './index.scss';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
+
+const Error404 = () => {
   const navigate = useNavigate();
   return (
-    <>
-      <div>
-        Ошибка 404
-        <button onClick={() => navigate(-1)}>Вернуться назад</button>
-      </div>
-    </>
+    <div className='container-content bg-image_404 error-page'>
+      <Title text='Ошибка 404' />
+      <Button onClick={() => navigate(-1)} text='Вернуться назад' />
+    </div>
   );
 };
 
-export default Eror404;
+export default Error404;
