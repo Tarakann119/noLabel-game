@@ -1,8 +1,13 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useLoading } from '../../components/LoaderComponent';
+import Loader from '../../ui/Loader';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
 type ChangeProfileType = {
   first_name: string;
   second_name: string;
@@ -36,6 +41,10 @@ const ProfileSchema = Yup.object().shape({
 
 const ChangeProfile = () => {
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.auth.user);
+  const [fieldError, setFieldError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { loading, setLoading } = useLoading();
   const handleSubmit = async (values: ChangeProfileType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/user/profile', {
@@ -50,44 +59,46 @@ const ChangeProfile = () => {
         toast.success('Пользователь создан!');
         navigate('/profile');
       })
-      .catch(() => {
+      .catch((error) => {
         toast.error('Что-то не так...');
+        setFieldError(error.response?.data.reason);
       });
   };
   return (
     <>
       <h2>Изменение данных пользователя</h2>
-
+      {loading && <Loader />}
       <Formik
         initialValues={{
-          first_name: '',
-          second_name: '',
-          login: '',
-          email: '',
-          phone: '',
+          first_name: user.first_name ?? '',
+          second_name: user.second_name ?? '',
+          login: user.login ?? '',
+          email: user.email ?? '',
+          phone: user.phone ?? '',
         }}
         validationSchema={ProfileSchema}
         onSubmit={(values) => {
           console.log(values);
           handleSubmit(values);
         }}>
-        {({ errors, touched }) => (
+        {({ errors, touched, values }) => (
           <Form>
             <label htmlFor='first_name'>Имя</label>
-            <Field name='first_name' />
+            <input value={values.first_name} name='first_name' />
             {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
-            <label htmlFor='second_name'>Имя</label>
-            <Field name='second_name' />
+            <label htmlFor='second_name'>Фамилия</label>
+            <input value={values.first_name} type='text' name='second_name' />
             {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
-            <label htmlFor='login'>Имя</label>
-            <Field name='login' />
+            <label htmlFor='login'>Логин</label>
+            <input value={values.login} type='text' name='login' />
             {errors.login && touched.login ? <div>{errors.login}</div> : null}
-            <label htmlFor='email'>Имя</label>
-            <Field name='email' />
+            <label htmlFor='email'>Email</label>
+            <input value={values.email} type='text' name='email' />
             {errors.email && touched.email ? <div>{errors.email}</div> : null}
-            <label htmlFor='phone'>Имя</label>
-            <Field name='phone' />
+            <label htmlFor='phone'>Телефон</label>
+            <input value={values.phone} name='phone' />
             {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
+            <div>{fieldError}</div>
             <button type='submit'>Изменить данные</button>
           </Form>
         )}

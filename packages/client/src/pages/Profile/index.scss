@@ -1,0 +1,20 @@
+.profile {
+  &-image-name {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  &-wrapper {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: 100%;
+    justify-items: center;
+    max-width: 380px;
+    margin-top: 24px;
+  }
+
+  &-navigation-link {
+    margin-right: 50px;
+  }
+}

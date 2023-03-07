@@ -1,24 +1,22 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-import { toast } from "react-toastify";
-import {useNavigate} from 'react-router-dom'
-import { useEffect } from 'react';
-import '../../components/Button/index.css'
-import '../../components/Header/index.css'
-import '../../components/Input/index.css'
-import '../StartScreen/index.css'
-import './index.css'
-import { Button } from '../../components/Button'
-import { Title } from '../../components/Title'
+import { toast } from 'react-toastify';
+import InputWrapper from '../../components/InputWrapper';
+import { Button } from '../../components/Button';
+import { UserInfo } from '../../../typings/app.typings';
+import { useState } from 'react';
+import { useLoading } from '../../components/LoaderComponent';
+import Loader from '../../ui/Loader';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import { setUser } from '../../components/Autification/slice';
 
-type LoginType ={
-    login: string,
-    password: string
-}
-
+type LoginType = {
+  login: string;
+  password: string;
+};
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -35,6 +33,10 @@ const SigninSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [fieldError, setFieldError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { loading, setLoading } = useLoading();
+  const dispatch = useAppDispatch();
   const handleSubmit = async (values: LoginType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/auth/signin', {
@@ -44,24 +46,50 @@ const LoginPage = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     })
       .then(() => {
         toast.success('Успешно!');
         navigate('/profile');
       })
-      .then(() => fetch(`https://ya-praktikum.tech/api/v2/auth/user`))
-      // TODO: Нужно типизировать ответ
-      .then((response: any) => {
+      .then(() =>
+        axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
+          method: 'get',
+          data: data,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        })
+      )
+      .then((response) => {
         console.log(response);
-        const user = response;
+        const user = (response as AxiosResponse).data as UserInfo;
         localStorage.setItem('userId', user.id);
-        localStorage.setItem('user', user);
+        console.log(22, user);
+        dispatch(
+          setUser({
+            email: user.email,
+            id: user.id,
+            login: user.login,
+            first_name: user.first_name,
+            second_name: user.second_name,
+            display_name: user.display_name,
+            avatar: user.avatar,
+            phone: user.phone,
+          })
+        );
       })
-      .catch(() => toast.error('Что-то не так...'));
+      .catch((error) => {
+        toast.error('Что-то не так...');
+        setFieldError(error.response.data.reason);
+      });
   };
 
   return (
     <div className='container-content container-content_main'>
+      {loading && <Loader />}
       <Formik
         initialValues={{
           login: '',
@@ -83,63 +111,15 @@ const LoginPage = () => {
             <InputWrapper error={errors.password} label='Пароль'>
               <Field name='password' type='password' className='input__field' />
               {errors.password && touched.password ? (
-                <>
-                  <div className='input__error-message'>{errors.password}</div>
-                </>
+                <div className='input__error-message'>{errors.password}</div>
               ) : null}
             </InputWrapper>
-
-
-    return (
-      <div className="main-page-wrapper">
-          <div className="main-wrapper"
-               style={{
-                   backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
-               }}>
-        <div className="form-login">
-            <div>
-                <Formik
-                    initialValues={{
-                        login: '',
-                        password: ''
-                    }}
-                    validationSchema={SigninSchema}
-                    onSubmit={values => {
-                        console.log(JSON.stringify(values));
-                        handleSubmit(values)
-                    }}
-                >
-                    {({ errors, touched }) => (
-                        <Form>
-                          <Title className="form-login-title" text="Вход" />
-                            <Field name="login" type='text' className="input__control" placeholder="login" />
-                            {errors.login && touched.login ? (
-                                <div>{errors.login}</div>
-                            ) : null}
-                            <Field
-                            type= "password"
-                            placeholder="*****"
-                            name= "password"
-                            className="input__control" />
-                            {errors.password && touched.password ? (
-                                <div>{errors.password}</div>
-                            ) : null}
-                            <Button
-                              text="Войти"
-                              type={'submit'}
-                              onClick={()=>navigate('/login')}
-                              className="button button_view_primary"
-                            />
-                            <div>
-                                <Link className="plane-link" to={'/registration'}>Зарегистрироваться</Link>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        </div>
-          </div>
-      </div>
-    )
-}
-export default LoginPage
+            <div className='input__error-message'>{fieldError}</div>
+            <Button text='Войти' type='submit' />
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+export default LoginPage;

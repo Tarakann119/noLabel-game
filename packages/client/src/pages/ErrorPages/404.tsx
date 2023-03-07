@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-const Eror404 = () => {
+const Error404 = () => {
   const navigate = useNavigate();
   return (
     <>
@@ -11,4 +11,4 @@ const Eror404 = () => {
   );
 };
 
-export default Eror404;
+export default Error404;

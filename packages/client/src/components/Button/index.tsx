@@ -1,13 +1,13 @@
-import type { ButtonHTMLAttributes, FC } from 'react'
-import { memo } from 'react'
-import classNames from 'classnames'
-import './index.css'
+import type { ButtonHTMLAttributes, FC } from 'react';
+import { memo } from 'react';
+import classNames from 'classnames';
+import './index.scss';
 
 export type ButtonProps = {
-  text: string
-  view?: 'primary' | 'secondary' | 'ghost'
-  className?: string
-} & ButtonHTMLAttributes<HTMLButtonElement>
+  text: string;
+  view?: 'primary' | 'secondary' | 'ghost';
+  className?: string;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button: FC<ButtonProps> = memo(
   ({ text, view = 'primary', type = 'button', className = '', ...props }) => {
@@ -18,6 +18,6 @@ export const Button: FC<ButtonProps> = memo(
         {...props}>
         {text}
       </button>
-    )
-  }
-)
+    );
+  },
+);

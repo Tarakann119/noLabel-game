@@ -3,6 +3,7 @@ import './assets/styles/App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
+import { LoadingProvider } from './components/LoaderComponent';
 
 function App() {
   useEffect(() => {
@@ -17,11 +18,13 @@ function App() {
   }, []);
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/*' element={<Layout />} />
-        </Routes>
-      </BrowserRouter>
+      <LoadingProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/*' element={<Layout />} />
+          </Routes>
+        </BrowserRouter>
+      </LoadingProvider>
     </>
   );
 }
