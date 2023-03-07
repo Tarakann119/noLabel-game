@@ -13,7 +13,7 @@ const Header = () => {
               Главная
             </Link>
             <Link to={'/game'} className='custom-link'>
-              Игра
+              Game
             </Link>
             <Link to={'/rating'} className='custom-link'>
               Рейтинг

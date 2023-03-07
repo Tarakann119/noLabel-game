@@ -25,12 +25,21 @@ $color-ui-form-bg: #323435;
 
 // Fonts
 $font-safe: tahoma, geneva, verdana, sans-serif;
-$font-primary: 'Cormorant-Bold', $font-safe;
-$font-defence: 'American TextC', $font-safe;
+$font-primary: cormorant-bold, $font-safe;
+$font-defence: romvel cyr, $font-safe;
+$font-h1-size: 64px;
 
 //Border
 %border-button {
   border: 3px solid $color-ui-button-border;
   border-radius: 5px;
   box-shadow: 0 14px 24px rgb(0 0 0 / 25%);
+}
+
+.bg-image {
+  &_login {
+    background: url('../../assets/img/background/knight.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
 }

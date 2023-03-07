@@ -44,8 +44,8 @@ a {
 
 .input {
   &__field {
-    max-width: 224px;
-    padding: 0 16px;
+    width: 224px;
+    padding: 0;
     color: $color-text-secondary;
     font-size: 32px;
     font-family: $font-primary;
@@ -59,7 +59,10 @@ a {
 // containers
 
 .container-content {
+  display: flex;
   flex: 1 0 auto;
+  align-items: center;
+  justify-content: flex-start;
 
   &:last-child {
     margin-left: 0;

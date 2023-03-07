@@ -1,9 +1,14 @@
-import Loader from '../../ui/Loader';
+import ButtonImg from '../../ui/ButtonImg';
 
 const DevPage = () => {
   return (
     <div className='container-content container-content_main'>
-      <Loader />
+      <ButtonImg
+        variant='close'
+        onClick={() => {
+          console.log('lol');
+        }}
+      />
     </div>
   );
 };

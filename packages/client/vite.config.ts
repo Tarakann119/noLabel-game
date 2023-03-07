@@ -17,16 +17,21 @@ export default defineConfig({
     VitePluginFonts({
       custom: {
         families: [
-          { name: 'Romvel', local: 'Romvel.ttf', src: './src/assets/fonts/Romvel.ttf' },
-          {
-            name: 'American TextC',
-            local: 'American TextC.ttf',
-            src: './src/assets/fonts/American TextC.ttf',
-          },
+          { name: 'Romvel Cyr', local: 'RomvelCyr', src: './src/assets/fonts/RomvelCyr.*' },
           {
             name: 'Cormorant-Bold',
-            local: 'Cormorant-Bold.woff2',
-            src: './src/assets/fonts/Cormorant-Bold.woff2',
+            local: 'Cormorant-Bold',
+            src: './src/assets/fonts/Cormorant-Bold.*',
+          },
+          {
+            name: 'Cormorant-Regular',
+            local: 'Cormorant-Regular',
+            src: './src/assets/fonts/Cormorant-Regular.*',
+          },
+          {
+            name: 'Cormorant-SemiBold',
+            local: 'Cormorant-SemiBold',
+            src: './src/assets/fonts/Cormorant-SemiBold.*',
           },
         ],
       },

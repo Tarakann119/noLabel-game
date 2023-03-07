@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
 import { set } from './slice';
-import styles from './index.module.css';
+import styles from './index.module.scss';
 import { useEffect } from 'react';
 // TODO: Типизировать
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
