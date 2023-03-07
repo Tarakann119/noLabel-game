@@ -1,0 +1,43 @@
+form {
+    max-width: 380px;
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 8px;
+    justify-items: center;
+}
+
+.form__body {
+    width: 100%;
+}
+
+.form__title:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.form__items {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 16px;
+}
+
+.form__bottom {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 8px;
+    justify-items: center;
+}
+
+.form-login-title {
+    text-align-last: left;
+}
+
+.form-login {
+    max-width: 380px;
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 8px;
+    justify-items: center;
+}

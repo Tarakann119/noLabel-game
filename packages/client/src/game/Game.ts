@@ -27,7 +27,10 @@ export class Game {
   }
 
   private async init() {
-    const { settings } = await import(this.settingsSrc);
+    const { settings } = await import(
+      /* @vite-ignore */
+      this.settingsSrc
+    );
     this.settings = settings;
   }
 
