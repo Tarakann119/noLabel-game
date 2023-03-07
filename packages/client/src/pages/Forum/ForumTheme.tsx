@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import './index.scss';
 
 const ForumTheme = () => {
+  // из юрл берем айди, отправляем запрос,рендерим данные(
+  //   создатель темы, айди темы, вопрос, массив комментарие(айди, ник, ответ)
+  // )
   return (
     <>
       <div className='main-page-wrapper'>

@@ -1,8 +1,27 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Button } from '../Button';
 import './index.scss';
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const LogOut = async () => {
+    fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
+      method: 'post',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        toast.success('Вы вышли из профиля!');
+        navigate('/');
+      })
+      .catch(() => toast.error('Что-то не так...'));
+  };
+
   return (
     <>
       <div className='header'>
@@ -33,7 +52,10 @@ const Header = () => {
               {/*<Link to={'/registration'} className='button'>Регистрация</Link>*/}
             </div>
           ) : (
-            <div>{/*{// TODO: Нужно добавить компонент карточки юзера}*/}</div>
+            <div>
+              {/*{// TODO: Нужно добавить компонент карточки юзера}*/}
+              <Button text='Выход' onClick={() => LogOut()} />
+            </div>
           )}
         </div>
       </div>

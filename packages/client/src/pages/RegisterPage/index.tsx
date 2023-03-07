@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import './index.scss';
 import { Button } from '../../components/Button';
 import { Title } from '../../components/Title';
+import { useState } from 'react';
+import Loader from '../../ui/Loader';
+import { useLoading } from '../../components/LoaderComponent';
 
 type ProfileType = {
   first_name: string;
@@ -51,7 +54,9 @@ const SignupSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
-
+  const [fieldError, setFieldError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { loading, setLoading } = useLoading();
   const handleSubmit = async (values: ProfileType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/auth/signup', {
@@ -64,14 +69,16 @@ const LoginPage = () => {
     })
       .then(() => {
         toast.success('Пользователь создан!');
-        navigate('/profile');
+        navigate('/login');
       })
-      .catch(() => {
+      .catch((error) => {
         toast.error('Что-то не так...');
+        setFieldError(error.response.data.reason);
       });
   };
   return (
     <div className='main-page-wrapper'>
+      {loading && <Loader />}
       <div
         className='main-wrapper'
         style={{
@@ -93,7 +100,6 @@ const LoginPage = () => {
                 validationSchema={SignupSchema}
                 onSubmit={(values) => {
                   handleSubmit(values);
-                  console.log(values);
                 }}>
                 {({ errors, touched }) => (
                   <Form>
@@ -102,7 +108,7 @@ const LoginPage = () => {
                       name='first_name'
                       type='text'
                       className='input__control'
-                      placeholder='Иван'
+                      placeholder='Ваше имя'
                     />
                     {errors.first_name && touched.first_name ? (
                       <div>{errors.first_name}</div>
@@ -111,25 +117,30 @@ const LoginPage = () => {
                       name='second_name'
                       type='text'
                       className='input__control'
-                      placeholder='Иванов'
+                      placeholder='Ваша фамилия'
                     />
                     {errors.second_name && touched.second_name ? (
                       <div>{errors.second_name}</div>
                     ) : null}
-                    <Field name='login' type='text' className='input__control' placeholder='tmj1' />
+                    <Field
+                      name='login'
+                      type='text'
+                      className='input__control'
+                      placeholder='Ваш логин'
+                    />
                     {errors.login && touched.login ? <div>{errors.login}</div> : null}
                     <Field
                       name='email'
                       type='email'
                       className='input__control'
-                      placeholder='tmj1@mail.com'
+                      placeholder='Ваша почта'
                     />
                     {errors.email && touched.email ? <div>{errors.email}</div> : null}
                     <Field
                       name='phone'
                       type='text'
                       className='input__control'
-                      placeholder='+798881234576'
+                      placeholder='+7000-00-00'
                     />
                     {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
                     <Field
@@ -139,14 +150,19 @@ const LoginPage = () => {
                       placeholder='*****'
                     />
                     {errors.password && touched.password ? <div>{errors.password}</div> : null}
-                    <Field name='confirmPassword' className='input__control' placeholder='*****' />
+                    <Field
+                      name='confirmPassword'
+                      type='password'
+                      className='input__control'
+                      placeholder='*****'
+                    />
                     {errors.confirmPassword && touched.confirmPassword ? (
                       <div>{errors.confirmPassword}</div>
                     ) : null}
+                    <div>{fieldError}</div>
                     <Button
                       text='Зарегистрироваться'
-                      type={'submit'}
-                      onClick={() => navigate('/login')}
+                      type='submit'
                       className='button button_view_primary'
                     />
                     <Link className='plane-link' to={'/login'}>

@@ -22,7 +22,7 @@ const StartScreen = () => {
             className='button button_view_primary'
           />
           <div>
-            <Link className='plane-link' to={'/login'}>
+            <Link className='plane-link' to={'/registration'}>
               Нет аккаунта?
             </Link>
           </div>

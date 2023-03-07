@@ -1,10 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import { toast } from 'react-toastify';
 import InputWrapper from '../../components/InputWrapper';
+import { Button } from '../../components/Button';
+import { UserInfo } from '../../../typings/app.typings';
+import { useState } from 'react';
+import { useLoading } from '../../components/LoaderComponent';
+import Loader from '../../ui/Loader';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import { setUser } from '../../components/Autification/slice';
 
 type LoginType = {
   login: string;
@@ -26,6 +33,10 @@ const SigninSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [fieldError, setFieldError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { loading, setLoading } = useLoading();
+  const dispatch = useAppDispatch();
   const handleSubmit = async (values: LoginType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/auth/signin', {
@@ -35,25 +46,50 @@ const LoginPage = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     })
       .then(() => {
         toast.success('Успешно!');
         navigate('/profile');
       })
-      .then(() => fetch(`https://ya-praktikum.tech/api/v2/auth/user`))
-      // TODO: Типизировать
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((response: any) => {
+      .then(() =>
+        axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
+          method: 'get',
+          data: data,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        })
+      )
+      .then((response) => {
         console.log(response);
-        const user = response;
+        const user = (response as AxiosResponse).data as UserInfo;
         localStorage.setItem('userId', user.id);
-        localStorage.setItem('user', user);
+        console.log(22, user);
+        dispatch(
+          setUser({
+            email: user.email,
+            id: user.id,
+            login: user.login,
+            first_name: user.first_name,
+            second_name: user.second_name,
+            display_name: user.display_name,
+            avatar: user.avatar,
+            phone: user.phone,
+          })
+        );
       })
-      .catch(() => toast.error('Что-то не так...'));
+      .catch((error) => {
+        toast.error('Что-то не так...');
+        setFieldError(error.response.data.reason);
+      });
   };
 
   return (
     <div className='container-content container-content_main'>
+      {loading && <Loader />}
       <Formik
         initialValues={{
           login: '',
@@ -78,6 +114,8 @@ const LoginPage = () => {
                 <div className='input__error-message'>{errors.password}</div>
               ) : null}
             </InputWrapper>
+            <div className='input__error-message'>{fieldError}</div>
+            <Button text='Войти' type='submit' />
           </Form>
         )}
       </Formik>

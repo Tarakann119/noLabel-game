@@ -3,6 +3,9 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useLoading } from '../../components/LoaderComponent';
+import Loader from '../../ui/Loader';
 type ChangePasswordType = {
   oldPassword: string;
   newPassword: string;
@@ -24,6 +27,10 @@ const PasswordSchema = Yup.object().shape({
 
 const ChangePassword = () => {
   const navigate = useNavigate();
+  const [fieldError, setFieldError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { loading, setLoading } = useLoading();
+
   const handleSubmit = async (values: ChangePasswordType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/user/password', {
@@ -38,12 +45,14 @@ const ChangePassword = () => {
         toast.success('Пользователь создан!');
         navigate('/profile');
       })
-      .catch(() => {
+      .catch((error) => {
         toast.error('Что-то не так...');
+        setFieldError(error.response.data.reason);
       });
   };
   return (
     <>
+      {loading && <Loader />}
       <h2>Смена пароля</h2>
 
       <Formik
@@ -67,6 +76,7 @@ const ChangePassword = () => {
             {errors.confirmPassword && touched.confirmPassword ? (
               <div>{errors.confirmPassword}</div>
             ) : null}
+            <div>{fieldError}</div>
             <button type='submit'>Сменить пароль</button>
           </Form>
         )}

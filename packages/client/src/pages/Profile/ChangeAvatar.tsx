@@ -2,9 +2,15 @@ import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
+import { useLoading } from '../../components/LoaderComponent';
+import Loader from '../../ui/Loader';
 
 const ChangeAvatar = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [files, setFiles] = useState<any[]>([]);
+  const [fieldError, setFieldError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { loading, setLoading } = useLoading();
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': [],
@@ -21,6 +27,7 @@ const ChangeAvatar = () => {
   });
 
   const _updateAvatar = async () => {
+    console.log(files);
     const filename = files[0].filename ?? files[0].path.split('/').reverse()[0];
     const image = {
       name: filename,
@@ -32,9 +39,13 @@ const ChangeAvatar = () => {
       const response = result as AxiosResponse;
       return response.data.uri;
     } catch (error) {
-      toast.error('Что-то пошло не так, попробуйте снова');
+      if (axios.isAxiosError(error)) {
+        toast.error('Что-то пошло не так, попробуйте снова');
+        setFieldError(error.response?.data.reason);
+      }
     }
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const removeFile = (file: any) => () => {
     const newFiles = [...files];
     newFiles.splice(newFiles.indexOf(file), 1);
@@ -61,6 +72,7 @@ const ChangeAvatar = () => {
 
   return (
     <>
+      {loading && <Loader />}
       <h2>смена аватара</h2>
       <section className='container'>
         <div {...getRootProps({ className: 'dropzone' })}>
@@ -69,6 +81,7 @@ const ChangeAvatar = () => {
         </div>
         <aside>{thumbs}</aside>
       </section>
+      <div>{fieldError}</div>
       <button type='button' onClick={() => _updateAvatar()}>
         Поменять
       </button>
