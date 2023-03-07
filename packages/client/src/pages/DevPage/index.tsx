@@ -1,4 +1,5 @@
 import ButtonImg from '../../ui/ButtonImg';
+import Spacer from '../../ui/Spacer';
 
 const DevPage = () => {
   return (
@@ -9,6 +10,7 @@ const DevPage = () => {
           console.log('lol');
         }}
       />
+      <Spacer />
     </div>
   );
 };

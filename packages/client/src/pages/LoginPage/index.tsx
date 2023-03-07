@@ -7,6 +7,7 @@ import InputWrapper from '../../components/InputWrapper';
 import './index.scss';
 import classNames from 'classnames';
 import HeaderH1 from '../../ui/HeaderH1';
+import { Button } from '../../components/Button';
 
 type LoginType = {
   login: string;
@@ -54,7 +55,9 @@ const LoginPage = () => {
           withCredentials: true,
         });
       })
+
       // TODO: Нужно типизировать ответ
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((response: any) => {
         console.log(response);
         const user = response;
@@ -94,10 +97,13 @@ const LoginPage = () => {
               ) : null}
             </InputWrapper>
 
-            <button type='submit' className='custom-button'>
-              Войти
-            </button>
-            <Link to={'/register'}>Нет аккаунта?</Link>
+            {/*<button type='submit' className='custom-button'>*/}
+            {/*  Войти*/}
+            {/*</button>*/}
+            <Button text='Вход' type='submit' className='custom-button' />
+            <Link className='plane-link' to={'/registration'}>
+              Нет аккаунта?
+            </Link>
           </Form>
         )}
       </Formik>

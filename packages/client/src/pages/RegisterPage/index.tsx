@@ -1,9 +1,16 @@
-import { Link } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
+import { Link, useNavigate } from 'react-router-dom';
+import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import './index.scss';
+import { Button } from '../../components/Button';
+import { Title } from '../../components/Title';
+import { useState } from 'react';
+import Loader from '../../ui/Loader';
+import { useLoading } from '../../components/LoaderComponent';
+import classNames from 'classnames';
+import InputWrapper from '../../components/InputWrapper';
 
 type ProfileType = {
   first_name: string;
@@ -46,9 +53,11 @@ const SignupSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Пароли не совпадают!'),
 });
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
-
+  const [fieldError, setFieldError] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { loading, setLoading } = useLoading();
   const handleSubmit = async (values: ProfileType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/auth/signup', {
@@ -61,58 +70,72 @@ const LoginPage = () => {
     })
       .then(() => {
         toast.success('Пользователь создан!');
-        navigate('/profile');
+        navigate('/login');
       })
-      .catch(() => {
+      .catch((error) => {
         toast.error('Что-то не так...');
+        setFieldError(error.response.data.reason);
       });
   };
   return (
-    <div className='container-content container-content_main'>
-      <div>
-        <div>
-          <Formik
-            initialValues={{
-              first_name: '',
-              second_name: '',
-              login: '',
-              email: '',
-              phone: '',
-              password: '',
-              confirmPassword: '',
-            }}
-            validationSchema={SignupSchema}
-            onSubmit={(values) => {
-              handleSubmit(values);
-              console.log(values);
-            }}>
-            {({ errors, touched }) => (
-              <Form>
-                <Field name='first_name' type='text' />
-                {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
-                <Field name='second_name' type='text' />
-                {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
-                <Field name='login' type='text' />
-                {errors.login && touched.login ? <div>{errors.login}</div> : null}
-                <Field name='email' type='email' />
-                {errors.email && touched.email ? <div>{errors.email}</div> : null}
-                <Field name='phone' type='text' />
-                {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
-                <Field name='password' type='password' />
-                {errors.password && touched.password ? <div>{errors.password}</div> : null}
-                <Field name='confirmPassword' />
-                {errors.confirmPassword && touched.confirmPassword ? (
-                  <div>{errors.confirmPassword}</div>
-                ) : null}
-                <button type='submit'>Зарегистрироваться</button>
-              </Form>
-            )}
-          </Formik>
-
-          <Link to={'/login'}>Уже зарегистрированы? Войти!</Link>
-        </div>
-      </div>
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      {loading && <Loader />}
+      <Formik
+        initialValues={{
+          first_name: '',
+          second_name: '',
+          login: '',
+          email: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+        }}
+        validationSchema={SignupSchema}
+        onSubmit={(values) => {
+          handleSubmit(values);
+        }}>
+        {({ errors, touched }) => (
+          <Form className={classNames('colum-6', 'container__reg-form')}>
+            <Title text='Регистрация' />
+            <InputWrapper error={errors.first_name} label='Ваше имя'>
+              <Field name='first_name' type='text' className='input__field' />
+              {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.second_name} label='Ваша фамилия'>
+              <Field name='second_name' type='text' className='input__field' />
+              {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.login} label='Ваш логин'>
+              <Field name='login' type='text' className='input__field' />
+              {errors.login && touched.login ? <div>{errors.login}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.email} label='Ваша почта'>
+              <Field name='email' type='email' className='input__field' />
+              {errors.email && touched.email ? <div>{errors.email}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.phone} label='Номер телефона'>
+              <Field name='phone' type='text' className='input__field' />
+              {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.password} label='Пароль'>
+              <Field name='password' type='password' className='input__field' />
+              {errors.password && touched.password ? <div>{errors.password}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.confirmPassword} label='Повторите пароль'>
+              <Field name='confirmPassword' type='password' className='input__field' />
+              {errors.confirmPassword && touched.confirmPassword ? (
+                <div>{errors.confirmPassword}</div>
+              ) : null}
+            </InputWrapper>
+            <div>{fieldError}</div>
+            <Button text='Регистрация' type='submit' className='custom-button' />
+            <Link className='plane-link' to={'/login'}>
+              Уже зарегистрированы? Войти!
+            </Link>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
-export default LoginPage;
+export default RegisterPage;

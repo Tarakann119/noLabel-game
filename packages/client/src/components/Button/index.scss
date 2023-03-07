@@ -1,6 +1,6 @@
-@import 'varThemeDefault';
+@import '../src/assets/styles/varThemeDefault';
 
-.custom-button {
+.button {
   @extend %border-button;
 
   display: flex;
@@ -9,7 +9,6 @@
   min-width: 215px;
   max-width: 428px;
   height: 58px;
-  margin: 20px;
   padding: 0 20px;
   color: $color-text-primary;
   font-weight: 400;
@@ -21,6 +20,7 @@
   background: $color-text-secondary;
   border: 3px solid $color-ui-button-border;
   box-shadow: 0 14px 24px rgb(0 0 0 / 25%);
+  transition: 0.1s ease-in;
 
   &:hover {
     filter: drop-shadow(0 0 8px $color-text-secondary);
@@ -36,5 +36,16 @@
 
   &:disabled:hover {
     filter: none;
+  }
+
+  &_view-primary {
+  }
+
+  &_view_secondary {
+    border: 2px solid $color-ui-primary;
+  }
+
+  &_view_ghost {
+    width: fit-content;
   }
 }
