@@ -14,18 +14,19 @@ import ChangeAvatar from './pages/Profile/ChangeAvatar';
 import Game from './pages/Game';
 import ChangeProfile from './pages/Profile/ChangeProfile';
 import Footer from './components/Footer';
-import { useAuth } from '../utils/hooks/userAuth';
-
-function RequireAuth() {
-  const auth = useAuth();
-  if (!auth.isAuth) {
-    toast.error('Вы не авторизованы!');
-    return <Navigate to='/login' />;
-  }
-  return <Outlet />;
-}
+import { useAuth } from '../utils/hooks/useAuth';
 
 const Layout = () => {
+  function RequireAuth() {
+    const auth = useAuth();
+    if (!auth.isAuth) {
+      toast.error('Вы не авторизованы!');
+      return <Navigate to='/login' />;
+    }
+
+    return <Outlet />;
+  }
+
   return (
     <>
       <Header />
@@ -34,10 +35,12 @@ const Layout = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/registration' element={<RegisterPage />} />
         <Route path='/rating' element={<RatingPage />} />
+        <Route path='/aboutUs' element={<AboutUs />} />
         <Route element={<RequireAuth />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/change-password' element={<ChangePassword />} />
           <Route path='/profile/change-avatar' element={<ChangeAvatar />} />
+          <Route path='/menu' element={<MainMenu />} />
           <Route path='/forum' element={<Forum />} />
           <Route path='/forum/:id' element={<ForumTheme />} />
           <Route path='/profile/edit' element={<ChangeProfile />} />

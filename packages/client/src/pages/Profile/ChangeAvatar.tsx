@@ -1,21 +1,7 @@
-import classNames from 'classnames';
+import axios, { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
-import { uploadAvatar } from '../../components/Autification/slice';
-import { Button } from '../../components/Button';
-import { Title } from '../../components/Title';
-
-type FileType = {
-  path: string;
-  preview: string;
-  lastModified: number;
-  lastModifiedDate: Date;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-};
+import { toast } from 'react-toastify';
 
 const ChangeAvatar = () => {
   const [files, setFiles] = useState<FileType[]>([]);
