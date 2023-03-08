@@ -2,6 +2,7 @@ export enum EnemyType {
   GOBLIN,
   HOBGOBLIN,
   ORC,
+  ORC_WARRIOR,
 }
 
 export enum TowerType {
@@ -19,6 +20,7 @@ export type TGameSettings = {
     enemies: {
       type: EnemyType;
       count: number;
+      waveCount: number;
     }[];
   }[];
   towers: TowerType[];
