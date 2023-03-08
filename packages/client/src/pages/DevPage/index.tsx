@@ -12,7 +12,7 @@ const DevPage = () => {
         }}
       />
       <Spacer />
-      <UserCard variant='header' userName='Мок Мок'/>
+      <UserCard variant='header' userName='Мок Мок' />
     </div>
   );
 };

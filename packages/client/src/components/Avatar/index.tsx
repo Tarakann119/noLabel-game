@@ -5,7 +5,7 @@ import defaultImage from './images/avatar-dafault.png';
 import './index.scss';
 
 export type AvatarProps = {
-  size?: 'default' | 'small'| 'header';
+  size?: 'default' | 'small' | 'header';
   className?: string;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
