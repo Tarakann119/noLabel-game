@@ -5,7 +5,7 @@ import defaultImage from './images/avatar-dafault.png';
 import './index.scss';
 
 export type AvatarProps = {
-  size?: 'default' | 'small';
+  size?: 'default' | 'small' | 'header';
   className?: string;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
@@ -16,7 +16,7 @@ export const Avatar: FC<AvatarProps> = memo(
         src={src || defaultImage}
         alt={alt || 'Аватар'}
         draggable={false}
-        className={classNames('avatar', `avatar_size_${size}`, className)}
+        className={classNames('avatar', `avatar-size_${size}`, className)}
         {...props}
       />
     );

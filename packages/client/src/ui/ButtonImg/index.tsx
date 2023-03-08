@@ -3,7 +3,7 @@ import './index.scss';
 import classNames from 'classnames';
 
 type ButtonImgProps = {
-  variant: 'close';
+  variant: 'close' | 'logout';
   onClick?: () => void;
 };
 

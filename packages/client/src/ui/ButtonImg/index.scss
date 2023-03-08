@@ -3,9 +3,15 @@
 .button-img {
   width: 30px;
   height: 30px;
+  cursor: pointer;
 
   &_close {
-    background: url('./img/Close.png') no-repeat;
+    background: url('./img/Close.png') no-repeat center;
+    background-size: cover;
+  }
+
+  &_logout {
+    background: url('./img/logout.svg') no-repeat center;
     background-size: cover;
   }
 }
