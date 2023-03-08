@@ -11,6 +11,7 @@ type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Т�
 
 const Profile = () => {
   const user = useSelector((state: RootState) => state.auth.user);
+  console.log(user);
 
   const userData = [
     { Логин: user.login },
@@ -26,7 +27,8 @@ const Profile = () => {
         <>
           <Title text='Данные вашего Профиля' />
           <div className='profile-image-name'>
-            <Link className='navigation-link profile-navigation-link' to={'./change-avatar'}>
+            <Link className='plane-link' to={'./change-avatar'}>
+              Изменить аватар
               <div className='profile-link-page'></div>
             </Link>
             <div className='navigation-link-invert'>{user.login}</div>

@@ -1,0 +1,14 @@
+@import "../src/assets/styles/varThemeDefault";
+
+.user-card {
+  &__container {
+    padding: 0;
+    height: 100%;
+    max-height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
