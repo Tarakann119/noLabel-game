@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import InputWrapper from '../../components/InputWrapper';
 import './index.scss';
@@ -10,6 +10,11 @@ import HeaderH1 from '../../ui/HeaderH1';
 import { Button } from '../../components/Button';
 import ValidateErrorMessage from '../../components/ValidateErrorMessage';
 import { useState } from 'react';
+import { UserInfo } from '../../../typings/app.typings';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import { useLoading } from '../../components/LoaderComponent';
+import { setUser } from '../../components/Autification/slice';
+import Loader from '../../ui/Loader';
 
 type LoginType = {
   login: string;
@@ -31,6 +36,10 @@ const SigninSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [fieldError, setFieldError] = useState(null);
+  const { loading } = useLoading();
+  const dispatch = useAppDispatch();
   const handleSubmit = async (values: LoginType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/auth/signin', {
@@ -41,32 +50,63 @@ const LoginPage = () => {
         'Content-Type': 'application/json',
       },
       withCredentials: true,
+      responseType: 'json',
     })
-      .then(() => {
-        toast.success('Успешно!');
-        navigate('/profile');
-      })
-      .then(() => {
-        axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
-          method: 'get',
-          data: data,
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        });
-      })
-
-      // TODO: Нужно типизировать ответ
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((response: any) => {
+      .then((response) => {
         console.log(response);
-        const user = response;
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('user', user);
+        if (response.data === 'OK') {
+          try {
+            toast.success('Вы успешно вошли в систему!');
+            fetchUser(data);
+            navigate('/profile');
+          } catch (e) {
+            console.log(e);
+          }
+        }
       })
-      .catch(() => toast.error('Что-то не так...'));
+      .catch((error) => {
+        console.log(error);
+        if (error.response.data.reason === 'User already in system') {
+          fetchUser(data);
+          navigate('/profile');
+        }
+      });
+  };
+
+  const fetchUser = (data: string) => {
+    axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
+      method: 'get',
+      data: data,
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      withCredentials: true,
+      timeout: 1000,
+    })
+      .then((response) => {
+        toast.success('Данные пользователя загружены!');
+        const user = (response as unknown as AxiosResponse).data as UserInfo;
+        localStorage.setItem('userId', user.id);
+        console.log(22, user);
+        dispatch(
+          setUser({
+            email: user.email,
+            id: user.id,
+            login: user.login,
+            first_name: user.first_name,
+            second_name: user.second_name,
+            display_name: user.display_name,
+            avatar: user.avatar,
+            phone: user.phone,
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Что-то не так...');
+        setFieldError(error.response.data.reason);
+      });
   };
 
   // Состояния компонентов ValidateErrorMessage для полей ввода
@@ -75,6 +115,7 @@ const LoginPage = () => {
 
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
+      {loading && <Loader />}
       <Formik
         initialValues={{
           login: '',
@@ -120,10 +161,12 @@ const LoginPage = () => {
             <Link className='plane-link' to={'/registration'}>
               Нет аккаунта?
             </Link>
+            <div className='input__error-message'>{fieldError}</div>
           </Form>
         )}
       </Formik>
     </div>
   );
 };
+
 export default LoginPage;

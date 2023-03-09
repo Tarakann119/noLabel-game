@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import StartScreen from './pages/StartScreen';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -24,7 +24,8 @@ const Layout = () => {
     const auth = useAuth();
     if (!auth.isAuth) {
       toast.error('Вы не авторизованы!');
-      return <Navigate to='/login' />;
+      // TODO: Закомментировано на время тестов
+      // return <Navigate to='/login' />;
     }
 
     return <Outlet />;
