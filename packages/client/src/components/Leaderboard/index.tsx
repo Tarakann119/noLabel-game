@@ -2,7 +2,7 @@ import './index.scss';
 import { Button } from '../Button';
 import { LeaderboardView } from './LeaderboardView';
 import { Title } from '../Title';
-import { leaderboardList } from './leaderboardList';
+import { leaderboardListMok } from './leaderboardListMok';
 
 const title = 'Рейтинг';
 
@@ -19,11 +19,11 @@ const Rating = () => {
         <LeaderboardView order={8} avatar={''} username={'Ваш счет'} score={121} />
       </div>
       <div className='board__list'>
-        {leaderboardList.map((player) => (
+        {leaderboardListMok.map((player) => (
           <LeaderboardView key={player.order} {...player} />
         ))}
       </div>
-      <Button className='board__button' text={'Начать игру'} />
+      {/*<Button className='board__button' text={'Начать игру'} />*/}
     </div>
   );
 };

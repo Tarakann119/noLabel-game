@@ -38,6 +38,14 @@ input[type='search'] {
   outline: none;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: $color-text-secondary;
+  box-shadow: none;
+  background-size: 0;
+}
+
 a {
   text-decoration: none;
 }
@@ -65,6 +73,7 @@ a {
     align-items: center;
     justify-content: center;
   }
+
   &_start {
     display: flex;
     flex-direction: column;
