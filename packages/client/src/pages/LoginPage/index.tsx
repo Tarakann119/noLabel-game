@@ -8,6 +8,8 @@ import './index.scss';
 import classNames from 'classnames';
 import HeaderH1 from '../../ui/HeaderH1';
 import { Button } from '../../components/Button';
+import ValidateErrorMessage from '../../components/ValidateErrorMessage';
+import { useState } from 'react';
 
 type LoginType = {
   login: string;
@@ -67,6 +69,10 @@ const LoginPage = () => {
       .catch(() => toast.error('Что-то не так...'));
   };
 
+  // Состояния компонентов ValidateErrorMessage для полей ввода
+  const [logErr, setLogErr] = useState(false);
+  const [passErr, setPassErr] = useState(false);
+
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
       <Formik
@@ -79,27 +85,37 @@ const LoginPage = () => {
           console.log(JSON.stringify(values));
           handleSubmit(values);
         }}>
-        {({ errors, touched }) => (
+        {({ errors }) => (
           <Form className={classNames('colum-5', 'container__login-form')}>
             <HeaderH1 label={'ВХОД'} />
             <InputWrapper error={errors.login} label='Логин'>
-              <Field name='login' type='text' className='input__field' />
-              {errors.login && touched.login ? (
-                <div className='input__error-message'>{errors.login}</div>
-              ) : null}
+              <Field
+                name='login'
+                type='text'
+                className='input__field'
+                onFocus={() => setLogErr(true)}
+                onBlur={() => setLogErr(false)}
+              />
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.login}`}
+                visible={logErr && !!errors.login}
+              />
             </InputWrapper>
             <InputWrapper error={errors.password} label='Пароль'>
-              <Field name='password' type='password' className='input__field' />
-              {errors.password && touched.password ? (
-                <>
-                  <div className='input__error-message'>{errors.password}</div>
-                </>
-              ) : null}
+              <Field
+                name='password'
+                type='password'
+                className='input__field'
+                onFocus={() => setPassErr(true)}
+                onBlur={() => setPassErr(false)}
+              />
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.password}`}
+                visible={passErr && !!errors.password}
+              />
             </InputWrapper>
-
-            {/*<button type='submit' className='custom-button'>*/}
-            {/*  Войти*/}
-            {/*</button>*/}
             <Button text='Вход' type='submit' className='custom-button' />
             <Link className='plane-link' to={'/registration'}>
               Нет аккаунта?
