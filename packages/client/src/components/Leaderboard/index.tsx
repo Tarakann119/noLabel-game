@@ -1,5 +1,4 @@
 import './index.scss';
-import { Button } from '../Button';
 import { LeaderboardView } from './LeaderboardView';
 import { Title } from '../Title';
 import { leaderboardListMok } from './leaderboardListMok';
