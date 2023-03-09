@@ -58,11 +58,15 @@ const LoginPage = () => {
           try {
             toast.success('Вы успешно вошли в систему!');
             fetchUser(data);
-            navigate('/profile');
+            // navigate('/profile');
           } catch (e) {
             console.log(e);
           }
         }
+      })
+      .then((response) => {
+        // TODO: Обрати внимание на это поведение
+        console.log('Этот респонс должен быть пустым ' + response);
       })
       .catch((error) => {
         console.log(error);
