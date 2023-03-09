@@ -2,7 +2,7 @@
 
 ::-webkit-scrollbar {
   width: 6px;
-  background: $color-text-primary-10;
+  background: $color-background;
   border-radius: 6px;
 
   &-track {
@@ -10,18 +10,18 @@
   }
 
   &-thumb {
-    background: $color-text-hint;
+    background: $color-text-primary-10;
     border-radius: 6px;
 
     &:hover {
-      background: $color-ui-primary-50;
+      background: $color-ui-primary;
     }
   }
 }
 
 .board {
   width: 348px;
-  height: 614px;
+  height: 700px;
   margin-top: 32px;
 
   &__title {
@@ -46,8 +46,8 @@
 
   &__list {
     width: 372px;
-    height: 282px;
-    overflow-y: auto;
+    height: 520px;
+    overflow-y: scroll;
   }
 
   &__button {

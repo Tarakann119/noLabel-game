@@ -1,6 +1,7 @@
 import ButtonImg from '../../ui/ButtonImg';
 import Spacer from '../../ui/Spacer';
 import UserCard from '../../components/UserCard';
+import Rating from '../../components/Leaderboard';
 
 const DevPage = () => {
   return (
@@ -13,6 +14,7 @@ const DevPage = () => {
       />
       <Spacer />
       <UserCard variant='header' userName='Мок Мок' />
+      <Rating />
     </div>
   );
 };

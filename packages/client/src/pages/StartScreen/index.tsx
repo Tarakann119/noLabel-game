@@ -4,7 +4,7 @@ import './index.scss';
 import { Button } from '../../components/Button';
 import Spacer from '../../ui/Spacer';
 import '../../assets/styles/App.scss';
-import { toast } from 'react-toastify';
+import Rating from '../../components/Leaderboard';
 
 const StartScreen = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const StartScreen = () => {
 
   return (
     <div className='container-content container-content_main bg-image'>
-      <div className='container_center colum-9 container-start-screen'>
+      <div className='container_center colum-8 container-start-screen'>
         <LogoText />
         <Button
           text='Начать игру'
@@ -26,12 +26,8 @@ const StartScreen = () => {
 
         <Spacer />
       </div>
-      <div
-        className='container colum-3 plane-link'
-        onClick={() => {
-          toast.error('Но он ещё не готов');
-        }}>
-        Согласно макету тут рейтинг игроков
+      <div className='container colum-3 plane-link'>
+        <Rating />
       </div>
     </div>
   );
