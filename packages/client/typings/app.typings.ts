@@ -51,3 +51,21 @@ export type TBuildingSettings = {
     damage: number;
   };
 };
+
+export type State = {
+  game: GameState;
+};
+export type GameState = {
+  points: number;
+};
+
+export type UserInfo = {
+  id: string;
+  first_name: string;
+  second_name: string;
+  display_name: string | null;
+  login: string;
+  avatar: string | null;
+  email: string | null;
+  phone: string | null;
+};
