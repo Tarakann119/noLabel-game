@@ -1,6 +1,6 @@
 import type { FC, InputHTMLAttributes } from 'react'
 import classNames from 'classnames'
-import './index.css'
+import './index.scss'
 
 type InputType = 'text' | 'tel' | 'email' | 'password'
 

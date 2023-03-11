@@ -1,7 +1,21 @@
 import axios, { AxiosResponse } from 'axios';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
+import { Button } from '../../components/Button';
+import { Title } from '../../components/Title';
+
+type FileType = {
+  path: string,
+preview: string,
+lastModified: number,
+lastModifiedDate: Date,
+name: string,
+size: number, 
+type: string,
+webkitRelativePath: string,
+}
 
 const ChangeAvatar = () => {
   const [files, setFiles] = useState<any[]>([]);
@@ -21,21 +35,28 @@ const ChangeAvatar = () => {
   });
 
   const _updateAvatar = async () => {
-    const filename = files[0].filename ?? files[0].path.split('/').reverse()[0];
-    const image = {
-      name: filename,
-      uri: files[0].path,
-      type: files[0].type,
-    };
+    const image = new FormData();
+    console.log(2, files)
+    image.append('avatar', files[0])
     try {
-      const result = await axios.put(`https://ya-praktikum.tech/api/v2/user/profile/avatar`, image);
+      const result = await axios(`https://ya-praktikum.tech/api/v2/user/profile/avatar`, {
+        method: 'put',
+        data: image,
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'multipart/form-data;',
+        },
+        withCredentials: true,
+      });
       const response = result as AxiosResponse;
+      toast.success('Аватар изменен')
       return response.data.uri;
     } catch (error) {
       toast.error('Что-то пошло не так, попробуйте снова');
     }
   };
-  const removeFile = (file: any) => () => {
+  const removeFile = (file: FileType) => () => {
+    console.log(11,file)
     const newFiles = [...files];
     newFiles.splice(newFiles.indexOf(file), 1);
     setFiles(newFiles);
@@ -44,7 +65,7 @@ const ChangeAvatar = () => {
   const thumbs = files.map((file) => (
     <div key={file.lastModified} className='container-content container-content_main'>
       <div>
-        <div onClick={removeFile(file)}>Закрыть</div>
+      <Button type='button' text='Удалить' onClick={() =>removeFile(file)} />
         <img
           src={file.preview}
           onLoad={() => {
@@ -59,20 +80,19 @@ const ChangeAvatar = () => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
 
+
   return (
-    <>
-      <h2>смена аватара</h2>
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+   <Title text='Смена автара' />
       <section className='container'>
         <div {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
-          {!files.length && <p>Drag 'n' drop some files here, or click to select files</p>}
+          {!files.length && <p>Нажмите для выбора или перетащите сюда изображение</p>}
         </div>
         <aside>{thumbs}</aside>
       </section>
-      <button type='button' onClick={() => _updateAvatar()}>
-        Поменять
-      </button>
-    </>
+       <Button type='button' text='Поменять' onClick={() => _updateAvatar()}/>
+    </div>
   );
 };
 export default ChangeAvatar;

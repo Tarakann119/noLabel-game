@@ -1,9 +1,31 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './index.scss';
+import { Button } from '../Button';
+import Spacer from '../../ui/Spacer';
+import { toast } from 'react-toastify';
+import UserCard from '../UserCard';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
 
 const Header = () => {
-
+  const user = useSelector((state: RootState) => state.auth.user);
   const location = useLocation();
+  const navigate = useNavigate();
+  const LogOut = async () => {
+    fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
+      method: 'post',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        toast.success('Вы вышли из профиля!');
+        navigate('/');
+      })
+      .catch(() => toast.error('Что-то не так...'));
+  };
   return (
     <>
       <div className='header'>
@@ -22,22 +44,24 @@ const Header = () => {
             <Link to={'/forum'} className='custom-link'>
               Форум
             </Link>
-            <Link to={'/aboutUs'} className='custom-link'>
-              О нас
-            </Link>
           </div>
           {location.pathname === '/' ? (
             <div className='header__container header__container_autch'>
-              <Link to={'/login'} className='custom-button'>
-                Вход
-              </Link>
-              {/*<Link to={'/registration'} className='button'>Регистрация</Link>*/}
+              <Button text={'ВХОД'} onClick={() => navigate('/login')} />
             </div>
           ) : (
-            <div></div>
+            <div style={{cursor:'pointer'}}>
+              <UserCard
+                variant='header'
+                userName={user.login??'Игрок'}
+                clickCard={() => navigate('/profile')}
+                clickButton={() => LogOut()}
+              />
+            </div>
           )}
         </div>
       </div>
+      <Spacer />
     </>
   );
 };

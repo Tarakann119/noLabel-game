@@ -1,8 +1,15 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
+import InputWrapper from '../../components/InputWrapper';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
+import classNames from 'classnames';
 type ChangeProfileType = {
   first_name: string;
   second_name: string;
@@ -36,6 +43,8 @@ const ProfileSchema = Yup.object().shape({
 
 const ChangeProfile = () => {
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.auth.user);
+  const [fieldError, setFieldError] = useState(null);
   const handleSubmit = async (values: ChangeProfileType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/user/profile', {
@@ -50,49 +59,54 @@ const ChangeProfile = () => {
         toast.success('Пользователь создан!');
         navigate('/profile');
       })
-      .catch(() => {
+      .catch((error) => {
         toast.error('Что-то не так...');
+        setFieldError(error.response?.data.reason);
       });
   };
   return (
-    <>
-      <h2>Изменение данных пользователя</h2>
-
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      <Title text='Изменение данных пользователя' />
       <Formik
         initialValues={{
-          first_name: '',
-          second_name: '',
-          login: '',
-          email: '',
-          phone: '',
+          first_name: user.first_name ?? '',
+          second_name: user.second_name ?? '',
+          login: user.login ?? '',
+          email: user.email ?? '',
+          phone: user.phone ?? '',
         }}
         validationSchema={ProfileSchema}
         onSubmit={(values) => {
-          console.log(values);
           handleSubmit(values);
         }}>
-        {({ errors, touched }) => (
+        {({ errors, touched, values }) => (
           <Form>
-            <label htmlFor='first_name'>Имя</label>
-            <Field name='first_name' />
-            {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
-            <label htmlFor='second_name'>Имя</label>
-            <Field name='second_name' />
-            {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
-            <label htmlFor='login'>Имя</label>
-            <Field name='login' />
-            {errors.login && touched.login ? <div>{errors.login}</div> : null}
-            <label htmlFor='email'>Имя</label>
-            <Field name='email' />
-            {errors.email && touched.email ? <div>{errors.email}</div> : null}
-            <label htmlFor='phone'>Имя</label>
-            <Field name='phone' />
-            {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
-            <button type='submit'>Изменить данные</button>
+            <InputWrapper error={errors.first_name} label='Имя'>
+              <input value={values.first_name} name='first_name' className='input__field' />
+              {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.second_name} label='Фамилия'>
+              <input value={values.first_name} type='text' name='second_name' className='input__field' />
+              {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.login} label='Логин'>
+              <input value={values.login} type='text' name='login' className='input__field' />
+              {errors.login && touched.login ? <div>{errors.login}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.email} label='Ваша почта'>
+              <input value={values.email} type='text' name='email' className='input__field' />
+              {errors.email && touched.email ? <div>{errors.email}</div> : null}
+            </InputWrapper>
+            <InputWrapper error={errors.phone} label='Телефон'>
+              <input value={values.phone} name='phone' className='input__field' />
+              {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
+            </InputWrapper>
+            <div>{fieldError}</div>
+            <Button text='Изменить данные' type='submit' className='custom-button' />
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 };
 export default ChangeProfile;

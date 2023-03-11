@@ -1,13 +1,14 @@
+import { useSelector, useDispatch } from 'react-redux';
+import cn from 'classnames';
+import './index.scss';
+import { set } from './slice';
+import styles from './index.module.scss';
+import { useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux'
-import cn from 'classnames'
-import './index.css'
-import { set } from './slice'
-import styles from './index.module.css'
-import { useEffect } from 'react'
-
-
+// TODO: Типизировать
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Theme = ({ className }: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const theme = useSelector((state: any) => state.theme);
   const dispatch = useDispatch();
 
@@ -23,16 +24,11 @@ const Theme = ({ className }: any) => {
 
   return (
     <div
-
-      className= {cn(
-    		className,
-    		styles.root,
-    		theme === 'dark' ? styles.dark : styles.light)}
-      onClick={handleChange}
-    >
-      <div className="theme-wrapper">
-        <div className="navigation-link-invert">Активная тема </div>
-        <div className="navigation-link"> Нективная тема</div>
+      className={cn(className, styles.root, theme === 'dark' ? styles.dark : styles.light)}
+      onClick={handleChange}>
+      <div className='theme-wrapper'>
+        <div className='navigation-link-invert'>Активная тема</div>
+        <div className='navigation-link'> Нективная тема</div>
       </div>
     </div>
       )

@@ -1,16 +1,16 @@
 @import 'varThemeDefault';
 @import 'customButton';
-@import 'customLink';
 @import 'avatar';
+@import 'link';
 
 * {
-  z-index: 2;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
+  background: $color-background;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,34 +38,65 @@ input[type='search'] {
   outline: none;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: $color-text-secondary;
+  box-shadow: none;
+  background-size: 0;
+}
+
 a {
   text-decoration: none;
 }
 
-.input__field {
-  max-width: 224px;
-  padding: 0 16px;
-  color: $color-text-secondary;
-  font-size: 32px;
-  font-family: $font-primary;
-  line-height: 1.6;
-  text-align: right;
-  background: transparent;
-  border: none;
+.input {
+  &__field {
+    width: 290px;
+    padding: 0;
+    color: $color-text-secondary;
+    font-size: 32px;
+    font-family: $font-primary;
+    line-height: 1.6;
+    text-align: right;
+    background: transparent;
+    border: none;
+  }
 }
 
 // containers
 
-.container-content {
-  flex: 1 0 auto;
-
-  &:last-child {
-    margin-left: 0;
+.container {
+  &_center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
-  &_main {
-    background: url('../img/metall-texture.png') no-repeat;
-    background-size: cover;
+  &_start {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &-content {
+    display: flex;
+    height: 100%;
+    flex: 1 0 auto;
+    align-items: center;
+    justify-content: flex-start;
+
+    &:last-child {
+      margin-left: 0;
+    }
+
+    &_main {
+      background: url('../img/metall-texture.jpg') no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: flex-start;
+    }
   }
 }
 

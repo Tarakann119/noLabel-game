@@ -1,8 +1,11 @@
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
+import { Title } from '../../components/Title';
+import InputWrapper from '../../components/InputWrapper';
+import { Button } from '../../components/Button';
 type ChangePasswordType = {
   oldPassword: string;
   newPassword: string;
@@ -26,16 +29,16 @@ const ChangePassword = () => {
   const navigate = useNavigate();
   const handleSubmit = async (values: ChangePasswordType) => {
     const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/user/password', {
+    fetch('https://ya-praktikum.tech/api/v2/user/password', {
       method: 'post',
-      data: data,
+      body: data,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     })
       .then(() => {
-        toast.success('Пользователь создан!');
+        toast.success('Пароль изменен!');
         navigate('/profile');
       })
       .catch(() => {
@@ -43,9 +46,8 @@ const ChangePassword = () => {
       });
   };
   return (
-    <>
-      <h2>Смена пароля</h2>
-
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+     <Title text='Смена пароля' />
       <Formik
         initialValues={{
           oldPassword: '',
@@ -59,19 +61,25 @@ const ChangePassword = () => {
         }}>
         {({ errors, touched }) => (
           <Form>
-            <Field name='oldPassword' />
+            <InputWrapper error={errors.oldPassword} label='Старый пароль'>
+            <Field name='oldPassword'  className='input__field'/>
             {errors.oldPassword && touched.oldPassword ? <div>{errors.oldPassword}</div> : null}
-            <Field name='newPassword' />
+            </InputWrapper>
+            <InputWrapper error={errors.newPassword} label='Новый пароль'>
+            <Field name='newPassword'  className='input__field'/>
             {errors.newPassword && touched.newPassword ? <div>{errors.newPassword}</div> : null}
-            <Field name='confirmPassword' />
+            </InputWrapper>
+            <InputWrapper error={errors.confirmPassword} label='Повторите пароль'>
+            <Field name='confirmPassword'  className='input__field'/>
             {errors.confirmPassword && touched.confirmPassword ? (
               <div>{errors.confirmPassword}</div>
             ) : null}
-            <button type='submit'>Сменить пароль</button>
+            </InputWrapper>
+            <Button text='Сменить пароль' type='submit' className='custom-button' />
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 };
 export default ChangePassword;
