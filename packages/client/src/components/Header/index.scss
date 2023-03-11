@@ -31,6 +31,11 @@
       background: $color-header-footer-gradient;
     }
 
+    .fullscreen {
+      margin-left: auto;
+      cursor: pointer;
+    }
+
     &_autch {
       display: flex;
       flex-direction: row;

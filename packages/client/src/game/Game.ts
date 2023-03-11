@@ -125,8 +125,29 @@ export class Game {
   private handleMouseMove(event: MouseEvent) {
     const { placementTiles, cursor } = this;
 
-    cursor.x = event.clientX;
-    cursor.y = event.clientY;
+    if (this.canvas.width <= window.innerWidth) {
+      cursor.x = event.clientX - ((window.innerWidth - this.canvas.width) / 2 - 20);
+    } else {
+      cursor.x = event.clientX;
+    }
+
+    if (this.canvas.height <= window.innerHeight) {
+      cursor.y = event.clientY - 84;
+    } else {
+      cursor.y = event.clientY;
+    }
+
+    if (document.fullscreenElement) {
+      // если фулл скрин включен
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const scaleFactorX = this.canvas.width / screenWidth;
+      const scaleFactorY = this.canvas.height / screenHeight;
+      cursor.x = Math.min(Math.max(event.clientX * scaleFactorX, 0), 1280);
+      cursor.y = Math.min(Math.max(event.clientY * scaleFactorY, 0), 768);
+    } else {
+      // если фулл скрин убран
+    }
 
     this.activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
   }
@@ -255,7 +276,6 @@ export class Game {
   ) {
     const output = [];
     const counts = wave.map((enemy) => ({ type: enemy.type, count: enemy.count }));
-    console.log(wave);
 
     let index = 0;
     let remaining = wave.reduce((total, enemy) => total + enemy.count, 0);

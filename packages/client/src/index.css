@@ -1,51 +1,54 @@
 @import 'assets/fonts/fonts.css';
 
 * {
+  z-index: 2;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  z-index: 2;
 }
 
 :root {
   --color-background: #1e1f1e;
   --color-text-primary: #f5f3f2;
   --color-text-secondary: #ffd680;
-  --color-text-hint: #B1AD99;
+  --color-text-hint: #b1ad99;
   --color-text-inverted: #222;
-  --color-ui-primary: #DEA74B;
+  --color-ui-primary: #dea74b;
   --color-ui-primary-50: #494945;
   --color-error: #b83333;
-  --font-safe: Tahoma, Geneva, Verdana, sans-serif;
-  --font-primary: romvel Cyr, var(--font-safe);
-  --font-secondary: romvel Cyr, var(--font-safe);
-  --font-defence: romvel Cyr, var(--font-safe);
+  --font-safe: tahoma, geneva, verdana, sans-serif;
+  --font-primary: romvel cyr, var(--font-safe);
+  --font-secondary: romvel cyr, var(--font-safe);
+  --font-defence: romvel cyr, var(--font-safe);
 }
 
-:root[data-theme="light"] {
-    --background-color: #ffffff;
-    --text-color: #1C1E21;
-  }
+:root[data-theme='light'] {
+  --background-color: #fff;
+  --text-color: #1c1e21;
+}
 
-  :root[data-theme="dark"] {
-    --background-color: #18191a;
-    --text-color: #f5f6f7;
-  }
+:root[data-theme='dark'] {
+  --background-color: #18191a;
+  --text-color: #f5f6f7;
+}
 
-  body {
-    color: var(--color-background);
-    font-family: var(--font-primary);
-    position: relative;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-  }
-
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: var(--color-background);
+  font-family: var(--font-primary);
+}
 
 .content-wrapper {
-  padding: 0 70px 0 70px;
+  padding: 0 70px;
+}
+
+canvas {
+  display: block;
 }
 
 #root {
@@ -74,5 +77,4 @@ a {
 
 ul {
   list-style: none;
-
 }

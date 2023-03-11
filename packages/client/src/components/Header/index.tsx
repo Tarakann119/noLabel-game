@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom';
 import './index.scss';
 
 const Header = () => {
-
   const location = useLocation();
   return (
     <>
@@ -36,10 +35,14 @@ const Header = () => {
           ) : (
             <div></div>
           )}
+          {location.pathname === '/game' ? (
+            <div className='custom-link fullscreen'>Во весь экран</div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </>
   );
 };
 export default Header;
-
