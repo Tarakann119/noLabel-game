@@ -31,7 +31,7 @@ const Theme = ({ className }: any) => {
         <div className='navigation-link'> Нективная тема</div>
       </div>
     </div>
-      )
-}
+  );
+};
 
-export default Theme
+export default Theme;

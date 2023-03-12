@@ -19,17 +19,17 @@ import Footer from './components/Footer';
 import DevPage from './pages/DevPage';
 import { useAuth } from '../utils/hooks/userAuth';
 
-const Layout = () => {
-  function RequireAuth() {
-    const auth = useAuth();
-    if (!auth.isAuth) {
-      toast.error('Вы не авторизованы!');
-      // TODO: Закомментировано на время тестов
-      return <Navigate to='/login' />;
-    }
-
-    return <Outlet />;
+function RequireAuth() {
+  const auth = useAuth();
+  if (!auth.isAuth) {
+    toast.error('Вы не авторизованы!');
+    return <Navigate to='/login' />;
   }
+
+  return <Outlet />;
+}
+
+const Layout = () => {
   return (
     <>
       <Header />

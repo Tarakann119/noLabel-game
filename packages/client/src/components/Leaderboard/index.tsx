@@ -23,7 +23,6 @@ const Rating = () => {
           <LeaderboardView key={player.id} {...player} />
         ))}
       </div>
-      {/*<Button className='board__button' text={'Начать игру'} />*/}
     </div>
   );
 };

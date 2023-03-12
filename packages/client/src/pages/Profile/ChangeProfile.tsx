@@ -10,6 +10,8 @@ import InputWrapper from '../../components/InputWrapper';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
 import classNames from 'classnames';
+import { showError } from '../../../utils/ShowError';
+import ValidateErrorMessage from '../../components/ValidateErrorMessage';
 type ChangeProfileType = {
   first_name: string;
   second_name: string;
@@ -60,7 +62,7 @@ const ChangeProfile = () => {
         navigate('/profile');
       })
       .catch((error) => {
-        toast.error('Что-то не так...');
+        showError();
         setFieldError(error.response?.data.reason);
       });
   };
@@ -79,27 +81,52 @@ const ChangeProfile = () => {
         onSubmit={(values) => {
           handleSubmit(values);
         }}>
-        {({ errors, touched, values }) => (
+        {({ errors, values }) => (
           <Form>
             <InputWrapper error={errors.first_name} label='Имя'>
               <input value={values.first_name} name='first_name' className='input__field' />
-              {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.first_name}`}
+                visible={!!errors.first_name}
+              />
             </InputWrapper>
             <InputWrapper error={errors.second_name} label='Фамилия'>
-              <input value={values.first_name} type='text' name='second_name' className='input__field' />
-              {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
+              <input
+                value={values.first_name}
+                type='text'
+                name='second_name'
+                className='input__field'
+              />
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.second_name}`}
+                visible={!!errors.second_name}
+              />
             </InputWrapper>
             <InputWrapper error={errors.login} label='Логин'>
               <input value={values.login} type='text' name='login' className='input__field' />
-              {errors.login && touched.login ? <div>{errors.login}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.login}`}
+                visible={!!errors.login}
+              />
             </InputWrapper>
             <InputWrapper error={errors.email} label='Ваша почта'>
               <input value={values.email} type='text' name='email' className='input__field' />
-              {errors.email && touched.email ? <div>{errors.email}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.email}`}
+                visible={!!errors.email}
+              />
             </InputWrapper>
             <InputWrapper error={errors.phone} label='Телефон'>
               <input value={values.phone} name='phone' className='input__field' />
-              {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.phone}`}
+                visible={!!errors.phone}
+              />
             </InputWrapper>
             <div>{fieldError}</div>
             <Button text='Изменить данные' type='submit' className='custom-button' />

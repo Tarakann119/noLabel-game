@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import InputWrapper from '../../components/InputWrapper';
 import './index.scss';
@@ -10,12 +10,12 @@ import HeaderH1 from '../../ui/HeaderH1';
 import { Button } from '../../components/Button';
 import ValidateErrorMessage from '../../components/ValidateErrorMessage';
 import { useState } from 'react';
-import { UserInfo } from '../../../typings/app.typings';
+import { LoginType } from '../../../typings/app.typings';
 import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
 import { useLoading } from '../../components/LoaderComponent';
-import { setUser } from '../../components/Autification/slice';
+import { loginUser } from '../../components/Autification/slice';
 import Loader from '../../ui/Loader';
-
+import { showError } from '../../../utils/ShowError';
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -32,7 +32,6 @@ const SigninSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [fieldError, setFieldError] = useState(null);
   const { loading } = useLoading();
   const dispatch = useAppDispatch();
@@ -53,63 +52,61 @@ const LoginPage = () => {
         if (response.data === 'OK') {
           try {
             toast.success('Вы успешно вошли в систему!');
-            fetchUser(data);
-            // navigate('/profile');
-          } catch (e) {
-            console.log(e);
+            dispatch(loginUser.call(data));
+            navigate('/profile');
+          } catch {
+            showError();
           }
         }
       })
       .then((response) => {
-        // TODO: Обрати внимание на это поведение
         console.log('Этот респонс должен быть пустым ' + response);
       })
       .catch((error) => {
-        console.log(error);
+        setFieldError(error.response.data.reason);
+        showError();
         if (error.response.data.reason === 'User already in system') {
-          fetchUser(data);
+          dispatch(loginUser.call(data));
           navigate('/profile');
         }
       });
   };
 
-  const fetchUser = (data: string) => {
-    axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
-      method: 'get',
-      data: data,
-      headers: {
-        Accept: '*/*',
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      withCredentials: true,
-      timeout: 1000,
-    })
-      .then((response) => {
-        toast.success('Данные пользователя загружены!');
-        const user = (response as unknown as AxiosResponse).data as UserInfo;
-        localStorage.setItem('userId', user.id);
-        console.log(22, user);
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.id,
-            login: user.login,
-            first_name: user.first_name,
-            second_name: user.second_name,
-            display_name: user.display_name,
-            avatar: user.avatar,
-            phone: user.phone,
-          })
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error('Что-то не так...');
-        setFieldError(error.response.data.reason);
-      });
-  };
+  //  const fetchUser = (data: string) => {
+  //     axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
+  //       method: 'get',
+  //       data: data,
+  //       headers: {
+  //         Accept: '*/*',
+  //         'Content-Type': 'application/json; charset=utf-8',
+  //       },
+  //       withCredentials: true,
+  //       timeout: 1000,
+  //     })
+  //       .then((response) => {
+  //         toast.success('Данные пользователя загружены!');
+  //         const user = (response as unknown as AxiosResponse).data as UserInfo;
+  //         localStorage.setItem('userId', user.id);
+  //         dispatch(
+  //           setUser({
+  //             email: user.email,
+  //             id: user.id,
+  //             login: user.login,
+  //             first_name: user.first_name,
+  //             second_name: user.second_name,
+  //             display_name: user.display_name,
+  //             avatar: user.avatar,
+  //             phone: user.phone,
+  //           })
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         showError()
+  //         setFieldError(error.response.data.reason);
+  //       });
+  //   };
 
-  // Состояния компонентов ValidateErrorMessage для полей ввода
   const [logErr, setLogErr] = useState(false);
   const [passErr, setPassErr] = useState(false);
 

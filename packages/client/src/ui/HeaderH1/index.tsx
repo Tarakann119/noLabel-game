@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-import classNames from 'classnames';
+import { FC } from 'react';
 import './index.scss';
 
 type HeaderH1Props = {
@@ -7,7 +6,7 @@ type HeaderH1Props = {
 };
 
 const HeaderH1: FC<HeaderH1Props> = ({ label }) => {
-  return <h1 className={classNames('h1')}>{label}</h1>;
+  return <h1 className={'h1'}>{label}</h1>;
 };
 
 export default HeaderH1;

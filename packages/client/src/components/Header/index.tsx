@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 import UserCard from '../UserCard';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/store';
-
+import { showError } from '../../../utils/ShowError';
 const Header = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const location = useLocation();
   const navigate = useNavigate();
-  const LogOut = async () => {
+  const logOut = async () => {
     fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
       method: 'post',
       credentials: 'include',
@@ -24,7 +24,7 @@ const Header = () => {
         toast.success('Вы вышли из профиля!');
         navigate('/');
       })
-      .catch(() => toast.error('Что-то не так...'));
+      .catch(() => showError());
   };
   return (
     <>
@@ -50,12 +50,12 @@ const Header = () => {
               <Button text={'ВХОД'} onClick={() => navigate('/login')} />
             </div>
           ) : (
-            <div style={{cursor:'pointer'}}>
+            <div style={{ cursor: 'pointer' }}>
               <UserCard
                 variant='header'
-                userName={user.login??'Игрок'}
+                userName={user.login ?? 'Игрок'}
                 clickCard={() => navigate('/profile')}
-                clickButton={() => LogOut()}
+                clickButton={logOut}
               />
             </div>
           )}
@@ -66,4 +66,3 @@ const Header = () => {
   );
 };
 export default Header;
-

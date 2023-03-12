@@ -23,10 +23,9 @@ const UserCard: React.FC<UserCardProps> = ({
   if (variant === 'header') {
     return (
       <div className='colum-3 user-card__container '>
-        <Avatar src={avatarUrl} size='header' onClick={() => clickCard} />
+        <Avatar src={avatarUrl} size='header' onClick={clickCard} />
         <div className='plane-link' onClick={clickCard}>
-          {userName ||
-            toast.error('в карточку профиля пользователя в хедере не передано имя пользователя')}
+          {userName}
         </div>
         <ButtonImg variant='logout' onClick={clickButton} />
       </div>

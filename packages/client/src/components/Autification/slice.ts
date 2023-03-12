@@ -1,4 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import { UserInfo } from '../../../typings/app.typings';
+import { showError } from '../../../utils/ShowError';
+import axios, { AxiosResponse } from 'axios';
 
 const initialState = {
   user: {
@@ -18,14 +22,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      state.user.id = action.payload.id;
-      state.user.first_name = action.payload.first_name;
-      state.user.second_name = action.payload.second_name;
-      state.user.display_name = action.payload.display_name;
-      state.user.login = action.payload.login;
-      state.user.avatar = action.payload.avatar;
-      state.user.email = action.payload.email;
-      state.user.phone = action.payload.phone;
+      state.user = action.payload;
     },
     removeUser(state) {
       state.user.id = null;
@@ -43,3 +40,37 @@ const userSlice = createSlice({
 export const { setUser, removeUser } = userSlice.actions;
 
 export default userSlice.reducer;
+export const loginUser = createAsyncThunk('user/login', async (data, { dispatch }) => {
+  axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
+    method: 'get',
+    data: data,
+    headers: {
+      Accept: '*/*',
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    withCredentials: true,
+    timeout: 1000,
+  })
+    .then((response) => {
+      toast.success('Данные пользователя загружены!');
+      const user = (response as unknown as AxiosResponse).data as UserInfo;
+      localStorage.setItem('userId', user.id);
+      dispatch(
+        setUser({
+          email: user.email,
+          id: user.id,
+          login: user.login,
+          first_name: user.first_name,
+          second_name: user.second_name,
+          display_name: user.display_name,
+          avatar: user.avatar,
+          phone: user.phone,
+        })
+      );
+    })
+    .catch((error) => {
+      console.log(error);
+      showError();
+      // setFieldError(error.response.data.reason);
+    });
+});

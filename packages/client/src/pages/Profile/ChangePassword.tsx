@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import { Title } from '../../components/Title';
 import InputWrapper from '../../components/InputWrapper';
 import { Button } from '../../components/Button';
+import { showError } from '../../../utils/ShowError';
+import ValidateErrorMessage from '../../components/ValidateErrorMessage';
 type ChangePasswordType = {
   oldPassword: string;
   newPassword: string;
@@ -42,12 +44,12 @@ const ChangePassword = () => {
         navigate('/profile');
       })
       .catch(() => {
-        toast.error('Что-то не так...');
+        showError();
       });
   };
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
-     <Title text='Смена пароля' />
+      <Title text='Смена пароля' />
       <Formik
         initialValues={{
           oldPassword: '',
@@ -59,21 +61,31 @@ const ChangePassword = () => {
           console.log(values);
           handleSubmit(values);
         }}>
-        {({ errors, touched }) => (
+        {({ errors }) => (
           <Form>
             <InputWrapper error={errors.oldPassword} label='Старый пароль'>
-            <Field name='oldPassword'  className='input__field'/>
-            {errors.oldPassword && touched.oldPassword ? <div>{errors.oldPassword}</div> : null}
+              <Field name='oldPassword' className='input__field' />
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.oldPassword}`}
+                visible={!!errors.oldPassword}
+              />
             </InputWrapper>
             <InputWrapper error={errors.newPassword} label='Новый пароль'>
-            <Field name='newPassword'  className='input__field'/>
-            {errors.newPassword && touched.newPassword ? <div>{errors.newPassword}</div> : null}
+              <Field name='newPassword' className='input__field' />
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.newPassword}`}
+                visible={!!errors.newPassword}
+              />
             </InputWrapper>
             <InputWrapper error={errors.confirmPassword} label='Повторите пароль'>
-            <Field name='confirmPassword'  className='input__field'/>
-            {errors.confirmPassword && touched.confirmPassword ? (
-              <div>{errors.confirmPassword}</div>
-            ) : null}
+              <Field name='confirmPassword' className='input__field' />
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.confirmPassword}`}
+                visible={!!errors.confirmPassword}
+              />
             </InputWrapper>
             <Button text='Сменить пароль' type='submit' className='custom-button' />
           </Form>

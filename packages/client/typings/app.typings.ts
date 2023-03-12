@@ -69,3 +69,8 @@ export type UserInfo = {
   email: string | null;
   phone: string | null;
 };
+
+export type LoginType = {
+  login: string;
+  password: string;
+};

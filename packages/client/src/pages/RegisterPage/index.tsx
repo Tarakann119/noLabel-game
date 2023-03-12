@@ -11,6 +11,8 @@ import Loader from '../../ui/Loader';
 import { useLoading } from '../../components/LoaderComponent';
 import classNames from 'classnames';
 import InputWrapper from '../../components/InputWrapper';
+import { showError } from '../../../utils/ShowError';
+import ValidateErrorMessage from '../../components/ValidateErrorMessage';
 
 type ProfileType = {
   first_name: string;
@@ -73,7 +75,7 @@ const RegisterPage = () => {
         navigate('/login');
       })
       .catch((error) => {
-        toast.error('Что-то не так...');
+        showError();
         setFieldError(error.response.data.reason);
       });
   };
@@ -94,38 +96,64 @@ const RegisterPage = () => {
         onSubmit={(values) => {
           handleSubmit(values);
         }}>
-        {({ errors, touched }) => (
+        {({ errors }) => (
           <Form className={classNames('colum-6', 'container__reg-form')}>
             <Title text='Регистрация' />
             <InputWrapper error={errors.first_name} label='Ваше имя'>
               <Field name='first_name' type='text' className='input__field' />
-              {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.first_name}`}
+                visible={!!errors.first_name}
+              />
             </InputWrapper>
             <InputWrapper error={errors.second_name} label='Ваша фамилия'>
               <Field name='second_name' type='text' className='input__field' />
-              {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.second_name}`}
+                visible={!!errors.second_name}
+              />
             </InputWrapper>
             <InputWrapper error={errors.login} label='Ваш логин'>
               <Field name='login' type='text' className='input__field' />
-              {errors.login && touched.login ? <div>{errors.login}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.login}`}
+                visible={!!errors.login}
+              />
             </InputWrapper>
             <InputWrapper error={errors.email} label='Ваша почта'>
               <Field name='email' type='email' className='input__field' />
-              {errors.email && touched.email ? <div>{errors.email}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.email}`}
+                visible={!!errors.email}
+              />
             </InputWrapper>
             <InputWrapper error={errors.phone} label='Номер телефона'>
               <Field name='phone' type='text' className='input__field' />
-              {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.phone}`}
+                visible={!!errors.phone}
+              />
             </InputWrapper>
             <InputWrapper error={errors.password} label='Пароль'>
               <Field name='password' type='password' className='input__field' />
-              {errors.password && touched.password ? <div>{errors.password}</div> : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.password}`}
+                visible={!!errors.password}
+              />
             </InputWrapper>
             <InputWrapper error={errors.confirmPassword} label='Повторите пароль'>
               <Field name='confirmPassword' type='password' className='input__field' />
-              {errors.confirmPassword && touched.confirmPassword ? (
-                <div>{errors.confirmPassword}</div>
-              ) : null}
+              <ValidateErrorMessage
+                title='Ошибка валидации'
+                message={`${errors.confirmPassword}`}
+                visible={!!errors.confirmPassword}
+              />
             </InputWrapper>
             <div>{fieldError}</div>
             <Button text='Регистрация' type='submit' className='custom-button' />

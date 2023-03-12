@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import '../../components/Button/index.scss';
 import '../../components/Header/index.scss';
@@ -26,9 +25,6 @@ const mockData = [
   },
 ];
 const Forum = () => {
-  // TODO: Удалить неиспользуемую переменную
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const navigate = useNavigate();
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
       <div className='forum__container'>
@@ -38,10 +34,6 @@ const Forum = () => {
             {data.title}
           </Link>
         ))}
-        {/* <Title className='form-login-title' text='Форум' />
-            <Link className='navigation-link profile-navigation-link' to={'/theme1'}>
-              Тема 1
-            </Link> */}
       </div>
     </div>
   );
