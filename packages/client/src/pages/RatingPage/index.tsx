@@ -15,7 +15,6 @@ const RatingPage = () => {
         {ratingList}
       </div>
     </div>
-  )
-}
-export default RatingPage
-
+  );
+};
+export default RatingPage;

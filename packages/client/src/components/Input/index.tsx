@@ -1,17 +1,17 @@
-import type { FC, InputHTMLAttributes } from 'react'
-import classNames from 'classnames'
-import './index.scss'
+import type { FC, InputHTMLAttributes } from 'react';
+import classNames from 'classnames';
+import './index.scss';
 
-type InputType = 'text' | 'tel' | 'email' | 'password'
+type InputType = 'text' | 'tel' | 'email' | 'password';
 
 export type InputProps = {
-  name: string
-  type?: InputType
-  label?: string
-  error?: string
-  isValid?: boolean
-  className?: string
-} & InputHTMLAttributes<HTMLInputElement>
+  name: string;
+  type?: InputType;
+  label?: string;
+  error?: string;
+  isValid?: boolean;
+  className?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export const Input: FC<InputProps> = ({
   id,
@@ -26,7 +26,7 @@ export const Input: FC<InputProps> = ({
   className = '',
   ...props
 }) => {
-  const inputId = id ?? `${type}-${name}`
+  const inputId = id ?? `${type}-${name}`;
 
   return (
     <div
@@ -40,7 +40,7 @@ export const Input: FC<InputProps> = ({
       )}
       style={style}>
       {!!label && (
-        <label htmlFor={inputId} className="input__label">
+        <label htmlFor={inputId} className='input__label'>
           {label}
         </label>
       )}
@@ -51,11 +51,11 @@ export const Input: FC<InputProps> = ({
         type={type}
         disabled={disabled}
         readOnly={readOnly}
-        className="input__control"
+        className='input__control'
         {...props}
       />
 
-      <span className="input__error">{error}</span>
+      <span className='input__error'>{error}</span>
     </div>
-  )
-}
+  );
+};

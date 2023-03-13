@@ -1,4 +1,4 @@
-import { uuid } from "../utils/generateId";
+import { uuid } from '../utils/generateId';
 
 const ratingMok = [
   {

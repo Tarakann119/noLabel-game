@@ -71,6 +71,5 @@ export const loginUser = createAsyncThunk('user/login', async (data, { dispatch 
     .catch((error) => {
       console.log(error);
       showError();
-      // setFieldError(error.response.data.reason);
     });
 });
