@@ -98,7 +98,7 @@ const RegisterPage = () => {
               <Field name='first_name' type='text' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.first_name}`}
+                message={errors.first_name}
                 visible={!!errors.first_name}
               />
             </InputWrapper>
@@ -106,7 +106,7 @@ const RegisterPage = () => {
               <Field name='second_name' type='text' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.second_name}`}
+                message={errors.second_name}
                 visible={!!errors.second_name}
               />
             </InputWrapper>
@@ -114,7 +114,7 @@ const RegisterPage = () => {
               <Field name='login' type='text' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.login}`}
+                message={errors.login}
                 visible={!!errors.login}
               />
             </InputWrapper>
@@ -122,7 +122,7 @@ const RegisterPage = () => {
               <Field name='email' type='email' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.email}`}
+                message={errors.email}
                 visible={!!errors.email}
               />
             </InputWrapper>
@@ -130,7 +130,7 @@ const RegisterPage = () => {
               <Field name='phone' type='text' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.phone}`}
+                message={errors.phone}
                 visible={!!errors.phone}
               />
             </InputWrapper>
@@ -138,7 +138,7 @@ const RegisterPage = () => {
               <Field name='password' type='password' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.password}`}
+                message={errors.password}
                 visible={!!errors.password}
               />
             </InputWrapper>
@@ -146,7 +146,7 @@ const RegisterPage = () => {
               <Field name='confirmPassword' type='password' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.confirmPassword}`}
+                message={errors.confirmPassword}
                 visible={!!errors.confirmPassword}
               />
             </InputWrapper>

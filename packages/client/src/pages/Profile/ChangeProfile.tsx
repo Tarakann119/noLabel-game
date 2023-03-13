@@ -87,7 +87,7 @@ const ChangeProfile = () => {
               <input value={values.first_name} name='first_name' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.first_name}`}
+                message={errors.first_name}
                 visible={!!errors.first_name}
               />
             </InputWrapper>
@@ -100,7 +100,7 @@ const ChangeProfile = () => {
               />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.second_name}`}
+                message={errors.second_name}
                 visible={!!errors.second_name}
               />
             </InputWrapper>
@@ -108,7 +108,7 @@ const ChangeProfile = () => {
               <input value={values.login} type='text' name='login' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.login}`}
+                message={errors.login}
                 visible={!!errors.login}
               />
             </InputWrapper>
@@ -116,7 +116,7 @@ const ChangeProfile = () => {
               <input value={values.email} type='text' name='email' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.email}`}
+                message={errors.email}
                 visible={!!errors.email}
               />
             </InputWrapper>
@@ -124,7 +124,7 @@ const ChangeProfile = () => {
               <input value={values.phone} name='phone' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.phone}`}
+                message={errors.phone}
                 visible={!!errors.phone}
               />
             </InputWrapper>

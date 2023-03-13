@@ -67,7 +67,7 @@ const ChangePassword = () => {
               <Field name='oldPassword' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.oldPassword}`}
+                message={errors.oldPassword}
                 visible={!!errors.oldPassword}
               />
             </InputWrapper>
@@ -75,7 +75,7 @@ const ChangePassword = () => {
               <Field name='newPassword' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.newPassword}`}
+                message={errors.newPassword}
                 visible={!!errors.newPassword}
               />
             </InputWrapper>
@@ -83,7 +83,7 @@ const ChangePassword = () => {
               <Field name='confirmPassword' className='input__field' />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.confirmPassword}`}
+                message={errors.confirmPassword}
                 visible={!!errors.confirmPassword}
               />
             </InputWrapper>

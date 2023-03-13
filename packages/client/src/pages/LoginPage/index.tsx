@@ -101,7 +101,7 @@ const LoginPage = () => {
               />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.login}`}
+                message={errors.login}
                 visible={logErr && !!errors.login}
               />
             </InputWrapper>
@@ -115,7 +115,7 @@ const LoginPage = () => {
               />
               <ValidateErrorMessage
                 title='Ошибка валидации'
-                message={`${errors.password}`}
+                message={errors.password}
                 visible={passErr && !!errors.password}
               />
             </InputWrapper>

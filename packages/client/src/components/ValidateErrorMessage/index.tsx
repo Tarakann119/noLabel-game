@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 type ValErrMesProps = {
   title: string;
-  message: string;
+  message: string | undefined;
   visible: boolean;
 };
 
@@ -16,7 +16,9 @@ const ValidateErrorMessage: FC<ValErrMesProps> = ({ title, message, visible }) =
 
   title = title.length > titleLength ? title.substring(0, titleLength - 3) + '...' : title;
   message =
-    message.length > messageLength ? message.substring(0, messageLength - 3) + '...' : message;
+    message && message.length > messageLength
+      ? message.substring(0, messageLength - 3) + '...'
+      : message;
 
   const [hidden, setHidden] = useState(!visible);
 
