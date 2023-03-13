@@ -72,41 +72,6 @@ const LoginPage = () => {
       });
   };
 
-  //  const fetchUser = (data: string) => {
-  //     axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
-  //       method: 'get',
-  //       data: data,
-  //       headers: {
-  //         Accept: '*/*',
-  //         'Content-Type': 'application/json; charset=utf-8',
-  //       },
-  //       withCredentials: true,
-  //       timeout: 1000,
-  //     })
-  //       .then((response) => {
-  //         toast.success('Данные пользователя загружены!');
-  //         const user = (response as unknown as AxiosResponse).data as UserInfo;
-  //         localStorage.setItem('userId', user.id);
-  //         dispatch(
-  //           setUser({
-  //             email: user.email,
-  //             id: user.id,
-  //             login: user.login,
-  //             first_name: user.first_name,
-  //             second_name: user.second_name,
-  //             display_name: user.display_name,
-  //             avatar: user.avatar,
-  //             phone: user.phone,
-  //           })
-  //         );
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         showError()
-  //         setFieldError(error.response.data.reason);
-  //       });
-  //   };
-
   const [logErr, setLogErr] = useState(false);
   const [passErr, setPassErr] = useState(false);
 
