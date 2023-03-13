@@ -5,7 +5,6 @@ import { set } from './slice';
 import styles from './index.module.scss';
 import { useEffect } from 'react';
 
-// TODO: Типизировать
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Theme = ({ className }: any) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
