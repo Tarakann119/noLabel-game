@@ -28,7 +28,7 @@ const Theme = ({ className }: any) => {
       onClick={handleChange}>
       <div className='theme-wrapper'>
         <div className='navigation-link-invert'>Активная тема</div>
-        <div className='navigation-link'> Нективная тема</div>
+        <div className='navigation-link'>Нективная тема</div>
       </div>
     </div>
   );
