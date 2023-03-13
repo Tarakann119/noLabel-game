@@ -7,8 +7,6 @@ import './index.scss';
 import { Button } from '../../components/Button';
 import { Title } from '../../components/Title';
 import { useState } from 'react';
-import Loader from '../../ui/Loader';
-import { useLoading } from '../../components/LoaderComponent';
 import classNames from 'classnames';
 import InputWrapper from '../../components/InputWrapper';
 import { showError } from '../../../utils/ShowError';
@@ -58,8 +56,6 @@ const SignupSchema = Yup.object().shape({
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [fieldError, setFieldError] = useState(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { loading, setLoading } = useLoading();
   const handleSubmit = async (values: ProfileType) => {
     const data = JSON.stringify(values);
     axios('https://ya-praktikum.tech/api/v2/auth/signup', {
@@ -81,7 +77,6 @@ const RegisterPage = () => {
   };
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
-      {loading && <Loader />}
       <Formik
         initialValues={{
           first_name: '',
