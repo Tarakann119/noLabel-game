@@ -10,7 +10,6 @@ type ValErrMesProps = {
 };
 
 const ValidateErrorMessage: FC<ValErrMesProps> = ({ title, message, visible }) => {
-  // Можно ограничить длину заголовка или текста сообщения ошибки
   const titleLength = 26;
   const messageLength = 600;
 
@@ -22,7 +21,6 @@ const ValidateErrorMessage: FC<ValErrMesProps> = ({ title, message, visible }) =
 
   const [hidden, setHidden] = useState(!visible);
 
-  // hidden={hidden}
   return (
     <div
       className={classNames('validate-error-message__container', { hidden: !visible && hidden })}>
