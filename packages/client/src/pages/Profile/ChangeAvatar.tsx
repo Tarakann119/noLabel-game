@@ -1,9 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { toast } from 'react-toastify';
-import { showError } from '../../../utils/ShowError';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import { uploadAvatar } from '../../components/Autification/slice';
 import { Button } from '../../components/Button';
 import { Title } from '../../components/Title';
 
@@ -21,6 +20,7 @@ type FileType = {
 const ChangeAvatar = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [files, setFiles] = useState<any[]>([]);
+  const dispatch = useAppDispatch();
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': [],
@@ -39,22 +39,7 @@ const ChangeAvatar = () => {
   const updateAvatar = async () => {
     const image = new FormData();
     image.append('avatar', files[0]);
-    try {
-      const result = await axios(`https://ya-praktikum.tech/api/v2/user/profile/avatar`, {
-        method: 'put',
-        data: image,
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'multipart/form-data;',
-        },
-        withCredentials: true,
-      });
-      const response = result as AxiosResponse;
-      toast.success('Аватар изменен');
-      return response.data.uri;
-    } catch (error) {
-      showError();
-    }
+    dispatch(uploadAvatar(image));
   };
   const removeFile = (file: FileType) => () => {
     const newFiles = [...files];
