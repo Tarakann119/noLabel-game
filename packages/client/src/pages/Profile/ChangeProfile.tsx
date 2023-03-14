@@ -1,7 +1,5 @@
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -10,15 +8,10 @@ import InputWrapper from '../../components/InputWrapper';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
 import classNames from 'classnames';
-import { showError } from '../../../utils/ShowError';
 import ValidateErrorMessage from '../../components/ValidateErrorMessage';
-type ChangeProfileType = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
-  phone: string;
-};
+import { changeUserProfile } from '../../components/Autification/slice';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+
 const ProfileSchema = Yup.object().shape({
   first_name: Yup.string()
     .min(2, 'Слишком короткое имя!')
@@ -47,25 +40,8 @@ const ChangeProfile = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.user);
   const [fieldError, setFieldError] = useState(null);
-  const handleSubmit = async (values: ChangeProfileType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/user/profile', {
-      method: 'put',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        toast.success('Пользователь создан!');
-        navigate('/profile');
-      })
-      .catch((error) => {
-        showError();
-        setFieldError(error.response?.data.reason);
-      });
-  };
+  const dispatch = useAppDispatch();
+
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
       <Title text='Изменение данных пользователя' />
@@ -79,7 +55,9 @@ const ChangeProfile = () => {
         }}
         validationSchema={ProfileSchema}
         onSubmit={(values) => {
-          handleSubmit(values);
+          dispatch(
+            changeUserProfile({ navigate: navigate, values: values, setFieldError: setFieldError })
+          );
         }}>
         {({ errors, values }) => (
           <Form>

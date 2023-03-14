@@ -1,18 +1,14 @@
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { Title } from '../../components/Title';
 import InputWrapper from '../../components/InputWrapper';
 import { Button } from '../../components/Button';
-import { showError } from '../../../utils/ShowError';
 import ValidateErrorMessage from '../../components/ValidateErrorMessage';
-type ChangePasswordType = {
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-};
+import { changeUserPassword } from '../../components/Autification/slice';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+
 const PasswordSchema = Yup.object().shape({
   newPassword: Yup.string()
     .min(2, 'Too Short!')
@@ -29,24 +25,8 @@ const PasswordSchema = Yup.object().shape({
 
 const ChangePassword = () => {
   const navigate = useNavigate();
-  const handleSubmit = async (values: ChangePasswordType) => {
-    const data = JSON.stringify(values);
-    fetch('https://ya-praktikum.tech/api/v2/user/password', {
-      method: 'post',
-      body: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        toast.success('Пароль изменен!');
-        navigate('/profile');
-      })
-      .catch(() => {
-        showError();
-      });
-  };
+  const dispatch = useAppDispatch();
+
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
       <Title text='Смена пароля' />
@@ -58,8 +38,7 @@ const ChangePassword = () => {
         }}
         validationSchema={PasswordSchema}
         onSubmit={(values) => {
-          console.log(values);
-          handleSubmit(values);
+          dispatch(changeUserPassword({ navigate: navigate, values: values }));
         }}>
         {({ errors }) => (
           <Form>

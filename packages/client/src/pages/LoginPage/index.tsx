@@ -1,8 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import InputWrapper from '../../components/InputWrapper';
 import './index.scss';
 import classNames from 'classnames';
@@ -10,12 +8,10 @@ import HeaderH1 from '../../ui/HeaderH1';
 import { Button } from '../../components/Button';
 import ValidateErrorMessage from '../../components/ValidateErrorMessage';
 import { useState } from 'react';
-import { LoginType } from '../../../typings/app.typings';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
 import { useLoading } from '../../components/LoaderComponent';
-import { loginUser } from '../../components/Autification/slice';
+import { handleSubmitLogin } from '../../components/Autification/slice';
 import Loader from '../../ui/Loader';
-import { showError } from '../../../utils/ShowError';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -35,43 +31,6 @@ const LoginPage = () => {
   const [fieldError, setFieldError] = useState(null);
   const { loading } = useLoading();
   const dispatch = useAppDispatch();
-  const handleSubmit = async (values: LoginType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/auth/signin', {
-      method: 'post',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-      responseType: 'json',
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.data === 'OK') {
-          try {
-            toast.success('Вы успешно вошли в систему!');
-            dispatch(loginUser.call(data));
-            navigate('/profile');
-          } catch {
-            showError();
-          }
-        }
-      })
-      .then((response) => {
-        console.log('Этот респонс должен быть пустым ' + response);
-      })
-      .catch((error) => {
-        setFieldError(error.response.data.reason);
-        showError();
-        if (error.response.data.reason === 'User already in system') {
-          dispatch(loginUser.call(data));
-          navigate('/profile');
-        }
-      });
-  };
-
   const [logErr, setLogErr] = useState(false);
   const [passErr, setPassErr] = useState(false);
 
@@ -85,8 +44,9 @@ const LoginPage = () => {
         }}
         validationSchema={SigninSchema}
         onSubmit={(values) => {
-          console.log(JSON.stringify(values));
-          handleSubmit(values);
+          dispatch(
+            handleSubmitLogin({ navigate: navigate, values: values, setFieldError: setFieldError })
+          );
         }}>
         {({ errors }) => (
           <Form className={classNames('colum-5', 'container__login-form')}>
