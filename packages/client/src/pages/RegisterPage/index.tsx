@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -8,9 +8,8 @@ import { Button } from '../../components/Button';
 import { Title } from '../../components/Title';
 import { useState } from 'react';
 import classNames from 'classnames';
-import InputWrapper from '../../components/InputWrapper';
 import { showError } from '../../../utils/ShowError';
-import ValidateErrorMessage from '../../components/ValidateErrorMessage';
+import InputValidate from '../../components/InputValidate';
 
 type ProfileType = {
   first_name: string;
@@ -91,65 +90,65 @@ const RegisterPage = () => {
         onSubmit={(values) => {
           handleSubmit(values);
         }}>
-        {({ errors }) => (
+        {({ errors, values, handleChange }) => (
           <Form className={classNames('colum-6', 'container__reg-form')}>
             <Title text='Регистрация' />
-            <InputWrapper error={errors.first_name} label='Ваше имя'>
-              <Field name='first_name' type='text' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.first_name}
-                visible={!!errors.first_name}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.second_name} label='Ваша фамилия'>
-              <Field name='second_name' type='text' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.second_name}
-                visible={!!errors.second_name}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.login} label='Ваш логин'>
-              <Field name='login' type='text' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.login}
-                visible={!!errors.login}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.email} label='Ваша почта'>
-              <Field name='email' type='email' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.email}
-                visible={!!errors.email}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.phone} label='Номер телефона'>
-              <Field name='phone' type='text' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.phone}
-                visible={!!errors.phone}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.password} label='Пароль'>
-              <Field name='password' type='password' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.password}
-                visible={!!errors.password}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.confirmPassword} label='Повторите пароль'>
-              <Field name='confirmPassword' type='password' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.confirmPassword}
-                visible={!!errors.confirmPassword}
-              />
-            </InputWrapper>
+            <InputValidate
+              handleChange={handleChange}
+              name={'first_name'}
+              type={'text'}
+              label={'Имя'}
+              value={values.first_name}
+              error={errors.first_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'second_name'}
+              type={'text'}
+              label={'Фамилия'}
+              value={values.second_name}
+              error={errors.second_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'login'}
+              type={'text'}
+              label={'Логин'}
+              value={values.login}
+              error={errors.login}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'email'}
+              type={'text'}
+              label={'Ваша почта'}
+              value={values.email}
+              error={errors.email}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'phone'}
+              type={'text'}
+              label={'Номер телефона'}
+              value={values.phone}
+              error={errors.phone}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'password'}
+              type={'password'}
+              label={'Пароль'}
+              value={values.password}
+              error={errors.password}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'confirmPassword'}
+              type={'password'}
+              label={'Повторите пароль'}
+              value={values.confirmPassword}
+              error={errors.confirmPassword}
+            />
             <div>{fieldError}</div>
             <Button text='Регистрация' type='submit' className='custom-button' />
             <Link className='plane-link' to={'/login'}>

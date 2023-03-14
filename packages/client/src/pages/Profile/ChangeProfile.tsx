@@ -4,13 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/store';
-import InputWrapper from '../../components/InputWrapper';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
 import classNames from 'classnames';
-import ValidateErrorMessage from '../../components/ValidateErrorMessage';
 import { changeUserProfile } from '../../components/Autification/slice';
 import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import InputValidate from '../../components/InputValidate';
 
 const ProfileSchema = Yup.object().shape({
   first_name: Yup.string()
@@ -59,53 +58,48 @@ const ChangeProfile = () => {
             changeUserProfile({ navigate: navigate, values: values, setFieldError: setFieldError })
           );
         }}>
-        {({ errors, values }) => (
+        {({ errors, values, handleChange }) => (
           <Form>
-            <InputWrapper error={errors.first_name} label='Имя'>
-              <input value={values.first_name} name='first_name' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.first_name}
-                visible={!!errors.first_name}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.second_name} label='Фамилия'>
-              <input
-                value={values.first_name}
-                type='text'
-                name='second_name'
-                className='input__field'
-              />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.second_name}
-                visible={!!errors.second_name}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.login} label='Логин'>
-              <input value={values.login} type='text' name='login' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.login}
-                visible={!!errors.login}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.email} label='Ваша почта'>
-              <input value={values.email} type='text' name='email' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.email}
-                visible={!!errors.email}
-              />
-            </InputWrapper>
-            <InputWrapper error={errors.phone} label='Телефон'>
-              <input value={values.phone} name='phone' className='input__field' />
-              <ValidateErrorMessage
-                title='Ошибка валидации'
-                message={errors.phone}
-                visible={!!errors.phone}
-              />
-            </InputWrapper>
+            <InputValidate
+              handleChange={handleChange}
+              name={'first_name'}
+              type={'text'}
+              label={'Имя'}
+              value={values.first_name}
+              error={errors.first_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'second_name'}
+              type={'text'}
+              label={'Фамилия'}
+              value={values.second_name}
+              error={errors.second_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'login'}
+              type={'text'}
+              label={'Логин'}
+              value={values.login}
+              error={errors.login}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'email'}
+              type={'text'}
+              label={'Ваша почта'}
+              value={values.email}
+              error={errors.email}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name={'phone'}
+              type={'text'}
+              label={'Телефон'}
+              value={values.phone}
+              error={errors.phone}
+            />
             <div>{fieldError}</div>
             <Button text='Изменить данные' type='submit' className='custom-button' />
           </Form>
