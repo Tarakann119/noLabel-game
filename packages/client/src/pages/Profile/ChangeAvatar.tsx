@@ -36,7 +36,7 @@ const ChangeAvatar = () => {
     },
   });
 
-  const _updateAvatar = async () => {
+  const updateAvatar = async () => {
     const image = new FormData();
     image.append('avatar', files[0]);
     try {
@@ -90,7 +90,7 @@ const ChangeAvatar = () => {
         </div>
         <aside>{thumbs}</aside>
       </section>
-      <Button type='button' text='Поменять' onClick={() => _updateAvatar()} />
+      <Button type='button' text='Поменять' onClick={() => updateAvatar()} />
     </div>
   );
 };
