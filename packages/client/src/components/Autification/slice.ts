@@ -4,9 +4,10 @@ import {
   ChangePasswordType,
   ChangeProfileType,
   LoginType,
+  ProfileType,
   UserInfo,
 } from '../../../typings/app.typings';
-import { showError } from '../../../utils/ShowError';
+import { showError, showSuccess } from '../../../utils/ShowError';
 import axios, { AxiosResponse } from 'axios';
 import { NavigateFunction } from 'react-router';
 
@@ -110,7 +111,7 @@ export const getCurrentUser = createAsyncThunk('user/getUser', async (data: stri
     timeout: 1000,
   })
     .then((response) => {
-      toast.success('Данные пользователя загружены!');
+      showSuccess('Данные пользователя загружены!');
       const user = (response as AxiosResponse).data as UserInfo;
       localStorage.setItem('userId', user.id);
       thunkAPI.dispatch(
@@ -153,7 +154,7 @@ export const changeUserProfile = createAsyncThunk(
       },
     })
       .then(() => {
-        toast.success('Пользователь изменен!');
+        showSuccess('Пользователь изменен!');
         navigate('/profile');
       })
       .catch((error) => {
@@ -176,7 +177,7 @@ export const changeUserPassword = createAsyncThunk(
       },
     })
       .then(() => {
-        toast.success('Пароль изменен!');
+        showSuccess('Пароль изменен!');
         navigate('/profile');
       })
       .catch(() => {
@@ -197,9 +198,40 @@ export const uploadAvatar = createAsyncThunk('user/avatar', async (image: FormDa
       withCredentials: true,
     });
     const response = result as AxiosResponse;
-    toast.success('Аватар изменен');
+    showSuccess('Аватар изменен');
     return response.data.uri;
   } catch (error) {
     showError();
   }
 });
+
+export const handleSubmitRegistration = createAsyncThunk(
+  'user/login',
+  async ({
+    navigate,
+    values,
+    setFieldError,
+  }: {
+    navigate: NavigateFunction;
+    values: ProfileType;
+    setFieldError: React.Dispatch<React.SetStateAction<null>>;
+  }) => {
+    const data = JSON.stringify(values);
+    axios('https://ya-praktikum.tech/api/v2/auth/signup', {
+      method: 'post',
+      data: data,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(() => {
+        showSuccess('Пользователь создан!');
+        navigate('/login');
+      })
+      .catch((error) => {
+        showError();
+        setFieldError(error.response.data.reason);
+      });
+  }
+);

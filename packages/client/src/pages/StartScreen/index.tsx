@@ -22,7 +22,6 @@ const StartScreen = () => {
         <Link className='plane-link' to={'/registration'}>
           Нет аккаунта?
         </Link>
-
         <Spacer />
       </div>
       <div className='container colum-3 plane-link'>

@@ -4,11 +4,10 @@ import './index.scss';
 import { set } from './slice';
 import styles from './index.module.scss';
 import { useEffect } from 'react';
+import { RootState } from '../../Store/store';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Theme = ({ className }: any) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const theme = useSelector((state: any) => state.theme);
+const Theme = ({ className }: { className?: string }) => {
+  const theme = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {

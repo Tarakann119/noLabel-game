@@ -3,14 +3,14 @@ import './index.scss';
 import { Title } from '../../components/Title';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../Store/store';
 import { Fragment } from 'react';
 import classNames from 'classnames';
+import { currentUser } from '../../Store/selectors';
 
 type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Телефон';
 
 const Profile = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector(currentUser);
   console.log(user);
 
   const userData = [

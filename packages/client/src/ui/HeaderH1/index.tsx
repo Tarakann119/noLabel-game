@@ -6,7 +6,7 @@ type HeaderH1Props = {
 };
 
 const HeaderH1: FC<HeaderH1Props> = ({ label }) => {
-  return <h1 className={'h1'}>{label}</h1>;
+  return <h1 className='h1'>{label}</h1>;
 };
 
 export default HeaderH1;

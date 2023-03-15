@@ -1,23 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import './index.scss';
 import { Button } from '../../components/Button';
 import { Title } from '../../components/Title';
 import { useState } from 'react';
 import classNames from 'classnames';
-import { showError } from '../../../utils/ShowError';
 import InputValidate from '../../components/InputValidate';
-
-type ProfileType = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  password: string;
-  confirmPassword: string;
-};
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import { handleSubmitRegistration } from '../../components/Autification/slice';
 
 const SignupSchema = Yup.object().shape({
   first_name: Yup.string()
@@ -55,25 +46,8 @@ const SignupSchema = Yup.object().shape({
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [fieldError, setFieldError] = useState(null);
-  const handleSubmit = async (values: ProfileType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/auth/signup', {
-      method: 'post',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        toast.success('Пользователь создан!');
-        navigate('/login');
-      })
-      .catch((error) => {
-        showError();
-        setFieldError(error.response.data.reason);
-      });
-  };
+  const dispatch = useAppDispatch();
+
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
       <Formik
@@ -88,64 +62,70 @@ const RegisterPage = () => {
         }}
         validationSchema={SignupSchema}
         onSubmit={(values) => {
-          handleSubmit(values);
+          dispatch(
+            handleSubmitRegistration({
+              navigate: navigate,
+              values: values,
+              setFieldError: setFieldError,
+            })
+          );
         }}>
         {({ errors, values, handleChange }) => (
           <Form className={classNames('colum-6', 'container__reg-form')}>
             <Title text='Регистрация' />
             <InputValidate
               handleChange={handleChange}
-              name={'first_name'}
-              type={'text'}
-              label={'Имя'}
+              name='first_name'
+              type='text'
+              label='Имя'
               value={values.first_name}
               error={errors.first_name}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'second_name'}
-              type={'text'}
-              label={'Фамилия'}
+              name='second_name'
+              type='text'
+              label='Фамилия'
               value={values.second_name}
               error={errors.second_name}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'login'}
-              type={'text'}
-              label={'Логин'}
+              name='login'
+              type='text'
+              label='Логин'
               value={values.login}
               error={errors.login}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'email'}
-              type={'text'}
-              label={'Ваша почта'}
+              name='email'
+              type='text'
+              label='Ваша почта'
               value={values.email}
               error={errors.email}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'phone'}
-              type={'text'}
-              label={'Номер телефона'}
+              name='phone'
+              type='text'
+              label='Номер телефона'
               value={values.phone}
               error={errors.phone}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'password'}
-              type={'password'}
-              label={'Пароль'}
+              name='password'
+              type='password'
+              label='Пароль'
               value={values.password}
               error={errors.password}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'confirmPassword'}
-              type={'password'}
-              label={'Повторите пароль'}
+              name='confirmPassword'
+              type='password'
+              label='Повторите пароль'
               value={values.confirmPassword}
               error={errors.confirmPassword}
             />

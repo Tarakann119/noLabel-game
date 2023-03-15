@@ -43,25 +43,25 @@ const ChangePassword = () => {
           <Form>
             <InputValidate
               handleChange={handleChange}
-              name={'oldPassword'}
-              type={'password'}
-              label={'Старый пароль'}
+              name='oldPassword'
+              type='password'
+              label='Старый пароль'
               value={values.oldPassword}
               error={errors.oldPassword}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'newPassword'}
-              type={'password'}
-              label={'Новый пароль'}
+              name='newPassword'
+              type='password'
+              label='Новый пароль'
               value={values.newPassword}
               error={errors.newPassword}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'confirmPassword'}
-              type={'password'}
-              label={'Повторите пароль'}
+              name='confirmPassword'
+              type='password'
+              label='Повторите пароль'
               value={values.confirmPassword}
               error={errors.confirmPassword}
             />

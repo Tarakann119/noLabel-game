@@ -3,13 +3,13 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../Store/store';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
 import classNames from 'classnames';
 import { changeUserProfile } from '../../components/Autification/slice';
 import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
 import InputValidate from '../../components/InputValidate';
+import { currentUser } from '../../Store/selectors';
 
 const ProfileSchema = Yup.object().shape({
   first_name: Yup.string()
@@ -37,7 +37,7 @@ const ProfileSchema = Yup.object().shape({
 
 const ChangeProfile = () => {
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector(currentUser);
   const [fieldError, setFieldError] = useState(null);
   const dispatch = useAppDispatch();
 
@@ -62,41 +62,41 @@ const ChangeProfile = () => {
           <Form>
             <InputValidate
               handleChange={handleChange}
-              name={'first_name'}
-              type={'text'}
-              label={'Имя'}
+              name='first_name'
+              type='text'
+              label='Имя'
               value={values.first_name}
               error={errors.first_name}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'second_name'}
-              type={'text'}
-              label={'Фамилия'}
+              name='second_name'
+              type='text'
+              label='Фамилия'
               value={values.second_name}
               error={errors.second_name}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'login'}
-              type={'text'}
-              label={'Логин'}
+              name='login'
+              type='text'
+              label='Логин'
               value={values.login}
               error={errors.login}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'email'}
-              type={'text'}
-              label={'Ваша почта'}
+              name='email'
+              type='text'
+              label='Ваша почта'
               value={values.email}
               error={errors.email}
             />
             <InputValidate
               handleChange={handleChange}
-              name={'phone'}
-              type={'text'}
-              label={'Телефон'}
+              name='phone'
+              type='text'
+              label='Телефон'
               value={values.phone}
               error={errors.phone}
             />

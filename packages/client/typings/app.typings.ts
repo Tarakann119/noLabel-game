@@ -87,3 +87,11 @@ export type ChangePasswordType = {
   newPassword: string;
   confirmPassword: string;
 };
+
+export type ProfileType = {
+  first_name: string;
+  second_name: string;
+  login: string;
+  password: string;
+  confirmPassword: string;
+};

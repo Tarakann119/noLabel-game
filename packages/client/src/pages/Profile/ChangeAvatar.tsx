@@ -18,8 +18,7 @@ type FileType = {
 };
 
 const ChangeAvatar = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [files, setFiles] = useState<any[]>([]);
+  const [files, setFiles] = useState<FileType[]>([]);
   const dispatch = useAppDispatch();
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -31,14 +30,14 @@ const ChangeAvatar = () => {
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
-        )
+        ) as unknown as FileType[]
       );
     },
   });
 
   const updateAvatar = async () => {
     const image = new FormData();
-    image.append('avatar', files[0]);
+    image.append('avatar', files[0] as unknown as string | Blob);
     dispatch(uploadAvatar(image));
   };
   const removeFile = (file: FileType) => () => {
@@ -63,7 +62,7 @@ const ChangeAvatar = () => {
 
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, []);
+  }, [files]);
 
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>

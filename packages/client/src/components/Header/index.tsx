@@ -5,10 +5,10 @@ import Spacer from '../../ui/Spacer';
 import { toast } from 'react-toastify';
 import UserCard from '../UserCard';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../Store/store';
 import { showError } from '../../../utils/ShowError';
+import { currentUser } from '../../Store/selectors';
 const Header = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector(currentUser);
   const location = useLocation();
   const navigate = useNavigate();
   const logOut = async () => {
