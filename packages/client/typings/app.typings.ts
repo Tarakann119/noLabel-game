@@ -10,6 +10,17 @@ export enum TowerType {
   STONE,
 }
 
+export type TowerList = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fill: string;
+  isDragging: boolean;
+  imageSrc: string;
+  type: number;
+};
+
 export type TGameSettings = {
   tileSize: number;
   width: number;
@@ -47,6 +58,7 @@ export type TBuildingSettings = {
   delay: number;
   imageSrc: string;
   cost: number;
+  maxFrames: number;
   projectile: {
     imageSrc: string;
     radius: number;

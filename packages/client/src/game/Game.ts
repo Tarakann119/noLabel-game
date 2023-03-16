@@ -3,7 +3,7 @@ import { Building } from './Bulding';
 import { Enemy } from './Enemy';
 import { Resource } from './Resources';
 import { Menu } from './Menu';
-import { EnemyType, TGameSettings, TowerType } from '../../typings/app.typings';
+import { EnemyType, TGameSettings, TowerType, TowerList } from '../../typings/app.typings';
 
 export class Game {
   private readonly pathToMap = '../../public/game/maps/';
@@ -19,6 +19,12 @@ export class Game {
   private waveIndex = 0;
   private cursor: { x: number; y: number } = { x: 0, y: 0 };
   private activeTile: PlacementTile | undefined = undefined;
+
+  private towers: TowerList[] = [];
+  private dragok = false;
+  private towerType: number | null = null;
+  private startX: number | undefined;
+  private startY: number | undefined;
 
   constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
     this.context = this.canvas.getContext('2d');
@@ -36,7 +42,7 @@ export class Game {
 
   public async start() {
     await this.init();
-
+    this.createTowerListItems();
     const { settings, context } = this;
 
     if (settings && context) {
@@ -57,12 +63,15 @@ export class Game {
         canvas.addEventListener('mousemove', (event) => this.handleMouseMove(event));
         canvas.addEventListener('click', () => this.handleClick(coins));
 
+        canvas.addEventListener('mouseup', () => this.myUp());
+        canvas.addEventListener('mousedown', () => this.myDown());
+
         return new Promise<number>((resolve) => {
           const animate = () => {
             const animationId = requestAnimationFrame(animate);
 
             context.drawImage(img, 0, 0);
-
+            this.draw();
             coins.update();
             hearts.update();
             points.update();
@@ -123,7 +132,7 @@ export class Game {
   }
 
   private handleMouseMove(event: MouseEvent) {
-    const { placementTiles, cursor } = this;
+    const { placementTiles, cursor, dragok, towers } = this;
 
     if (this.canvas.width <= window.innerWidth) {
       cursor.x = event.clientX - ((window.innerWidth - this.canvas.width) / 2 - 20);
@@ -149,6 +158,22 @@ export class Game {
       // если фулл скрин убран
     }
 
+    if (dragok && this.startX && this.startY) {
+      const dx = cursor.x - this.startX;
+      const dy = cursor.y - this.startY;
+
+      for (let i = 0; i < towers.length; i++) {
+        if (towers[i].isDragging == true) {
+          towers[i].x += dx;
+          towers[i].y += dy;
+        }
+      }
+      this.draw();
+
+      this.startX = cursor.x;
+      this.startY = cursor.y;
+    }
+
     this.activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
   }
 
@@ -156,7 +181,7 @@ export class Game {
     const { activeTile, buildings, context, settings } = this;
     const { tileSize } = <TGameSettings>settings;
 
-    if (activeTile && !activeTile.isOccupied && coins.getCount() >= 25) {
+    if (activeTile && !activeTile.isOccupied && coins.getCount() >= 25 && this.towerType !== null) {
       coins.setCount(coins.getCount() - 25);
 
       buildings.push(
@@ -166,10 +191,11 @@ export class Game {
             x: activeTile.position.x,
             y: activeTile.position.y,
           },
-          TowerType.STONE,
+          this.towerType,
           tileSize
         )
       );
+      this.towerType = null;
 
       activeTile.isOccupied = true;
 
@@ -235,7 +261,7 @@ export class Game {
 
     placementTilesData2D.forEach((row, y) => {
       row.forEach((symbol, x) => {
-        if (symbol === 14) {
+        if (symbol === 91448) {
           placementTiles.push(
             new PlacementTile(
               <CanvasRenderingContext2D>context,
@@ -314,6 +340,99 @@ export class Game {
         this.createEnemy(type, xOffset);
         index++;
       });
+    }
+  }
+
+  private myUp() {
+    const { towers } = this;
+
+    this.dragok = false;
+
+    for (let i = 0; i < towers.length; i++) {
+      (towers[0].x = 30),
+        (towers[0].y = 630),
+        (towers[1].x = 170),
+        (towers[1].y = 630),
+        (towers[i].isDragging = false);
+      this.draw();
+    }
+  }
+
+  private myDown() {
+    const { towers, cursor } = this;
+
+    this.dragok = true;
+    const group = [];
+
+    for (let i = 0; i < towers.length; i++) {
+      if (
+        cursor.x > towers[i].x &&
+        cursor.x < towers[i].x + towers[i].width + 10 &&
+        cursor.y > towers[i].y + 22 &&
+        cursor.y < towers[i].y + 22 + towers[i].height
+      ) {
+        group.push(towers[i]);
+      }
+    }
+
+    if (group.length === 1) {
+      group[0].isDragging = true;
+      this.towerType = group[0].type;
+    }
+
+    this.startX = cursor.x;
+    this.startY = cursor.y;
+  }
+
+  private rect(towerListItem: TowerList) {
+    if (this.context) {
+      const img = new Image();
+      img.src = towerListItem.imageSrc;
+      this.context.fillStyle = towerListItem.fill;
+      this.context.drawImage(img, towerListItem.x, towerListItem.y);
+      this.context.fillRect(
+        towerListItem.x,
+        towerListItem.y,
+        towerListItem.width,
+        towerListItem.height
+      );
+    }
+  }
+
+  private createTowerListItems() {
+    this.towers.push({
+      x: 30,
+      y: 630,
+      width: 128,
+      height: 128,
+      fill: 'rgba(0, 0, 0, 0)',
+      imageSrc: '../../public/game/assets/towers/stone/tower.png',
+      isDragging: false,
+      type: TowerType.STONE,
+    });
+    this.towers.push({
+      x: 170,
+      y: 630,
+      width: 128,
+      height: 128,
+      fill: 'rgba(0, 0, 0, 0)',
+      isDragging: false,
+      imageSrc: '../../public/game/assets/towers/archer/tower.png',
+      type: TowerType.ARCHER,
+    });
+  }
+
+  private draw() {
+    const { context } = this;
+
+    if (context) {
+      const img = new Image();
+      img.src = '../../public/game/assets/interface-game/table_down.png';
+      context.drawImage(img, -70, 650);
+    }
+
+    for (let i = 0; i < this.towers.length; i++) {
+      this.rect(this.towers[i]);
     }
   }
 }

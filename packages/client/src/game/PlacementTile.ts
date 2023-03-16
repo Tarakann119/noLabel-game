@@ -32,7 +32,7 @@ export class PlacementTile {
     if (this.isCursorInTileBorders(cursor)) {
       this.color = 'rgba(255, 255, 255, 0.25)';
     } else {
-      this.color = 'rgba(255, 255, 255, 0.1)';
+      this.color = 'rgba(0, 0, 0, 0.1)';
     }
   }
 }
