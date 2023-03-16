@@ -22,21 +22,10 @@ function RequireAuth() {
     toast.error('Вы не авторизованы!');
     return <Navigate to='/login' />;
   }
-
   return <Outlet />;
 }
 
 const Layout = () => {
-  function RequireAuth() {
-    const auth = useAuth();
-    if (!auth.isAuth) {
-      toast.error('Вы не авторизованы!');
-      return <Navigate to='/login' />;
-    }
-
-    return <Outlet />;
-  }
-
   return (
     <>
       <Header />
