@@ -13,34 +13,34 @@ const renderInput = (props?: Omit<InputProps, 'name'>) =>
 
 describe('Input component', () => {
   it('Correctly renders in the DOM', () => {
-    renderInput({ label: INPUT_LABEL });
-    expect(screen.getByRole('textbox')).toBeDefined();
-    expect(screen.getByText(INPUT_LABEL)).toBeDefined();
+    renderInput({ label: INPUT_LABEL })
+    expect(screen.getByRole('textbox')).toBeDefined()
+    expect(screen.getByText(INPUT_LABEL)).toBeDefined()
   });
 
   it('Correctly changes value with onChange prop', async () => {
-    const handleChange = jest.fn();
-    renderInput({ onChange: handleChange });
-    const inputElement = screen.getByRole('textbox');
-    await userEvent.type(inputElement, TEST_VALUE);
-    expect(handleChange).toHaveBeenCalledTimes(TEST_VALUE.length);
-    expect(inputElement).toHaveValue(TEST_VALUE);
+    const handleChange = jest.fn()
+    renderInput({ onChange: handleChange })
+    const inputElement = screen.getByRole('textbox')
+    await userEvent.type(inputElement, TEST_VALUE)
+    expect(handleChange).toHaveBeenCalledTimes(TEST_VALUE.length)
+    expect(inputElement).toHaveValue(TEST_VALUE)
   });
 
   it('Correctly shows error', () => {
-    const { container } = renderInput({ isValid: false, error: INPUT_ERROR });
-    expect(container.firstChild).toHaveClass('input_invalid');
-    expect(screen.getByText(INPUT_ERROR)).toBeDefined();
+    const { container } = renderInput({ isValid: false, error: INPUT_ERROR })
+    expect(container.firstChild).toHaveClass('input_invalid')
+    expect(screen.getByText(INPUT_ERROR)).toBeDefined()
   });
 
   it('Could be read-only', () => {
-    const { container } = renderInput({ readOnly: true });
-    expect(container.firstChild).toHaveClass('input_type_read-only');
-    expect(screen.getByRole('textbox')).toHaveAttribute('readonly');
+    const { container } = renderInput({ readOnly: true })
+    expect(container.firstChild).toHaveClass('input_type_read-only')
+    expect(screen.getByRole('textbox')).toHaveAttribute('readonly')
   });
 
   it('Could be disabled', () => {
-    renderInput({ disabled: true });
-    expect(screen.getByRole('textbox')).toBeDisabled();
+    renderInput({ disabled: true })
+    expect(screen.getByRole('textbox')).toBeDisabled()
   });
 });
