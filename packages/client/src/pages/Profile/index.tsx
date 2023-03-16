@@ -33,7 +33,8 @@ const Profile = () => {
             }
             size='default'
             onClick={() => navigate('./change-avatar')}
-            link={true}
+            isLink={true}
+            title='Изменить аватар'
           />
           <div className='profile__container'>
             <div className=''>

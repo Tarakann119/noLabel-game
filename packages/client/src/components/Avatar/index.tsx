@@ -7,17 +7,17 @@ import './index.scss';
 export type AvatarProps = {
   size?: 'default' | 'small' | 'header';
   className?: string;
-  link?: boolean;
+  isLink?: boolean;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
 export const Avatar: FC<AvatarProps> = memo(
-  ({ src, alt, size = 'default', className, ...props }, link) => {
+  ({ src, alt, size = 'default', className, isLink, ...props }) => {
     return (
       <img
         src={src || defaultImages}
         alt={alt || 'Аватар'}
         draggable={false}
-        className={classNames('avatar', `avatar-size_${size}`, { avatar_link: link }, className)}
+        className={classNames('avatar', `avatar-size_${size}`, { avatar_link: isLink }, className)}
         {...props}
       />
     );

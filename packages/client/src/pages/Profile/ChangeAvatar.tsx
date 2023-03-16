@@ -55,6 +55,7 @@ const ChangeAvatar = () => {
           onLoad={() => {
             URL.revokeObjectURL(file.preview);
           }}
+          alt='Аватар'
         />
       </div>
     </div>
@@ -66,15 +67,27 @@ const ChangeAvatar = () => {
 
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
-      <Title text='Смена автара' />
-      <section className='container'>
-        <div {...getRootProps({ className: 'dropzone' })}>
-          <input {...getInputProps()} />
-          {!files.length && <p>Нажмите для выбора или перетащите сюда изображение</p>}
-        </div>
-        <aside>{thumbs}</aside>
-      </section>
-      <Button type='button' text='Поменять' onClick={() => updateAvatar()} />
+      <div className='container_center colum-6'>
+        <Title text='Смена автара' />
+        <section className='container'>
+          <div
+            {...getRootProps({
+              className: classNames(
+                { 'dropzone change-avatar__drop-zone': !files.length },
+                { hidden: files.length }
+              ),
+            })}>
+            <input {...getInputProps()} />
+            {!files.length && (
+              <p className='change-avatar__drop-zone-title'>
+                Нажмите для выбора или перетащите сюда изображение
+              </p>
+            )}
+          </div>
+          <aside>{thumbs}</aside>
+        </section>
+        <Button type='button' text='Поменять' onClick={() => updateAvatar()} />
+      </div>
     </div>
   );
 };

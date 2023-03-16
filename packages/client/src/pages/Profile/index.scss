@@ -42,3 +42,42 @@
     }
   }
 }
+
+.change-profile {
+  &__form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__item-container {
+    margin: 60px;
+  }
+}
+
+.change-avatar {
+  &__drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 300px;
+    margin: 20px 0 60px;
+    padding: 40px;
+    background-color: $color-ui-fields-bg;
+    border-radius: 12px;
+    cursor: pointer;
+
+    &-title {
+      color: $color-text-primary;
+      font-weight: 400;
+      font-size: 20px;
+      font-family: $font-defence;
+      font-style: normal;
+      line-height: 100%;
+      text-align: center;
+    }
+  }
+}
