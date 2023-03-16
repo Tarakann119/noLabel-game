@@ -72,7 +72,7 @@ export class Game {
             });
 
             buildings.forEach((building) => {
-              building.update();
+              building.updateTower(cursor);
               building.setTarget(enemies);
               building.shoot(enemies, coins, points);
             });
@@ -247,17 +247,53 @@ export class Game {
     );
   }
 
+  private mixWaves(
+    wave: {
+      type: EnemyType;
+      count: number;
+    }[]
+  ) {
+    const output = [];
+    const counts = wave.map((enemy) => ({ type: enemy.type, count: enemy.count }));
+    console.log(wave);
+
+    let index = 0;
+    let remaining = wave.reduce((total, enemy) => total + enemy.count, 0);
+
+    while (remaining > 0) {
+      const enemy = wave[index];
+      if (counts[index].count > 0) {
+        output.push(enemy.type);
+        counts[index].count--;
+        remaining--;
+      }
+      index = (index + 1) % wave.length;
+    }
+
+    return output;
+  }
+
   private spawnEnemiesWave(waveNumber: number) {
     const { waves } = <TGameSettings>this.settings;
 
     const wave = waves[waveNumber].enemies;
 
-    wave.forEach(({ type, count }) => {
-      for (let i = 0; i < count; i += 1) {
+    if (wave.length === 1) {
+      for (let i = 1; i < wave[0].count + 1; i++) {
         const xOffset = i * 150;
 
-        this.createEnemy(type, xOffset);
+        this.createEnemy(wave[0].type, xOffset);
       }
-    });
+    } else {
+      const extendWaves = this.mixWaves(wave);
+
+      extendWaves.forEach((type, i) => {
+        let index = i + 1;
+        const xOffset = index * 150;
+
+        this.createEnemy(type, xOffset);
+        index++;
+      });
+    }
   }
 }
