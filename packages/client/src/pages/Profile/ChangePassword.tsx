@@ -1,81 +1,75 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-type ChangePasswordType={
-    oldPassword:string,
-    newPassword:string,
-    confirmPassword:string
-}
+import classNames from 'classnames';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
+import { changeUserPassword } from '../../components/Autification/slice';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import InputValidate from '../../components/InputValidate';
+
 const PasswordSchema = Yup.object().shape({
-    newPassword: Yup.string()
-        .min(2, 'Too Short!')
-        .max(10, 'Too Long!')
-        .matches(/(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,40}/g, 'Поле зполнено некорректно')
-        .required('Required'),
-    oldPassword: Yup.string()
-        .min(2, 'Too Short!')
-        .max(10, 'Too Long!')
-        .required('Required'),
-    confirmPassword: Yup.string()
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        .oneOf([Yup.ref('newPassword'), null], "Пароли не совпадают!")
-        .required('Required'),
+  newPassword: Yup.string()
+    .min(2, 'Too Short!')
+    .max(10, 'Too Long!')
+    .matches(/(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,40}/g, 'Поле зполнено некорректно')
+    .required('Required'),
+  oldPassword: Yup.string().min(2, 'Too Short!').max(10, 'Too Long!').required('Required'),
+  confirmPassword: Yup.string()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    .oneOf([Yup.ref('newPassword'), null], 'Пароли не совпадают!')
+    .required('Required'),
 });
 
-const ChangePassword = () =>{
-    const navigate = useNavigate()
-    const handleSubmit = async (values: ChangePasswordType) => {
-        const data = JSON.stringify(values)
-        axios('https://ya-praktikum.tech/api/v2/user/password', {
-            method: "post",
-            data: data,
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        }
-        )
-            .then(() => { toast.success('Пользователь создан!'); navigate('/profile') })
-            .catch(() => { toast.error('Что-то не так...') })
-    }
-    return(
-        <>
-    <h2>Смена пароля</h2>
+const ChangePassword = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-                <Formik
-                    initialValues={{
-                        oldPassword: '',
-                        newPassword: '',
-                        confirmPassword: ''
-                    }}
-                    validationSchema={PasswordSchema}
-                    onSubmit={values => {
-                        console.log(values);
-                        handleSubmit(values)
-                    }}
-                >
-                    {({ errors, touched }) => (
-                        <Form>
-                            <Field name="oldPassword" />
-                            {errors.oldPassword && touched.oldPassword ? (
-                                <div>{errors.oldPassword}</div>
-                            ) : null}
-                            <Field name="newPassword" />
-                            {errors.newPassword && touched.newPassword ? (
-                                <div>{errors.newPassword}</div>
-                            ) : null}
-                            <Field name="confirmPassword" />
-                            {errors.confirmPassword&& touched.confirmPassword ? (
-                                <div>{errors.confirmPassword}</div>
-                            ) : null}
-                            <button type="submit">Сменить пароль</button>
-                            </Form>
-                    )}
-                </Formik>
-    </>
-    )
-}
-export default ChangePassword 
+  return (
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      <Title text='Смена пароля' />
+      <Formik
+        initialValues={{
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: '',
+        }}
+        validationSchema={PasswordSchema}
+        onSubmit={(values) => {
+          dispatch(changeUserPassword({ navigate: navigate, values: values }));
+        }}>
+        {({ errors, values, handleChange }) => (
+          <Form>
+            <InputValidate
+              handleChange={handleChange}
+              name='oldPassword'
+              type='password'
+              label='Старый пароль'
+              value={values.oldPassword}
+              error={errors.oldPassword}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='newPassword'
+              type='password'
+              label='Новый пароль'
+              value={values.newPassword}
+              error={errors.newPassword}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='confirmPassword'
+              type='password'
+              label='Повторите пароль'
+              value={values.confirmPassword}
+              error={errors.confirmPassword}
+            />
+            <Button text='Сменить пароль' type='submit' className='custom-button' />
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+export default ChangePassword;
