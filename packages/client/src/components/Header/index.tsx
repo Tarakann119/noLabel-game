@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './index.scss';
 import { Button } from '../Button';
 import Spacer from '../../ui/Spacer';
@@ -9,7 +9,6 @@ import { showError } from '../../../utils/ShowError';
 import { currentUser } from '../../Store/selectors';
 const Header = () => {
   const user = useSelector(currentUser);
-  const location = useLocation();
   const navigate = useNavigate();
   const logOut = async () => {
     fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
@@ -45,7 +44,7 @@ const Header = () => {
               Форум
             </Link>
           </div>
-          {location.pathname === '/' ? (
+          {!user.login ? (
             <div className='header__container header__container_autch'>
               <Button text={'ВХОД'} onClick={() => navigate('/login')} />
             </div>

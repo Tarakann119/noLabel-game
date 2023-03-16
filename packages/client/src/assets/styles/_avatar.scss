@@ -6,6 +6,18 @@
   border: 3px solid $color-ui-primary;
   border-radius: 50%;
   aspect-ratio: 1;
+
+  &_link {
+    cursor: pointer;
+
+    &:hover {
+      filter: drop-shadow(0 0 10px $color-ui-primary);
+    }
+
+    &:active {
+      filter: drop-shadow(0 0 10px $color-text-primary);
+    }
+  }
 }
 
 .avatar-active {
@@ -14,7 +26,8 @@
 
 .avatar-size {
   &_default {
-    width: 68px;
+    width: 150px;
+    height: 150px;
   }
 
   &_small {

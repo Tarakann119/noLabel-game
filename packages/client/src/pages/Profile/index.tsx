@@ -1,10 +1,9 @@
 import Theme from '../../components/Theme';
 import './index.scss';
 import { Title } from '../../components/Title';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Fragment } from 'react';
-import classNames from 'classnames';
 import { currentUser } from '../../Store/selectors';
 import { Avatar } from '../../components/Avatar';
 
@@ -13,6 +12,7 @@ type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Т�
 const Profile = () => {
   const user = useSelector(currentUser);
   console.log(user);
+  const navigate = useNavigate();
 
   const userData = [
     { Логин: user.login },
@@ -23,8 +23,8 @@ const Profile = () => {
   ];
 
   return (
-    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
-      <div className={classNames('colum-6', 'container__reg-form')}>
+    <div className='container-content bg-image_login container-content_main'>
+      <div className='colum-6 container_center'>
         <>
           <Title text='Данные вашего Профиля' />
           <Avatar
@@ -32,27 +32,26 @@ const Profile = () => {
               user.avatar ? `https://ya-praktikum.tech/api/v2/resources${user.avatar}` : undefined
             }
             size='default'
+            onClick={() => navigate('./change-avatar')}
+            link={true}
           />
-          <div className='profile-image-name'>
-            <Link className='plane-link' to={'./change-avatar'}>
-              Изменить аватар
-              <div className='profile-link-page'></div>
-            </Link>
-            <div className='navigation-link-invert'>{user.login}</div>
-          </div>
-          <div>
-            <div className='profile-image-name'>
+          <div className='profile__container'>
+            <div className=''>
               {userData.map((items, index) =>
                 Object.keys(items).map((key: string) => (
                   <Fragment key={index}>
-                    <div className='navigation-link profile-navigation-link'>{key}</div>
-                    <div className='navigation-link-invert'>{items[key as UserKeys]}</div>
+                    <div className='profile__item-container'>
+                      <div className='profile__item'>{key}</div>
+                      <div className='profile__item profile__item-value'>
+                        {items[key as UserKeys]}
+                      </div>
+                    </div>
                   </Fragment>
                 ))
               )}
             </div>
+            <Theme />
           </div>
-          <Theme />
           <Link className='plane-link' to={'./edit'}>
             Изменить данные профиля
           </Link>
