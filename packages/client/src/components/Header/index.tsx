@@ -52,6 +52,11 @@ const Header = () => {
           ) : (
             <div style={{ cursor: 'pointer' }}>
               <UserCard
+                avatarUrl={
+                  user.avatar
+                    ? `https://ya-praktikum.tech/api/v2/resources${user.avatar}`
+                    : undefined
+                }
                 variant='header'
                 userName={user.login ?? 'Игрок'}
                 clickCard={() => navigate('/profile')}
