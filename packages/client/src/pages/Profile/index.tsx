@@ -1,52 +1,60 @@
-import axios from "axios"
-import { useEffect } from "react"
-import Theme from "../../components/Theme"
-import '../../components/Button/index.css'
-import '../../components/Header/index.css'
-import '../../components/Input/index.css'
-import '../LoginPage/index.css'
-import '../StartScreen/index.css'
-import './index.css'
-import { Button } from '../../components/Button'
-import { Title } from '../../components/Title'
+import Theme from '../../components/Theme';
+import './index.scss';
+import { Title } from '../../components/Title';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Fragment } from 'react';
+import classNames from 'classnames';
+import { currentUser } from '../../Store/selectors';
 
-const Profile = () =>{
-//     useEffect(()=>{
-//         axios.get(`https://ya-praktikum.tech/api/v2/auth/user`)
-//         .then((response: any) => {
-//           const user = response;
-//           localStorage.setItem("userId", user.id)
-// console.log(response)
-//         })
-//     },[])
-    return(
-      <div className="main-page-wrapper">
-          <div className="main-wrapper"
-               style={{
-                   backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
-               }}>
-              <div className="form-login profile-wrapper">
+type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Телефон';
+
+const Profile = () => {
+  const user = useSelector(currentUser);
+  console.log(user);
+
+  const userData = [
+    { Логин: user.login },
+    { Имя: user.first_name },
+    { Фамилия: user.second_name },
+    { Почта: user.email },
+    { Телефон: user.phone },
+  ];
+
+  return (
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      <div className={classNames('colum-6', 'container__reg-form')}>
         <>
-            <Title className="form-login-title" text="Данные вашего Профиля" />
-            <div className="profile-image-name">
-              <Link className="navigation-link profile-navigation-link" to={'/profile'}><div className="profile-link-page"></div></Link>
-                <div  className="navigation-link-invert">Имя</div>
+          <Title text='Данные вашего Профиля' />
+          <div className='profile-image-name'>
+            <Link className='plane-link' to={'./change-avatar'}>
+              Изменить аватар
+              <div className='profile-link-page'></div>
+            </Link>
+            <div className='navigation-link-invert'>{user.login}</div>
+          </div>
+          <div>
+            <div className='profile-image-name'>
+              {userData.map((items, index) =>
+                Object.keys(items).map((key: string) => (
+                  <Fragment key={index}>
+                    <div className='navigation-link profile-navigation-link'>{key}</div>
+                    <div className='navigation-link-invert'>{items[key as UserKeys]}</div>
+                  </Fragment>
+                ))
+              )}
             </div>
-        <div>
-
-          <div className="profile-image-name">
-            <div className="navigation-link profile-navigation-link">key</div>
-            <div  className="navigation-link-invert">value</div>
           </div>
-        </div>
-        <Theme />
-          <Link className="plane-link" to={'/ChangeProfile'}>Изменить данные профиля</Link>
-          <Link className="plane-link" to={'/ChangePassword'}>Изменить пароль</Link>
+          <Theme />
+          <Link className='plane-link' to={'./edit'}>
+            Изменить данные профиля
+          </Link>
+          <Link className='plane-link' to={'./change-password'}>
+            Изменить пароль
+          </Link>
         </>
-              </div>
-          </div>
       </div>
-    )
-}
-export default Profile
+    </div>
+  );
+};
+export default Profile;

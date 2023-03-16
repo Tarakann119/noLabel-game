@@ -12,10 +12,17 @@
   border: 3px solid $color-ui-secondary;
 }
 
-.avatar-size-default {
-  width: 68px;
-}
+.avatar-size {
+  &_default {
+    width: 68px;
+  }
 
-.avatar-size-small {
-  width: 36px;
+  &_small {
+    width: 36px;
+  }
+
+  &_header {
+    width: 50px;
+    height: 50px;
+  }
 }

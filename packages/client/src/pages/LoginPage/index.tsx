@@ -1,24 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-
-import { toast } from "react-toastify";
-import {useNavigate} from 'react-router-dom'
-import { useEffect } from 'react';
-import '../../components/Button/index.css'
-import '../../components/Header/index.css'
-import '../../components/Input/index.css'
-import '../StartScreen/index.css'
-import './index.css'
-import { Button } from '../../components/Button'
-import { Title } from '../../components/Title'
-
-type LoginType ={
-    login: string,
-    password: string
-}
-
+import './index.scss';
+import classNames from 'classnames';
+import HeaderH1 from '../../ui/HeaderH1';
+import { Button } from '../../components/Button';
+import { useState } from 'react';
+import { useLoading } from '../../components/LoaderComponent';
+import { handleSubmitLogin } from '../../components/Autification/slice';
+import Loader from '../../ui/Loader';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import InputValidate from '../../components/InputValidate';
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -35,33 +27,13 @@ const SigninSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const handleSubmit = async (values: LoginType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/auth/signin', {
-      method: 'post',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        toast.success('Успешно!');
-        navigate('/profile');
-      })
-      .then(() => fetch(`https://ya-praktikum.tech/api/v2/auth/user`))
-      // TODO: Нужно типизировать ответ
-      .then((response: any) => {
-        console.log(response);
-        const user = response;
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('user', user);
-      })
-      .catch(() => toast.error('Что-то не так...'));
-  };
+  const [fieldError, setFieldError] = useState(null);
+  const { loading } = useLoading();
+  const dispatch = useAppDispatch();
 
   return (
-    <div className='container-content container-content_main'>
+    <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
+      {loading && <Loader />}
       <Formik
         initialValues={{
           login: '',
@@ -69,77 +41,39 @@ const LoginPage = () => {
         }}
         validationSchema={SigninSchema}
         onSubmit={(values) => {
-          console.log(JSON.stringify(values));
-          handleSubmit(values);
+          dispatch(
+            handleSubmitLogin({ navigate: navigate, values: values, setFieldError: setFieldError })
+          );
         }}>
-        {({ errors, touched }) => (
-          <Form className='container__login-form colum-5'>
-            <InputWrapper error={errors.login} label='Логин'>
-              <Field name='login' type='text' className='input__field' />
-              {errors.login && touched.login ? (
-                <div className='input__error-message'>{errors.login}</div>
-              ) : null}
-            </InputWrapper>
-            <InputWrapper error={errors.password} label='Пароль'>
-              <Field name='password' type='password' className='input__field' />
-              {errors.password && touched.password ? (
-                <>
-                  <div className='input__error-message'>{errors.password}</div>
-                </>
-              ) : null}
-            </InputWrapper>
+        {({ errors, values, handleChange }) => (
+          <Form className={classNames('colum-5', 'container__login-form')}>
+            <HeaderH1 label='ВХОД' />
+            <InputValidate
+              handleChange={handleChange}
+              name='login'
+              type='text'
+              label='Логин'
+              value={values.login}
+              error={errors.login}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='password'
+              type='password'
+              label='Пароль'
+              value={values.password}
+              error={errors.password}
+            />
+            <Button text='Вход' type='submit' className='custom-button' />
+            <Link className='plane-link' to='/registration'>
+              Нет аккаунта?
+            </Link>
+            <div className='input__error-message'>{fieldError}</div>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
 
-
-    return (
-      <div className="main-page-wrapper">
-          <div className="main-wrapper"
-               style={{
-                   backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
-               }}>
-        <div className="form-login">
-            <div>
-                <Formik
-                    initialValues={{
-                        login: '',
-                        password: ''
-                    }}
-                    validationSchema={SigninSchema}
-                    onSubmit={values => {
-                        console.log(JSON.stringify(values));
-                        handleSubmit(values)
-                    }}
-                >
-                    {({ errors, touched }) => (
-                        <Form>
-                          <Title className="form-login-title" text="Вход" />
-                            <Field name="login" type='text' className="input__control" placeholder="login" />
-                            {errors.login && touched.login ? (
-                                <div>{errors.login}</div>
-                            ) : null}
-                            <Field
-                            type= "password"
-                            placeholder="*****"
-                            name= "password"
-                            className="input__control" />
-                            {errors.password && touched.password ? (
-                                <div>{errors.password}</div>
-                            ) : null}
-                            <Button
-                              text="Войти"
-                              type={'submit'}
-                              onClick={()=>navigate('/login')}
-                              className="button button_view_primary"
-                            />
-                            <div>
-                                <Link className="plane-link" to={'/registration'}>Зарегистрироваться</Link>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        </div>
-          </div>
-      </div>
-    )
-}
-export default LoginPage
+export default LoginPage;

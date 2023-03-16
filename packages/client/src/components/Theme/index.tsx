@@ -1,14 +1,13 @@
+import { useSelector, useDispatch } from 'react-redux';
+import cn from 'classnames';
+import './index.scss';
+import { set } from './slice';
+import styles from './index.module.scss';
+import { useEffect } from 'react';
+import { RootState } from '../../Store/store';
 
-import { useSelector, useDispatch } from 'react-redux'
-import cn from 'classnames'
-import './index.css'
-import { set } from './slice'
-import styles from './index.module.css'
-import { useEffect } from 'react'
-
-
-const Theme = ({ className }: any) => {
-  const theme = useSelector((state: any) => state.theme);
+const Theme = ({ className }: { className?: string }) => {
+  const theme = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,19 +22,14 @@ const Theme = ({ className }: any) => {
 
   return (
     <div
-
-      className= {cn(
-    		className,
-    		styles.root,
-    		theme === 'dark' ? styles.dark : styles.light)}
-      onClick={handleChange}
-    >
-      <div className="theme-wrapper">
-        <div className="navigation-link-invert">Активная тема </div>
-        <div className="navigation-link"> Нективная тема</div>
+      className={cn(className, styles.root, theme === 'dark' ? styles.dark : styles.light)}
+      onClick={handleChange}>
+      <div className='theme-wrapper'>
+        <div className='navigation-link-invert'>Активная тема</div>
+        <div className='navigation-link'>Нективная тема</div>
       </div>
     </div>
-      )
-}
+  );
+};
 
-export default Theme
+export default Theme;

@@ -1,15 +1,16 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-type ChangeProfileType = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
-  phone: string;
-};
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
+import classNames from 'classnames';
+import { changeUserProfile } from '../../components/Autification/slice';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import InputValidate from '../../components/InputValidate';
+import { currentUser } from '../../Store/selectors';
+
 const ProfileSchema = Yup.object().shape({
   first_name: Yup.string()
     .min(2, 'Слишком короткое имя!')
@@ -36,63 +37,75 @@ const ProfileSchema = Yup.object().shape({
 
 const ChangeProfile = () => {
   const navigate = useNavigate();
-  const handleSubmit = async (values: ChangeProfileType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/user/profile', {
-      method: 'put',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        toast.success('Пользователь создан!');
-        navigate('/profile');
-      })
-      .catch(() => {
-        toast.error('Что-то не так...');
-      });
-  };
-  return (
-    <>
-      <h2>Изменение данных пользователя</h2>
+  const user = useSelector(currentUser);
+  const [fieldError, setFieldError] = useState(null);
+  const dispatch = useAppDispatch();
 
+  return (
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      <Title text='Изменение данных пользователя' />
       <Formik
         initialValues={{
-          first_name: '',
-          second_name: '',
-          login: '',
-          email: '',
-          phone: '',
+          first_name: user.first_name ?? '',
+          second_name: user.second_name ?? '',
+          login: user.login ?? '',
+          email: user.email ?? '',
+          phone: user.phone ?? '',
         }}
         validationSchema={ProfileSchema}
         onSubmit={(values) => {
-          console.log(values);
-          handleSubmit(values);
+          dispatch(
+            changeUserProfile({ navigate: navigate, values: values, setFieldError: setFieldError })
+          );
         }}>
-        {({ errors, touched }) => (
+        {({ errors, values, handleChange }) => (
           <Form>
-            <label htmlFor='first_name'>Имя</label>
-            <Field name='first_name' />
-            {errors.first_name && touched.first_name ? <div>{errors.first_name}</div> : null}
-            <label htmlFor='second_name'>Имя</label>
-            <Field name='second_name' />
-            {errors.second_name && touched.second_name ? <div>{errors.second_name}</div> : null}
-            <label htmlFor='login'>Имя</label>
-            <Field name='login' />
-            {errors.login && touched.login ? <div>{errors.login}</div> : null}
-            <label htmlFor='email'>Имя</label>
-            <Field name='email' />
-            {errors.email && touched.email ? <div>{errors.email}</div> : null}
-            <label htmlFor='phone'>Имя</label>
-            <Field name='phone' />
-            {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
-            <button type='submit'>Изменить данные</button>
+            <InputValidate
+              handleChange={handleChange}
+              name='first_name'
+              type='text'
+              label='Имя'
+              value={values.first_name}
+              error={errors.first_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='second_name'
+              type='text'
+              label='Фамилия'
+              value={values.second_name}
+              error={errors.second_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='login'
+              type='text'
+              label='Логин'
+              value={values.login}
+              error={errors.login}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='email'
+              type='text'
+              label='Ваша почта'
+              value={values.email}
+              error={errors.email}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='phone'
+              type='text'
+              label='Телефон'
+              value={values.phone}
+              error={errors.phone}
+            />
+            <div>{fieldError}</div>
+            <Button text='Изменить данные' type='submit' className='custom-button' />
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 };
 export default ChangeProfile;
