@@ -1,13 +1,41 @@
-import { useNavigate } from "react-router"
+import { Link } from 'react-router-dom';
+import '../../components/Button/index.scss';
+import '../../components/Header/index.scss';
+import '../StartScreen/index.scss';
+import './index.scss';
+import classNames from 'classnames';
+import { Title } from '../../components/Title';
 
+const mockData = [
+  {
+    id: 1,
+    title: 'как играть',
+  },
+  {
+    id: 2,
+    title: 'как перестать проигрывать',
+  },
+  {
+    id: 3,
+    title: 'как бросить играть',
+  },
+  {
+    id: 4,
+    title: 'как найти девушку',
+  },
+];
 const Forum = () => {
-    const navigate = useNavigate()
-    return (
-        <>
-            <h2>Форум</h2>
-            Список тем:
-            <div onClick={()=>navigate(`./id`)}>Тема 1</div>
-        </>
-    )
-}
-export default Forum
+  return (
+    <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
+      <div className='forum__container'>
+        <Title text='Актуальные темы' />
+        {mockData.map((data) => (
+          <Link className='plane-link' to={`./${data.id}`} key={data.id}>
+            {data.title}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+export default Forum;

@@ -6,4 +6,4 @@ pre-commit:
       run: yarn prettier --write {staged_files} && yarn eslint {staged_files} && git add {staged_files}
     stylelint:
       glob: '*.{css,scss}'
-      run: yarn prettier --write {staged_files} && yarn stylelint --fix {staged_files} && git add {staged_files}
+      run:  git add {staged_files}

@@ -1,18 +1,20 @@
-import { useSelector } from 'react-redux';
-import { State } from '../../../typings/app.typings';
+import './index.scss';
+import { Title } from '../../components/Title';
+import classNames from 'classnames';
+import rating from '../../../mok/rating';
 
 const RatingPage = () => {
-  const { points } = useSelector((state: State) => state.game);
+  const ratingList = rating.map((user) => {
+    return <li key={user.id}>{user.name}</li>;
+  });
 
   return (
-    <ol>
-      <li>
-        <div className='avatar'></div>
-        <div className='nickname'></div>
-        <div className='points'>{points}</div>
-      </li>
-    </ol>
+    <div className={classNames('container-content', 'container_start', 'bg-image_login')}>
+      <div className='form-login'>
+        <Title text='Рейтинг игроков' />
+        {ratingList}
+      </div>
+    </div>
   );
 };
-
 export default RatingPage;
