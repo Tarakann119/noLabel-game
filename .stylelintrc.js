@@ -1,18 +1,13 @@
 module.exports = {
-  'extends': 'stylelint-config-standard-scss',
-  'plugins': [
-    'stylelint-scss',
+  extends: [
+    'stylelint-config-standard',
+    'stylelint-config-recommended-scss',
+    'stylelint-config-rational-order-fix',
+    'stylelint-config-prettier',
   ],
-  'rules': {
-    'at-rule-no-unknown': null,
-    'scss/at-rule-no-unknown': true,
-    'no-invalid-double-slash-comments': true,
-    'block-no-empty': true,
-    'comment-no-empty': true,
-    'no-empty-source': true,
-    'color-no-invalid-hex': true,
-    'function-url-quotes': 'always',
-    'no-descending-specificity': null,
-    'scss/double-slash-comment-whitespace-inside': null,
+  plugins: ['stylelint-order', 'stylelint-scss'],
+  rules: {
+    'import-notation': 'string',
+    "selector-class-pattern": "^([a-z]*)(-[a-z]+)?(__[a-z]+)?(-[a-z]+)?(_[a-z]+)?(-[a-z]+)?$",
   },
 };
