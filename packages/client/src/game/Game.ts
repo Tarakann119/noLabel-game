@@ -71,7 +71,9 @@ export class Game {
             const animationId = requestAnimationFrame(animate);
 
             context.drawImage(img, 0, 0);
+
             this.draw();
+
             coins.update();
             hearts.update();
             points.update();

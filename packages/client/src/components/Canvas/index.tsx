@@ -19,7 +19,6 @@ export const Canvas = (props: { mapName: string }) => {
       const startGame = async () => {
         const game = new Game(canvas, props.mapName);
         const points = await game.start();
-
         dispatch(setPoints(points));
       };
 

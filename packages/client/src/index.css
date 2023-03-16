@@ -47,10 +47,6 @@ body {
   padding: 0 70px;
 }
 
-canvas {
-  display: block;
-}
-
 #root {
   position: relative;
   height: 100vh;
