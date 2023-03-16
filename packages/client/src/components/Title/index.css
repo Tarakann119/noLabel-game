@@ -1,20 +1,19 @@
 .title {
-    padding: 0 0 8px;
-    margin-top:30px;
-    margin-bottom:30px;
-    font-family: var(--font-secondary);
-    font-style: normal;
-    font-weight: 300;
-    font-size: 36px;
-    line-height: 0.97;
-    letter-spacing: 0.06em;
+  padding: 0 0 8px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-family: var(--font-secondary);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 0.97;
+  letter-spacing: 0.06em;
 
-    text-align: center;
-    text-transform: capitalize;
-    user-select: none;
+  text-align: center;
+  text-transform: capitalize;
+  user-select: none;
 }
 
 .title_view_base {
-    color: var(--color-text-primary);
-
+  color: var(--color-text-primary);
 }

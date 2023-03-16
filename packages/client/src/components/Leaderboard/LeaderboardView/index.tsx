@@ -2,6 +2,7 @@ import { Avatar } from '../../Avatar';
 import './index.scss';
 
 export interface ProfileProps {
+  id: string | number;
   order: number;
   avatar: string;
   username: string;

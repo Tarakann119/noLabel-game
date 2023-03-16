@@ -19,5 +19,5 @@ export const Button: FC<ButtonProps> = memo(
         {text}
       </button>
     );
-  },
+  }
 );

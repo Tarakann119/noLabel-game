@@ -1,23 +1,14 @@
-import { Link } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 import './index.scss';
 import { Button } from '../../components/Button';
 import { Title } from '../../components/Title';
 import { useState } from 'react';
-import Loader from '../../ui/Loader';
-import { useLoading } from '../../components/LoaderComponent';
-
-type ProfileType = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  password: string;
-  confirmPassword: string;
-};
+import classNames from 'classnames';
+import InputValidate from '../../components/InputValidate';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import { handleSubmitRegistration } from '../../components/Autification/slice';
 
 const SignupSchema = Yup.object().shape({
   first_name: Yup.string()
@@ -52,130 +43,101 @@ const SignupSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], 'Пароли не совпадают!'),
 });
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const [fieldError, setFieldError] = useState(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { loading, setLoading } = useLoading();
-  const handleSubmit = async (values: ProfileType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/auth/signup', {
-      method: 'post',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        toast.success('Пользователь создан!');
-        navigate('/login');
-      })
-      .catch((error) => {
-        toast.error('Что-то не так...');
-        setFieldError(error.response.data.reason);
-      });
-  };
+  const dispatch = useAppDispatch();
+
   return (
-    <div className='main-page-wrapper'>
-      {loading && <Loader />}
-      <div
-        className='main-wrapper'
-        style={{
-          backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      <Formik
+        initialValues={{
+          first_name: '',
+          second_name: '',
+          login: '',
+          email: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+        }}
+        validationSchema={SignupSchema}
+        onSubmit={(values) => {
+          dispatch(
+            handleSubmitRegistration({
+              navigate: navigate,
+              values: values,
+              setFieldError: setFieldError,
+            })
+          );
         }}>
-        <div className='form-login'>
-          <div>
-            <div>
-              <Formik
-                initialValues={{
-                  first_name: '',
-                  second_name: '',
-                  login: '',
-                  email: '',
-                  phone: '',
-                  password: '',
-                  confirmPassword: '',
-                }}
-                validationSchema={SignupSchema}
-                onSubmit={(values) => {
-                  handleSubmit(values);
-                }}>
-                {({ errors, touched }) => (
-                  <Form>
-                    <Title className='form-login-title' text='Регистрация' />
-                    <Field
-                      name='first_name'
-                      type='text'
-                      className='input__control'
-                      placeholder='Ваше имя'
-                    />
-                    {errors.first_name && touched.first_name ? (
-                      <div>{errors.first_name}</div>
-                    ) : null}
-                    <Field
-                      name='second_name'
-                      type='text'
-                      className='input__control'
-                      placeholder='Ваша фамилия'
-                    />
-                    {errors.second_name && touched.second_name ? (
-                      <div>{errors.second_name}</div>
-                    ) : null}
-                    <Field
-                      name='login'
-                      type='text'
-                      className='input__control'
-                      placeholder='Ваш логин'
-                    />
-                    {errors.login && touched.login ? <div>{errors.login}</div> : null}
-                    <Field
-                      name='email'
-                      type='email'
-                      className='input__control'
-                      placeholder='Ваша почта'
-                    />
-                    {errors.email && touched.email ? <div>{errors.email}</div> : null}
-                    <Field
-                      name='phone'
-                      type='text'
-                      className='input__control'
-                      placeholder='+7000-00-00'
-                    />
-                    {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
-                    <Field
-                      name='password'
-                      type='password'
-                      className='input__control'
-                      placeholder='*****'
-                    />
-                    {errors.password && touched.password ? <div>{errors.password}</div> : null}
-                    <Field
-                      name='confirmPassword'
-                      type='password'
-                      className='input__control'
-                      placeholder='*****'
-                    />
-                    {errors.confirmPassword && touched.confirmPassword ? (
-                      <div>{errors.confirmPassword}</div>
-                    ) : null}
-                    <div>{fieldError}</div>
-                    <Button
-                      text='Зарегистрироваться'
-                      type='submit'
-                      className='button button_view_primary'
-                    />
-                    <Link className='plane-link' to={'/login'}>
-                      Уже зарегистрированы? Войти!
-                    </Link>
-                  </Form>
-                )}
-              </Formik>
-            </div>
-          </div>
-        </div>
-      </div>
+        {({ errors, values, handleChange }) => (
+          <Form className={classNames('colum-6', 'container__reg-form')}>
+            <Title text='Регистрация' />
+            <InputValidate
+              handleChange={handleChange}
+              name='first_name'
+              type='text'
+              label='Имя'
+              value={values.first_name}
+              error={errors.first_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='second_name'
+              type='text'
+              label='Фамилия'
+              value={values.second_name}
+              error={errors.second_name}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='login'
+              type='text'
+              label='Логин'
+              value={values.login}
+              error={errors.login}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='email'
+              type='text'
+              label='Ваша почта'
+              value={values.email}
+              error={errors.email}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='phone'
+              type='text'
+              label='Номер телефона'
+              value={values.phone}
+              error={errors.phone}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='password'
+              type='password'
+              label='Пароль'
+              value={values.password}
+              error={errors.password}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='confirmPassword'
+              type='password'
+              label='Повторите пароль'
+              value={values.confirmPassword}
+              error={errors.confirmPassword}
+            />
+            <div>{fieldError}</div>
+            <Button text='Регистрация' type='submit' className='custom-button' />
+            <Link className='plane-link' to={'/login'}>
+              Уже зарегистрированы? Войти!
+            </Link>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
-export default LoginPage;
+export default RegisterPage;

@@ -1,16 +1,13 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useLoading } from '../../components/LoaderComponent';
-import Loader from '../../ui/Loader';
-type ChangePasswordType = {
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-};
+import classNames from 'classnames';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
+import { changeUserPassword } from '../../components/Autification/slice';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import InputValidate from '../../components/InputValidate';
+
 const PasswordSchema = Yup.object().shape({
   newPassword: Yup.string()
     .min(2, 'Too Short!')
@@ -27,34 +24,11 @@ const PasswordSchema = Yup.object().shape({
 
 const ChangePassword = () => {
   const navigate = useNavigate();
-  const [fieldError, setFieldError] = useState(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { loading, setLoading } = useLoading();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = async (values: ChangePasswordType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/user/password', {
-      method: 'post',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(() => {
-        toast.success('Пользователь создан!');
-        navigate('/profile');
-      })
-      .catch((error) => {
-        toast.error('Что-то не так...');
-        setFieldError(error.response.data.reason);
-      });
-  };
   return (
-    <>
-      {loading && <Loader />}
-      <h2>Смена пароля</h2>
-
+    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
+      <Title text='Смена пароля' />
       <Formik
         initialValues={{
           oldPassword: '',
@@ -63,25 +37,39 @@ const ChangePassword = () => {
         }}
         validationSchema={PasswordSchema}
         onSubmit={(values) => {
-          console.log(values);
-          handleSubmit(values);
+          dispatch(changeUserPassword({ navigate: navigate, values: values }));
         }}>
-        {({ errors, touched }) => (
+        {({ errors, values, handleChange }) => (
           <Form>
-            <Field name='oldPassword' />
-            {errors.oldPassword && touched.oldPassword ? <div>{errors.oldPassword}</div> : null}
-            <Field name='newPassword' />
-            {errors.newPassword && touched.newPassword ? <div>{errors.newPassword}</div> : null}
-            <Field name='confirmPassword' />
-            {errors.confirmPassword && touched.confirmPassword ? (
-              <div>{errors.confirmPassword}</div>
-            ) : null}
-            <div>{fieldError}</div>
-            <button type='submit'>Сменить пароль</button>
+            <InputValidate
+              handleChange={handleChange}
+              name='oldPassword'
+              type='password'
+              label='Старый пароль'
+              value={values.oldPassword}
+              error={errors.oldPassword}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='newPassword'
+              type='password'
+              label='Новый пароль'
+              value={values.newPassword}
+              error={errors.newPassword}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='confirmPassword'
+              type='password'
+              label='Повторите пароль'
+              value={values.confirmPassword}
+              error={errors.confirmPassword}
+            />
+            <Button text='Сменить пароль' type='submit' className='custom-button' />
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 };
 export default ChangePassword;

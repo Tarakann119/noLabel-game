@@ -2,7 +2,7 @@ import type { AnchorHTMLAttributes, FC } from 'react';
 import { memo } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
-import '../Button/index.scss';
+import '../Button/index.css';
 
 export type LinkProps = {
   href: string;

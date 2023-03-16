@@ -1,22 +1,16 @@
-import { useNavigate } from 'react-router-dom';
-import { Field, Form, Formik } from 'formik';
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import axios, { AxiosResponse } from 'axios';
-
-import { toast } from 'react-toastify';
-import InputWrapper from '../../components/InputWrapper';
+import './index.scss';
+import classNames from 'classnames';
+import HeaderH1 from '../../ui/HeaderH1';
 import { Button } from '../../components/Button';
-import { UserInfo } from '../../../typings/app.typings';
 import { useState } from 'react';
 import { useLoading } from '../../components/LoaderComponent';
+import { handleSubmitLogin } from '../../components/Autification/slice';
 import Loader from '../../ui/Loader';
 import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
-import { setUser } from '../../components/Autification/slice';
-
-type LoginType = {
-  login: string;
-  password: string;
-};
+import InputValidate from '../../components/InputValidate';
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -34,61 +28,11 @@ const SigninSchema = Yup.object().shape({
 const LoginPage = () => {
   const navigate = useNavigate();
   const [fieldError, setFieldError] = useState(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { loading, setLoading } = useLoading();
+  const { loading } = useLoading();
   const dispatch = useAppDispatch();
-  const handleSubmit = async (values: LoginType) => {
-    const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/auth/signin', {
-      method: 'post',
-      data: data,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    })
-      .then(() => {
-        toast.success('Успешно!');
-        navigate('/profile');
-      })
-      .then(() =>
-        axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
-          method: 'get',
-          data: data,
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        })
-      )
-      .then((response) => {
-        console.log(response);
-        const user = (response as AxiosResponse).data as UserInfo;
-        localStorage.setItem('userId', user.id);
-        console.log(22, user);
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.id,
-            login: user.login,
-            first_name: user.first_name,
-            second_name: user.second_name,
-            display_name: user.display_name,
-            avatar: user.avatar,
-            phone: user.phone,
-          })
-        );
-      })
-      .catch((error) => {
-        toast.error('Что-то не так...');
-        setFieldError(error.response.data.reason);
-      });
-  };
 
   return (
-    <div className='container-content container-content_main'>
+    <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
       {loading && <Loader />}
       <Formik
         initialValues={{
@@ -97,29 +41,39 @@ const LoginPage = () => {
         }}
         validationSchema={SigninSchema}
         onSubmit={(values) => {
-          console.log(JSON.stringify(values));
-          handleSubmit(values);
+          dispatch(
+            handleSubmitLogin({ navigate: navigate, values: values, setFieldError: setFieldError })
+          );
         }}>
-        {({ errors, touched }) => (
-          <Form className='container__login-form colum-5'>
-            <InputWrapper error={errors.login} label='Логин'>
-              <Field name='login' type='text' className='input__field' />
-              {errors.login && touched.login ? (
-                <div className='input__error-message'>{errors.login}</div>
-              ) : null}
-            </InputWrapper>
-            <InputWrapper error={errors.password} label='Пароль'>
-              <Field name='password' type='password' className='input__field' />
-              {errors.password && touched.password ? (
-                <div className='input__error-message'>{errors.password}</div>
-              ) : null}
-            </InputWrapper>
+        {({ errors, values, handleChange }) => (
+          <Form className={classNames('colum-5', 'container__login-form')}>
+            <HeaderH1 label='ВХОД' />
+            <InputValidate
+              handleChange={handleChange}
+              name='login'
+              type='text'
+              label='Логин'
+              value={values.login}
+              error={errors.login}
+            />
+            <InputValidate
+              handleChange={handleChange}
+              name='password'
+              type='password'
+              label='Пароль'
+              value={values.password}
+              error={errors.password}
+            />
+            <Button text='Вход' type='submit' className='custom-button' />
+            <Link className='plane-link' to='/registration'>
+              Нет аккаунта?
+            </Link>
             <div className='input__error-message'>{fieldError}</div>
-            <Button text='Войти' type='submit' />
           </Form>
         )}
       </Formik>
     </div>
   );
 };
+
 export default LoginPage;

@@ -6,3 +6,4 @@ dist
 tmp
 lerna-debug.log
 yarn.lock
+yarn-error.lock

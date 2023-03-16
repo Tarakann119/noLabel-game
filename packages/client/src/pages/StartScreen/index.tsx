@@ -2,32 +2,30 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LogoText } from '../../components/LogoText';
 import './index.scss';
 import { Button } from '../../components/Button';
+import Spacer from '../../ui/Spacer';
+import '../../assets/styles/App.scss';
+import Rating from '../../components/Leaderboard';
 
 const StartScreen = () => {
   const navigate = useNavigate();
-  console.log(location);
 
   return (
-    <div className='main-page-wrapper'>
-      <div
-        className='main-wrapper'
-        style={{
-          backgroundImage: `url(https://mobimg.b-cdn.net/v3/fetch/1d/1da7e32dc534959fa6a4f5aedc7e5729.jpeg)`,
-        }}>
+    <div className='container-content container-content_main bg-image'>
+      <div className='container_center colum-8 container-start-screen'>
         <LogoText />
-        <div className='button-wrapper'>
-          <Button
-            text='Начать игру'
-            onClick={() => navigate('/login')}
-            className='button button_view_primary'
-          />
-          <div>
-            <Link className='plane-link' to={'/registration'}>
-              Нет аккаунта?
-            </Link>
-          </div>
-        </div>
-        <div className='text-description'>ТУТ ОПИСАНИЕ ИГРЫ</div>
+        <Button
+          text='Начать игру'
+          onClick={() => navigate('/login')}
+          className='button button_view-primary'
+        />
+
+        <Link className='plane-link' to={'/registration'}>
+          Нет аккаунта?
+        </Link>
+        <Spacer />
+      </div>
+      <div className='container colum-3 plane-link'>
+        <Rating />
       </div>
     </div>
   );

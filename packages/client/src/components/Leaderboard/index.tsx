@@ -1,8 +1,8 @@
 import './index.scss';
-import { Button } from '../Button';
 import { LeaderboardView } from './LeaderboardView';
 import { Title } from '../Title';
-import { leaderboardList } from './leaderboardList';
+import { leaderboardListMok } from './leaderboardListMok';
+import { uuid } from '../../../utils/generateId';
 
 const title = 'Рейтинг';
 
@@ -16,14 +16,13 @@ const Rating = () => {
         <div>Результат</div>
       </div>
       <div className='board__user'>
-        <LeaderboardView order={8} avatar={''} username={'Ваш счет'} score={121} />
+        <LeaderboardView id={uuid()} order={8} avatar={''} username={'Ваш счет'} score={121} />
       </div>
       <div className='board__list'>
-        {leaderboardList.map((player) => (
-          <LeaderboardView key={player.order} {...player} />
+        {leaderboardListMok.map((player) => (
+          <LeaderboardView key={player.id} {...player} />
         ))}
       </div>
-      <Button className='board__button' text={'Начать игру'} />
     </div>
   );
 };
