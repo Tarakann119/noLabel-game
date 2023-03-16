@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { Fragment } from 'react';
 import classNames from 'classnames';
 import { currentUser } from '../../Store/selectors';
+import { Avatar } from '../../components/Avatar';
 
 type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Телефон';
 
@@ -26,6 +27,12 @@ const Profile = () => {
       <div className={classNames('colum-6', 'container__reg-form')}>
         <>
           <Title text='Данные вашего Профиля' />
+          <Avatar
+            src={
+              user.avatar ? `https://ya-praktikum.tech/api/v2/resources${user.avatar}` : undefined
+            }
+            size='default'
+          />
           <div className='profile-image-name'>
             <Link className='plane-link' to={'./change-avatar'}>
               Изменить аватар

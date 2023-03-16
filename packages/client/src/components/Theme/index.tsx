@@ -1,13 +1,11 @@
-import { useSelector, useDispatch } from 'react-redux';
-import cn from 'classnames';
-import './index.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import classNames from 'classnames';
 import { set } from './slice';
-import styles from './index.module.scss';
 import { useEffect } from 'react';
-import { RootState } from '../../Store/store';
+import './index.scss';
 
-const Theme = ({ className }: { className?: string }) => {
-  const theme = useSelector((state: RootState) => state.theme);
+const Theme = () => {
+  const theme: string = useSelector((state: Record<string, string>) => state.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -15,18 +13,24 @@ const Theme = ({ className }: { className?: string }) => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const handleChange = () => {
-    const next = theme === 'dark' ? 'light' : 'dark';
-    dispatch(set(next));
+  const handleChange = (value: 'dark' | 'light') => {
+    dispatch(set(value));
   };
 
   return (
-    <div
-      className={cn(className, styles.root, theme === 'dark' ? styles.dark : styles.light)}
-      onClick={handleChange}>
-      <div className='theme-wrapper'>
-        <div className='navigation-link-invert'>Активная тема</div>
-        <div className='navigation-link'>Нективная тема</div>
+    <div className='theme__container'>
+      <div className='theme__label'>Тема</div>
+      <div className='theme__item-container'>
+        <div
+          className={classNames('theme__item', { theme__item_active: theme === 'dark' })}
+          onClick={() => handleChange('dark')}>
+          Металл
+        </div>
+        <div
+          className={classNames('theme__item', { theme__item_active: theme === 'light' })}
+          onClick={() => handleChange('light')}>
+          Дерево
+        </div>
       </div>
     </div>
   );
