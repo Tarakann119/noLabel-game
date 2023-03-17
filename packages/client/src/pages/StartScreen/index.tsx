@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { LogoText } from '../../components/LogoText';
+import LogoText from '../../components/LogoText';
 import './index.scss';
 import { Button } from '../../components/Button';
 import Spacer from '../../ui/Spacer';
@@ -19,7 +19,7 @@ const StartScreen = () => {
           className='button button_view-primary'
         />
 
-        <Link className='plane-link' to={'/registration'}>
+        <Link className='plane-link' to='/registration'>
           Нет аккаунта?
         </Link>
         <Spacer />
