@@ -1,7 +1,7 @@
 import './index.scss';
 import { Title } from '../../components/Title';
 import classNames from 'classnames';
-import rating from '../../../mok/rating';
+import rating from '../../../mock/rating';
 
 const RatingPage = () => {
   const ratingList = rating.map((user) => {
