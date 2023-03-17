@@ -24,7 +24,7 @@ const initialState = {
   },
 };
 
-const userSlice = createSlice({
+const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -44,9 +44,9 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, removeUser } = userSlice.actions;
+export const { setUser, removeUser } = userReducer.actions;
 
-export default userSlice.reducer;
+export default userReducer.reducer;
 export const handleSubmitLogin = createAsyncThunk(
   'user/login',
   async (
