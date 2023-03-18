@@ -1,5 +1,7 @@
 import './index.scss';
 
-export function LogoText() {
+function LogoText() {
   return <div className='logo-text'>{'Tower\nDefence'}</div>;
 }
+
+export default LogoText;

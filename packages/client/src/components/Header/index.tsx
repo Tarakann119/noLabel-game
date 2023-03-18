@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './index.scss';
 import { Button } from '../Button';
 import Spacer from '../../ui/Spacer';
@@ -7,11 +7,16 @@ import UserCard from '../UserCard';
 import { useSelector } from 'react-redux';
 import { showError } from '../../../utils/ShowError';
 import { currentUser } from '../../Store/selectors';
+import { removeUser } from '../Autification/slice';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+
 const Header = () => {
   const user = useSelector(currentUser);
-  const location = useLocation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const logOut = async () => {
+    dispatch(removeUser());
     fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
       method: 'post',
       credentials: 'include',
@@ -26,6 +31,7 @@ const Header = () => {
       })
       .catch(() => showError());
   };
+
   return (
     <>
       <div className='header'>
@@ -45,13 +51,18 @@ const Header = () => {
               Форум
             </Link>
           </div>
-          {location.pathname === '/' ? (
+          {!user.login ? (
             <div className='header__container header__container_autch'>
               <Button text={'ВХОД'} onClick={() => navigate('/login')} />
             </div>
           ) : (
             <div style={{ cursor: 'pointer' }}>
               <UserCard
+                avatarUrl={
+                  user.avatar
+                    ? `https://ya-praktikum.tech/api/v2/resources${user.avatar}`
+                    : undefined
+                }
                 variant='header'
                 userName={user.login ?? 'Игрок'}
                 clickCard={() => navigate('/profile')}

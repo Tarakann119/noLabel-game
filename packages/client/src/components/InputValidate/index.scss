@@ -6,7 +6,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    //height: 56px;
     margin: 12px 0;
   }
 
@@ -31,6 +30,7 @@
     height: 100%;
     margin-right: 60px;
     margin-bottom: 5px;
+    color: $color-text-primary;
     font-weight: 700;
     font-size: 20px;
     font-family: $font-defence;

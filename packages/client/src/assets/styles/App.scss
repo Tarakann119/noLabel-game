@@ -1,7 +1,7 @@
+@import 'varThemeDefault';
 @import 'customButton';
 @import 'avatar';
 @import 'link';
-@import 'varThemeDefault';
 
 * {
   box-sizing: border-box;
@@ -176,4 +176,8 @@ a {
     height: 100%;
     margin-left: 20px;
   }
+}
+
+.hidden {
+  display: none;
 }

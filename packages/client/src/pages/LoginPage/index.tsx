@@ -3,7 +3,6 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import './index.scss';
 import classNames from 'classnames';
-import HeaderH1 from '../../ui/HeaderH1';
 import { Button } from '../../components/Button';
 import { useState } from 'react';
 import { useLoading } from '../../components/LoaderComponent';
@@ -11,6 +10,7 @@ import { handleSubmitLogin } from '../../components/Autification/slice';
 import Loader from '../../ui/Loader';
 import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
 import InputValidate from '../../components/InputValidate';
+import { Title } from '../../components/Title';
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -47,7 +47,7 @@ const LoginPage = () => {
         }}>
         {({ errors, values, handleChange }) => (
           <Form className={classNames('colum-5', 'container__login-form')}>
-            <HeaderH1 label='ВХОД' />
+            <Title text='ВХОД' />
             <InputValidate
               handleChange={handleChange}
               name='login'
