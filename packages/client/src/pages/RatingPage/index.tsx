@@ -3,14 +3,15 @@ import { Title } from '../../components/Title';
 import classNames from 'classnames';
 import rating from '../../../mock/rating';
 import { useSelector } from 'react-redux';
-import { currentUser } from '../../Store/selectors';
+import { getDataForLeaderBoard } from '../../Store/selectors';
 
 const RatingPage = () => {
   // Минимальное и максимальная ширина в % отдельного столбца в гистограмме рейтинга пользователей
   const minWidth = 20;
   const maxWidth = 100;
 
-  const currUser = useSelector(currentUser);
+  const currUser = useSelector(getDataForLeaderBoard);
+
   let userNumber = 0;
 
   // Переменные для хранения мин и макс значений в рейтинге пользователей
@@ -26,10 +27,10 @@ const RatingPage = () => {
   // Коэффициент для конвертации очков рейтинга юзеров в высоту столбца гистограммы
   const correction = (minValue / maxValue) * maxWidth;
 
-  // Создаём новый массив пользователей, отсортированный по очкам рейтинга
-  const ratingSort = [...rating.sort((a, b) => Number(b.money) - Number(a.money))];
+  // Сортируем массив юзеров по очкам рейтинга
+  rating.sort((a, b) => Number(b.money) - Number(a.money));
 
-  const ratingList = ratingSort.map((user) => {
+  const ratingList = rating.map((user) => {
     // Ограничиваем минимальную ширину столбца гистограммы
     const width = user.money * correction > minWidth ? user.money * correction : minWidth;
     userNumber++;
