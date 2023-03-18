@@ -22,7 +22,6 @@ function RequireAuth() {
     toast.error('Вы не авторизованы!');
     return <Navigate to='/login' />;
   }
-
   return <Outlet />;
 }
 

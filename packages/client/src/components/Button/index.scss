@@ -20,8 +20,8 @@
   background: $color-text-secondary;
   border: 3px solid $color-ui-button-border;
   box-shadow: 0 14px 24px rgb(0 0 0 / 25%);
-  transition: 0.1s ease-in;
   cursor: pointer;
+  transition: 0.1s ease-in;
 
   &:hover {
     filter: drop-shadow(0 0 8px $color-text-secondary);
@@ -37,9 +37,6 @@
 
   &:disabled:hover {
     filter: none;
-  }
-
-  &_view-primary {
   }
 
   &_view_secondary {

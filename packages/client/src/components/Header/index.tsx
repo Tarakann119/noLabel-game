@@ -7,10 +7,16 @@ import UserCard from '../UserCard';
 import { useSelector } from 'react-redux';
 import { showError } from '../../../utils/ShowError';
 import { currentUser } from '../../Store/selectors';
+import { removeUser } from '../Autification/slice';
+import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+
 const Header = () => {
   const user = useSelector(currentUser);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const logOut = async () => {
+    dispatch(removeUser());
     fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
       method: 'post',
       credentials: 'include',
@@ -25,6 +31,7 @@ const Header = () => {
       })
       .catch(() => showError());
   };
+
   return (
     <>
       <div className='header'>

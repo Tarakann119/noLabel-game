@@ -13,8 +13,7 @@ test('Example test', async () => {
   render(
     <Provider store={store}>
       {' '}
-      // Set context
-      <App /> // Now App has access to context
+      <App />
     </Provider>
   );
 
