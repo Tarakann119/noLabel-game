@@ -2,33 +2,32 @@
 
 .validate-error-message {
   &__container {
-    width: 400px;
-    min-height: 90px;
-    background: rgba(50, 52, 53, 0.95);
-    box-shadow: 0 0 10px #323435;
-    border-radius: 12px;
     position: relative;
     top: -5px;
     left: 120px;
     z-index: 100;
     display: flex;
     flex-direction: column;
+    width: 400px;
+    min-height: 90px;
     padding: 17px 11px;
+    background: rgb(50 52 53 / 95%);
+    border-radius: 12px;
+    box-shadow: 0 0 10px #323435;
 
     &_title {
       display: flex;
       flex-direction: row;
-      width: 100%;
       justify-content: space-between;
+      width: 100%;
       margin-bottom: 15px;
     }
   }
 
   &__title {
-    font-family: $font-defence;
-    color: $color-text-primary;
     font-weight: 400;
     font-size: 24px;
+    font-family: $font-defence;
     line-height: 100%;
     text-transform: uppercase;
     text-shadow: 4px 4px 20px #b1ad99;
@@ -36,13 +35,12 @@
 
   &__error-text {
     width: 100%;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-    color: $color-text-primary;
     font-weight: 700;
     font-size: 20px;
-    line-height: 100%;
     font-family: $font-primary;
+    line-height: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
   }
 }
 
