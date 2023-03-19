@@ -10,7 +10,7 @@ export enum TowerType {
   STONE,
 }
 
-export type TowerList = {
+export type TowerListItemType = {
   x: number;
   y: number;
   width: number;

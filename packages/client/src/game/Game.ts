@@ -3,7 +3,7 @@ import { Building } from './Bulding';
 import { Enemy } from './Enemy';
 import { Resource } from './Resources';
 import { Menu } from './Menu';
-import { EnemyType, TGameSettings, TowerType, TowerList } from '../../typings/app.typings';
+import { EnemyType, TGameSettings, TowerType, TowerListItemType } from '../../typings/app.typings';
 
 export class Game {
   private readonly pathToMap = '../../public/game/maps/';
@@ -20,11 +20,16 @@ export class Game {
   private cursor: { x: number; y: number } = { x: 0, y: 0 };
   private activeTile: PlacementTile | undefined = undefined;
 
-  private towers: TowerList[] = [];
+  private towers: TowerListItemType[] = [];
   private dragok = false;
   private towerType: number | null = null;
   private startX: number | undefined;
   private startY: number | undefined;
+
+  handleMouseMoveEvent = (event: MouseEvent) => this.handleMouseMove(event);
+  handleClickEvent = (coins: Resource) => this.handleClick(coins);
+  myUpEvent = () => this.myUp();
+  myDownEvent = () => this.myDown();
 
   constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
     this.context = this.canvas.getContext('2d');
@@ -60,11 +65,10 @@ export class Game {
         this.createPlacementTiles();
         this.spawnEnemiesWave(this.waveIndex);
 
-        canvas.addEventListener('mousemove', (event) => this.handleMouseMove(event));
-        canvas.addEventListener('click', () => this.handleClick(coins));
-
-        canvas.addEventListener('mouseup', () => this.myUp());
-        canvas.addEventListener('mousedown', () => this.myDown());
+        canvas.addEventListener('mousemove', this.handleMouseMoveEvent);
+        canvas.addEventListener('click', () => this.handleClickEvent(coins));
+        canvas.addEventListener('mouseup', this.myUpEvent);
+        canvas.addEventListener('mousedown', this.myDownEvent);
 
         return new Promise<number>((resolve) => {
           const animate = () => {
@@ -131,6 +135,15 @@ export class Game {
         });
       }
     }
+  }
+
+  public removeAllEvents() {
+    const { canvas } = this;
+
+    canvas.removeEventListener('mousemove', this.handleMouseMoveEvent);
+    canvas.removeEventListener('click', () => this.handleClickEvent);
+    canvas.removeEventListener('mouseup', this.myUpEvent);
+    canvas.removeEventListener('mousedown', this.myDownEvent);
   }
 
   private handleMouseMove(event: MouseEvent) {
@@ -256,6 +269,7 @@ export class Game {
     const { placementTiles: placementTilesArr, width, tileSize } = <TGameSettings>this.settings;
     const { placementTiles, context } = this;
     const placementTilesData2D: number[][] = [];
+    const placementTileСoordinates = 91448;
 
     for (let i = 0; i < placementTilesArr.length; i += width) {
       placementTilesData2D.push(placementTilesArr.slice(i, i + width));
@@ -263,7 +277,7 @@ export class Game {
 
     placementTilesData2D.forEach((row, y) => {
       row.forEach((symbol, x) => {
-        if (symbol === 91448) {
+        if (symbol === placementTileСoordinates) {
           placementTiles.push(
             new PlacementTile(
               <CanvasRenderingContext2D>context,
@@ -351,11 +365,12 @@ export class Game {
     this.dragok = false;
 
     for (let i = 0; i < towers.length; i++) {
-      (towers[0].x = 30),
-        (towers[0].y = 630),
-        (towers[1].x = 170),
-        (towers[1].y = 630),
-        (towers[i].isDragging = false);
+      towers[0].x = 30;
+      towers[0].y = 630;
+      towers[1].x = 170;
+      towers[1].y = 630;
+
+      towers[i].isDragging = false;
       this.draw();
     }
   }
@@ -386,7 +401,7 @@ export class Game {
     this.startY = cursor.y;
   }
 
-  private rect(towerListItem: TowerList) {
+  private rect(towerListItem: TowerListItemType) {
     if (this.context) {
       const img = new Image();
       img.src = towerListItem.imageSrc;

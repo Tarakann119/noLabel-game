@@ -35,15 +35,15 @@ const Layout = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/registration' element={<RegisterPage />} />
         <Route path='/rating' element={<RatingPage />} />
-        <Route element={<RequireAuth />}>
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/profile/change-password' element={<ChangePassword />} />
-          <Route path='/profile/change-avatar' element={<ChangeAvatar />} />
-          <Route path='/forum' element={<Forum />} />
-          <Route path='/forum/:id' element={<ForumTheme />} />
-          <Route path='/profile/edit' element={<ChangeProfile />} />
-          <Route path='/game' element={<Game />} />
-        </Route>
+        {/* <Route element={<RequireAuth />}> */}
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/change-password' element={<ChangePassword />} />
+        <Route path='/profile/change-avatar' element={<ChangeAvatar />} />
+        <Route path='/forum' element={<Forum />} />
+        <Route path='/forum/:id' element={<ForumTheme />} />
+        <Route path='/profile/edit' element={<ChangeProfile />} />
+        <Route path='/game' element={<Game />} />
+        {/* </Route> */}
         <Route path='/*' element={<Error404 />} />
       </Routes>
       <Footer />
