@@ -155,7 +155,13 @@ export const changeUserProfile = createAsyncThunk(
     values: ChangeProfileType;
     setFieldError: React.Dispatch<React.SetStateAction<null>>;
   }) => {
-    const data = JSON.stringify(values);
+    // При изменении данных профиля на этом API требуется указать display_name,
+    // в нашем приложении display_name не используется, поэтому временно вводим эту константу
+    // в дальнейшем, при реализации своего бэкэнда, константу editValue можно удалить.
+    const editValue: Record<string, string> = values;
+    editValue.display_name = values.login;
+
+    const data = JSON.stringify(editValue);
     axios('https://ya-praktikum.tech/api/v2/user/profile', {
       method: 'put',
       data: data,
@@ -163,6 +169,8 @@ export const changeUserProfile = createAsyncThunk(
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
+      timeout: 1000,
     })
       .then(() => {
         showSuccess('Пользователь изменен!');
