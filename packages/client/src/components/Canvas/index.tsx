@@ -1,33 +1,38 @@
-import { useEffect } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Game } from '../../game/Game';
+import { withFullscreen } from '../../hocs/withFullscreen';
 import { setPoints } from './slice';
 
-export const Canvas = (props: {
+type CanvasProps = {
   mapName: string;
-  canvasRef: React.RefObject<HTMLCanvasElement>;
-}) => {
+};
+
+const Canvas = forwardRef<HTMLCanvasElement, CanvasProps>((props, ref) => {
   const dispatch = useDispatch();
+  const innerRef = useRef<HTMLCanvasElement>(null);
+
+  useImperativeHandle(ref, () => innerRef.current as HTMLCanvasElement);
 
   useEffect(() => {
-    const canvas = props.canvasRef.current;
+    const canvas = innerRef.current;
 
     if (canvas) {
+      const game = new Game(canvas, props.mapName);
+
       const startGame = async () => {
-        const game = new Game(canvas, props.mapName);
         const points = await game.start();
+
         dispatch(setPoints(points));
       };
 
       startGame();
-    }
 
-    return () => {
-      if (canvas) {
-        new Game(canvas, props.mapName).removeAllEvents();
-      }
-    };
+      return () => game.removeAllEvents();
+    }
   }, []);
 
-  return <canvas ref={props.canvasRef} />;
-};
+  return <canvas ref={innerRef} />;
+});
+
+export const CanvasWithFullscreen = withFullscreen(Canvas);

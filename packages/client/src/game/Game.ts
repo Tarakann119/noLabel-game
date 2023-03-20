@@ -27,7 +27,7 @@ export class Game {
   private startY: number | undefined;
 
   handleMouseMoveEvent = (event: MouseEvent) => this.handleMouseMove(event);
-  handleClickEvent = (coins: Resource) => this.handleClick(coins);
+  handleClickEvent = (coins: Resource) => () => this.handleClick(coins);
   myUpEvent = () => this.myUp();
   myDownEvent = () => this.myDown();
 
@@ -66,7 +66,7 @@ export class Game {
         this.spawnEnemiesWave(this.waveIndex);
 
         canvas.addEventListener('mousemove', this.handleMouseMoveEvent);
-        canvas.addEventListener('click', () => this.handleClickEvent(coins));
+        canvas.addEventListener('click', this.handleClickEvent(coins));
         canvas.addEventListener('mouseup', this.myUpEvent);
         canvas.addEventListener('mousedown', this.myDownEvent);
 
@@ -141,7 +141,7 @@ export class Game {
     const { canvas } = this;
 
     canvas.removeEventListener('mousemove', this.handleMouseMoveEvent);
-    canvas.removeEventListener('click', () => this.handleClickEvent);
+    canvas.removeEventListener('click', this.handleClickEvent as unknown as () => void);
     canvas.removeEventListener('mouseup', this.myUpEvent);
     canvas.removeEventListener('mousedown', this.myDownEvent);
   }

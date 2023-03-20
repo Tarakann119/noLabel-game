@@ -60,11 +60,6 @@ const Header = () => {
               />
             </div>
           )}
-          {location.pathname === '/game' ? (
-            <div className='custom-link fullscreen'>Во весь экран</div>
-          ) : (
-            ''
-          )}
         </div>
       </div>
       <Spacer />
