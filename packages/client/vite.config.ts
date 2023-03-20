@@ -1,6 +1,8 @@
-import { defineConfig } from 'vite';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
+import path from 'path';
+import { defineConfig } from 'vite';
 import { VitePluginFonts } from 'vite-plugin-fonts';
 dotenv.config();
 
@@ -11,6 +13,19 @@ export default defineConfig({
   },
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@ui': path.resolve(__dirname, './src/ui'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@store': path.resolve(__dirname, './src/store'),
+      '@game': path.resolve(__dirname, '.src/game'),
+      '@typings': path.resolve(__dirname, './typings'),
+      '@utils': path.resolve(__dirname, './utils'),
+    },
   },
   plugins: [
     react(),
@@ -38,5 +53,3 @@ export default defineConfig({
     }),
   ],
 });
-
-//American TextC.ttf
