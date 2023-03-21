@@ -1,8 +1,9 @@
-import * as React from 'react';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { ButtonProps } from './index';
+
+import '@testing-library/jest-dom';
+
+import { ButtonProps } from './Button.typings';
 import { Button } from './index';
 
 const BUTTON_TEXT = 'Button text';
@@ -19,7 +20,7 @@ describe('Button component', () => {
 
   it('Correctly uses view prop', () => {
     renderButton({ view: 'secondary' });
-    expect(screen.getByText(BUTTON_TEXT)).toHaveClass('button_view_secondary');
+    expect(screen.getByText(BUTTON_TEXT)).toHaveClass('button_secondary');
   });
 
   it('Correctly uses onClick prop', async () => {

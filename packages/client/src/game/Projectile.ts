@@ -1,5 +1,5 @@
-import { Sprite } from './Sprite';
 import { Enemy } from './Enemy';
+import { Sprite } from './Sprite';
 
 export class Projectile extends Sprite {
   private velocity: { x: number; y: number } = { x: 0, y: 0 };

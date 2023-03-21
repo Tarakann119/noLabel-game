@@ -1,16 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import React from 'react';
+import { NavigateFunction } from 'react-router';
 import { toast } from 'react-toastify';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   ChangePasswordType,
   ChangeProfileType,
   LoginType,
   ProfileType,
   UserInfo,
-} from '../../../typings/app.typings';
-import { showError, showSuccess } from '../../../utils/ShowError';
+} from '@typings/app.typings';
+import { showError, showSuccess } from '@utils/ShowError';
 import axios, { AxiosResponse } from 'axios';
-import { NavigateFunction } from 'react-router';
-import React from 'react';
 
 const initialState = {
   user: {

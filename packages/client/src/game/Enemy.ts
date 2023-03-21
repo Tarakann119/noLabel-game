@@ -1,6 +1,7 @@
-import { Sprite } from './Sprite';
-import { EnemyType, TEnemySettings } from '../../typings/app.typings';
+import { EnemyType, TEnemySettings } from '@typings/app.typings';
+
 import { settings } from './settings/enemies';
+import { Sprite } from './Sprite';
 
 export class Enemy extends Sprite {
   public readonly settings: TEnemySettings;

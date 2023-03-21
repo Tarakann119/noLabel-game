@@ -1,6 +1,6 @@
 export class Resource {
   private readonly image: HTMLImageElement = new Image();
-  private readonly pathToSprites = '../../public/game/assets/resources/';
+  private readonly pathToSprites = './game/assets/resources/';
 
   constructor(
     protected readonly context: CanvasRenderingContext2D,
