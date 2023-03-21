@@ -83,9 +83,6 @@ export const handleSubmitLogin = createAsyncThunk(
           }
         }
       })
-      .then((response) => {
-        console.log('Этот респонс должен быть пустым ' + response);
-      })
       .catch((error) => {
         if (error.response.data.reason === 'User already in system') {
           thunkAPI.dispatch(getCurrentUser({ data, navigate }));
@@ -117,7 +114,6 @@ export const getCurrentUser = createAsyncThunk(
         'Content-Type': 'application/json; charset=utf-8',
       },
       withCredentials: true,
-      timeout: 1000,
     })
       .then((response) => {
         showSuccess('Данные пользователя загружены!');
@@ -173,7 +169,6 @@ export const changeUserProfile = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       withCredentials: true,
-      timeout: 1000,
     })
       .then(() => {
         showSuccess('Пользователь изменен!');
