@@ -1,7 +1,9 @@
-import * as React from 'react';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { Title, TitleProps } from './index';
+
+import '@testing-library/jest-dom';
+
+import { Title } from './index';
+import { TitleProps } from './Title.typings';
 
 const TITLE_TEXT = 'TEST TITLE';
 const renderTitle = (props: TitleProps) => render(<Title {...props} />);

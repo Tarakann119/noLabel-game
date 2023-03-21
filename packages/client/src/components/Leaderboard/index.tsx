@@ -1,12 +1,14 @@
-import './index.scss';
+import { Title } from '@components/Title';
+import { uuid } from '@utils/generateId';
+
+import { leaderboardListMock } from './leaderboardListMock';
 import { LeaderboardView } from './LeaderboardView';
-import { Title } from '../Title';
-import { leaderboardListMok } from './leaderboardListMok';
-import { uuid } from '../../../utils/generateId';
+
+import './index.scss';
 
 const title = 'Рейтинг';
 
-const Rating = () => {
+export const Rating = () => {
   return (
     <div className='board'>
       <Title className={'board__title'} text={title} />
@@ -19,12 +21,10 @@ const Rating = () => {
         <LeaderboardView id={uuid()} order={8} avatar={''} username={'Ваш счет'} score={121} />
       </div>
       <div className='board__list'>
-        {leaderboardListMok.map((player) => (
+        {leaderboardListMock.map((player) => (
           <LeaderboardView key={player.id} {...player} />
         ))}
       </div>
     </div>
   );
 };
-
-export default Rating;

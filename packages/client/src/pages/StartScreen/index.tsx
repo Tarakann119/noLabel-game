@@ -1,12 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
-import LogoText from '../../components/LogoText';
-import './index.scss';
-import { Button } from '../../components/Button';
-import Spacer from '../../ui/Spacer';
-import '../../assets/styles/App.scss';
-import Rating from '../../components/Leaderboard';
+import { Button } from '@components/Button';
+import { Rating } from '@components/Leaderboard';
+import { LogoText } from '@components/LogoText';
+import { Spacer } from '@ui/Spacer';
 
-const StartScreen = () => {
+import './index.scss';
+import '@assets/styles/App.scss';
+
+export const StartScreen = () => {
   const navigate = useNavigate();
 
   return (
@@ -16,7 +17,7 @@ const StartScreen = () => {
         <Button
           text='Начать игру'
           onClick={() => navigate('/login')}
-          className='button button_view-primary'
+          className='button button_primary'
         />
 
         <Link className='plane-link' to='/registration'>
@@ -30,4 +31,3 @@ const StartScreen = () => {
     </div>
   );
 };
-export default StartScreen;

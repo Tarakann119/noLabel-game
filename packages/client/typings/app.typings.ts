@@ -1,14 +1,18 @@
-export enum EnemyType {
-  GOBLIN,
-  HOBGOBLIN,
-  ORC,
-  ORC_WARRIOR,
+export enum EnemiesList {
+  GOBLIN = 'GOBLIN',
+  HOBGOBLIN = 'HOBGOBLIN',
+  ORC = 'ORC',
+  ORC_WARRIOR = 'ORC_WARRIOR',
 }
 
-export enum TowerType {
-  ARCHER,
-  STONE,
+export type EnemyType = keyof typeof EnemiesList;
+
+export enum TowersList {
+  ARCHER = 'ARCHER',
+  STONE = 'STONE',
 }
+
+export type TowerType = keyof typeof TowersList;
 
 export type TGameSettings = {
   tileSize: number;

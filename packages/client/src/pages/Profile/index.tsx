@@ -1,15 +1,16 @@
-import Theme from '../../components/Theme';
-import './index.scss';
-import { Title } from '../../components/Title';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Fragment } from 'react';
-import { currentUser } from '../../Store/selectors';
-import { Avatar } from '../../components/Avatar';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { Avatar } from '@components/Avatar';
+import { Theme } from '@components/Theme';
+import { Title } from '@components/Title';
+import { currentUser } from '@store/selectors';
 
-type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Телефон';
+import { UserKeys } from './Profile.typings';
 
-const Profile = () => {
+import './index.scss';
+
+export const Profile = () => {
   const user = useSelector(currentUser);
   const navigate = useNavigate();
 
@@ -59,4 +60,3 @@ const Profile = () => {
     </div>
   );
 };
-export default Profile;

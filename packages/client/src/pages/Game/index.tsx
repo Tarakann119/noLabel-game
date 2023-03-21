@@ -1,5 +1,3 @@
-import { Canvas } from '../../components/Canvas';
+import { GameField } from '@components/GameField';
 
-const Game = () => <Canvas mapName={'map1'} />;
-
-export default Game;
+export const Game = () => <GameField mapName={'2'} />;

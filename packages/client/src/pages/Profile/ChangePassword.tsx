@@ -1,12 +1,12 @@
+import { useNavigate } from 'react-router-dom';
+import { changeUserPassword } from '@components/Autification/slice';
+import { Button } from '@components/Button';
+import { InputValidate } from '@components/InputValidate';
+import { Title } from '@components/Title';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames';
-import { Title } from '../../components/Title';
-import { Button } from '../../components/Button';
-import { changeUserPassword } from '../../components/Autification/slice';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
-import InputValidate from '../../components/InputValidate';
 
 const PasswordSchema = Yup.object().shape({
   newPassword: Yup.string()
@@ -22,7 +22,7 @@ const PasswordSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const ChangePassword = () => {
+export const ChangePassword = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -76,4 +76,3 @@ const ChangePassword = () => {
     </div>
   );
 };
-export default ChangePassword;
