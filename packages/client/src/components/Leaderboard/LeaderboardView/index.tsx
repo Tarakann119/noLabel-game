@@ -1,15 +1,10 @@
-import { Avatar } from '../../Avatar';
+import { Avatar } from '@components/Avatar';
+
+import { LeaderboardViewProps } from './LiderboardView.typings';
+
 import './index.scss';
 
-export interface ProfileProps {
-  id: string | number;
-  order: number;
-  avatar: string;
-  username: string;
-  score: number;
-}
-
-export function LeaderboardView(props: ProfileProps) {
+export const LeaderboardView = (props: LeaderboardViewProps) => {
   return (
     <div className='player'>
       <div className='player__number'>{props.order}</div>
@@ -20,4 +15,4 @@ export function LeaderboardView(props: ProfileProps) {
       <div className='player__score'>{props.score}</div>
     </div>
   );
-}
+};

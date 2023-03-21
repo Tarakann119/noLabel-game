@@ -31,12 +31,10 @@
   text-align: center;
 
   &:hover {
+    color: $color-ui-primary;
+    filter: drop-shadow(0 0 9px $color-ui-primary);
     transition-delay: inherit;
     text-decoration-line: underline;
-    color: $color-ui-primary;
-    filter: drop-shadow(0px 0px 9px $color-ui-primary);
-  }
-  &:active {
   }
 
   &:disabled {

@@ -1,19 +1,13 @@
-import React from 'react';
-import { Avatar } from '../Avatar';
+import { FC } from 'react';
 import { toast } from 'react-toastify';
-import ButtonImg from '../../ui/ButtonImg';
+import { Avatar } from '@components/Avatar';
+import { ButtonImg } from '@ui/ButtonImg';
+
+import { UserCardProps } from './UserCard.typings';
+
 import './index.scss';
 
-type UserCardProps = {
-  variant: 'header' | 'leaderboard';
-  buttonVariant?: string;
-  avatarUrl?: string;
-  userName: string;
-  clickCard?: () => void;
-  clickButton?: () => void;
-};
-
-const UserCard: React.FC<UserCardProps> = ({
+export const UserCard: FC<UserCardProps> = ({
   avatarUrl,
   variant = 'header',
   userName,
@@ -35,5 +29,3 @@ const UserCard: React.FC<UserCardProps> = ({
     return <div> Заглушка </div>;
   }
 };
-
-export default UserCard;

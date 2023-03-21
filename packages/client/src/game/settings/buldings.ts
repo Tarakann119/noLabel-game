@@ -1,11 +1,11 @@
-import { TBuildingSettings, TowerType } from '../../../typings/app.typings';
+import { TBuildingSettings, TowersList } from '@typings/app.typings';
 
 type TBuldingsSettings = {
-  [key in TowerType]: TBuildingSettings;
+  [key in TowersList]: TBuildingSettings;
 };
 
 export const settings: TBuldingsSettings = {
-  [TowerType.ARCHER]: {
+  [TowersList.ARCHER]: {
     radius: 250,
     delay: 6,
     imageSrc: 'towers/archer/sprite.png',
@@ -16,7 +16,7 @@ export const settings: TBuldingsSettings = {
       imageSrc: 'towers/archer/projectile/sprite.png',
     },
   },
-  [TowerType.STONE]: {
+  [TowersList.STONE]: {
     radius: 150,
     delay: 10,
     cost: 40,

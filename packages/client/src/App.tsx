@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
-import './assets/styles/App.scss';
-import 'react-toastify/dist/ReactToastify.css';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import Layout from './Layout';
-import { LoadingProvider } from './components/LoaderComponent';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { LoadingProvider } from '@components/LoaderComponent';
 
-function App() {
+import { Layout } from './Layout';
+
+import '@assets/styles/App.scss';
+import 'react-toastify/dist/ReactToastify.css';
+
+export const App = () => {
   useEffect(() => {
     const fetchServerData = async () => {
       const url = `http://localhost:${__SERVER_PORT__}`;
@@ -27,6 +29,4 @@ function App() {
       </LoadingProvider>
     </>
   );
-}
-
-export default App;
+};
