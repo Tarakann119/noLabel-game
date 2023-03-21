@@ -22,8 +22,8 @@ export class Building extends Sprite {
       context,
       position,
       settings[towerType].imageSrc,
-      { x: 0, y: -80 },
-      19,
+      { x: -32, y: -80 },
+      settings[towerType].maxFrames,
       settings[towerType].delay
     );
 

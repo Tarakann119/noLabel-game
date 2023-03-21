@@ -1,0 +1,54 @@
+::-webkit-scrollbar {
+  width: 6px;
+  background: var(--color-text-primary-10);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-hint);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ui-primary-50);
+}
+
+.board {
+  width: 348px;
+  height: 614px;
+  margin-top: 32px;
+}
+
+.board__title {
+  height: 59px;
+}
+
+.board__info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 18px;
+  font-family: var(--font-primary);
+}
+
+.board__user {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--color-text-secondary);
+}
+
+.board__list {
+  width: 372px;
+  height: 282px;
+  overflow-y: auto;
+}
+
+.board__button {
+  margin-top: 24px;
+}
