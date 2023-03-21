@@ -11,7 +11,7 @@ const title = 'Рейтинг';
 export const Rating = () => {
   return (
     <div className='board'>
-      <Title className={'board__title'} text={title} />
+      <Title className='board__title' text={title} />
       <div className='board__info'>
         <div>№</div>
         <div>Игрок</div>
