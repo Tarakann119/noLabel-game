@@ -26,8 +26,12 @@ export class Game {
   private startX: number | undefined;
   private startY: number | undefined;
 
+  private resources = {
+    coins: <Resource | null>null,
+  };
+
   handleMouseMoveEvent = (event: MouseEvent) => this.handleMouseMove(event);
-  handleClickEvent = (coins: Resource) => () => this.handleClick(coins);
+  handleClickEvent = () => this.handleClick();
   myUpEvent = () => this.myUp();
   myDownEvent = () => this.myDown();
 
@@ -65,8 +69,10 @@ export class Game {
         this.createPlacementTiles();
         this.spawnEnemiesWave(this.waveIndex);
 
+        this.resources.coins = coins;
+
         canvas.addEventListener('mousemove', this.handleMouseMoveEvent);
-        canvas.addEventListener('click', this.handleClickEvent(coins));
+        canvas.addEventListener('click', this.handleClickEvent);
         canvas.addEventListener('mouseup', this.myUpEvent);
         canvas.addEventListener('mousedown', this.myDownEvent);
 
@@ -141,7 +147,7 @@ export class Game {
     const { canvas } = this;
 
     canvas.removeEventListener('mousemove', this.handleMouseMoveEvent);
-    canvas.removeEventListener('click', this.handleClickEvent as unknown as () => void);
+    canvas.removeEventListener('click', this.handleClickEvent);
     canvas.removeEventListener('mouseup', this.myUpEvent);
     canvas.removeEventListener('mousedown', this.myDownEvent);
   }
@@ -192,11 +198,19 @@ export class Game {
     this.activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
   }
 
-  private handleClick(coins: Resource) {
+  private handleClick() {
     const { activeTile, buildings, context, settings } = this;
     const { tileSize } = <TGameSettings>settings;
 
-    if (activeTile && !activeTile.isOccupied && coins.getCount() >= 25 && this.towerType !== null) {
+    const coins = this.resources.coins;
+
+    if (
+      coins &&
+      activeTile &&
+      !activeTile.isOccupied &&
+      coins.getCount() >= 25 &&
+      this.towerType !== null
+    ) {
       coins.setCount(coins.getCount() - 25);
 
       buildings.push(
