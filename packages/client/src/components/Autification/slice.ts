@@ -146,15 +146,18 @@ export const getCurrentUser = createAsyncThunk(
 
 export const changeUserProfile = createAsyncThunk(
   'user/profile',
-  async ({
-    navigate,
-    values,
-    setFieldError,
-  }: {
-    navigate: NavigateFunction;
-    values: ChangeProfileType;
-    setFieldError: React.Dispatch<React.SetStateAction<null>>;
-  }) => {
+  async (
+    {
+      navigate,
+      values,
+      setFieldError,
+    }: {
+      navigate: NavigateFunction;
+      values: ChangeProfileType;
+      setFieldError: React.Dispatch<React.SetStateAction<null>>;
+    },
+    thunkAPI
+  ) => {
     // При изменении данных профиля на этом API требуется указать display_name,
     // в нашем приложении display_name не используется, поэтому временно вводим эту константу
     // в дальнейшем, при реализации своего бэкэнда, константу editValue можно удалить.
@@ -174,6 +177,9 @@ export const changeUserProfile = createAsyncThunk(
     })
       .then(() => {
         showSuccess('Пользователь изменен!');
+        thunkAPI.dispatch(getCurrentUser({ data, navigate }));
+      })
+      .then(() => {
         navigate('/profile');
       })
       .catch((error) => {
