@@ -33,7 +33,7 @@ export class Sprite {
 
     const crop = {
       position: {
-        x: cropWidth * frames.current,
+        x: cropWidth * frames.current + 1,
         y: 0,
       },
       width: cropWidth,

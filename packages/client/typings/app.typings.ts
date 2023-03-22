@@ -14,6 +14,17 @@ export enum TowersList {
 
 export type TowerType = keyof typeof TowersList;
 
+export type TowerListItemType = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fill: string;
+  isDragging: boolean;
+  imageSrc: string;
+  type: TowersList;
+};
+
 export type TGameSettings = {
   tileSize: number;
   width: number;
@@ -51,6 +62,7 @@ export type TBuildingSettings = {
   delay: number;
   imageSrc: string;
   cost: number;
+  maxFrames: number;
   projectile: {
     imageSrc: string;
     radius: number;
