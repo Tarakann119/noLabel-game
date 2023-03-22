@@ -2,6 +2,8 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { Footer } from '@components/Footer';
 import { Header } from '@components/Header';
+import { AboutUs } from '@pages/AboutUs';
+import { DevPage } from '@pages/DevPage';
 import { Error404 } from '@pages/Errors/404';
 import { Forum } from '@pages/Forum';
 import { ForumTheme } from '@pages/Forum/ForumTheme';
@@ -42,6 +44,8 @@ export const Layout = () => {
           <Route path='/forum/:id' element={<ForumTheme />} />
           <Route path='/profile/edit' element={<ChangeProfile />} />
           <Route path='/game' element={<Game />} />
+          <Route path='/about' element={<AboutUs />} />
+          <Route path='/devpage' element={<DevPage />} />
         </Route>
         <Route path='/*' element={<Error404 />} />
       </Routes>
