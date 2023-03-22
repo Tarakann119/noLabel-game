@@ -1,12 +1,11 @@
-import React, { ReactElement, ReactNode } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
+
+import { FooterProps } from './Footer.typings';
+
 import './index.scss';
 
-interface FooterProps {
-  children?: ReactElement | ReactNode | ReactNode[];
-}
-
-const Footer: React.FC<FooterProps> = ({ children }) => {
+export const Footer: FC<FooterProps> = ({ children }) => {
   return (
     <>
       <div className='footer'>
@@ -21,4 +20,3 @@ const Footer: React.FC<FooterProps> = ({ children }) => {
     </>
   );
 };
-export default Footer;

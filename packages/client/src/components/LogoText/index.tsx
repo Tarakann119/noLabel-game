@@ -1,5 +1,5 @@
 import './index.scss';
 
-export function LogoText() {
+export const LogoText = () => {
   return <div className='logo-text'>{'Tower\nDefence'}</div>;
-}
+};

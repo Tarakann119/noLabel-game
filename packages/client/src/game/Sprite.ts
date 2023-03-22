@@ -1,6 +1,6 @@
 export class Sprite {
   private readonly image: HTMLImageElement = new Image();
-  private readonly pathToSprites = '../../public/game/assets/';
+  private readonly pathToSprites = './game/assets/';
 
   protected frames: {
     max: number;

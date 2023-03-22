@@ -1,6 +1,4 @@
 @import 'varThemeDefault';
-@import 'customButton';
-@import 'avatar';
 @import 'link';
 
 * {
@@ -176,4 +174,8 @@ a {
     height: 100%;
     margin-left: 20px;
   }
+}
+
+.hidden {
+  display: none;
 }

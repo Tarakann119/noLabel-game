@@ -1,16 +1,23 @@
-import { PlacementTile } from './PlacementTile';
+import {
+  EnemyType,
+  TGameSettings,
+  TowerListItemType,
+  TowersList,
+  TowerType,
+} from '@typings/app.typings';
+
 import { Building } from './Bulding';
 import { Enemy } from './Enemy';
-import { Resource } from './Resources';
 import { Menu } from './Menu';
-import { EnemyType, TGameSettings, TowerType, TowerListItemType } from '../../typings/app.typings';
+import { PlacementTile } from './PlacementTile';
+import { Resource } from './Resources';
+
+const mapsSettings = import.meta.glob(`../../public/game/maps/*.json`);
 
 export class Game {
-  private readonly pathToMap = '../../public/game/maps/';
-  private readonly imageSrc: string;
-  private readonly settingsSrc: string;
+  private imageSrc: string | undefined;
   private context: CanvasRenderingContext2D | null;
-  private settings: TGameSettings | null = null;
+  private settings: TGameSettings | undefined;
 
   private placementTiles: PlacementTile[] = [];
   private buildings: Building[] = [];
@@ -22,7 +29,7 @@ export class Game {
 
   private towers: TowerListItemType[] = [];
   private dragok = false;
-  private towerType: number | null = null;
+  private towerType: TowerType | null = null;
   private startX: number | undefined;
   private startY: number | undefined;
 
@@ -37,31 +44,36 @@ export class Game {
 
   constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
     this.context = this.canvas.getContext('2d');
-    this.imageSrc = `${this.pathToMap}${this.mapName}/background.png`;
-    this.settingsSrc = `${this.pathToMap}${this.mapName}/settings.ts`;
   }
 
   private async init() {
-    const { settings } = await import(
-      /* @vite-ignore */
-      this.settingsSrc
-    );
-    this.settings = settings;
+    const path = <string>Object.keys(mapsSettings).find((path) => {
+      const position = path.lastIndexOf('/') + 1;
+      const filename = path.substring(position);
+
+      return filename === `settings-${this.mapName}.json`;
+    });
+
+    const settings = await mapsSettings[path]();
+
+    this.settings = <TGameSettings>JSON.parse(JSON.stringify(settings));
+    this.imageSrc = `./game/maps/background-${this.mapName}.png`;
   }
 
   public async start() {
     await this.init();
-    this.createTowerListItems();
-    const { settings, context } = this;
 
-    if (settings && context) {
+    const { settings, context, imageSrc } = this;
+    this.createTowerListItems();
+
+    if (settings && context && imageSrc) {
       const { canvas, imageSrc, cursor, placementTiles, buildings, enemies } = this;
       const { tileSize, width, height, waves } = settings;
 
       canvas.width = width * tileSize;
       canvas.height = height * tileSize;
 
-      const img = await this.loadBackground(imageSrc);
+      const img = await this.loadBackground(<string>imageSrc);
 
       if (img) {
         const menu = new Menu(context, { x: canvas.width / 2, y: canvas.height / 2 });
@@ -330,7 +342,7 @@ export class Game {
       count: number;
     }[]
   ) {
-    const output = [];
+    const output: EnemyType[] = [];
     const counts = wave.map((enemy) => ({ type: enemy.type, count: enemy.count }));
 
     let index = 0;
@@ -419,6 +431,7 @@ export class Game {
     if (this.context) {
       const img = new Image();
       img.src = towerListItem.imageSrc;
+
       this.context.fillStyle = towerListItem.fill;
       this.context.drawImage(img, towerListItem.x, towerListItem.y);
       this.context.fillRect(
@@ -439,7 +452,7 @@ export class Game {
       fill: 'rgba(0, 0, 0, 0)',
       imageSrc: '../../public/game/assets/towers/stone/tower.png',
       isDragging: false,
-      type: TowerType.STONE,
+      type: TowersList.STONE,
     });
     this.towers.push({
       x: 170,
@@ -449,7 +462,7 @@ export class Game {
       fill: 'rgba(0, 0, 0, 0)',
       isDragging: false,
       imageSrc: '../../public/game/assets/towers/archer/tower.png',
-      type: TowerType.ARCHER,
+      type: TowersList.ARCHER,
     });
   }
 

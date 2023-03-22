@@ -1,10 +1,11 @@
-import { Title } from '../../components/Title';
 import { Link } from 'react-router-dom';
+import { Title } from '@components/Title';
+
 import './index.scss';
 
-const ForumTheme = () => {
+export const ForumTheme = () => {
   // из юрл берем айди, отправляем запрос,рендерим данные(
-  //   создатель темы, айди темы, вопрос, массив комментариев(айди, ник, ответ)
+  //   создатель темы, айди темы, вопрос, массив комментарие(айди, ник, ответ)
   // )
   return (
     <>
@@ -27,4 +28,3 @@ const ForumTheme = () => {
     </>
   );
 };
-export default ForumTheme;

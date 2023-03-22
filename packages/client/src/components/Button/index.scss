@@ -1,4 +1,4 @@
-@import '../src/assets/styles/varThemeDefault';
+@import '@assets/styles/varThemeDefault';
 
 .button {
   @extend %border-button;
@@ -37,9 +37,6 @@
 
   &:disabled:hover {
     filter: none;
-  }
-
-  &_view-primary {
   }
 
   &_view_secondary {

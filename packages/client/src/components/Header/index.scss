@@ -1,4 +1,4 @@
-@import '../../assets/styles/varThemeDefault';
+@import '@assets/styles/varThemeDefault';
 
 .header {
   display: flex;
@@ -13,7 +13,7 @@
   &__logo {
     width: 314px;
     height: 100%;
-    background: url('../../assets/img/Logo_header.png');
+    background: url('@assets/img/Logo_header.png');
   }
 
   &__container {

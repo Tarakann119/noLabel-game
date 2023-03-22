@@ -1,12 +1,12 @@
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { changeUserPassword } from '@components/Autification/slice';
+import { Button } from '@components/Button';
+import { InputValidate } from '@components/InputValidate';
+import { Title } from '@components/Title';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
-import { Title } from '../../components/Title';
-import { Button } from '../../components/Button';
-import { changeUserPassword } from '../../components/Autification/slice';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
-import InputValidate from '../../components/InputValidate';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
 
 const PasswordSchema = Yup.object().shape({
   newPassword: Yup.string()
@@ -22,54 +22,57 @@ const PasswordSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const ChangePassword = () => {
+export const ChangePassword = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
-      <Title text='Смена пароля' />
-      <Formik
-        initialValues={{
-          oldPassword: '',
-          newPassword: '',
-          confirmPassword: '',
-        }}
-        validationSchema={PasswordSchema}
-        onSubmit={(values) => {
-          dispatch(changeUserPassword({ navigate: navigate, values: values }));
-        }}>
-        {({ errors, values, handleChange }) => (
-          <Form>
-            <InputValidate
-              handleChange={handleChange}
-              name='oldPassword'
-              type='password'
-              label='Старый пароль'
-              value={values.oldPassword}
-              error={errors.oldPassword}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='newPassword'
-              type='password'
-              label='Новый пароль'
-              value={values.newPassword}
-              error={errors.newPassword}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='confirmPassword'
-              type='password'
-              label='Повторите пароль'
-              value={values.confirmPassword}
-              error={errors.confirmPassword}
-            />
-            <Button text='Сменить пароль' type='submit' className='custom-button' />
-          </Form>
-        )}
-      </Formik>
+      <div className='container_center colum-6'>
+        <Title text='Смена пароля' />
+        <Formik
+          initialValues={{
+            oldPassword: '',
+            newPassword: '',
+            confirmPassword: '',
+          }}
+          validationSchema={PasswordSchema}
+          onSubmit={(values) => {
+            dispatch(changeUserPassword({ navigate: navigate, values: values }));
+          }}>
+          {({ errors, values, handleChange }) => (
+            <Form className='change-profile__form-container'>
+              <div className='change-profile__item-container'>
+                <InputValidate
+                  handleChange={handleChange}
+                  name='oldPassword'
+                  type='password'
+                  label='Старый пароль'
+                  value={values.oldPassword}
+                  error={errors.oldPassword}
+                />
+                <InputValidate
+                  handleChange={handleChange}
+                  name='newPassword'
+                  type='password'
+                  label='Новый пароль'
+                  value={values.newPassword}
+                  error={errors.newPassword}
+                />
+                <InputValidate
+                  handleChange={handleChange}
+                  name='confirmPassword'
+                  type='password'
+                  label='Повторите пароль'
+                  value={values.confirmPassword}
+                  error={errors.confirmPassword}
+                />
+              </div>
+              <Button text='Сменить пароль' type='submit' className='custom-button' />
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };
-export default ChangePassword;
