@@ -23,7 +23,7 @@ export const Profile = () => {
   ];
 
   return (
-    <div className='container-content bg-image_login container-content_main'>
+    <div className='container-content container-content_main bg-image_login '>
       <div className='colum-6 container_center'>
         <Title text='Данные вашего Профиля' />
         <Avatar

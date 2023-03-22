@@ -51,7 +51,7 @@ export const Rating = () => {
   });
 
   return (
-    <div className={classNames('container-content', 'container_start', 'bg-image_login')}>
+    <div className='container-content bg-image_login container_start'>
       <div className='container_center colum-7'>
         <Title text='Рейтинг игроков' />
         <div className='leaderboard__user-container'>{ratingList}</div>

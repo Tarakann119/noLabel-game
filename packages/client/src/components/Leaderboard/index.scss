@@ -21,11 +21,13 @@
 
 .board {
   width: 348px;
-  height: 700px;
+  height: 720px;
   margin-top: 32px;
+  filter: drop-shadow(0 0 8px $color-overlay);
 
   &__title {
-    height: 59px;
+    height: 39px;
+    color: $color-ui-primary;
   }
 
   &__info {

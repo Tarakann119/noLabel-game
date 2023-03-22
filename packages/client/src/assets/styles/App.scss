@@ -19,6 +19,7 @@ li {
 }
 
 #root {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 1320px;
@@ -59,6 +60,7 @@ a {
     text-align: right;
     background: transparent;
     border: none;
+    color-scheme: dark;
   }
 }
 
@@ -92,7 +94,7 @@ a {
     &_main {
       display: flex;
       align-items: flex-start;
-      background: url('../img/metall-texture.jpg') no-repeat;
+      justify-content: flex-start;
       background-size: cover;
     }
   }
@@ -105,73 +107,61 @@ a {
 .colum {
   &-1 {
     width: 92px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-2 {
     width: 202px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-3 {
     width: 314px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-4 {
     width: 426px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-5 {
     width: 538px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-6 {
     width: 650px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-7 {
     width: 762px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-8 {
     width: 874px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-9 {
     width: 986px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-10 {
     width: 1098px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-11 {
     width: 1210px;
-    height: 100%;
     margin-left: 20px;
   }
 
   &-12 {
     width: 1320px;
-    height: 100%;
     margin-left: 20px;
   }
 }
