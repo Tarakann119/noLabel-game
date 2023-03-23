@@ -4,10 +4,10 @@ const getTheme = () => {
   const theme = `${window?.localStorage?.getItem('theme')}`;
   if (['light', 'dark'].includes(theme)) return theme;
 
-  const userMedia = window.matchMedia('(prefers-color-scheme: light)');
-  if (userMedia.matches) return 'light';
+  const userMedia = window.matchMedia('(prefers-color-scheme: dark)');
+  if (userMedia.matches) return 'dark';
 
-  return 'dark';
+  return 'light';
 };
 
 const initialState = getTheme();

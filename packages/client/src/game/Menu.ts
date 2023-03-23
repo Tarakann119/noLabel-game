@@ -1,6 +1,6 @@
 export class Menu {
   private readonly image: HTMLImageElement = new Image();
-  private readonly menuImg = '../../public/game/assets/menu/background.png';
+  private readonly menuImg = './game/assets/menu/background.png';
   private center: { x: number; y: number } = { x: 0, y: 0 };
   private points = 0;
   private text = '';

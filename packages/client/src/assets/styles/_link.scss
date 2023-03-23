@@ -1,6 +1,7 @@
 @import './varThemeDefault';
 
 .plane-link {
+  color: $color-text-primary;
   font-weight: 500;
   font-size: 20px;
   font-family: $font-primary;
@@ -21,6 +22,7 @@
   justify-content: flex-start;
   height: 100%;
   margin: 0 20px;
+  color: $color-text-primary;
   font-weight: 400;
   font-size: 26px;
   font-family: $font-defence;

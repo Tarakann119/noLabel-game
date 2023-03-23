@@ -1,15 +1,16 @@
-import React, { FC, useState } from 'react';
-import ButtonImg from '../../ui/ButtonImg';
-import './index.scss';
+import { FC, useState } from 'react';
+import { ButtonImg } from '@ui/ButtonImg';
 import classNames from 'classnames';
 
-type ValErrMesProps = {
-  title: string;
-  message: string | undefined;
-  visible: boolean;
-};
+import { ValidateErrorMessageProps } from './ValidateErrorMessage.typings';
 
-const ValidateErrorMessage: FC<ValErrMesProps> = ({ title, message, visible }) => {
+import './index.scss';
+
+export const ValidateErrorMessage: FC<ValidateErrorMessageProps> = ({
+  title,
+  message,
+  visible,
+}) => {
   const titleLength = 26;
   const messageLength = 600;
 
@@ -32,5 +33,3 @@ const ValidateErrorMessage: FC<ValErrMesProps> = ({ title, message, visible }) =
     </div>
   );
 };
-
-export default ValidateErrorMessage;

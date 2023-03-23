@@ -1,13 +1,12 @@
 .player {
-  margin-bottom: 24px;
-  height: 70px;
-  font-family: var(--font-secondary);
-  display: flex;
-  font-size: 18px;
-  color: var(--color-text-secondary);
-  font-weight: 600;
   display: flex;
   align-items: center;
+  height: 70px;
+  margin-bottom: 24px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 18px;
+  font-family: var(--font-secondary);
   text-transform: capitalize;
 }
 
@@ -17,26 +16,26 @@
 }
 
 .player__profile {
-  width: 239px;
   display: flex;
   align-items: center;
+  width: 239px;
 }
 
 .player__score {
   width: 69px;
-  text-align: right;
   font-size: 26px;
+  text-align: right;
 }
 
 .player__image {
-  margin-left: 50px;
   width: 50px;
+  margin-left: 50px;
 }
 
 .player__name {
   margin-left: 32px;
-  font-size: 26px;
-  text-overflow: ellipsis;
   overflow: hidden;
+  font-size: 26px;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }

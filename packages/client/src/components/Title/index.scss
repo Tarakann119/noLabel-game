@@ -1,4 +1,4 @@
-@import '../../assets/styles/varThemeDefault';
+@import '@assets/styles/varThemeDefault';
 
 .title {
   margin-top: 30px;
@@ -12,4 +12,12 @@
   letter-spacing: 0.06em;
   text-align: center;
   user-select: none;
+
+  // .title_view
+  &_view {
+    // .title_view-base
+    &-base {
+      color: $color-text-primary;
+    }
+  }
 }

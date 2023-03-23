@@ -1,4 +1,4 @@
-@import '../src/assets/styles/varThemeDefault';
+@import '@assets/styles/varThemeDefault';
 
 .button-img {
   width: 30px;
@@ -13,5 +13,10 @@
   &_logout {
     background: url('./img/logout.svg') no-repeat center;
     background-size: cover;
+  }
+
+  &_up {
+    background: url('./img/logout.svg') no-repeat center;
+    rotate: 90deg;
   }
 }

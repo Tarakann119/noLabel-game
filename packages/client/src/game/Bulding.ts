@@ -1,9 +1,10 @@
-import { Sprite } from './Sprite';
+import { TBuildingSettings, TowerType } from '@typings/app.typings';
+
+import { settings } from './settings/buldings';
 import { Enemy } from './Enemy';
 import { Projectile } from './Projectile';
-import { TBuildingSettings, TowerType } from '../../typings/app.typings';
-import { settings } from './settings/buldings';
 import { Resource } from './Resources';
+import { Sprite } from './Sprite';
 
 export class Building extends Sprite {
   public readonly settings: TBuildingSettings;
@@ -21,8 +22,8 @@ export class Building extends Sprite {
       context,
       position,
       settings[towerType].imageSrc,
-      { x: 0, y: -80 },
-      19,
+      { x: -32, y: -80 },
+      settings[towerType].maxFrames,
       settings[towerType].delay
     );
 
@@ -95,17 +96,30 @@ export class Building extends Sprite {
   }
 
   protected draw() {
-    const { context, settings, center } = this;
-    context.beginPath();
-    context.arc(center.x, center.y, settings.radius, 0, Math.PI * 2);
-    context.fillStyle = 'rgba(0, 0, 255, 0.2)';
-    context.fill();
-
+    this.context.beginPath();
+    this.context.arc(this.center.x, this.center.y, this.settings.radius, 0, Math.PI * 2);
     super.draw();
   }
 
-  public update() {
+  public isCursorInTileBorders(cursor: { x: number; y: number }) {
+    const { position, tileSize } = this;
+
+    return (
+      cursor.x > position.x &&
+      cursor.x < position.x + tileSize * 1.5 &&
+      cursor.y > position.y &&
+      cursor.y < position.y + tileSize * 1.5
+    );
+  }
+
+  updateTower(cursor: { x: number; y: number }) {
     this.draw();
+
+    // наведение на башню
+    if (this.isCursorInTileBorders(cursor)) {
+      this.context.fillStyle = 'rgba(0, 0, 255, 0.1)';
+      this.context.fill();
+    }
 
     const { target, frames } = this;
 

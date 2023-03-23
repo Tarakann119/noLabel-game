@@ -1,23 +1,14 @@
-import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
-import { uploadAvatar } from '../../components/Autification/slice';
-import { Button } from '../../components/Button';
-import { Title } from '../../components/Title';
+import { uploadAvatar } from '@components/Autification/slice';
+import { Button } from '@components/Button';
+import { Title } from '@components/Title';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import classNames from 'classnames';
 
-type FileType = {
-  path: string;
-  preview: string;
-  lastModified: number;
-  lastModifiedDate: Date;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-};
+import { FileType } from './Profile.typings';
 
-const ChangeAvatar = () => {
+export const ChangeAvatar = () => {
   const [files, setFiles] = useState<FileType[]>([]);
   const dispatch = useAppDispatch();
   const { getRootProps, getInputProps } = useDropzone({
@@ -55,6 +46,7 @@ const ChangeAvatar = () => {
           onLoad={() => {
             URL.revokeObjectURL(file.preview);
           }}
+          alt='Аватар'
         />
       </div>
     </div>
@@ -66,16 +58,27 @@ const ChangeAvatar = () => {
 
   return (
     <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
-      <Title text='Смена автара' />
-      <section className='container'>
-        <div {...getRootProps({ className: 'dropzone' })}>
-          <input {...getInputProps()} />
-          {!files.length && <p>Нажмите для выбора или перетащите сюда изображение</p>}
-        </div>
-        <aside>{thumbs}</aside>
-      </section>
-      <Button type='button' text='Поменять' onClick={() => updateAvatar()} />
+      <div className='container_center colum-6'>
+        <Title text='Смена автара' />
+        <section className='container'>
+          <div
+            {...getRootProps({
+              className: classNames(
+                { 'dropzone change-avatar__drop-zone': !files.length },
+                { hidden: files.length }
+              ),
+            })}>
+            <input {...getInputProps()} />
+            {!files.length && (
+              <p className='change-avatar__drop-zone-title'>
+                Нажмите для выбора или перетащите сюда изображение
+              </p>
+            )}
+          </div>
+          <aside>{thumbs}</aside>
+        </section>
+        <Button type='button' text='Поменять' onClick={() => updateAvatar()} />
+      </div>
     </div>
   );
 };
-export default ChangeAvatar;

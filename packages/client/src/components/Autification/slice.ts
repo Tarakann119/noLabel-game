@@ -1,15 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import React from 'react';
+import { NavigateFunction } from 'react-router';
 import { toast } from 'react-toastify';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   ChangePasswordType,
   ChangeProfileType,
   LoginType,
   ProfileType,
   UserInfo,
-} from '../../../typings/app.typings';
-import { showError, showSuccess } from '../../../utils/ShowError';
+} from '@typings/app.typings';
+import { showError, showSuccess } from '@utils/ShowError';
 import axios, { AxiosResponse } from 'axios';
-import { NavigateFunction } from 'react-router';
 
 const initialState = {
   user: {
@@ -82,9 +83,6 @@ export const handleSubmitLogin = createAsyncThunk(
           }
         }
       })
-      .then((response) => {
-        console.log('Этот респонс должен быть пустым ' + response);
-      })
       .catch((error) => {
         if (error.response.data.reason === 'User already in system') {
           thunkAPI.dispatch(getCurrentUser({ data, navigate }));
@@ -116,7 +114,6 @@ export const getCurrentUser = createAsyncThunk(
         'Content-Type': 'application/json; charset=utf-8',
       },
       withCredentials: true,
-      timeout: 1000,
     })
       .then((response) => {
         showSuccess('Данные пользователя загружены!');
@@ -145,16 +142,25 @@ export const getCurrentUser = createAsyncThunk(
 
 export const changeUserProfile = createAsyncThunk(
   'user/profile',
-  async ({
-    navigate,
-    values,
-    setFieldError,
-  }: {
-    navigate: NavigateFunction;
-    values: ChangeProfileType;
-    setFieldError: React.Dispatch<React.SetStateAction<null>>;
-  }) => {
-    const data = JSON.stringify(values);
+  async (
+    {
+      navigate,
+      values,
+      setFieldError,
+    }: {
+      navigate: NavigateFunction;
+      values: ChangeProfileType;
+      setFieldError: React.Dispatch<React.SetStateAction<null>>;
+    },
+    thunkAPI
+  ) => {
+    // При изменении данных профиля на этом API требуется указать display_name,
+    // в нашем приложении display_name не используется, поэтому временно вводим эту константу
+    // в дальнейшем, при реализации своего бэкэнда, константу editValue можно удалить.
+    const editValue: Record<string, string> = values;
+    editValue.display_name = values.login;
+
+    const data = JSON.stringify(editValue);
     axios('https://ya-praktikum.tech/api/v2/user/profile', {
       method: 'put',
       data: data,
@@ -162,9 +168,13 @@ export const changeUserProfile = createAsyncThunk(
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     })
       .then(() => {
         showSuccess('Пользователь изменен!');
+        thunkAPI.dispatch(getCurrentUser({ data, navigate }));
+      })
+      .then(() => {
         navigate('/profile');
       })
       .catch((error) => {

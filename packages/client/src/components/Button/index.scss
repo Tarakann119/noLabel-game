@@ -1,4 +1,4 @@
-@import '../src/assets/styles/varThemeDefault';
+@import '@assets/styles/varThemeDefault';
 
 .button {
   @extend %border-button;
@@ -10,6 +10,7 @@
   max-width: 428px;
   height: 58px;
   padding: 0 20px;
+  color: $color-text-primary;
   font-weight: 400;
   font-size: 24px;
   font-family: $font-defence;
