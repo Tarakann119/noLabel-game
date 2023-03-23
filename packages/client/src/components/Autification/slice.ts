@@ -206,24 +206,40 @@ export const changeUserPassword = createAsyncThunk(
   }
 );
 
-export const uploadAvatar = createAsyncThunk('user/avatar', async (image: FormData) => {
-  try {
-    const result = await axios(`https://ya-praktikum.tech/api/v2/user/profile/avatar`, {
-      method: 'put',
-      data: image,
-      headers: {
-        Accept: '*/*',
-        'Content-Type': 'multipart/form-data;',
-      },
-      withCredentials: true,
-    });
-    const response = result as AxiosResponse;
-    showSuccess('Аватар изменен');
-    return response.data.uri;
-  } catch (error) {
-    showError();
+export const uploadAvatar = createAsyncThunk(
+  'user/avatar',
+  async ({ image, navigate }: { navigate: NavigateFunction; image: FormData }, thunkAPI) => {
+    try {
+      const result = await axios(`https://ya-praktikum.tech/api/v2/user/profile/avatar`, {
+        method: 'put',
+        data: image,
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'multipart/form-data;',
+        },
+        withCredentials: true,
+      });
+      const response = result as AxiosResponse;
+      thunkAPI.dispatch(
+        setUser({
+          avatar: response.data.avatar,
+          email: response.data.email,
+          id: response.data.id,
+          login: response.data.login,
+          first_name: response.data.first_name,
+          second_name: response.data.second_name,
+          display_name: response.data.display_name,
+          phone: response.data.phone,
+        })
+      );
+      showSuccess('Аватар изменен');
+      navigate('/profile');
+      return response.data.uri;
+    } catch (error) {
+      showError();
+    }
   }
-});
+);
 
 export const handleSubmitRegistration = createAsyncThunk(
   'user/login',

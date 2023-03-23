@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useNavigate } from 'react-router';
 import { uploadAvatar } from '@components/Autification/slice';
 import { Button } from '@components/Button';
 import { Title } from '@components/Title';
@@ -11,6 +12,7 @@ import { FileType } from './Profile.typings';
 export const ChangeAvatar = () => {
   const [files, setFiles] = useState<FileType[]>([]);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': [],
@@ -29,9 +31,9 @@ export const ChangeAvatar = () => {
   const updateAvatar = async () => {
     const image = new FormData();
     image.append('avatar', files[0] as unknown as string | Blob);
-    dispatch(uploadAvatar(image));
+    dispatch(uploadAvatar({ navigate: navigate, image: image }));
   };
-  const removeFile = (file: FileType) => () => {
+  const removeFile = (file: FileType) => {
     const newFiles = [...files];
     newFiles.splice(newFiles.indexOf(file), 1);
     setFiles(newFiles);
@@ -42,6 +44,7 @@ export const ChangeAvatar = () => {
       <div>
         <Button type='button' text='Удалить' onClick={() => removeFile(file)} />
         <img
+          style={{ maxHeight: '400px', maxWidth: '400px' }}
           src={file.preview}
           onLoad={() => {
             URL.revokeObjectURL(file.preview);
