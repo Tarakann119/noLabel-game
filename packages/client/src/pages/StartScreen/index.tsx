@@ -5,6 +5,7 @@ import { Button } from '../../components/Button';
 import Spacer from '../../ui/Spacer';
 import '../../assets/styles/App.scss';
 import Rating from '../../components/Leaderboard';
+import randomClickSound from '../../../utils/randomClickSound';
 
 const StartScreen = () => {
   const navigate = useNavigate();
@@ -17,9 +18,10 @@ const StartScreen = () => {
           text='Начать игру'
           onClick={() => navigate('/login')}
           className='button button_view-primary'
+          onMouseUp={randomClickSound}
         />
 
-        <Link className='plane-link' to='/registration'>
+        <Link className='plane-link' to='/registration' onClick={randomClickSound}>
           Нет аккаунта?
         </Link>
         <Spacer />

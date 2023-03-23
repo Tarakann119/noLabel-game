@@ -11,6 +11,7 @@ import Loader from '../../ui/Loader';
 import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
 import InputValidate from '../../components/InputValidate';
 import { Title } from '../../components/Title';
+import randomClickSound from '../../../utils/randomClickSound';
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
@@ -64,7 +65,7 @@ const LoginPage = () => {
               value={values.password}
               error={errors.password}
             />
-            <Button text='Вход' type='submit' className='custom-button' />
+            <Button text='Вход' type='submit' className='custom-button' onMouseUp={randomClickSound} />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?
             </Link>
