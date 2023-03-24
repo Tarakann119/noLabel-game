@@ -450,7 +450,7 @@ export class Game {
       width: 128,
       height: 128,
       fill: 'rgba(0, 0, 0, 0)',
-      imageSrc: '../../public/game/assets/towers/stone/tower.png',
+      imageSrc: './game/assets/towers/stone/tower.png',
       isDragging: false,
       type: TowersList.STONE,
     });
@@ -461,7 +461,7 @@ export class Game {
       height: 128,
       fill: 'rgba(0, 0, 0, 0)',
       isDragging: false,
-      imageSrc: '../../public/game/assets/towers/archer/tower.png',
+      imageSrc: './game/assets/towers/archer/tower.png',
       type: TowersList.ARCHER,
     });
   }
@@ -471,7 +471,7 @@ export class Game {
 
     if (context) {
       const img = new Image();
-      img.src = '../../public/game/assets/interface-game/table_down.png';
+      img.src = './game/assets/interface-game/table_down.png';
       context.drawImage(img, -70, 650);
     }
 
