@@ -36,6 +36,8 @@ export const Layout = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/registration' element={<Register />} />
         <Route path='/rating' element={<Rating />} />
+        <Route path='/about' element={<AboutUs />} />
+        <Route path='/devpage' element={<DevPage />} />
         <Route element={<RequireAuth />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/change-password' element={<ChangePassword />} />
@@ -44,8 +46,6 @@ export const Layout = () => {
           <Route path='/forum/:id' element={<ForumTheme />} />
           <Route path='/profile/edit' element={<ChangeProfile />} />
           <Route path='/game' element={<Game />} />
-          <Route path='/about' element={<AboutUs />} />
-          <Route path='/devpage' element={<DevPage />} />
         </Route>
         <Route path='/*' element={<Error404 />} />
       </Routes>
