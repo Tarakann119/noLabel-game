@@ -12,7 +12,7 @@ export const Footer: FC<FooterProps> = ({ children }) => {
         <div className='footer__logo'></div>
         <div className='footer__children-container'>{children}</div>
         <div className='footer__link-container'>
-          <Link to={'/aboutUs'} className='custom-link'>
+          <Link to={'/about'} className='custom-link'>
             О нас
           </Link>
         </div>

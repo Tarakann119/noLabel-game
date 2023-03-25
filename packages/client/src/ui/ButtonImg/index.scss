@@ -17,6 +17,17 @@
 
   &_up {
     background: url('./img/logout.svg') no-repeat center;
+    background-size: cover;
     rotate: 90deg;
+  }
+
+  &_github {
+    background: url('./img/github.png') no-repeat center;
+    background-size: cover;
+  }
+
+  &_telegram {
+    background: url('./img/telegram.png') no-repeat center;
+    background-size: cover;
   }
 }
