@@ -35,7 +35,6 @@ export const Layout = () => {
         <Route path='/' element={<StartScreen />} />
         <Route path='/login' element={<Login />} />
         <Route path='/registration' element={<Register />} />
-        <Route path='/rating' element={<Rating />} />
         <Route path='/about' element={<AboutUs />} />
         <Route path='/devpage' element={<DevPage />} />
         <Route element={<RequireAuth />}>
@@ -44,6 +43,7 @@ export const Layout = () => {
           <Route path='/profile/change-avatar' element={<ChangeAvatar />} />
           <Route path='/forum' element={<Forum />} />
           <Route path='/forum/:id' element={<ForumTheme />} />
+          <Route path='/rating' element={<Rating />} />
           <Route path='/profile/edit' element={<ChangeProfile />} />
           <Route path='/game' element={<Game />} />
         </Route>

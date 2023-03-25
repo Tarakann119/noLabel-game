@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigateFunction } from 'react-router';
 import { toast } from 'react-toastify';
+import { getLeaderboard } from '@components/Leaderboard/slice';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   ChangePasswordType,
@@ -132,7 +133,16 @@ export const getCurrentUser = createAsyncThunk(
           })
         );
       })
-      .then(() => navigate('/profile'))
+      .then(() => {
+        navigate('/profile');
+        getLeaderboard({
+          data: {
+            ratingFieldName: 'noLabelScore',
+            cursor: 0,
+            limit: 100,
+          },
+        });
+      })
       .catch((error) => {
         console.log(error);
         showError();

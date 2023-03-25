@@ -9,6 +9,12 @@ type leaderboardRequest = {
   limit: number;
 };
 
+type pushLeaderboardRequest = {
+  data: LeaderboardUserType;
+  ratingFieldName: 'noLabelScore';
+  teamName: 'no-label-tower-defence';
+};
+
 const initialState = {
   leaderboard: [],
   totalGamers: 0,
@@ -35,14 +41,7 @@ export default leaderboardReducer.reducer;
 
 export const getLeaderboard = createAsyncThunk(
   'leaderboard/getLeaderboard',
-  async (
-    {
-      data,
-    }: {
-      data: leaderboardRequest;
-    },
-    thunkAPI
-  ) => {
+  async ({ data }: { data: leaderboardRequest }, thunkAPI) => {
     axios('https://ya-praktikum.tech/api/v2/leaderboard/all', {
       method: 'post',
       data: JSON.stringify(data),
@@ -67,6 +66,28 @@ export const getLeaderboard = createAsyncThunk(
       })
       .catch((error) => {
         console.log(`Ошибка при загрузке данных leaderboard ${error}`);
+        showError();
+      });
+  }
+);
+
+export const pushUserScore = createAsyncThunk(
+  'leaderboard/pushUserScore',
+  async ({ data }: { data: pushLeaderboardRequest }) => {
+    axios('https://ya-praktikum.tech/api/v2/leaderboard', {
+      method: 'post',
+      data: JSON.stringify(data),
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(`Ошибка при отправке данных leaderboard ${error}`);
         showError();
       });
   }
