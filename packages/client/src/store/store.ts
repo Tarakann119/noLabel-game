@@ -1,5 +1,6 @@
 import userReducer from '@components/Autification/slice';
 import gameReducer from '@components/GameField/slice';
+import leaderboardReducer from '@components/Leaderboard/slice';
 import themeReducer from '@components/Theme/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
@@ -9,6 +10,7 @@ const reducers = combineReducers({
   theme: themeReducer,
   game: gameReducer,
   auth: userReducer,
+  leaderboard: leaderboardReducer,
 });
 
 export const store = configureStore({

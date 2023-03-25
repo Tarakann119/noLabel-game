@@ -27,7 +27,7 @@ export const Profile = () => {
       <div className='colum-6 container_center'>
         <Title text='Данные вашего Профиля' />
         <Avatar
-          src={user.avatar ? `https://ya-praktikum.tech/api/v2/resources${user.avatar}` : undefined}
+          src={user.avatar ? user.avatar : undefined}
           size='default'
           onClick={() => navigate('./change-avatar')}
           isLink={true}
