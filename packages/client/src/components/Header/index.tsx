@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { removeUser } from '@components/Autification/slice';
 import { Button } from '@components/Button';
+import { clearLeaderboard } from '@components/Leaderboard/slice';
 import { UserCard } from '@components/UserCard';
 import { currentUser } from '@store/selectors';
 import { Spacer } from '@ui/Spacer';
@@ -28,6 +29,7 @@ export const Header = () => {
     })
       .then(() => {
         toast.success('Вы вышли из профиля!');
+        clearLeaderboard();
         navigate('/');
       })
       .catch(() => showError());

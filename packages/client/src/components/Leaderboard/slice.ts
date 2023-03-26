@@ -1,19 +1,14 @@
+import { toast } from 'react-toastify';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { LeaderboardResponse, LeaderboardType, LeaderboardUserType } from '@typings/app.typings';
+import {
+  leaderboardRequest,
+  LeaderboardResponse,
+  LeaderboardType,
+  LeaderboardUserType,
+  pushLeaderboardRequest,
+} from '@typings/app.typings';
 import { showError, showSuccess } from '@utils/ShowError';
 import axios, { AxiosResponse } from 'axios';
-
-type leaderboardRequest = {
-  ratingFieldName: string;
-  cursor: number;
-  limit: number;
-};
-
-type pushLeaderboardRequest = {
-  data: LeaderboardUserType;
-  ratingFieldName: 'noLabelScore';
-  teamName: 'no-label-tower-defence';
-};
 
 const initialState = {
   leaderboard: [],
@@ -34,7 +29,6 @@ const leaderboardReducer = createSlice({
     },
   },
 });
-// clearLeaderboard - на данный момент не используется, но в коде оставлена преднамеренно.
 
 export const { setLeaderboard, clearLeaderboard } = leaderboardReducer.actions;
 export default leaderboardReducer.reducer;
@@ -54,14 +48,13 @@ export const getLeaderboard = createAsyncThunk(
       .then((response) => {
         showSuccess('Данные лидерборда загружены!');
         const leaderboardNoFormat = (response as AxiosResponse).data as LeaderboardResponse;
-        leaderboardNoFormat.sort((a, b) => b.data.noLabelScore - a.data.noLabelScore);
+        leaderboardNoFormat.sort((a, b) => b.data.towerDefenceScore - a.data.towerDefenceScore);
         let order = 0;
         const leaderboardList = leaderboardNoFormat.map((item) => {
           order++;
           item.data.order = order;
           return item.data as LeaderboardUserType;
         }) as LeaderboardType;
-
         thunkAPI.dispatch(setLeaderboard(leaderboardList));
       })
       .catch((error) => {
@@ -74,6 +67,7 @@ export const getLeaderboard = createAsyncThunk(
 export const pushUserScore = createAsyncThunk(
   'leaderboard/pushUserScore',
   async ({ data }: { data: pushLeaderboardRequest }) => {
+    toast.success('Отправка запущена');
     axios('https://ya-praktikum.tech/api/v2/leaderboard', {
       method: 'post',
       data: JSON.stringify(data),

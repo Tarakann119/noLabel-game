@@ -15,7 +15,7 @@ export const Rating = () => {
   return (
     <div className='board'>
       <Title className='board__title' text='Рейтинг' />
-      {currUser.id ? (
+      {userScore ? (
         <div className='board__user'>
           <LeaderboardView
             {...userScore}

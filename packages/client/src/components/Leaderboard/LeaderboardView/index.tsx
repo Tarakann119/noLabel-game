@@ -11,7 +11,7 @@ export const LeaderboardView = (props: LeaderboardUserType) => {
         <Avatar src={props.avatar || ''} className={'player__image'} size='small' />
         <div className='player__name'>{`${props.first_name}  ${props.second_name}`}</div>
       </div>
-      <div className='player__score'>{props.noLabelScore}</div>
+      <div className='player__score'>{props.towerDefenceScore}</div>
     </div>
   );
 };

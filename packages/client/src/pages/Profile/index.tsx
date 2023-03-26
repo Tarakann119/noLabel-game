@@ -1,10 +1,12 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Avatar } from '@components/Avatar';
+import { getLeaderboard } from '@components/Leaderboard/slice';
 import { Theme } from '@components/Theme';
 import { Title } from '@components/Title';
 import { currentUser } from '@store/selectors';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
 
 import { UserKeys } from './Profile.typings';
 
@@ -13,6 +15,7 @@ import './index.scss';
 export const Profile = () => {
   const user = useSelector(currentUser);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const userData = [
     { Логин: user.login },
@@ -21,6 +24,18 @@ export const Profile = () => {
     { Почта: user.email },
     { Телефон: user.phone },
   ];
+
+  useEffect(() => {
+    dispatch(
+      getLeaderboard({
+        data: {
+          ratingFieldName: 'towerDefenceScore',
+          cursor: 0,
+          limit: 20,
+        },
+      })
+    );
+  }, [dispatch]);
 
   return (
     <div className='container-content container-content_main bg-image_login '>

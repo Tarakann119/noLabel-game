@@ -120,9 +120,21 @@ export type LeaderboardUserType = {
   id: number;
   first_name: string;
   second_name: string;
-  noLabelScore: number;
+  towerDefenceScore: number;
   order?: number;
   avatar?: string;
 };
 
 export type LeaderboardType = LeaderboardUserType[] | [];
+
+export type leaderboardRequest = {
+  ratingFieldName: string;
+  cursor: number;
+  limit: number;
+};
+
+export type pushLeaderboardRequest = {
+  data: LeaderboardUserType;
+  ratingFieldName: 'towerDefenceScore';
+  teamName: 'tower-defence-001';
+};
