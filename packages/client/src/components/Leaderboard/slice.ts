@@ -7,7 +7,7 @@ import {
   LeaderboardUserType,
   pushLeaderboardRequest,
 } from '@typings/app.typings';
-import { showError, showSuccess } from '@utils/ShowError';
+import { showError } from '@utils/ShowError';
 import axios, { AxiosResponse } from 'axios';
 
 const initialState = {
@@ -46,7 +46,6 @@ export const getLeaderboard = createAsyncThunk(
       withCredentials: true,
     })
       .then((response) => {
-        showSuccess('Данные лидерборда загружены!');
         const leaderboardNoFormat = (response as AxiosResponse).data as LeaderboardResponse;
         leaderboardNoFormat.sort((a, b) => b.data.towerDefenceScore - a.data.towerDefenceScore);
         let order = 0;
