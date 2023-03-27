@@ -75,13 +75,9 @@ export const pushUserScore = createAsyncThunk(
         'Content-Type': 'application/json; charset=utf-8',
       },
       withCredentials: true,
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(`Ошибка при отправке данных leaderboard ${error}`);
-        showError();
-      });
+    }).catch((error) => {
+      console.log(`Ошибка при отправке данных leaderboard ${error}`);
+      showError();
+    });
   }
 );
