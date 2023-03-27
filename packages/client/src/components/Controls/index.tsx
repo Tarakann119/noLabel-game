@@ -16,6 +16,7 @@ import {
   IoMdVolumeOff,
   IoMdVolumeLow,
 } from 'react-icons/io';
+import { number } from 'yup';
 
 const Controls = ({
                     audioRef,
@@ -27,7 +28,7 @@ const Controls = ({
                     setTrackIndex,
                     setCurrentTrack,
                     handleNext,
-                  }) => {
+                  }:any) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(60);
   const [muteVolume, setMuteVolume] = useState(false);
@@ -36,7 +37,7 @@ const Controls = ({
     setIsPlaying((prev) => !prev);
   };
 
-  const playAnimationRef = useRef();
+  const playAnimationRef:any = useRef();
 
   const repeat = useCallback(() => {
     const currentTime = audioRef.current.currentTime;
@@ -73,7 +74,7 @@ const Controls = ({
       setTrackIndex(lastTrackIndex);
       setCurrentTrack(tracks[lastTrackIndex]);
     } else {
-      setTrackIndex((prev) => prev - 1);
+      setTrackIndex((prev:any) => prev - 1);
       setCurrentTrack(tracks[trackIndex - 1]);
     }
   };
@@ -102,9 +103,9 @@ const Controls = ({
           min={0}
           max={100}
           value={volume}
-          onChange={(e) => setVolume(e.target.value)}
+          onChange={(e) => setVolume(Number(e.target.value))}
           style={{
-            background: `linear-gradient(to right, #f50 ${volume}%, #ccc ${volume}%)`,
+            background: `linear-gradient(to right, #fdc700 ${volume}%, #fdc700 ${volume}%)`,
           }}
         />
       </div>

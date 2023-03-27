@@ -7,7 +7,7 @@ const DisplayTrack = ({
                         setDuration,
                         progressBarRef,
                         handleNext,
-                      }) => {
+                      }:any) => {
   const onLoadedMetadata = () => {
     const seconds = audioRef.current.duration;
     setDuration(seconds);

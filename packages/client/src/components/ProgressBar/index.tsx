@@ -5,12 +5,12 @@ const ProgressBar = ({
                        audioRef,
                        timeProgress,
                        duration,
-                     }) => {
+                     }:any) => {
   const handleProgressChange = () => {
     audioRef.current.currentTime = progressBarRef.current.value;
   };
 
-  const formatTime = (time) => {
+  const formatTime = (time:any) => {
     if (time && !isNaN(time)) {
       const minutes = Math.floor(time / 60);
       const formatMinutes =
