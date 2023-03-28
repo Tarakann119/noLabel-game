@@ -114,7 +114,11 @@ export type ProfileType = {
   confirmPassword: string;
 };
 
-export type LeaderboardResponse = Record<'data', LeaderboardUserType>[];
+export type LeaderboardResponse = {
+  data: Record<'data', LeaderboardUserType>[];
+  status: number;
+  statusText: string;
+};
 
 export type LeaderboardUserType = {
   id: number;
@@ -127,14 +131,16 @@ export type LeaderboardUserType = {
 
 export type LeaderboardType = LeaderboardUserType[] | [];
 
-export type leaderboardRequest = {
-  ratingFieldName: string;
-  cursor: number;
-  limit: number;
+export type pushLeaderboardRequest = {
+  user: LeaderboardUserType;
+  score: number;
 };
 
-export type pushLeaderboardRequest = {
-  data: LeaderboardUserType;
-  ratingFieldName: 'towerDefenceScore';
-  teamName: 'tower-defence-001';
+export type APIResponseError = {
+  response: {
+    data: {
+      reason: string;
+    };
+    status: number;
+  };
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigateFunction } from 'react-router';
 import { toast } from 'react-toastify';
-import { getLeaderboard } from '@components/Leaderboard/slice';
+import { clearLeaderboard } from '@components/Leaderboard/slice';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   ChangePasswordType,
@@ -24,14 +24,18 @@ const initialState = {
     email: null,
     phone: null,
   },
+  authState: false,
 };
 
 const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
+    setAuthState(state, { payload }) {
+      state.authState = payload;
+    },
+    setUser(state, { payload }) {
+      state.user = payload;
     },
     removeUser(state) {
       state.user.id = null;
@@ -46,7 +50,7 @@ const userReducer = createSlice({
   },
 });
 
-export const { setUser, removeUser } = userReducer.actions;
+export const { setAuthState, setUser, removeUser } = userReducer.actions;
 
 export default userReducer.reducer;
 export const handleSubmitLogin = createAsyncThunk(
@@ -78,6 +82,7 @@ export const handleSubmitLogin = createAsyncThunk(
         if (response.data === 'OK') {
           try {
             toast.success('Вы успешно вошли в систему!');
+            thunkAPI.dispatch(setAuthState(true));
             thunkAPI.dispatch(getCurrentUser({ data, navigate }));
           } catch {
             showError();
@@ -135,13 +140,6 @@ export const getCurrentUser = createAsyncThunk(
       })
       .then(() => {
         navigate('/profile');
-        getLeaderboard({
-          data: {
-            ratingFieldName: 'noLabelScore',
-            cursor: 0,
-            limit: 100,
-          },
-        });
       })
       .catch((error) => {
         console.log(error);
@@ -281,3 +279,23 @@ export const handleSubmitRegistration = createAsyncThunk(
       });
   }
 );
+
+export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
+  try {
+    fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
+      method: 'post',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    thunkAPI.dispatch(removeUser());
+    thunkAPI.dispatch(setAuthState(false));
+    thunkAPI.dispatch(clearLeaderboard());
+    console.log('logOut');
+  }
+});

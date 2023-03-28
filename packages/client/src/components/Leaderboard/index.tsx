@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Title } from '@components/Title';
-import { getDataForLeaderBoard, leaderboard } from '@store/selectors';
+import { getDataForLeaderBoard, getLeaderboard, getUserScore } from '@store/selectors';
 import { LeaderboardType, LeaderboardUserType } from '@typings/app.typings';
 
 import { LeaderboardView } from './LeaderboardView';
@@ -8,9 +8,9 @@ import { LeaderboardView } from './LeaderboardView';
 import './index.scss';
 
 export const Rating = () => {
-  const leaderboardList = useSelector(leaderboard) as LeaderboardType;
+  const leaderboardList = useSelector(getLeaderboard) as LeaderboardType;
   const currUser = useSelector(getDataForLeaderBoard);
-  const userScore = leaderboardList.find((el) => el.id === currUser.id) as LeaderboardUserType;
+  const userScore = useSelector(getUserScore) as LeaderboardUserType;
 
   return (
     <div className='board'>

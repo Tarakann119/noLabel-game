@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getLeaderboard } from '@components/Leaderboard/slice';
+import { fetchLeaderboard } from '@components/Leaderboard/slice';
 import { Title } from '@components/Title';
-import { getDataForLeaderBoard, leaderboard } from '@store/selectors';
+import { getDataForLeaderBoard, getLeaderboard, getLeaderboardIsLoading } from '@store/selectors';
 import { LeaderboardType } from '@typings/app.typings';
+import { Loader } from '@ui/Loader';
 import { uuid } from '@utils/generateId';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
@@ -14,25 +15,17 @@ export const LeaderboardPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(
-      getLeaderboard({
-        data: {
-          ratingFieldName: 'towerDefenceScore',
-          cursor: 0,
-          limit: 20,
-        },
-      })
-    );
+    dispatch(fetchLeaderboard());
   }, [dispatch]);
 
-  const leaderboardList = useSelector(leaderboard) as LeaderboardType;
+  const leaderboardList = useSelector(getLeaderboard) as LeaderboardType;
+  const isLoading = useSelector(getLeaderboardIsLoading);
 
   if (leaderboardList.length) {
     const currUser = useSelector(getDataForLeaderBoard);
     // Минимальное и максимальная ширина в % отдельного столбца в гистограмме рейтинга пользователей
     const minWidth = 20;
     const maxWidth = 100;
-    let userNumber = 0;
 
     // Переменные для хранения мин и макс значений в рейтинге пользователей
     const maxValue = leaderboardList[0].towerDefenceScore;
@@ -47,7 +40,6 @@ export const LeaderboardPage = () => {
           ? user.towerDefenceScore * correction
           : minWidth
       );
-      userNumber++;
 
       // Класс leaderboard__user_current служит для выделения очков залогиненного юзера
       return (
@@ -58,18 +50,23 @@ export const LeaderboardPage = () => {
           })}
           style={{ width: `${width}%` }}>
           <span className='leaderboard__user-text'>
-            {`${userNumber}.  ${user.first_name} ${user.second_name}  ${user.towerDefenceScore}`}
+            {`${user.order}.  ${user.first_name} ${user.second_name}  ${user.towerDefenceScore}`}
           </span>
         </li>
       );
     });
     return (
       <div className='container-content bg-image_login container_start'>
-        <div className='container_center colum-7'>
-          <Title text='Рейтинг игроков' />
-          <div className='leaderboard__user-container'>{ratingList}</div>
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className='container_center colum-7'>
+            <Title text='Рейтинг игроков' />
+            <div className='leaderboard__user-container'>{ratingList}</div>
+          </div>
+        )}
       </div>
     );
-  } else return <div className='container-content bg-image_login container_start'></div>;
+  }
+  return <div className='container-content bg-image_login container_start'></div>;
 };
