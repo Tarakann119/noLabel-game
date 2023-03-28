@@ -2,7 +2,7 @@ import { Fragment, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Avatar } from '@components/Avatar';
-import { getLeaderboard } from '@components/Leaderboard/slice';
+import { fetchLeaderboard } from '@components/Leaderboard/slice';
 import { Theme } from '@components/Theme';
 import { Title } from '@components/Title';
 import { currentUser } from '@store/selectors';
@@ -26,15 +26,7 @@ export const Profile = () => {
   ];
 
   useEffect(() => {
-    dispatch(
-      getLeaderboard({
-        data: {
-          ratingFieldName: 'towerDefenceScore',
-          cursor: 0,
-          limit: 20,
-        },
-      })
-    );
+    dispatch(fetchLeaderboard());
   }, [dispatch]);
 
   return (
