@@ -23,20 +23,19 @@ const leaderboardReducer = createSlice({
     builder.addCase(fetchLeaderboard.pending, (state) => {
       state.isLoading = true;
     });
+
     builder.addCase(fetchLeaderboard.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-
       const response = payload as unknown as LeaderboardResponse;
       const leaderboardNoFormat = response.data;
-
       leaderboardNoFormat.sort((a, b) => b.data.towerDefenceScore - a.data.towerDefenceScore);
       const leaderboardList = leaderboardNoFormat.map((item, index) => {
         item.data.order = ++index;
         return item.data as LeaderboardUserType;
       });
-
       state.leaderboard = leaderboardList as never[];
     });
+
     builder.addCase(fetchLeaderboard.rejected, (state) => {
       state.isLoading = false;
     });
