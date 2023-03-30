@@ -1,7 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { pushUserScore } from '@components/Leaderboard/slice';
-import { currentUser } from '@store/selectors';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
 
 import { Game } from '../../game/Game';
@@ -12,11 +10,10 @@ import { setPoints } from './slice';
 
 const GameField = forwardRef<HTMLCanvasElement, GameFieldProps>((props, ref) => {
   const dispatch = useAppDispatch();
-  const user = useSelector(currentUser);
   const innerRef = useRef<HTMLCanvasElement>(null);
 
   const pushScore = (score: number) => {
-    dispatch(pushUserScore({ user: user, score: score }));
+    dispatch(pushUserScore({ score: score }));
   };
 
   useImperativeHandle(ref, () => innerRef.current as HTMLCanvasElement);

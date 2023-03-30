@@ -21,52 +21,49 @@ export const LeaderboardPage = () => {
   const leaderboardList = useSelector(getLeaderboard) as LeaderboardType;
   const isLoading = useSelector(getLeaderboardIsLoading);
 
-  if (leaderboardList.length) {
-    const currUser = useSelector(getDataForLeaderBoard);
-    // Минимальное и максимальная ширина в % отдельного столбца в гистограмме рейтинга пользователей
-    const minWidth = 20;
-    const maxWidth = 100;
+  const currUser = useSelector(getDataForLeaderBoard);
+  // Минимальное и максимальная ширина в % отдельного столбца в гистограмме рейтинга пользователей
+  const minWidth = 20;
+  const maxWidth = 100;
 
-    // Переменные для хранения мин и макс значений в рейтинге пользователей
-    const maxValue = leaderboardList[0].towerDefenceScore;
+  // Переменные для хранения мин и макс значений в рейтинге пользователей
+  const maxValue = leaderboardList[0].towerDefenceScore;
 
-    // Коэффициент для конвертации очков рейтинга юзеров в высоту столбца гистограммы
-    const correction = maxWidth / maxValue;
+  // Коэффициент для конвертации очков рейтинга юзеров в высоту столбца гистограммы
+  const correction = maxWidth / maxValue;
 
-    const ratingList = leaderboardList.map((user) => {
-      // Ограничиваем минимальную ширину столбца гистограммы
-      const width = Math.floor(
-        user.towerDefenceScore * correction > minWidth
-          ? user.towerDefenceScore * correction
-          : minWidth
-      );
-
-      // Класс leaderboard__user_current служит для выделения очков залогиненного юзера
-      return (
-        <li
-          key={uuid()}
-          className={classNames('leaderboard__user', {
-            leaderboard__user_current: user.id === currUser.id,
-          })}
-          style={{ width: `${width}%` }}>
-          <span className='leaderboard__user-text'>
-            {`${user.order}.  ${user.first_name} ${user.second_name}  ${user.towerDefenceScore}`}
-          </span>
-        </li>
-      );
-    });
-    return (
-      <div className='container-content bg-image_login container_start'>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div className='container_center colum-7'>
-            <Title text='Рейтинг игроков' />
-            <div className='leaderboard__user-container'>{ratingList}</div>
-          </div>
-        )}
-      </div>
+  const ratingList = leaderboardList.map((user) => {
+    // Ограничиваем минимальную ширину столбца гистограммы
+    const width = Math.floor(
+      user.towerDefenceScore * correction > minWidth
+        ? user.towerDefenceScore * correction
+        : minWidth
     );
-  }
-  return <div className='container-content bg-image_login container_start'></div>;
+
+    // Класс leaderboard__user_current служит для выделения очков залогиненного юзера
+    return (
+      <li
+        key={uuid()}
+        className={classNames('leaderboard__user', {
+          leaderboard__user_current: user.id === currUser.id,
+        })}
+        style={{ width: `${width}%` }}>
+        <span className='leaderboard__user-text'>
+          {`${user.order}.  ${user.first_name} ${user.second_name}  ${user.towerDefenceScore}`}
+        </span>
+      </li>
+    );
+  });
+  return (
+    <div className='container-content bg-image_login container_start'>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className='container_center colum-7'>
+          <Title text='Рейтинг игроков' />
+          <div className='leaderboard__user-container'>{ratingList}</div>
+        </div>
+      )}
+    </div>
+  );
 };
