@@ -1,0 +1,16 @@
+.chat-wrapper {
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.chat-wrapper .topic-chat {
+  max-height: 100%;
+  overflow-y: auto;
+}
+.topic-message {
+  background-color: rgba(214, 215, 217, 0.3);
+  border-radius: 8px;
+}
