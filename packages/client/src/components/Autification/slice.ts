@@ -24,16 +24,12 @@ const initialState = {
     email: null,
     phone: null,
   },
-  authState: false,
 };
 
 const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setAuthState(state, { payload }) {
-      state.authState = payload;
-    },
     setUser(state, { payload }) {
       state.user = payload;
     },
@@ -50,7 +46,7 @@ const userReducer = createSlice({
   },
 });
 
-export const { setAuthState, setUser, removeUser } = userReducer.actions;
+export const { setUser, removeUser } = userReducer.actions;
 
 export default userReducer.reducer;
 export const handleSubmitLogin = createAsyncThunk(
@@ -82,7 +78,6 @@ export const handleSubmitLogin = createAsyncThunk(
         if (response.data === 'OK') {
           try {
             toast.success('Вы успешно вошли в систему!');
-            thunkAPI.dispatch(setAuthState(true));
             thunkAPI.dispatch(getCurrentUser({ data, navigate }));
           } catch {
             showError();
@@ -294,7 +289,6 @@ export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
     console.log(e);
   } finally {
     thunkAPI.dispatch(removeUser());
-    thunkAPI.dispatch(setAuthState(false));
     thunkAPI.dispatch(clearLeaderboard());
     console.log('logOut');
   }
