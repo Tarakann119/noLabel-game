@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { currentUser } from '@store/selectors';
 import {
   LeaderboardResponse,
   LeaderboardUserType,
@@ -64,20 +65,21 @@ export const fetchLeaderboard = createAsyncThunk('leaderboard/fetchLeaderboard',
 
 export const pushUserScore = createAsyncThunk(
   'leaderboard/pushUserScore',
-  async ({ user, score }: pushLeaderboardRequest, thunkAPI) => {
-    const data = {
-      data: {
-        id: user.id,
-        first_name: user.first_name,
-        second_name: user.second_name,
-        towerDefenceScore: score,
-        avatar: user.avatar,
-      },
-      teamName: 'tower-defence-001',
-      ratingFieldName: 'towerDefenceScore',
-    };
-
+  async ({ score }: pushLeaderboardRequest, thunkAPI) => {
     try {
+      const user = thunkAPI.dispatch(currentUser);
+      const data = {
+        data: {
+          id: user.id,
+          first_name: user.first_name,
+          second_name: user.second_name,
+          towerDefenceScore: score,
+          avatar: user.avatar,
+        },
+        teamName: 'tower-defence-001',
+        ratingFieldName: 'towerDefenceScore',
+      };
+
       await axios('https://ya-praktikum.tech/api/v2/leaderboard', {
         method: 'post',
         data: JSON.stringify(data),

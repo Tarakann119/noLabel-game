@@ -132,7 +132,6 @@ export type LeaderboardUserType = {
 export type LeaderboardType = LeaderboardUserType[] | [];
 
 export type pushLeaderboardRequest = {
-  user: LeaderboardUserType;
   score: number;
 };
 
