@@ -1,0 +1,24 @@
+.add-topic {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.add-topic__btn {
+
+  background-repeat: no-repeat;
+  background-size: 30px auto;
+  background-position: 10px 15px;
+  padding-left: 30px;
+}
+.add-topic__form {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 62px;
+}
+
+.input.big-box-size .input__control {
+  width: 380px;
+  height: 62px;
+}

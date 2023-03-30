@@ -9,6 +9,7 @@ import Header from './components/Header';
 import Error404 from './pages/ErrorPages/404';
 import Forum from './pages/Forum';
 import ForumTheme from './pages/Forum/ForumTheme';
+import { Topic } from './pages/Topic'
 import ChangePassword from './pages/Profile/ChangePassword';
 import ChangeAvatar from './pages/Profile/ChangeAvatar';
 import Game from './pages/Game';
@@ -39,7 +40,7 @@ const Layout = () => {
           <Route path='/profile/change-password' element={<ChangePassword />} />
           <Route path='/profile/change-avatar' element={<ChangeAvatar />} />
           <Route path='/forum' element={<Forum />} />
-          <Route path='/forum/:id' element={<ForumTheme />} />
+          <Route path='/forum/:id' element={<Topic />} />
           <Route path='/profile/edit' element={<ChangeProfile />} />
           <Route path='/game' element={<Game />} />
         </Route>

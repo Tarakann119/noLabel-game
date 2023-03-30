@@ -1,0 +1,26 @@
+@import '../../../assets/styles/varThemeDefault';
+.typing-place {
+  margin: 20px 0 20px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.typing-place .input.full-width {
+  max-width: 100%;
+  flex: 1 0 80%;
+}
+
+.typing-place .input.full-width .input__control {
+  height: 100%;
+}
+
+.typing-place .send-message-btn {
+  width: 82px;
+  height: 62px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 10px 0;
+}
+
