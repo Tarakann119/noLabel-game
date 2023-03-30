@@ -67,7 +67,7 @@ export const pushUserScore = createAsyncThunk(
   'leaderboard/pushUserScore',
   async ({ score }: pushLeaderboardRequest, thunkAPI) => {
     try {
-      const user = thunkAPI.dispatch(currentUser);
+      const user = currentUser(thunkAPI.getState());
       const data = {
         data: {
           id: user.id,
