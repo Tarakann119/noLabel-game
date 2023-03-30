@@ -1,8 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { logOut, removeUser } from '@components/Autification/slice';
+import { logOut } from '@components/Autification/slice';
 import { Button } from '@components/Button';
-import { clearLeaderboard } from '@components/Leaderboard/slice';
 import { UserCard } from '@components/UserCard';
 import { currentUser } from '@store/selectors';
 import { Spacer } from '@ui/Spacer';
@@ -17,8 +16,6 @@ export const Header = () => {
 
   const handleLogOut = () => {
     dispatch(logOut());
-    dispatch(removeUser());
-    dispatch(clearLeaderboard());
     navigate('/');
   };
 
