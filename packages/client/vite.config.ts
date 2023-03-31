@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
 import path from 'path';

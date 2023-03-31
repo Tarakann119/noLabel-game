@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { FooterProps } from '@components/Footer/Footer.typings';
 
@@ -6,7 +6,7 @@ import AudioPlayer from '../AudioPlayer';
 
 import './index.scss';
 
-export const Footer: React.FC<FooterProps> = ({ children }) => {
+export const Footer: FC<FooterProps> = ({ children }) => {
   return (
     <>
       <div className='footer'>
@@ -16,7 +16,7 @@ export const Footer: React.FC<FooterProps> = ({ children }) => {
           <AudioPlayer />
         </div>
         <div className='footer__link-container'>
-          <Link to={'/aboutUs'} className='custom-link'>
+          <Link to={'/about'} className='custom-link'>
             О нас
           </Link>
         </div>
@@ -24,3 +24,4 @@ export const Footer: React.FC<FooterProps> = ({ children }) => {
     </>
   );
 };
+export default Footer;

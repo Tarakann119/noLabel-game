@@ -7,7 +7,6 @@ import { useLoading } from '@components/LoaderComponent';
 import { Title } from '@components/Title';
 import { Loader } from '@ui/Loader';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
-import randomClickSound from '@utils/randomClickSound/randomClickSound';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -66,12 +65,7 @@ export const Login = () => {
               value={values.password}
               error={errors.password}
             />
-            <Button
-              text='Вход'
-              type='submit'
-              className='custom-button'
-              onMouseUp={randomClickSound}
-            />
+            <Button text='Вход' type='submit' className='custom-button' />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?
             </Link>
