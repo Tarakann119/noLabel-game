@@ -1,25 +1,18 @@
-import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
-import { uploadAvatar } from '../../components/Autification/slice';
-import { Button } from '../../components/Button';
-import { Title } from '../../components/Title';
+import { useNavigate } from 'react-router';
+import { uploadAvatar } from '@components/Autification/slice';
+import { Button } from '@components/Button';
+import { Title } from '@components/Title';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import classNames from 'classnames';
 
-type FileType = {
-  path: string;
-  preview: string;
-  lastModified: number;
-  lastModifiedDate: Date;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-};
+import { FileType } from './Profile.typings';
 
-const ChangeAvatar = () => {
+export const ChangeAvatar = () => {
   const [files, setFiles] = useState<FileType[]>([]);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': [],
@@ -38,9 +31,9 @@ const ChangeAvatar = () => {
   const updateAvatar = async () => {
     const image = new FormData();
     image.append('avatar', files[0] as unknown as string | Blob);
-    dispatch(uploadAvatar(image));
+    dispatch(uploadAvatar({ navigate: navigate, image: image }));
   };
-  const removeFile = (file: FileType) => () => {
+  const removeFile = (file: FileType) => {
     const newFiles = [...files];
     newFiles.splice(newFiles.indexOf(file), 1);
     setFiles(newFiles);
@@ -51,6 +44,7 @@ const ChangeAvatar = () => {
       <div>
         <Button type='button' text='Удалить' onClick={() => removeFile(file)} />
         <img
+          style={{ maxHeight: '400px', maxWidth: '400px' }}
           src={file.preview}
           onLoad={() => {
             URL.revokeObjectURL(file.preview);
@@ -91,4 +85,3 @@ const ChangeAvatar = () => {
     </div>
   );
 };
-export default ChangeAvatar;

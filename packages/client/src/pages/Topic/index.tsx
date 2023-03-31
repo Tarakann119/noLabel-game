@@ -1,14 +1,16 @@
-import { Message } from './Message'
-import { TypingPlace } from './TypingPlace'
-import './index.scss'
+import { Title } from '@components/Title';
 import classNames from 'classnames';
-import { Title } from '../../components/Title';
+
+import { Message } from './Message';
+import { TypingPlace } from './TypingPlace';
+
+import './index.scss';
 
 interface IMessage {
-  userName: string
-  text: string
-  messageId: number
-  date: string
+  userName: string;
+  text: string;
+  messageId: number;
+  date: string;
 }
 
 export function Topic() {
@@ -55,15 +57,15 @@ export function Topic() {
       messageId: 7,
       date: '22/02/2022 18.30',
     },
-  ]
-  const questionMessage = messageList.shift() as IMessage
+  ];
+  const questionMessage = messageList.shift() as IMessage;
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
       <div className='forum__container'>
         <Title className='form-login-title' text='Название темы' />
-        <div className="chat-wrapper">
+        <div className='chat-wrapper'>
           {questionMessage && (
-            <div className="topic-message">
+            <div className='topic-message'>
               <Message
                 userName={questionMessage.userName}
                 text={questionMessage.text}
@@ -71,8 +73,8 @@ export function Topic() {
               />
             </div>
           )}
-          <ul className="topic-chat">
-            {messageList.map(data => (
+          <ul className='topic-chat'>
+            {messageList.map((data) => (
               <li key={data.messageId}>
                 <Message {...data} />
               </li>
@@ -82,7 +84,5 @@ export function Topic() {
         </div>
       </div>
     </div>
-
-
-  )
+  );
 }

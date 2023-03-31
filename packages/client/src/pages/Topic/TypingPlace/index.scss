@@ -1,15 +1,16 @@
 @import '../../../assets/styles/varThemeDefault';
+
 .typing-place {
-  margin: 20px 0 20px 0;
-  width: 100%;
   display: flex;
-  justify-content: space-between;
   gap: 20px;
+  justify-content: space-between;
+  width: 100%;
+  margin: 20px 0;
 }
 
 .typing-place .input.full-width {
-  max-width: 100%;
   flex: 1 0 80%;
+  max-width: 100%;
 }
 
 .typing-place .input.full-width .input__control {
@@ -20,7 +21,6 @@
   width: 82px;
   height: 62px;
   background-repeat: no-repeat;
-  background-size: contain;
   background-position: 10px 0;
+  background-size: contain;
 }
-

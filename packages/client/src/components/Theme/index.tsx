@@ -1,10 +1,12 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+
 import { set } from './slice';
-import { useEffect } from 'react';
+
 import './index.scss';
 
-const Theme = () => {
+export const Theme = () => {
   const theme: string = useSelector((state: Record<string, string>) => state.theme);
   const dispatch = useDispatch();
 
@@ -35,5 +37,3 @@ const Theme = () => {
     </div>
   );
 };
-
-export default Theme;

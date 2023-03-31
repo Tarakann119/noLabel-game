@@ -1,7 +1,8 @@
-import * as React from 'react';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import type { AvatarProps } from './index';
+
+import '@testing-library/jest-dom';
+
+import { AvatarProps } from './Avatar.typings';
 import { Avatar } from './index';
 
 const TEST_TEXT = 'test-text';

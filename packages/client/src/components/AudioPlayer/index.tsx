@@ -1,18 +1,17 @@
 import { useRef, useState } from 'react';
-import { tracks } from '../../assets/tracks';
-import './index.scss';
+import { tracks } from '@assets/tracks';
 
+import Controls from '../Controls';
 // import components
 import DisplayTrack from '../DisplayTrack';
-import Controls from '../Controls';
 import ProgressBar from '../ProgressBar';
+
+import './index.scss';
 
 const AudioPlayer = () => {
   // states
   const [trackIndex, setTrackIndex] = useState(0);
-  const [currentTrack, setCurrentTrack] = useState(
-    tracks[trackIndex]
-  );
+  const [currentTrack, setCurrentTrack] = useState(tracks[trackIndex]);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -32,8 +31,8 @@ const AudioPlayer = () => {
 
   return (
     <>
-      <div className="audio-player">
-        <div className="inner">
+      <div className='audio-player'>
+        <div className='inner'>
           <DisplayTrack
             {...{
               currentTrack,
@@ -56,9 +55,7 @@ const AudioPlayer = () => {
               handleNext,
             }}
           />
-          <ProgressBar
-            {...{ progressBarRef, audioRef, timeProgress, duration }}
-          />
+          <ProgressBar {...{ progressBarRef, audioRef, timeProgress, duration }} />
         </div>
       </div>
     </>

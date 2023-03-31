@@ -1,9 +1,10 @@
-import { Sprite } from './Sprite';
+import { TBuildingSettings, TowerType } from '@typings/app.typings';
+
+import { settings } from './settings/buldings';
 import { Enemy } from './Enemy';
 import { Projectile } from './Projectile';
-import { TBuildingSettings, TowerType } from '../../typings/app.typings';
-import { settings } from './settings/buldings';
 import { Resource } from './Resources';
+import { Sprite } from './Sprite';
 
 export class Building extends Sprite {
   public readonly settings: TBuildingSettings;
@@ -21,8 +22,8 @@ export class Building extends Sprite {
       context,
       position,
       settings[towerType].imageSrc,
-      { x: 0, y: -80 },
-      19,
+      { x: -32, y: -80 },
+      settings[towerType].maxFrames,
       settings[towerType].delay
     );
 

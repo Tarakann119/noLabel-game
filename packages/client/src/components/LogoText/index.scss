@@ -1,4 +1,4 @@
-@import '../../assets/styles/varThemeDefault';
+@import '@assets/styles/varThemeDefault';
 
 .logo-text {
   z-index: 3;
@@ -14,5 +14,7 @@
   font-style: normal;
   line-height: 120px;
   white-space: break-spaces;
+  //align-self: center;
+  text-align: center;
   text-transform: capitalize;
 }

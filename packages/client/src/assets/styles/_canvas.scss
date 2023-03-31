@@ -1,0 +1,18 @@
+.fullscreen__button {
+  position: absolute;
+  right: 40px;
+  bottom: 45px;
+  z-index: 200;
+}
+
+div.fullscreen {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.canvas {
+  // пока не нуждается в стилизации, селектор присутствует здесь как напоминание наличия данного класса
+}

@@ -1,34 +1,32 @@
-import type { FC, InputHTMLAttributes } from 'react'
-import classNames from 'classnames'
-import './index.scss'
-import ValidateErrorMessage from '../ValidateErrorMessage';
+import type { FC, InputHTMLAttributes } from 'react';
+import classNames from 'classnames';
 
-type InputType = 'text' | 'tel' | 'email' | 'password'
+type InputType = 'text' | 'tel' | 'email' | 'password';
 
 export type InputProps = {
-  name: string
-  type?: InputType
-  label?: string
-  error?: string
-  isValid?: boolean
-  className?: string
-} & InputHTMLAttributes<HTMLInputElement>
+  name: string;
+  type?: InputType;
+  label?: string;
+  error?: string;
+  isValid?: boolean;
+  className?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export const Input: FC<InputProps> = ({
-                                        id,
-                                        name,
-                                        type = 'text',
-                                        label,
-                                        error = '',
-                                        isValid = true,
-                                        disabled = false,
-                                        readOnly = false,
-                                        style,
-                                        className = '',
-                                        placeholder,
-                                        ...props
-                                      }) => {
-  const inputId = id ?? `${type}-${name}`
+  id,
+  name,
+  type = 'text',
+  label,
+  error = '',
+  isValid = true,
+  disabled = false,
+  readOnly = false,
+  style,
+  className = '',
+  placeholder,
+  ...props
+}) => {
+  const inputId = id ?? `${type}-${name}`;
 
   return (
     <div className='input__container'>
@@ -36,13 +34,8 @@ export const Input: FC<InputProps> = ({
         {label}
       </label>
       <div className={classNames('input__wrapper', { 'input__wrapper-error': error })}>
-        <input
-          name={name}
-          type={type}
-          className='input__field'
-          placeholder={placeholder}
-        />
+        <input name={name} type={type} className='input__field' placeholder={placeholder} />
       </div>
     </div>
-  )
-}
+  );
+};

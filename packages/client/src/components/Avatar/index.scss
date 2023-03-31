@@ -1,18 +1,46 @@
-@import '../../assets/styles/varThemeDefault';
+@import '@assets/styles/varThemeDefault';
 
-.title {
-  padding: 0 0 8px;
-  font-weight: 700;
-  font-size: 36px;
-  font-family: $font-secondary;
-  font-style: normal;
-  line-height: 0.97;
-  letter-spacing: 0.06em;
-  text-align: center;
-  text-transform: capitalize;
-  user-select: none;
-}
+.avatar {
+  display: block;
+  object-fit: cover;
+  border: 3px solid $color-ui-primary;
+  border-radius: 50%;
+  aspect-ratio: 1;
 
-.title-view-base {
-  border-bottom: 1px solid $color-ui-primary;
+  // .avatar-active
+  &-active {
+    border: 3px solid $color-ui-secondary;
+  }
+
+  // .avatar_default
+  &_default {
+    width: 150px;
+    height: 150px;
+  }
+
+  // .avatar_small
+  &_small {
+    width: 36px;
+  }
+
+  // .avatar_header
+  &_header {
+    width: 50px;
+    height: 50px;
+  }
+
+  // .avatar_link
+  &_link {
+    cursor: pointer;
+
+    // .avatar_link:hover
+    &:hover {
+      filter: drop-shadow(0 0 10px $color-ui-primary);
+    }
+
+    // .avatar_link:active
+    &:active {
+      filter: drop-shadow(0 0 10px $color-text-primary);
+    }
+  }
 }

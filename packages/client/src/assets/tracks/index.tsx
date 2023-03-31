@@ -1,13 +1,11 @@
-// audio files
+// audio thumbnails
+import Orcunnamed from './Orc-unnamed.png';
 import beautiful from './Orgrimmar.mp3';
 import world from './Stormwind City Theme.mp3';
 import top from './The Burning Legion.mp3';
 import cinematic from './TowerDefence-Soundtrack.mp3';
 import forest from './War Theme.mp3';
 import podcast from './Wrath of The Lich King.mp3';
-
-// audio thumbnails
-import Orcunnamed from './Orc-unnamed.png';
 
 export const tracks = [
   {

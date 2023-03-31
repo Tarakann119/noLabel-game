@@ -1,16 +1,17 @@
-import { Link, useNavigate } from 'react-router-dom';
-import './index.scss';
-import { Button } from '../Button';
-import Spacer from '../../ui/Spacer';
-import { toast } from 'react-toastify';
-import UserCard from '../UserCard';
 import { useSelector } from 'react-redux';
-import { showError } from '../../../utils/ShowError';
-import { currentUser } from '../../Store/selectors';
-import { removeUser } from '../Autification/slice';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { removeUser } from '@components/Autification/slice';
+import { Button } from '@components/Button';
+import { UserCard } from '@components/UserCard';
+import { currentUser } from '@store/selectors';
+import { Spacer } from '@ui/Spacer';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import { showError } from '@utils/ShowError';
 
-const Header = () => {
+import './index.scss';
+
+export const Header = () => {
   const user = useSelector(currentUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -76,4 +77,3 @@ const Header = () => {
     </>
   );
 };
-export default Header;

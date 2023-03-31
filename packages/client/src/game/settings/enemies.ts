@@ -1,11 +1,11 @@
-import { TEnemySettings, EnemyType } from '../../../typings/app.typings';
+import { EnemiesList, TEnemySettings } from '@typings/app.typings';
 
 type TEnemiesSettings = {
-  [key in EnemyType]: TEnemySettings;
+  [key in EnemiesList]: TEnemySettings;
 };
 
 export const settings: TEnemiesSettings = {
-  [EnemyType.GOBLIN]: {
+  [EnemiesList.GOBLIN]: {
     width: 80,
     height: 120,
     radius: 30,
@@ -15,7 +15,7 @@ export const settings: TEnemiesSettings = {
     coins: 5,
     points: 5,
   },
-  [EnemyType.HOBGOBLIN]: {
+  [EnemiesList.HOBGOBLIN]: {
     width: 80,
     height: 120,
     radius: 30,
@@ -25,7 +25,7 @@ export const settings: TEnemiesSettings = {
     coins: 10,
     points: 10,
   },
-  [EnemyType.ORC]: {
+  [EnemiesList.ORC]: {
     width: 100,
     height: 175,
     radius: 30,
@@ -35,7 +35,7 @@ export const settings: TEnemiesSettings = {
     coins: 20,
     points: 15,
   },
-  [EnemyType.ORC_WARRIOR]: {
+  [EnemiesList.ORC_WARRIOR]: {
     width: 100,
     height: 175,
     radius: 30,

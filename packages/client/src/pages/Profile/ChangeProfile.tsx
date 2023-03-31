@@ -1,15 +1,15 @@
-import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Title } from '../../components/Title';
-import { Button } from '../../components/Button';
+import { useNavigate } from 'react-router-dom';
+import { changeUserProfile } from '@components/Autification/slice';
+import { Button } from '@components/Button';
+import { InputValidate } from '@components/InputValidate';
+import { Title } from '@components/Title';
+import { currentUser } from '@store/selectors';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
-import { changeUserProfile } from '../../components/Autification/slice';
-import { useAppDispatch } from '../../../utils/hooks/reduxHooks';
-import InputValidate from '../../components/InputValidate';
-import { currentUser } from '../../Store/selectors';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
 
 const ProfileSchema = Yup.object().shape({
   first_name: Yup.string()
@@ -35,7 +35,7 @@ const ProfileSchema = Yup.object().shape({
     .required('Поле не может быть пустым'),
 });
 
-const ChangeProfile = () => {
+export const ChangeProfile = () => {
   const navigate = useNavigate();
   const user = useSelector(currentUser);
   const [fieldError, setFieldError] = useState(null);
@@ -116,4 +116,3 @@ const ChangeProfile = () => {
     </div>
   );
 };
-export default ChangeProfile;

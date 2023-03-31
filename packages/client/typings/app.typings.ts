@@ -1,14 +1,29 @@
-export enum EnemyType {
-  GOBLIN,
-  HOBGOBLIN,
-  ORC,
-  ORC_WARRIOR,
+export enum EnemiesList {
+  GOBLIN = 'GOBLIN',
+  HOBGOBLIN = 'HOBGOBLIN',
+  ORC = 'ORC',
+  ORC_WARRIOR = 'ORC_WARRIOR',
 }
 
-export enum TowerType {
-  ARCHER,
-  STONE,
+export type EnemyType = keyof typeof EnemiesList;
+
+export enum TowersList {
+  ARCHER = 'ARCHER',
+  STONE = 'STONE',
 }
+
+export type TowerType = keyof typeof TowersList;
+
+export type TowerListItemType = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fill: string;
+  isDragging: boolean;
+  imageSrc: string;
+  type: TowersList;
+};
 
 export type TGameSettings = {
   tileSize: number;
@@ -47,6 +62,7 @@ export type TBuildingSettings = {
   delay: number;
   imageSrc: string;
   cost: number;
+  maxFrames: number;
   projectile: {
     imageSrc: string;
     radius: number;

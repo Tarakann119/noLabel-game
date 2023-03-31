@@ -1,16 +1,14 @@
-import React, { FC } from 'react';
-import './index.scss';
+import { FC } from 'react';
+import { ButtonImgProps } from '@ui/ButtonImg/ButtonImg.typings';
 import classNames from 'classnames';
 
-type ButtonImgProps = {
-  variant: 'close' | 'logout';
-  onClick?: () => void;
-};
+import './index.scss';
 
-const ButtonImg: FC<ButtonImgProps> = ({ variant = 'close', onClick }) => {
+export const ButtonImg: FC<ButtonImgProps> = ({ variant = 'close', onClick, ...props }) => {
   return (
-    <div className={classNames('button-img', 'button-img_' + variant)} onClick={onClick}></div>
+    <div
+      className={classNames('button-img', 'button-img_' + variant)}
+      onClick={onClick}
+      {...props}></div>
   );
 };
-
-export default ButtonImg;

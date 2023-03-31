@@ -1,28 +1,32 @@
 .progress {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
+
 .controls-wrapper {
   display: flex;
 }
+
 .controls {
-  padding-left: 20px;
   padding-right: 20px;
+  padding-left: 20px;
 }
+
 .volume {
   padding-left: 20px;
 }
+
 .time {
   color: #dea74b;
   font-weight: 200;
   font-size: 18px;
-  font-family: romvel cyr, tahoma, geneva, verdana, sans-serif;
+  font-family: 'romvel cyr', tahoma, geneva, verdana, sans-serif;
 
-&.current {
-  color: #dea74b;
-  font-weight: 200;
-  font-size: 18px;
-  font-family: romvel cyr, tahoma, geneva, verdana, sans-serif;
-}
+  &.current {
+    color: #dea74b;
+    font-weight: 200;
+    font-size: 18px;
+    font-family: 'romvel cyr', tahoma, geneva, verdana, sans-serif;
+  }
 }

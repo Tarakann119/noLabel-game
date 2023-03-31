@@ -38,14 +38,16 @@ $font-h1-size: 64px;
 }
 
 .bg-image {
-  background: url('../../assets/img/metall-texture.jpg') no-repeat center;
+  background: url('@assets/images/metall-texture.jpg') no-repeat center;
   background-size: cover;
+
   &_login {
-    background: url('../../assets/img/background/knight.jpg') no-repeat center;
+    background: url('@assets/images/background/knight.jpg') no-repeat center;
     background-size: cover;
   }
+
   &_404 {
-    background: url('../../assets/img/background/helmet.png') no-repeat center;
+    background: url('@assets/images/background/helmet.png') no-repeat center;
     background-size: cover;
   }
 }
