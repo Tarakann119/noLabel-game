@@ -13,21 +13,13 @@ export type InputProps = {
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const Input: FC<InputProps> = ({
-  id,
   name,
   type = 'text',
   label,
   error = '',
-  isValid = true,
-  disabled = false,
-  readOnly = false,
-  style,
-  className = '',
-  placeholder,
-  ...props
-}) => {
-  const inputId = id ?? `${type}-${name}`;
 
+  placeholder,
+}) => {
   return (
     <div className='input__container'>
       <label className='input__label' htmlFor='login'>
