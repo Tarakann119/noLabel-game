@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 // icons
 import { IoPauseSharp, IoPlaySharp } from 'react-icons/io5';
 import { ControlsProps } from '@components/Controls/Controls.typing';
@@ -17,7 +17,7 @@ export const Controls: FC<ControlsProps> = ({
     setIsPlaying((prev) => !prev);
   };
 
-  // const playAnimationRef  = useRef();
+  const playAnimationRef = useRef() as React.MutableRefObject<number>;
 
   const repeat = useCallback(() => {
     const currentTime = audioRef.current.currentTime;
@@ -28,7 +28,7 @@ export const Controls: FC<ControlsProps> = ({
       `${(Number(progressBarRef.current.value) / duration) * 100}%`
     );
 
-    // playAnimationRef.current = requestAnimationFrame(repeat);
+    playAnimationRef.current = requestAnimationFrame(repeat);
   }, [audioRef, duration, progressBarRef, setTimeProgress]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export const Controls: FC<ControlsProps> = ({
     } else {
       audioRef.current.pause();
     }
-    // playAnimationRef.current = requestAnimationFrame(repeat);
+    playAnimationRef.current = requestAnimationFrame(repeat);
   }, [isPlaying, audioRef, repeat]);
 
   return (
