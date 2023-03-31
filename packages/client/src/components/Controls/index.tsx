@@ -5,7 +5,12 @@ import { ControlsProps } from '@components/Controls/Controls.typing';
 
 import './index.scss';
 
-const Controls: FC<ControlsProps> = ({ audioRef, progressBarRef, duration, setTimeProgress }) => {
+export const Controls: FC<ControlsProps> = ({
+  audioRef,
+  progressBarRef,
+  duration,
+  setTimeProgress,
+}) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const togglePlayPause = () => {
@@ -17,10 +22,10 @@ const Controls: FC<ControlsProps> = ({ audioRef, progressBarRef, duration, setTi
   const repeat = useCallback(() => {
     const currentTime = audioRef.current.currentTime;
     setTimeProgress(currentTime);
-    progressBarRef.current.value = currentTime;
+    progressBarRef.current.value = currentTime.toString();
     progressBarRef.current.style.setProperty(
       '--range-progress',
-      `${(progressBarRef.current.value / duration) * 100}%`
+      `${(Number(progressBarRef.current.value) / duration) * 100}%`
     );
 
     // playAnimationRef.current = requestAnimationFrame(repeat);
@@ -43,5 +48,3 @@ const Controls: FC<ControlsProps> = ({ audioRef, progressBarRef, duration, setTi
     </div>
   );
 };
-
-export default Controls;

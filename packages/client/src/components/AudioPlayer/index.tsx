@@ -1,9 +1,9 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { tracks } from '@assets/tracks';
 
-import Controls from '../Controls';
+import { Controls } from '../Controls';
 // import components
-import DisplayTrack from '../DisplayTrack';
+import { DisplayTrack } from '../DisplayTrack';
 import ProgressBar from '../ProgressBar';
 
 import './index.scss';
@@ -16,8 +16,8 @@ const AudioPlayer = () => {
   const [duration, setDuration] = useState(0);
 
   // reference
-  const audioRef = useRef();
-  const progressBarRef = useRef();
+  const audioRef = useRef() as React.MutableRefObject<HTMLAudioElement>;
+  const progressBarRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   const handleNext = () => {
     if (trackIndex >= tracks.length - 1) {
@@ -48,11 +48,6 @@ const AudioPlayer = () => {
               progressBarRef,
               duration,
               setTimeProgress,
-              tracks,
-              trackIndex,
-              setTrackIndex,
-              setCurrentTrack,
-              handleNext,
             }}
           />
           <ProgressBar {...{ progressBarRef, audioRef, timeProgress, duration }} />

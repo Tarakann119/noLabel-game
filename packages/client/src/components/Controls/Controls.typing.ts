@@ -1,6 +1,8 @@
+import React, { Dispatch, SetStateAction } from 'react';
+
 export type ControlsProps = {
-  audioRef: any;
-  progressBarRef: any;
+  audioRef: React.MutableRefObject<HTMLAudioElement>;
+  progressBarRef: React.MutableRefObject<HTMLInputElement>;
   duration: number;
-  setTimeProgress: (time: number) => void;
+  setTimeProgress: Dispatch<SetStateAction<number>>;
 };

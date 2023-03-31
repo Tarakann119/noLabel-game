@@ -1,13 +1,10 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { FooterProps } from '@components/Footer/Footer.typings';
 
 import AudioPlayer from '../AudioPlayer';
 
 import './index.scss';
-
-interface FooterProps {
-  children?: ReactElement | ReactNode | ReactNode[];
-}
 
 export const Footer: React.FC<FooterProps> = ({ children }) => {
   return (

@@ -1,10 +1,19 @@
+import React from 'react';
+import { DisplayTrackProps } from '@components/DisplayTrack/DisplayTrack.typing';
+
 import './index.scss';
 
-const DisplayTrack = ({ currentTrack, audioRef, setDuration, progressBarRef, handleNext }: any) => {
+export const DisplayTrack = ({
+  currentTrack,
+  audioRef,
+  setDuration,
+  progressBarRef,
+  handleNext,
+}: DisplayTrackProps) => {
   const onLoadedMetadata = () => {
     const seconds = audioRef.current.duration;
     setDuration(seconds);
-    progressBarRef.current.max = seconds;
+    progressBarRef.current.max = seconds.toString();
   };
 
   return (
@@ -23,4 +32,3 @@ const DisplayTrack = ({ currentTrack, audioRef, setDuration, progressBarRef, han
     </div>
   );
 };
-export default DisplayTrack;
