@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@components/Button';
 import { Rating } from '@components/Leaderboard';
@@ -9,7 +10,12 @@ import '@assets/styles/App.scss';
 
 export const StartScreen = () => {
   const navigate = useNavigate();
-
+  useEffect(() => {
+    //@ts-ignore
+    const params = new URL(document.location).searchParams;
+    const code = params.get('code');
+    console.log(code);
+  }, []);
   return (
     <div className='container-content container-content_main bg-image'>
       <div className='container_center colum-8 container-start-screen' style={{ marginLeft: 0 }}>

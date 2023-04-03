@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { handleSubmitLogin } from '@components/Autification/slice';
+import { toast } from 'react-toastify';
+import { getCurrentUser, handleSubmitLogin } from '@components/Autification/slice';
 import { Button } from '@components/Button';
 import { InputValidate } from '@components/InputValidate';
 import { useLoading } from '@components/LoaderComponent';
 import { Title } from '@components/Title';
 import { Loader } from '@ui/Loader';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import { showError } from '@utils/ShowError';
+import axios from 'axios';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -31,6 +34,45 @@ export const Login = () => {
   const [fieldError, setFieldError] = useState(null);
   const { loading } = useLoading();
   const dispatch = useAppDispatch();
+
+  const oAuth = async () => {
+    const redirectUri = `http://127.0.0.1:3000/`;
+    const response =
+      //  fetch('https://ya-praktikum.tech/api/v2/oauth/yandex', {
+      //     method: 'POST',
+      //     headers: {
+      //         'accept': 'application/json',
+      //         'Content-Type': 'application/json'
+      //     },
+      //     // body: '{\n  "code": "string",\n  "redirect_uri": "string"\n}',
+      //     body: JSON.stringify({
+      //         'code': 'string',
+      //         'redirect_uri': 'http://127.0.0.1:3000/profile'
+      //     })
+      // }
+
+      axios(
+        `https://ya-praktikum.tech/api/v2/oauth/yandex/service-id?redirect_uri=${redirectUri}`,
+        {
+          method: 'get',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+          responseType: 'json',
+        }
+      )
+        .then((response) => {
+          console.log(response.data.service_id);
+          document.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.data.service_id}&redirect_uri=${redirectUri}`;
+        })
+        .catch(() => {
+          showError();
+          // }
+        });
+    console.log(111, response);
+  };
 
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
@@ -66,6 +108,12 @@ export const Login = () => {
               error={errors.password}
             />
             <Button text='Вход' type='submit' className='custom-button' />
+            <Button
+              text='Войти с помощью Яндекс.ID'
+              type='button'
+              className='custom-button'
+              onClick={() => oAuth()}
+            />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?
             </Link>
