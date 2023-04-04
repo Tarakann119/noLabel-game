@@ -1,8 +1,15 @@
 import React from 'react';
 import { NavigateFunction } from 'react-router';
 import { toast } from 'react-toastify';
+import { clearLeaderboard } from '@components/Leaderboard/slice';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ChangePasswordType, ChangeProfileType, LoginType, ProfileType, UserInfo } from '@typings/app.typings';
+import {
+  ChangePasswordType,
+  ChangeProfileType,
+  LoginType,
+  ProfileType,
+  UserInfo,
+} from '@typings/app.typings';
 import { showError, showSuccess } from '@utils/ShowError';
 import axios, { AxiosResponse } from 'axios';
 
@@ -23,8 +30,8 @@ const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
+    setUser(state, { payload }) {
+      state.user = payload;
     },
     removeUser(state) {
       state.user.id = null;
@@ -126,7 +133,9 @@ export const getCurrentUser = createAsyncThunk(
           })
         );
       })
-      .then(() => navigate('/profile'))
+      .then(() => {
+        navigate('/profile');
+      })
       .catch((error) => {
         console.log(error);
         showError();
@@ -265,3 +274,22 @@ export const handleSubmitRegistration = createAsyncThunk(
       });
   }
 );
+
+export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
+  try {
+    fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
+      method: 'post',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    thunkAPI.dispatch(removeUser());
+    thunkAPI.dispatch(clearLeaderboard());
+    console.log('logOut');
+  }
+});
