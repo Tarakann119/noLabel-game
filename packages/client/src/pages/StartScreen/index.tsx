@@ -3,7 +3,6 @@ import { Button } from '@components/Button';
 import { Rating } from '@components/Leaderboard';
 import { LogoText } from '@components/LogoText';
 import { Spacer } from '@ui/Spacer';
-import randomClickSound from '@utils/randomClickSound/randomClickSound';
 
 import './index.scss';
 import '@assets/styles/App.scss';
@@ -19,7 +18,6 @@ export const StartScreen = () => {
           text='Начать игру'
           onClick={() => navigate('/login')}
           className='button button_primary'
-          onMouseUp={randomClickSound}
           style={{ margin: 20 }}
         />
 

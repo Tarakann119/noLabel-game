@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Title } from '@components/Title';
 import { ForumHeader } from '@pages/Forum/ForumHeader';
+import { uuid } from '@utils/generateId';
 import classNames from 'classnames';
 
 import '@components/Button/index.scss';
@@ -50,8 +51,8 @@ export const Forum = () => {
         <ForumHeader />
         <Title text='Актуальные темы' />
         {mockData.map((data) => (
-          <li className='topics-list__item' key={data.href}>
-            <Link className='plane-link' to={`./${data.href}`} key={data.href}>
+          <li className='topics-list__item' key={uuid()}>
+            <Link className='plane-link' to={`./${data.href}`}>
               {data.title}
             </Link>
           </li>

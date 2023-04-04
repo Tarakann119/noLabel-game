@@ -1,4 +1,5 @@
 import { Title } from '@components/Title';
+import { uuid } from '@utils/generateId';
 import classNames from 'classnames';
 
 import { Message } from './Message';
@@ -75,7 +76,7 @@ export function Topic() {
           )}
           <ul className='topic-chat'>
             {messageList.map((data) => (
-              <li key={data.messageId}>
+              <li key={uuid()}>
                 <Message {...data} />
               </li>
             ))}
