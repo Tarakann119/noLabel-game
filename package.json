@@ -11,7 +11,11 @@
     "lint": "lerna run lint",
     "format": "lerna run format",
     "preview": "lerna run preview",
-    "slint": "lerna run slint"
+    "slint": "lerna run slint",
+    "docker:up": "docker compose up",
+    "docker:client": "docker compose client",
+    "docker:server": "docker compose server",
+    "docker:postgres": "docker compose postgres"
   },
   "license": "MIT",
   "workspaces": [
@@ -25,6 +29,5 @@
     "lerna": "6.5.1"
   },
   "dependencies": {
-
   }
 }

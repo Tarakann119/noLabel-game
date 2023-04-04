@@ -1,27 +1,38 @@
-import { Client } from 'pg';
+import * as path from 'path';
+import { Sequelize, type SequelizeOptions } from 'sequelize-typescript';
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
 
-export const createClientAndConnect = async (): Promise<Client | null> => {
+export const initPostgreSQLConnection = async (): Promise<Sequelize | undefined> => {
+  let sequelize;
+
   try {
-    const client = new Client({
-      user: POSTGRES_USER,
+    const sequelizeOptions: SequelizeOptions = {
       host: 'localhost',
-      database: POSTGRES_DB,
+      port: POSTGRES_PORT ? Number(POSTGRES_PORT) : 5432,
+      username: POSTGRES_USER,
       password: POSTGRES_PASSWORD,
-      port: Number(POSTGRES_PORT),
-    });
+      database: POSTGRES_DB,
+      dialect: 'postgres',
+      logging: false,
+    };
 
-    await client.connect();
+    /** Подключаемся к PostgreSQL */
+    sequelize = new Sequelize(sequelizeOptions);
 
-    const res = await client.query('SELECT NOW()');
-    console.log('  ➜ 🎸 Connected to the database at:', res?.rows?.[0].now);
-    client.end();
+    /** Регистрируем все модели из папки models */
+    const modelsPath = path.join(__dirname, './API/models');
 
-    return client;
+    sequelize.addModels([modelsPath]);
+
+    /** Синхронизируем модели с БД */
+    await sequelize.sync({ alter: true });
+    console.log(sequelize.models);
+
+    console.log('➜ 🎸 Connected to the Postgres database and models synced!');
   } catch (e) {
     console.error(e);
   }
 
-  return null;
+  return sequelize;
 };
