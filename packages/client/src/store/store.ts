@@ -5,7 +5,35 @@ import isLoadingReducer from '@components/LoaderComponent/slice';
 import themeReducer from '@components/Theme/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+
+const createNoopStorage = () => {
+  return {
+    getItem() {
+      return Promise.resolve(null);
+    },
+    setItem(_: string, value: unknown) {
+      return Promise.resolve(value);
+    },
+    removeItem() {
+      return Promise.resolve();
+    },
+  };
+};
+
+const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
+
+declare global {
+  interface Window {
+    __PRELOADED_STATE__?: object;
+  }
+}
+
+let preloadedState;
+if (!import.meta.env.SSR) {
+  preloadedState = window.__PRELOADED_STATE__;
+  delete window.__PRELOADED_STATE__;
+}
 
 const reducers = combineReducers({
   theme: themeReducer,
@@ -16,6 +44,7 @@ const reducers = combineReducers({
 });
 
 export const store = configureStore({
+  preloadedState,
   reducer: persistReducer(
     {
       key: 'root',
@@ -29,6 +58,8 @@ export const store = configureStore({
     }),
 });
 
+
+export default storage;
 export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;

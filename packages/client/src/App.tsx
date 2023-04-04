@@ -23,11 +23,9 @@ export const App = () => {
   return (
     <>
       <LoadingProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/*' element={<Layout />} />
-          </Routes>
-        </BrowserRouter>
+        <Routes>
+          <Route path='/*' element={<Layout />} />
+        </Routes>
       </LoadingProvider>
     </>
   );
