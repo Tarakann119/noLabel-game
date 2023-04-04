@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import AudioPlayer from '@components/AudioPlayer';
 import { Spacer } from '@ui/Spacer';
 
 import { FooterProps } from './Footer.typings';
@@ -12,7 +13,10 @@ export const Footer: FC<FooterProps> = ({ children }) => {
       <Spacer />
       <div className='footer'>
         <div className='footer__logo'></div>
-        <div className='footer__children-container'>{children}</div>
+        <div className='footer__children-container'>
+          {children}
+          <AudioPlayer />
+        </div>
         <div className='footer__link-container'>
           <Link to={'/about'} className='custom-link'>
             О нас
