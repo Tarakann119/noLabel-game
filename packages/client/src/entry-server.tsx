@@ -8,12 +8,13 @@ import createEmotionServer from '@emotion/server/create-instance';
 import { store } from '@store/store';
 
 import { App } from './App';
+import Test from './Test';
 
 interface IRenderProps {
   path: string;
 }
 
-export function render({ path }: IRenderProps) {
+export function render(url: string | Partial<Location>) {
   const cache = createCache({ key: 'css-key' });
 
   const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
@@ -21,15 +22,21 @@ export function render({ path }: IRenderProps) {
   const initialState = store.getState();
 
   const html = ReactDOMServer.renderToString(
-    <React.StrictMode>
-      <StaticRouter location={path}>
-        <Provider store={store}>
-          <CacheProvider value={cache}>
-            <App />
-          </CacheProvider>
-        </Provider>
-      </StaticRouter>
-    </React.StrictMode>
+    // <StaticRouter location={path}>
+    //   <Provider store={store}>
+    //     <CacheProvider value={cache}>
+    //       {/* <App /> */}
+    //       <Test />
+    //     </CacheProvider>
+    //   </Provider>
+    // </StaticRouter>
+    <StaticRouter location={url}>
+      <Provider store={store}>
+        <CacheProvider value={cache}>
+          <App />
+        </CacheProvider>
+      </Provider>
+    </StaticRouter>
   );
 
   const chunks = extractCriticalToChunks(html);

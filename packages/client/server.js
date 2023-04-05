@@ -49,6 +49,9 @@ async function start() {
 
       const { html, styles, initialState } = render(url);
 
+      console.log(`${html} html`);
+      console.log(`${initialState} initialState`);
+
       const htmlWithReplacements = template
         .replace(`<!--app-html-->`, html)
         .replace(`<!--emotionCss-->`, styles)

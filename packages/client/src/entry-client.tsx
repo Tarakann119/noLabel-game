@@ -18,13 +18,28 @@ ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <CacheProvider value={cache}>
-            <App />
-          </CacheProvider>
-        </BrowserRouter>
-      </PersistGate>
+      {/* <PersistGate persistor={persistor}> */}
+      <BrowserRouter>
+        <CacheProvider value={cache}>
+          <App />
+        </CacheProvider>
+      </BrowserRouter>
+      {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>
 );
+
+// ReactDOM.hydrateRoot(
+//   document.getElementById('root') as HTMLElement,
+//   <React.StrictMode>
+//     <Provider store={store}>
+//       {/* <PersistGate persistor={persistor}> */}
+//       <BrowserRouter>
+//         <CacheProvider value={cache}>
+//           <App />
+//         </CacheProvider>
+//       </BrowserRouter>
+//       {/* </PersistGate> */}
+//     </Provider>
+//   </React.StrictMode>
+// );
