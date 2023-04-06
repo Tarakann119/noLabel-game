@@ -19,10 +19,13 @@ li {
   list-style-type: none;
 }
 
-.root-container {
+#root {
   display: flex;
   flex-direction: row;
   width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 .left-image {
@@ -41,7 +44,7 @@ li {
   background-size: cover;
 }
 
-#root {
+.content {
   position: relative;
   display: flex;
   flex-direction: column;
