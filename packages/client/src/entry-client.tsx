@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import { persistor, store } from '@store/store';
-import { PersistGate } from 'redux-persist/integration/react';
+import { store } from '@store/store';
 
 import { App } from './App';
 
 import 'virtual:fonts.css';
-const cache = createCache({ key: 'css-key' });
+
+const cache = createCacheKey();
+
+import createCacheKey from './createCache';
 
 import './index.scss';
 
@@ -18,28 +19,11 @@ ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <React.StrictMode>
     <Provider store={store}>
-      {/* <PersistGate persistor={persistor}> */}
       <BrowserRouter>
         <CacheProvider value={cache}>
           <App />
         </CacheProvider>
       </BrowserRouter>
-      {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>
 );
-
-// ReactDOM.hydrateRoot(
-//   document.getElementById('root') as HTMLElement,
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       {/* <PersistGate persistor={persistor}> */}
-//       <BrowserRouter>
-//         <CacheProvider value={cache}>
-//           <App />
-//         </CacheProvider>
-//       </BrowserRouter>
-//       {/* </PersistGate> */}
-//     </Provider>
-//   </React.StrictMode>
-// );

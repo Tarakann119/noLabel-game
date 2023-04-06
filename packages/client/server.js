@@ -4,17 +4,14 @@ import path from "node:path";
 
 async function start() {
   const port = Number(process.env.CLIENT_PORT) || 3000;
-  const isProd = process.env.NODE_ENV === "production";
-  const indexProd = isProd ? fs.readFileSync(path.resolve("dist/client/index.html"), "utf-8") : "";
+  const isProduction = process.env.NODE_ENV === "production";
+  const indexProd = isProduction ? fs.readFileSync(path.resolve("dist/client/index.html"), "utf-8") : "";
   const root = process.cwd();
 
   const app = express();
 
-  /**
-   * @type {import('vite').ViteDevServer}
-   */
   let vite;
-  if (!isProd) {
+  if (!isProduction) {
     vite = await (
       await import("vite")
     ).createServer({
@@ -38,7 +35,7 @@ async function start() {
       const url = req.originalUrl;
 
       let template, render;
-      if (!isProd) {
+      if (!isProduction) {
         template = fs.readFileSync(path.resolve("index.html"), "utf-8");
         template = await vite.transformIndexHtml(url, template);
         render = (await vite.ssrLoadModule("/src/entry-server.tsx")).render;
@@ -49,17 +46,14 @@ async function start() {
 
       const { html, styles, initialState } = render(url);
 
-      console.log(`${html} html`);
-      console.log(`${initialState} initialState`);
-
       const htmlWithReplacements = template
         .replace(`<!--app-html-->`, html)
-        .replace(`<!--emotionCss-->`, styles)
+        .replace(`<!--css-->`, styles)
         .replace(`<!--store-data-->`, JSON.stringify(initialState).replace(/</g, "\\u003c"));
 
       res.status(200).set({ "Content-Type": "text/html" }).end(htmlWithReplacements);
     } catch (e) {
-      !isProd && vite.ssrFixStacktrace(e);
+      !isProduction && vite.ssrFixStacktrace(e);
       console.log(e.stack);
       res.status(500).end(e.stack);
     }
