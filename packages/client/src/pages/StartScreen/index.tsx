@@ -4,18 +4,26 @@ import { Button } from '@components/Button';
 import { Rating } from '@components/Leaderboard';
 import { LogoText } from '@components/LogoText';
 import { Spacer } from '@ui/Spacer';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
+
+import { signInWithToken } from '@/components/Autification/slice';
 
 import './index.scss';
 import '@assets/styles/App.scss';
 
 export const StartScreen = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    //@ts-ignore
-    const params = new URL(document.location).searchParams;
+    const params = new URL(document.location.href).searchParams;
     const code = params.get('code');
-    console.log(code);
+
+    if (code) {
+      window.history.pushState({}, '', 'http://localhost:3000/');
+      dispatch(signInWithToken({ code, navigate }));
+    }
   }, []);
+
   return (
     <div className='container-content container-content_main bg-image'>
       <div className='container_center colum-8 container-start-screen' style={{ marginLeft: 0 }}>
