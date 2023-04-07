@@ -49,9 +49,9 @@ const userReducer = createSlice({
 export const { setUser, removeUser } = userReducer.actions;
 
 export default userReducer.reducer;
+const redirectUri = `http://localhost:3000/`;
 
 export const loginWithToken = createAsyncThunk('user/token', async () => {
-  const redirectUri = `http://localhost:3000/`;
   axios(`https://ya-praktikum.tech/api/v2/oauth/yandex/service-id?redirect_uri=${redirectUri}`, {
     method: 'get',
     headers: {
@@ -89,7 +89,7 @@ export const signInWithToken = createAsyncThunk(
       },
       withCredentials: true,
       responseType: 'json',
-      data: { code: code, redirect_uri: 'http://localhost:3000/' },
+      data: { code: code, redirect_uri: redirectUri },
     })
       .then((response) => {
         if (response.data === 'OK') {
