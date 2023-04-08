@@ -4,6 +4,7 @@ import { Button } from '@components/Button';
 import { Rating } from '@components/Leaderboard';
 import { LogoText } from '@components/LogoText';
 import { currentUser } from '@store/selectors';
+import { Spacer } from '@ui/Spacer';
 import classNames from 'classnames';
 
 import './index.scss';
@@ -24,13 +25,15 @@ export const StartScreen = () => {
         <LogoText />
         <Button
           text='Начать игру'
-          onClick={() => navigate('/login')}
+          onClick={() => navigate('/game')}
           className='button button_primary'
           style={{ margin: 20 }}
         />
+
         <Link className='plane-link' to='/registration' style={{ marginBottom: 20 }}>
           Нет аккаунта?
         </Link>
+        <Spacer />
       </div>
       {user.id ? (
         <div className='container colum-3' style={{ paddingLeft: 20 }}>
