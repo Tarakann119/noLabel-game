@@ -5,6 +5,7 @@ import { Rating } from '@components/Leaderboard';
 import { LogoText } from '@components/LogoText';
 import { currentUser } from '@store/selectors';
 import classNames from 'classnames';
+import randomClickSound from '@utils/randomClickSound/randomClickSound'
 
 import './index.scss';
 import '@assets/styles/App.scss';
@@ -24,7 +25,7 @@ export const StartScreen = () => {
         <LogoText />
         <Button
           text='Начать игру'
-          onClick={() => navigate('/login')}
+          onClick={() => { navigate('/login'); randomClickSound()}}
           className='button button_primary'
           style={{ margin: 20 }}
         />

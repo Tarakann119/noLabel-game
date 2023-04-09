@@ -8,6 +8,7 @@ import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import randomClickSound from '@utils/randomClickSound/randomClickSound'
 
 import './index.scss';
 
@@ -131,7 +132,7 @@ export const Register = () => {
               error={errors.confirmPassword}
             />
             <div>{fieldError}</div>
-            <Button text='Регистрация' type='submit' className='custom-button' />
+            <Button text='Регистрация' type='submit' className='custom-button' onClick={randomClickSound}/>
             <Link className='plane-link' to={'/login'}>
               Уже зарегистрированы? Войти!
             </Link>

@@ -10,6 +10,7 @@ import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import randomClickSound from '@utils/randomClickSound/randomClickSound'
 
 import './index.scss';
 
@@ -65,7 +66,7 @@ export const Login = () => {
               value={values.password}
               error={errors.password}
             />
-            <Button text='Вход' type='submit' className='custom-button' />
+            <Button text='Вход' type='submit' className='custom-button' onClick={randomClickSound} />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?
             </Link>
