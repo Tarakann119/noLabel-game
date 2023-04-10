@@ -90,6 +90,7 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
 export const deleteForumMessage = async (req: Request, res: Response) => {
   try {
     const forumMessage = await ForumMessage.findByPk(req.params.message_id);
+    console.log(forumMessage);
     if (forumMessage) {
       await forumMessage.destroy();
       res.status(200).json({ message: 'Сообщение удалено' });

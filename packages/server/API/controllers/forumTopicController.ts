@@ -14,7 +14,7 @@ export const getForumTopic = async (req: Request, res: Response) => {
   try {
     const topic: ForumTopic | null = await ForumTopic.findByPk(req.params.topic_id);
     if (!topic) {
-      res.status(400).json({ error: 'Topic not found' });
+      res.status(400).json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
       res.status(200).json(topic);
     }
@@ -26,6 +26,7 @@ export const getForumTopic = async (req: Request, res: Response) => {
 /** Контроллер на получение всех тем форума
  * res.status(200).json(topics) - массив из всех тем
  * @param res
+ * @param _req
  */
 // TODO: добавить лимит
 export const getAllForumTopic = async (_req: Request, res: Response) => {
@@ -67,10 +68,10 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
   try {
     const topic: ForumTopic | null = await ForumTopic.findByPk(req.params.topic_id);
     if (!topic) {
-      res.status(400).json({ error: 'Topic not found' });
+      res.status(400).json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
       await topic.destroy();
-      res.status(200).json({ message: 'Topic deleted' });
+      res.status(200).json({ message: 'Тема форума удалена' });
     }
   } catch (e) {
     res.status(400).json(e);
