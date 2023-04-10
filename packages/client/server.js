@@ -44,11 +44,23 @@ async function start() {
         render = (await import("./dist/server/entry-server.js")).render;
       }
 
-      const { html, styles, initialState } = render(url);
+      const { html, initialState } = render(url);
+
+      const cssDir = path.resolve('dist/client/assets');
+      const files = fs.readdirSync(cssDir);
+
+      const cssFile = files.find(file => path.extname(file) === '.css');
+      let css;
+      // If a CSS file was found, read its contents
+      if (cssFile) {
+        css = fs.readFileSync(path.join(cssDir, cssFile));
+      } else {
+        console.error('No CSS file found in directory:', cssDir);
+      }
 
       const htmlWithReplacements = template
         .replace(`<!--app-html-->`, html)
-        .replace(`<!--css-->`, styles)
+        .replace(`<!--css-->`, `<style>${css}</style>`)
         .replace(`<!--store-data-->`, JSON.stringify(initialState).replace(/</g, "\\u003c"));
 
       res.status(200).set({ "Content-Type": "text/html" }).end(htmlWithReplacements);
