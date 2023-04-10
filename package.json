@@ -13,9 +13,9 @@
     "preview": "lerna run preview",
     "slint": "lerna run slint",
     "docker:up": "docker compose up",
-    "docker:client": "docker compose client",
-    "docker:server": "docker compose server",
-    "docker:postgres": "docker compose postgres"
+    "docker:client": "docker compose up client",
+    "docker:server": "docker compose up server",
+    "docker:postgres": "docker compose up postgres"
   },
   "license": "MIT",
   "workspaces": [

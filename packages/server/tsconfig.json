@@ -20,20 +20,11 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "importsNotUsedAsValues": "error",
-    "lib": [
-      "es2021",
-      "esnext.asynciterable",
-      "DOM"
-    ],
-    "types": [
-      "node",
-      "jest"
-    ],
+    "lib": ["es2021", "esnext.asynciterable", "DOM"],
+    "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "types/*"
-      ]
+      "*": ["types/*"]
     },
     "outDir": "dist"
   }

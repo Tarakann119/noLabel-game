@@ -8,6 +8,23 @@ users
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
 
-  // Эти роуты нужны исключительно для тестирования
-  .get('/fetchUser', userController.fetchUser)
-  .post('/addUser', userController.addUser);
+  /** Запрос на получение пользователя по id
+   * req.params.user_id - id пользователя, данные которого нужно получить
+   */
+  .get('/:user_id', userController.fetchUser)
+
+  /** Запрос на добавление или изменение пользователя
+   * модель пользователя в теле запроса
+   *  User{
+   *   user_id: number;
+   *   last_name: string;
+   *   second_name: string;
+   *   login: string;
+   *   email: string | null;
+   *   phone: string | null;
+   *   avatar: string | null;
+   *   created_at: Date; // дата создания, заполняется автоматически
+   *   updated_at: Date; // дата изменения, заполняется автоматически
+   * }
+   */
+  .post('/add', userController.pushUser);

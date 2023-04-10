@@ -1,22 +1,58 @@
-import { AllowNull, Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  Is,
+  IsEmail,
+  IsUrl,
+  Model,
+  PrimaryKey,
+  Table,
+  Unique,
+} from 'sequelize-typescript';
+
+/** RegExp для валидации phone */
+const phoneRegExp = /^[\d\\+][\d\\(\\)\\ -]{9,14}\d$/;
+
+/** RegExp для валидации login */
+const loginRegExp = /^[a-z0-9_-]{2,19}$/;
+
+/** RegExp для валидации first_name и second_name */
+const nameRegExp = /^[a-zA-Zа-яА-Я][a-zA-Za-яА-Я-\\.]{1,20}$/g;
 
 /** Модель User */
-@Table({ tableName: 'users', createdAt: 'created_at', updatedAt: 'updated_at' })
+@Table({
+  tableName: 'users',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+})
 export class User extends Model<User> {
   @PrimaryKey
+  @Unique
+  @Is(loginRegExp)
   @Column(DataType.INTEGER)
-  ya_id!: number;
+  user_id!: number;
 
-  @AllowNull(false)
-  @Column
-  login!: string;
-
-  @Column
+  @Is(nameRegExp)
+  @Column(DataType.STRING)
   first_name!: string;
 
-  @Column
+  @Is(nameRegExp)
+  @Column(DataType.STRING)
   second_name!: string;
 
-  @Column
-  avatar!: string;
+  @Is(loginRegExp)
+  @Column(DataType.STRING)
+  login?: string;
+
+  @IsEmail
+  @Column(DataType.STRING)
+  email?: string;
+
+  @Is(phoneRegExp)
+  @Column(DataType.STRING)
+  phone?: string;
+
+  @IsUrl
+  @Column(DataType.STRING)
+  avatar?: string;
 }

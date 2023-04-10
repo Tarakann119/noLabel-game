@@ -22,14 +22,13 @@ export const initPostgreSQLConnection = async (): Promise<Sequelize | undefined>
 
     /** Регистрируем все модели из папки models */
     const modelsPath = path.join(__dirname, './API/models');
-
     sequelize.addModels([modelsPath]);
 
-    /** Синхронизируем модели с БД */
+    /** Синхронизируем все модели */
     await sequelize.sync({ alter: true });
     console.log(sequelize.models);
 
-    console.log('➜ 🎸 Connected to the Postgres database and models synced!');
+    console.log('➜ Connected to the Postgres database and models synced!');
   } catch (e) {
     console.error(e);
   }
