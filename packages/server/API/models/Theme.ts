@@ -9,7 +9,11 @@ import {
   Unique,
 } from 'sequelize-typescript';
 
-/** Модель Theme */
+/** Модель Theme
+ * @property {number} user_id - id пользователя, первичный ключ, уникальный
+ * @property {string} theme - тема оформления, может быть 'dark' или 'light'
+ */
+
 @Table({
   tableName: 'themes',
   timestamps: false,

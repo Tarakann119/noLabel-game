@@ -8,7 +8,7 @@ forumMessage
   .use(express.urlencoded({ extended: true }))
   .use(express.json())
 
-  /** получение всех сообщений форума, в продакшене вряд ли будет полезен */
+  /** получение всех сообщений форума для тестирования, в продакшене вряд-ли будет полезен */
   .get('/all', forumMessageController.getAllForumMessage)
 
   /** получение сообщения форума по id сообщения */
@@ -20,5 +20,8 @@ forumMessage
   /** создание или обновление сообщения форума */
   .post('/', forumMessageController.createOrUpdateForumMessage)
 
-  /** удаление сообщения форума */
-  .delete('/:message_id', forumMessageController.deleteForumMessage);
+  /** удаление сообщения форума по id */
+  .delete('/:message_id', forumMessageController.deleteForumMessage)
+
+  /** удаление всех сообщений форума по id темы */
+  .delete('/topic/:topic_id', forumMessageController.deleteForumMessageByTopicId);

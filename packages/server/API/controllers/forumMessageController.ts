@@ -101,3 +101,30 @@ export const deleteForumMessage = async (req: Request, res: Response) => {
     res.status(400).json(e);
   }
 };
+
+// ----------------------------
+/** Контроллер на удаление сообщений форума по id темы
+ * req.params.topic_id - id темы, данные которой нужно удалить
+ * @param req
+ * @param res
+ */
+
+export const deleteForumMessageByTopicId = async (req: Request, res: Response) => {
+  try {
+    const forumMessages = await ForumMessage.findAll({
+      where: {
+        topic_id: req.params.topic_id,
+      },
+    });
+    if (forumMessages) {
+      for (const forumMessage of forumMessages) {
+        await forumMessage.destroy();
+      }
+      res.status(200).json({ message: 'Сообщения удалены' });
+    } else {
+      res.status(400).json({ message: 'Сообщения не найдены' });
+    }
+  } catch (e) {
+    res.status(400).json(e);
+  }
+};

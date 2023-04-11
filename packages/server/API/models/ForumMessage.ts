@@ -1,6 +1,12 @@
-import { Column, DataType, Model, NotEmpty, PrimaryKey, Table, Unique } from 'sequelize-typescript';
+import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
 
-/** Модель ForumMessage */
+/** Модель ForumMessage
+ * @property {number} id - id сообщения, первичный ключ, автоинкремент
+ * @property {number} topic_id - id темы форума, к которой относится сообщение
+ * @property {string} text - текст сообщения
+ * @property {number} user_id - id пользователя, который написал сообщение
+ */
+
 @Table({
   tableName: 'forum_messages',
   createdAt: 'created_at',
@@ -8,10 +14,9 @@ import { Column, DataType, Model, NotEmpty, PrimaryKey, Table, Unique } from 'se
 })
 export class ForumMessage extends Model<ForumMessage> {
   @PrimaryKey
-  @Unique
-  @NotEmpty
+  @AutoIncrement
   @Column(DataType.INTEGER)
-  message_id!: number;
+  override id!: number;
 
   @Column(DataType.INTEGER)
   topic_id!: number;

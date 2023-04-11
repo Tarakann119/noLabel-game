@@ -3,6 +3,7 @@ import type { Request, Response } from 'express';
 import { Theme } from '../models/Theme';
 import { User } from '../models/User';
 
+// ----------------------------
 /** Контроллер на получение темы по id пользователя
  * req.params.user_id - id пользователя, тему которого нужно получить
  * res.status(200).json(theme) - тема, если она есть для
@@ -30,6 +31,7 @@ export const getTheme = async (req: Request, res: Response) => {
   }
 };
 
+// ----------------------------
 /** Контроллер на создание или изменение темы пользователя
  * req.body.user_id - id пользователя, тему которого нужно изменить
  * req.body.theme - тема

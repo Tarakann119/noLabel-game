@@ -3,10 +3,7 @@ import type { Request, Response } from 'express';
 import { User } from '../models/User';
 
 /** Запрос на получение пользователя
- * req.params.user_id - id пользователя, которого нужно получить
- * res.status(200).json(user) - пользователь, если он есть
- * res.status(200).json({message: 'Пользователь не найден'}) - пользователь не найден
- * res.status(400).json(e) - ошибка,
+ * req.params.user_id - id пользователя, данные которого нужно получить
  * @param req
  * @param res
  */
@@ -23,7 +20,7 @@ export const fetchUser = async (req: Request, res: Response) => {
   }
 };
 
-/** Запрос на создание пользователя или изменение данных  существующего пользователя
+/** Запрос на создание пользователя или изменение данных существующего пользователя
  * req.body.user_id - id пользователя, которого нужно создать или изменить
  * @param req
  * @param res
