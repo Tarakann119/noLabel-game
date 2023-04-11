@@ -8,10 +8,13 @@ users
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
 
+  /** Запрос на получение всех пользователей */
+  .get('/all', userController.getAllUsers)
+
   /** Запрос на получение пользователя по id
    * req.params.user_id - id пользователя, данные которого нужно получить
    */
-  .get('/:user_id', userController.fetchUser)
+  .get('/:user_id', userController.getUser)
 
   /** Запрос на добавление или изменение пользователя
    * модель пользователя в теле запроса
@@ -27,4 +30,4 @@ users
    *   updated_at: Date; // дата изменения, заполняется автоматически
    * }
    */
-  .post('/add', userController.pushUser);
+  .post('/add', userController.createOrUpdateUser);

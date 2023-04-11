@@ -7,7 +7,7 @@ import { User } from '../models/User';
  * @param req
  * @param res
  */
-export const fetchUser = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     const user: User | null = await User.findByPk(req.params.user_id);
     if (!user) {
@@ -25,7 +25,7 @@ export const fetchUser = async (req: Request, res: Response) => {
  * @param req
  * @param res
  */
-export const pushUser = async (req: Request, res: Response) => {
+export const createOrUpdateUser = async (req: Request, res: Response) => {
   try {
     const reqUser: User = req.body;
     console.log(reqUser);
@@ -36,6 +36,16 @@ export const pushUser = async (req: Request, res: Response) => {
       user = await user.update(reqUser);
     }
     res.status(200).json(user);
+  } catch (e) {
+    res.status(400).json(e);
+  }
+};
+
+/** Запрос на получение всех пользователей */
+export const getAllUsers = async (_req: Request, res: Response) => {
+  try {
+    const users: User[] = await User.findAll();
+    res.status(200).json(users);
   } catch (e) {
     res.status(400).json(e);
   }
