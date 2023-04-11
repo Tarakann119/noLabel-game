@@ -87,7 +87,7 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
  * req.params.message_id - id сообщения, данные которого нужно удалить
  */
 
-export const deleteForumMessage = async (req: Request, res: Response) => {
+export const deleteForumMessageById = async (req: Request, res: Response) => {
   try {
     const forumMessage = await ForumMessage.findByPk(req.params.message_id);
     console.log(forumMessage);

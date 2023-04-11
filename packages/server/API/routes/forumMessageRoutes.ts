@@ -21,7 +21,7 @@ forumMessage
   .post('/', forumMessageController.createOrUpdateForumMessage)
 
   /** удаление сообщения форума по id */
-  .delete('/:message_id', forumMessageController.deleteForumMessage)
+  .delete('/:message_id', forumMessageController.deleteForumMessageById)
 
   /** удаление всех сообщений форума по id темы */
   .delete('/topic/:topic_id', forumMessageController.deleteForumMessageByTopicId);

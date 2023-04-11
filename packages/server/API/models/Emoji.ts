@@ -1,4 +1,5 @@
 import {
+  AllowNull,
   AutoIncrement,
   Column,
   DataType,
@@ -15,11 +16,13 @@ import { User } from './User';
  * @property {number} id - id эмодзи, первичный ключ, автоинкремент
  * @property {number} user_id - id пользователя, который поставил эмодзи
  * @property {number} message_id - id сообщения, на которое поставили эмодзи
+ * @property {string} emoji - эмодзи
  */
 
 @Table({
-  underscored: true,
-  updatedAt: false,
+  tableName: 'emojis',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 export class Emoji extends Model<Emoji> {
   @PrimaryKey
@@ -34,4 +37,8 @@ export class Emoji extends Model<Emoji> {
   @ForeignKey(() => ForumMessage)
   @Column
   message_id!: number;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  emoji!: string;
 }
