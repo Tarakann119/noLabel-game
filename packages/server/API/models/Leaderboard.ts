@@ -1,4 +1,15 @@
-import { Column, DataType, Model, NotEmpty, PrimaryKey, Table, Unique } from 'sequelize-typescript';
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
+
+import { User } from './User';
 
 /** Модель Leaderboard
  * @property {number} user_id - id пользователя, первичный ключ, уникальный
@@ -8,11 +19,14 @@ import { Column, DataType, Model, NotEmpty, PrimaryKey, Table, Unique } from 'se
 @Table({ tableName: 'leaderboard', updatedAt: 'updated_at' })
 export class Leaderboard extends Model<Leaderboard> {
   @PrimaryKey
-  @Unique
-  @NotEmpty
+  @ForeignKey(() => User)
+  @AllowNull(false)
   @Column(DataType.INTEGER)
   user_id!: number;
 
   @Column(DataType.INTEGER)
   score!: number;
+
+  @BelongsTo(() => User)
+  user!: User;
 }

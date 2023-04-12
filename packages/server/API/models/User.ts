@@ -1,14 +1,16 @@
 import {
   Column,
   DataType,
+  HasOne,
   Is,
   IsEmail,
-  IsUrl,
   Model,
   PrimaryKey,
   Table,
   Unique,
 } from 'sequelize-typescript';
+
+import { Leaderboard } from './Leaderboard';
 
 /** RegExp для валидации phone */
 const phoneRegExp = /^[\d\\+][\d\\(\\)\\ -]{9,14}\d$/;
@@ -61,7 +63,9 @@ export class User extends Model<User> {
   @Column(DataType.STRING)
   phone?: string;
 
-  @IsUrl
   @Column(DataType.STRING)
   avatar?: string;
+
+  @HasOne(() => Leaderboard)
+  leaderboard!: Leaderboard;
 }
