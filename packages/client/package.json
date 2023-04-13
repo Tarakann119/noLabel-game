@@ -14,9 +14,6 @@
     "test": "jest ./"
   },
   "dependencies": {
-    "@emotion/cache": "^11.10.5",
-    "@emotion/react": "^11.10.6",
-    "@emotion/server": "^11.10.0",
     "@reduxjs/toolkit": "1.9.3",
     "@types/compression": "1.7.2",
     "@types/node": "18.15.3",
@@ -34,7 +31,6 @@
     "react-router": "6.8.2",
     "react-router-dom": "6.8.2",
     "react-toastify": "9.1.1",
-    "redux-persist": "6.0.0",
     "yup": "1.0.2"
   },
   "devDependencies": {
