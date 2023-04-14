@@ -4,7 +4,6 @@ import { RootState } from './store';
 
 export const currentUser = (state: RootState) => state.auth.user;
 export const getAuthSate = (state: RootState) => !!state.auth.user.id;
-export const getScore = (state: RootState) => state.game.points;
 export const getLeaderboard = (state: RootState) => state.leaderboard.leaderboard;
 export const getLeaderboardIsLoading = (state: RootState) => state.leaderboard.isLoading;
 export const getUserScore = (state: RootState) => {
@@ -12,7 +11,7 @@ export const getUserScore = (state: RootState) => {
 };
 
 export const getDataForLeaderBoard = createSelector(
-  [currentUser, getAuthSate, getScore, getLeaderboard, getLeaderboardIsLoading, getUserScore],
+  [currentUser, getAuthSate, getLeaderboard, getLeaderboardIsLoading, getUserScore],
   (player, score) => {
     return { ...player, score };
   }

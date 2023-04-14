@@ -1,12 +1,15 @@
-import { Title } from '@components/Title';
 import AuthorItem from '@ui/AuthorItem';
+
+import { Title } from '@/components/Title';
 
 import './index.scss';
 
 export const AboutUs = () => {
   return (
-    <div className='container-content about__container'>
-      <Title text='Наша команда' className='about__title' />
+    <main className='container main main-h main-bg bg-image_about'>
+      <Title level='1' className='about__title'>
+        Наша команда
+      </Title>
       <div className='about__container_link'>
         <AuthorItem
           title='Аркадий Самохвалов'
@@ -44,6 +47,6 @@ export const AboutUs = () => {
           ]}
         />
       </div>
-    </div>
+    </main>
   );
 };

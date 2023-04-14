@@ -9,6 +9,6 @@ module.exports = {
   rules: {
     'import-notation': 'string',
     'selector-class-pattern':
-      '^([a-z]+)([0-9]*)?(-[a-z0-9]+)?(__[a-z]+)?(-[a-z]+)?(_[a-z]+)?(-[a-z]+)?$',
+      '^([a-zA-z]+)([0-9]*)?(-[a-z0-9]+)?(__[a-z]+)?(-[a-z]+)?(_[a-z]+)?(-[a-z]+)?$',
   },
 };

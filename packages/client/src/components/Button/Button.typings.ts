@@ -1,7 +1,8 @@
 import { ButtonHTMLAttributes } from 'react';
 
 export type ButtonProps = {
-  text: string;
-  view?: 'primary' | 'secondary' | 'ghost';
+  view?: 'primary' | 'secondary' | 'outline' | 'icon';
+  type?: 'submit' | 'button' | 'reset';
+  icon?: string;
   className?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;

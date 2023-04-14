@@ -1,63 +1,67 @@
-import { Link } from 'react-router-dom';
-import { Title } from '@components/Title';
-import { ForumHeader } from '@pages/Forum/ForumHeader';
-import { uuid } from '@utils/generateId';
-import classNames from 'classnames';
+import { useState } from 'react';
+import ReactPaginate from 'react-paginate';
+import { useSelector } from 'react-redux';
+import { InputValidate } from '@components/InputValidate';
+import { Link } from '@components/Link';
+import { Topic } from '@components/Topic';
+import { currentUser } from '@store/selectors';
 
-import '@components/Button/index.scss';
-import '@components/Header/index.scss';
-import '@pages/StartScreen/index.scss';
+import { Pagination } from '@/components/Pagination';
+
+import mockData from './ForumMock';
+
 import './index.scss';
 
-const mockData = [
-  { id: 1, href: '1', title: 'Моя тактика' },
-  { id: 2, href: '2', title: 'Не получается пройти уровень' },
-  { id: 3, href: '3', title: 'Дружелюбное комьюнити миф?' },
-  {
-    id: 4,
-    href: '4',
-    title: 'Опыт какой игры поможет при прохождении Tower Defence',
-  },
-  { id: 5, href: '5', title: 'Моя тактика' },
-  { id: 6, href: '6', title: 'Не получается пройти уровень' },
-  { id: 7, href: '7', title: 'Дружелюбное комьюнити миф?' },
-  {
-    id: 8,
-    href: '8',
-    title: 'Опыт какой игры поможет при прохождении Tower Defence',
-  },
-  { id: 9, href: '9', title: 'Моя тактика' },
-  { id: 10, href: '10', title: 'Не получается пройти уровень' },
-  { id: 11, href: '11', title: 'Дружелюбное комьюнити миф?' },
-  {
-    id: 12,
-    href: '12',
-    text: 'Опыт какой игры поможет п ри прохождении Tower Defence',
-  },
-  { id: 13, href: '13', title: 'Моя тактика' },
-  { id: 14, href: '14', title: 'Не получается пройти уровень' },
-  { id: 15, href: '15', title: 'Дружелюбное комьюнити миф?' },
-  {
-    id: 16,
-    href: '15',
-    title: 'Опыт какой игры поможет при прохождении Tower Defence',
-  },
-];
-
 export const Forum = () => {
+  const user = useSelector(currentUser);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 4;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = mockData.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(mockData.length / itemsPerPage);
+
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    const newOffset = (selectedItem.selected * itemsPerPage) % mockData.length;
+    setItemOffset(newOffset);
+  };
+
   return (
-    <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
-      <div className='forum__container'>
-        <ForumHeader />
-        <Title text='Актуальные темы' />
-        {mockData.map((data) => (
-          <li className='topics-list__item' key={uuid()}>
-            <Link className='plane-link' to={`./${data.href}`}>
-              {data.title}
-            </Link>
-          </li>
-        ))}
+    <main className='main main-bg main-h forum-page container'>
+      <div className='forum-page__header'>
+        <InputValidate className='forum-page__search' type='search' placeholder='Поиск по темам' />
+        {user && (
+          <Link className='button button_outline forum-page__button' to='/forum/create-post'>
+            Создать тему
+          </Link>
+        )}
       </div>
-    </div>
+
+      <div className='forum-page__content'>
+        <div className='forum-page__filter'>
+          <div className='forum-page__group forum-page__group_main'>Загловок / Автор</div>
+          <div className='forum-page__group'>
+            <button className='button forum-page__sort'>Ответов</button>/
+            <button className='button forum-page__sort'>Просмотров</button>
+          </div>
+          <div className='forum-page__group forum-page__group_right'>
+            <button className='button forum-page__sort forum-page__sort_toggle'>
+              Последнее сообщение от
+            </button>
+          </div>
+        </div>
+
+        <ol className='forum-page__topics'>
+          {currentItems.map((data) => (
+            <Topic wrapper='LI' data={data} key={data.id} />
+          ))}
+        </ol>
+
+        <Pagination
+          className='forum-page__pagination'
+          pageCount={pageCount}
+          handlePageClick={handlePageClick}
+        />
+      </div>
+    </main>
   );
 };

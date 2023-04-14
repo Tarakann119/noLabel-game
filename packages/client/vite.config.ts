@@ -34,21 +34,15 @@ export default defineConfig({
     VitePluginFonts({
       custom: {
         families: [
-          { name: 'Romvel Cyr', local: 'RomvelCyr', src: './src/assets/fonts/RomvelCyr.*' },
           {
-            name: 'Cormorant-Bold',
+            name: 'Romvel Cyr',
+            local: 'RomvelCyr',
+            src: './src/assets/fonts/RomvelCyr.*',
+          },
+          {
+            name: 'Cormorant Bold',
             local: 'Cormorant-Bold',
             src: './src/assets/fonts/Cormorant-Bold.*',
-          },
-          {
-            name: 'Cormorant-Regular',
-            local: 'Cormorant-Regular',
-            src: './src/assets/fonts/Cormorant-Regular.*',
-          },
-          {
-            name: 'Cormorant-SemiBold',
-            local: 'Cormorant-SemiBold',
-            src: './src/assets/fonts/Cormorant-SemiBold.*',
           },
         ],
       },

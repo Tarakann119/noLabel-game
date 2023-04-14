@@ -55,15 +55,15 @@ export const LeaderboardPage = () => {
     );
   });
   return (
-    <div className='container-content bg-image_login container_start'>
+    <main className='container bg-image_main main'>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className='container_center colum-7'>
-          <Title text='Рейтинг игроков' />
+        <div className=''>
+          <Title level='1'>Рейтинг игроков</Title>
           <div className='leaderboard__user-container'>{ratingList}</div>
         </div>
       )}
-    </div>
+    </main>
   );
 };

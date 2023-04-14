@@ -1,7 +1,7 @@
 import { FC, memo } from 'react';
 import classNames from 'classnames';
 
-import defaultImages from './images/avatar-default.png';
+import defaultImages from './img/avatar-default.png';
 import { AvatarProps } from './Avatar.typings';
 
 import './index.scss';

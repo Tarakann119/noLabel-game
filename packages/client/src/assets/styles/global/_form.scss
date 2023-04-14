@@ -1,0 +1,5 @@
+.form {
+  @include flex-column;
+
+  gap: 1rem;
+}

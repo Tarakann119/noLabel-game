@@ -6,7 +6,6 @@ import '@ui/Loader/img/Loader.png';
 
 import { Layout } from './Layout';
 
-import '@assets/styles/App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {

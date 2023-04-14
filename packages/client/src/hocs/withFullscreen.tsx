@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 export const withFullscreen =
-  (Component: typeof React.Component | React.ForwardRefExoticComponent<{ mapName: string }>) =>
-  (
-    props: JSX.IntrinsicAttributes & { mapName: string } & React.RefAttributes<HTMLCanvasElement>
-  ) => {
+  (Component: typeof React.Component | React.ForwardRefExoticComponent<any>) =>
+  (props: JSX.IntrinsicAttributes & React.RefAttributes<HTMLCanvasElement>) => {
     const [isFullscreen, setIsFulscreen] = useState(false);
     const wrapper = useRef<HTMLDivElement>(null);
-    const button = useRef<HTMLButtonElement>(null);
 
     const handlerToggleFullscreen = (element: HTMLDivElement) => {
       if (!isFullscreen) {
@@ -21,28 +18,20 @@ export const withFullscreen =
 
     useEffect(() => {
       const wrapperFS = wrapper.current;
-      const buttonFS = button.current;
+      const buttonFS = document.querySelector('.fullscreen-btn');
 
       if (buttonFS && wrapperFS) {
         buttonFS.addEventListener('click', () => handlerToggleFullscreen(wrapperFS));
       }
     });
 
-    return (
-      <div className='container-content fullscreen'>
-        <Component {...props} ref={wrapper} />
-
-        <button className='fullscreen__button button' ref={button}>
-          Развернуть
-        </button>
-      </div>
-    );
+    return <Component {...props} ref={wrapper} />;
   };
 
-interface FullScreenCanvasElement extends HTMLDivElement {
+type FullScreenCanvasElement = {
   exitFullscreen?: () => Promise<void>;
   webkitRequestFullscreen?: () => Promise<void>;
-}
+} & HTMLDivElement;
 
 function activateFullscreen(element: FullScreenCanvasElement) {
   if (element.webkitRequestFullscreen) {

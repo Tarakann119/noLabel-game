@@ -1,49 +1,73 @@
-@import '@assets/styles/varThemeDefault';
+@import '@assets/styles/helpers/helpers';
 
 .button {
-  @extend %border-button;
+  @include flex-center-vert;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 215px;
-  max-width: 428px;
-  height: 58px;
-  padding: 0 20px;
-  color: $color-text-primary;
-  font-weight: 400;
-  font-size: 24px;
-  font-family: $font-defence;
-  font-style: normal;
-  line-height: 100%;
-  text-transform: uppercase;
-  background: $color-text-secondary;
-  border: 3px solid $color-ui-button-border;
-  box-shadow: 0 14px 24px rgb(0 0 0 / 25%);
-  cursor: pointer;
-  transition: 0.1s ease-in;
+  min-width: $min-control-size;
+  min-height: $min-control-size;
+  text-align: center;
+  background-color: transparent;
+  border: $border;
+  border-color: transparent;
+  border-radius: $border-radius;
+  transition: all $transition;
 
-  &:hover {
-    filter: drop-shadow(0 0 8px $color-text-secondary);
+  // .button_primary
+  &_primary {
+    @include flex-center;
+
+    position: relative;
+    height: 55px;
+    padding: 0 1rem;
+    font-size: $text-bg-size;
+    font-family: $font-title;
+    text-transform: uppercase;
+    background-color: var(--primary);
+
+    // .button_primary:hover
+    &:hover {
+      background-color: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    // .button_primary:focus
+    &:focus {
+      transform: scale(0.95);
+    }
   }
 
-  &:active {
-    filter: drop-shadow(0 0 10px $color-text-primary);
+  // .button_outline
+  &_outline {
+    height: 55px;
+    padding: 0.5rem;
+    color: var(--primary);
+    font-size: $text-md-size;
+    font-family: $font-title;
+    letter-spacing: 0.5px;
+    border-color: var(--primary);
+
+    // .button_outline:hover
+    &:hover {
+      color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
   }
 
-  &:disabled {
-    background: linear-gradient(90deg, #7a7063 0%, #474640 100%);
-  }
+  // .button_icon
+  &_icon {
+    justify-content: center;
 
-  &:disabled:hover {
-    filter: none;
-  }
+    .icon {
+      width: 40px;
+      height: 40px;
+      transition: fill $transition;
+    }
 
-  &_view_secondary {
-    border: 2px solid $color-ui-primary;
-  }
-
-  &_view_ghost {
-    width: fit-content;
+    // .button_icon:hover
+    &:hover {
+      .icon {
+        fill: var(--primary);
+      }
+    }
   }
 }

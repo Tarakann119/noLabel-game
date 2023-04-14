@@ -1,45 +1,40 @@
-@import '@assets/styles/varThemeDefault';
+// @import '@assets/styles/helpers/helpers';
 
-.player {
-  display: flex;
-  align-items: center;
-  height: 70px;
-  margin-bottom: 15px;
-  color: $color-text-secondary;
-  font-weight: 600;
-  font-size: 18px;
-  font-family: $font-secondary;
-  text-transform: capitalize;
+// .player {
+//   @include flex-center-vert;
+//   height: 70px;
+//   margin-bottom: 15px;
+//   color: var(--primary);
+//   font-size: $text-base-size;
+//   font-family: $font-title;
+//   text-transform: capitalize;
 
-  &__number {
-    width: 20px;
-    margin-right: 10px;
-    font-size: 26px;
-  }
+//   &__number {
+//     width: 20px;
+//     margin-right: 10px;
+//     font-size: $text-strong;
+//   }
 
-  &__profile {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 260px;
-  }
+//   &__profile {
+//     @include flex-center-vert;
+//     justify-content: flex-start;
+//     width: 260px;
+//   }
 
-  &__score {
-    width: 69px;
-    font-size: 26px;
-    text-align: right;
-  }
+//   &__score {
+//     width: 69px;
+//     font-size: $text-strong;
+//     text-align: right;
+//   }
 
-  &__image {
-    width: 40px;
-    margin: 0;
-  }
+//   &__image {
+//     width: 40px;
+//     margin: 0;
+//   }
 
-  &__name {
-    margin-left: 10px;
-    overflow: hidden;
-    font-size: 26px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
+//   &__name {
+//     @include truncate(200px);
+//     margin-left: 10px;
+//     font-size: $text-strong;
+//   }
+// }

@@ -1,29 +1,34 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { handleSubmitLogin } from '@components/Autification/slice';
 import { Button } from '@components/Button';
 import { InputValidate } from '@components/InputValidate';
+import { Link } from '@components/Link';
 import { useLoading } from '@components/LoaderComponent';
-import { Title } from '@components/Title';
-import { Loader } from '@ui/Loader';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
-import classNames from 'classnames';
-import { Form, Formik } from 'formik';
+import { Field, FieldProps, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { Title } from '@/components/Title';
 
 import './index.scss';
 
 const SigninSchema = Yup.object().shape({
   login: Yup.string()
-    .min(2, 'Слишком короткий!')
-    .max(10, 'Слишком длинный!')
-    .matches(/^[a-z0-9_-]{2,19}$/, 'Поле зполнено некорректно')
-    .required('Required'),
+    .matches(
+      /^[\w_-]*$/,
+      'Допустимы: латиница, цифры, дефис и нижнее подчёркивание. Не используйте пробелы и другие спецсимволы.'
+    )
+    .min(2, 'Минимум 2 символа.')
+    .max(20, 'Максмум 20 символов.')
+    .required('Введите ваш логин.'),
   password: Yup.string()
-    .min(2, 'Слишком короткий!')
-    .max(10, 'Слишком длинный!')
-    .matches(/(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,40}/g, 'Поле заполнено некорректно')
-    .required('Required'),
+    .matches(/^[\w\-!@#$%^&*]*$/, 'Допустимы: латиница, цифры, спецсимволы.')
+    .min(8, 'Минимум 8 символов.')
+    .max(20, 'Максимум 20 символов')
+    .matches(/[0-9]/, 'Должен содержать хотя бы одну цифру.')
+    .matches(/[A-Z]/, 'Должен содержать хотя бы одну заглавную букву.')
+    .required('Введите ваш пароль.'),
 });
 
 export const Login = () => {
@@ -33,46 +38,64 @@ export const Login = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
-      {loading && <Loader />}
-      <Formik
-        initialValues={{
-          login: '',
-          password: '',
-        }}
-        validationSchema={SigninSchema}
-        onSubmit={(values) => {
-          dispatch(
-            handleSubmitLogin({ navigate: navigate, values: values, setFieldError: setFieldError })
-          );
-        }}>
-        {({ errors, values, handleChange }) => (
-          <Form className={classNames('colum-5', 'container__login-form')}>
-            <Title text='ВХОД' />
-            <InputValidate
-              handleChange={handleChange}
-              name='login'
-              type='text'
-              label='Логин'
-              value={values.login}
-              error={errors.login}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='password'
-              type='password'
-              label='Пароль'
-              value={values.password}
-              error={errors.password}
-            />
-            <Button text='Вход' type='submit' className='custom-button' />
-            <Link className='plane-link' to='/registration'>
+    <main className='main main-h main-bg form-page bg-image_form container'>
+      <div className='form-page__wrapper main-h'>
+        <div className='form-page__content'>
+          <Title level='1' className='form-page__title'>
+            Вход
+          </Title>
+
+          <Formik
+            initialValues={{
+              login: '',
+              password: '',
+            }}
+            validationSchema={SigninSchema}
+            onSubmit={(values) => {
+              dispatch(handleSubmitLogin({ navigate, values, setFieldError }));
+            }}>
+            {() => (
+              <Form className='form form-page__form'>
+                <Field name='login'>
+                  {({ field, meta }: FieldProps) => (
+                    <InputValidate label='Логин' type='text' field={field} meta={meta} />
+                  )}
+                </Field>
+
+                <Field name='password'>
+                  {({ field, meta }: FieldProps) => (
+                    <InputValidate label='Пароль' type='password' field={field} meta={meta} />
+                  )}
+                </Field>
+
+                {fieldError && <div className='form-page__error'>{fieldError}</div>}
+
+                <Button view='primary' type='submit' className='form-page__button'>
+                  {loading} Войти
+                </Button>
+              </Form>
+            )}
+          </Formik>
+
+          <div className='form-page__links'>
+            <Link className='form-page__link' to='/recover-password'>
+              Забыли пароль?
+            </Link>
+
+            <Link className='form-page__link' to='/registration'>
               Нет аккаунта?
             </Link>
-            <div className='input__error-message'>{fieldError}</div>
-          </Form>
-        )}
-      </Formik>
-    </div>
+          </div>
+
+          <div className='form-page-methodts'>
+            <div className='form-page-methodts__title'>Или войдите с помощью</div>
+
+            <div className='form-page-methodts__buttons'>
+              <Button className='form-page-methodts__button' view='icon' icon='yandex' />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 };

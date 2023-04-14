@@ -1,0 +1,30 @@
+@import '@assets/styles/helpers/helpers';
+
+.burger-menu {
+  // .burger-menu_open
+  &_open {
+    @include popup;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    @include flex-column;
+
+    width: max(50%, 320px);
+    height: 100%;
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius$border-radius;
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      fill: white;
+    }
+  }
+
+  // .burger-menu__button
+  &__button {
+    display: flex;
+    margin-left: auto;
+  }
+}

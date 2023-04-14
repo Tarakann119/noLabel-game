@@ -1,5 +1,4 @@
 import userReducer from '@components/Autification/slice';
-import gameReducer from '@components/GameField/slice';
 import leaderboardReducer from '@components/Leaderboard/slice';
 import isLoadingReducer from '@components/LoaderComponent/slice';
 import themeReducer from '@components/Theme/slice';
@@ -9,7 +8,6 @@ import storage from 'redux-persist/lib/storage';
 
 const reducers = combineReducers({
   theme: themeReducer,
-  game: gameReducer,
   auth: userReducer,
   leaderboard: leaderboardReducer,
   isLoading: isLoadingReducer,

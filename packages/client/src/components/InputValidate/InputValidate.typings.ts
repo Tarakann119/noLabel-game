@@ -1,11 +1,11 @@
-export type InputValidateProps = {
+import { FieldInputProps, FieldMetaProps } from 'formik';
+
+export type TInputValidate = {
+  disabled?: string;
+  type: 'text' | 'password' | 'email' | 'tel' | 'search';
+  placeholder?: string;
   label?: string;
-  name: string;
-  type: 'text' | 'password';
-  value?: string | undefined;
-  // Специально не типизируем, для повышения универсальности компонента
-  error?: unknown;
-  errorTitle?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleChange: (e: React.ChangeEvent<any>) => void;
+  className?: string;
+  field?: FieldInputProps<any>;
+  meta?: FieldMetaProps<any>;
 };

@@ -1,5 +1,5 @@
 export type TitleProps = {
   className?: string;
-  text: string;
-  view?: 'base';
+  level: string;
+  size?: 'small';
 } & React.BaseHTMLAttributes<HTMLHeadingElement>;

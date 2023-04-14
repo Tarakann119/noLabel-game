@@ -1,4 +1,4 @@
-export type UserCardProps = {
+export type usercardprops = {
   variant: 'header' | 'leaderboard';
   buttonVariant?: string;
   avatarUrl?: string;

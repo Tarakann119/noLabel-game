@@ -1,0 +1,47 @@
+@import '@assets/styles/helpers/helpers';
+
+.post {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  color: var(--text);
+  font-size: $text-md-size;
+  border-bottom: $border var(--text);
+
+  // .post-title
+  &-title {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  // .post__user-info
+  &__user-info {
+    @include flex-center-vert;
+
+    margin-bottom: 1rem;
+  }
+
+  // .post__group
+  &__group {
+    @include flex-column;
+  }
+
+  // .post__author
+  &__author {
+    margin-left: 1rem;
+  }
+
+  // .post__created
+  &__created {
+    margin-bottom: 0.5rem;
+  }
+
+  // .post__text
+  &__text {
+    margin-bottom: 1rem;
+  }
+
+  // .post__button
+  &__button {
+    margin-left: auto;
+  }
+}

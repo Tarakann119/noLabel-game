@@ -1,0 +1,41 @@
+%bg-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-image {
+  // %bg-image_base
+  &_base {
+    @extend %bg-image;
+
+    background-image: url('/img/background/base.jpg');
+  }
+
+  // %bg-image_form
+  &_form {
+    @extend %bg-image;
+
+    background-image: url('/img/background/form.jpg');
+  }
+
+  // %bg-image_form
+  &_about {
+    @extend %bg-image;
+
+    background-image: url('/img/background/about.jpg');
+  }
+
+  // %bg-image_404
+  &_404 {
+    @extend %bg-image;
+
+    background-image: url('/img/background/404.png');
+  }
+
+  // %bg-image_hero
+  &_hero {
+    @extend %bg-image;
+
+    background-image: url('/img/background/hero.jpg');
+  }
+}
