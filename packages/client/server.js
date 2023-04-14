@@ -49,18 +49,18 @@ async function start() {
       const cssDir = path.resolve('dist/client/assets');
       const files = fs.readdirSync(cssDir);
 
-      const cssFile = files.find(file => path.extname(file) === '.css');
-      let css;
-      // If a CSS file was found, read its contents
-      if (cssFile) {
-        css = fs.readFileSync(path.join(cssDir, cssFile));
+      const cssFiles = files.filter(file => path.extname(file) === '.css');
+      let css = '';
+
+      if (cssFiles.length > 0) {
+        css = cssFiles.map(cssFile => fs.readFileSync(path.join(cssDir, cssFile))).join('\n');
       } else {
-        console.error('No CSS file found in directory:', cssDir);
+        console.error('No CSS files found in directory:', cssDir);
       }
 
       const htmlWithReplacements = template
         .replace(`<!--app-html-->`, html)
-        .replace(`<!--css-->`, `<style>${css}</style>`)
+        .replace(`<!--css-->`, `${css ? `<style>${css}</style>` : ''} `)
         .replace(`<!--store-data-->`, JSON.stringify(initialState).replace(/</g, "\\u003c"));
 
       res.status(200).set({ "Content-Type": "text/html" }).end(htmlWithReplacements);
