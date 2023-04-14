@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 
 import { Leaderboard } from './Leaderboard';
+import { Theme } from './Theme';
 
 /** RegExp для валидации phone */
 const phoneRegExp = /^[\d\\+][\d\\(\\)\\ -]{9,14}\d$/;
@@ -68,4 +69,7 @@ export class User extends Model<User> {
 
   @HasOne(() => Leaderboard)
   leaderboard!: Leaderboard;
+
+  @HasOne(() => Theme)
+  theme!: Theme;
 }

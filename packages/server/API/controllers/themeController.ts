@@ -50,9 +50,9 @@ export const setTheme = async (req: Request, res: Response) => {
     } else {
       const theme: Theme | null = await Theme.findByPk(reqTheme.user_id);
       if (!theme) {
-        await Theme.create({ user_id: user.user_id, theme: req.body.theme } as Theme);
+        await Theme.create(reqTheme);
       } else {
-        await theme.update({ theme: req.body.theme });
+        await theme.update(reqTheme);
         res.status(200).json(theme);
       }
     }

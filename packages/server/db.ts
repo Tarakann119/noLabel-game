@@ -19,6 +19,7 @@ export const initPostgreSQLConnection = async (): Promise<Sequelize | undefined>
 
     /** Подключаемся к PostgreSQL */
     sequelize = new Sequelize(sequelizeOptions);
+    console.log('✅  Подключение к PostgreSQL установлено');
 
     /** Регистрируем все модели из папки models */
     const modelsPath = path.join(__dirname, './API/models');
@@ -26,9 +27,8 @@ export const initPostgreSQLConnection = async (): Promise<Sequelize | undefined>
 
     /** Синхронизируем все модели */
     await sequelize.sync({ alter: true });
-    console.log(sequelize.models);
 
-    console.log('➜ Connected to the Postgres database and models synced!');
+    console.log('✅  Все модели синхронизированы');
   } catch (e) {
     console.error(e);
   }

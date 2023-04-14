@@ -1,13 +1,16 @@
 import {
+  AllowNull,
   Column,
   DataType,
-  Equals,
+  ForeignKey,
+  IsIn,
   Model,
   NotEmpty,
   PrimaryKey,
   Table,
-  Unique,
 } from 'sequelize-typescript';
+
+import { User } from './User';
 
 /** Модель Theme
  * @property {number} user_id - id пользователя, первичный ключ, уникальный
@@ -16,16 +19,17 @@ import {
 
 @Table({
   tableName: 'themes',
-  timestamps: false,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 export class Theme extends Model<Theme> {
   @PrimaryKey
-  @Unique
-  @NotEmpty
+  @ForeignKey(() => User)
+  @AllowNull(false)
   @Column(DataType.INTEGER)
   user_id!: number;
 
-  @Equals('dark' || 'light')
+  @IsIn([['dark', 'light']])
   @NotEmpty
   @Column(DataType.STRING)
   theme!: string;

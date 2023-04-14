@@ -1,5 +1,7 @@
 import type { Request, Response } from 'express';
 
+import { Leaderboard } from '../models/Leaderboard';
+import { Theme } from '../models/Theme';
 import { User } from '../models/User';
 
 /** Запрос на получение пользователя
@@ -9,7 +11,12 @@ import { User } from '../models/User';
  */
 export const getUser = async (req: Request, res: Response) => {
   try {
-    const user: User | null = await User.findByPk(req.params.user_id);
+    const user: User | null = await User.findOne({
+      where: {
+        user_id: req.params.user_id,
+      },
+      include: [{ model: Leaderboard }, { model: Theme }],
+    });
     if (!user) {
       res.status(200).json({ message: 'Пользователь не найден' });
     } else {
@@ -28,7 +35,6 @@ export const getUser = async (req: Request, res: Response) => {
 export const createOrUpdateUser = async (req: Request, res: Response) => {
   try {
     const reqUser: User = req.body;
-    console.log(reqUser);
     let user: User | null = await User.findByPk(reqUser.user_id);
     if (!user) {
       user = await User.create(reqUser);

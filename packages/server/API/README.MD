@@ -22,7 +22,19 @@
   "phone": "+79271234567",
   "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg",
   "created_at": "2023-04-07T09:53:18.379Z",
-  "updated_at": "2023-04-09T06:28:38.635Z"
+  "updated_at": "2023-04-09T06:28:38.635Z",
+  "leaderboard": {
+    "user_id": 610817,
+    "score": 510,
+    "createdAt": "2023-04-12T12:39:57.286Z",
+    "updated_at": "2023-04-12T14:17:47.349Z"
+  },
+  "theme": {
+    "user_id": 610817,
+    "theme": "light",
+    "created_at": "2023-04-12T16:03:24.672Z",
+    "updated_at": "2023-04-12T16:12:38.249Z"
+  }
 }
 ```
 

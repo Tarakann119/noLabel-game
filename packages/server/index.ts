@@ -26,5 +26,5 @@ app.use('/api/forum/emoji', emoji);
 app.use('/api/leaderboard', leaderboard);
 
 app.listen(port, () => {
-  console.log(`➜ Server is listening on port: ${port}`);
+  console.log(`✅  Сервер запущен на порту ${port}`);
 });
