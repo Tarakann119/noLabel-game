@@ -1,4 +1,19 @@
-import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  AutoIncrement,
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  HasMany,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
+
+import { Emoji } from './Emoji';
+import { ForumTopic } from './ForumTopic';
+import { User } from './User';
 
 /** Модель ForumMessage
  * @property {number} id - id сообщения, первичный ключ, автоинкремент
@@ -18,12 +33,26 @@ export class ForumMessage extends Model<ForumMessage> {
   @Column(DataType.INTEGER)
   override id!: number;
 
-  @Column(DataType.INTEGER)
-  topic_id!: number;
-
+  @AllowNull(false)
   @Column(DataType.STRING)
   text!: string;
 
-  @Column(DataType.INTEGER)
-  user_id!: number;
+  @ForeignKey(() => ForumTopic)
+  @AllowNull(false)
+  @Column
+  topic_id!: number;
+
+  @BelongsTo(() => ForumTopic)
+  topic!: ForumTopic;
+
+  @ForeignKey(() => User)
+  @AllowNull(false)
+  @Column
+  author!: number;
+
+  @BelongsTo(() => User)
+  author_data!: User;
+
+  @HasMany(() => Emoji, 'message_id')
+  emojis!: Emoji[];
 }

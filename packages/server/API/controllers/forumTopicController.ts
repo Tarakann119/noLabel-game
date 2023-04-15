@@ -2,18 +2,20 @@ import type { Request, Response } from 'express';
 
 import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
+import { User } from '../models/User';
 
-/** Контроллер на получение тем форума по id
- * req.params.topic_id - id Topic, данные которого нужно получить
- * res.status(200).json(topic) - Topic, если он есть
- * res.status(400).json({error:''}) - ошибка, если Topic не найден
- * res.status(400).json(e) - ошибка
- * @param req
- * @param res
+import { deleteAllEmojiByMessageId } from './emojiController';
+
+/**
+ * Получения всех тем форума по id
+ * @param req {params {topic_id: number}} - id темы форума
+ * @param res {ForumTopic} - тема форума или сообщение об ошибке
  */
 export const getForumTopic = async (req: Request, res: Response) => {
   try {
-    const topic: ForumTopic | null = await ForumTopic.findByPk(req.params.topic_id);
+    const topic: ForumTopic | null = await ForumTopic.findByPk(req.params.topic_id, {
+      include: [{ model: User }, { model: ForumMessage, order: [['id', 'ASC']] }],
+    });
     if (!topic) {
       res.status(400).json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
@@ -24,25 +26,31 @@ export const getForumTopic = async (req: Request, res: Response) => {
   }
 };
 
-/** Контроллер на получение всех тем форума
- * res.status(200).json(topics) - массив из всех тем
- * @param res
- * @param _req
+/**
+ * Получения всех тем форума
+ * @param req {offset : number, limit : number} - смещение и лимит, по умолчанию 0 и Infinity
+ * @param res {ForumTopic[]} - массив тем форума или сообщение об ошибке
  */
-// TODO: добавить лимит
-export const getAllForumTopic = async (_req: Request, res: Response) => {
+export const getAllForumTopic = async (req: Request, res: Response) => {
   try {
-    const topics: ForumTopic[] = await ForumTopic.findAll();
+    if (req.body.offset < 0 || req.body.limit < 0) {
+      res.status(400).json({ message: 'Некорректный запрос' });
+    }
+    const topics: ForumTopic[] = await ForumTopic.findAll({
+      include: [{ model: User }, { model: ForumMessage, order: [['id', 'ASC']] }],
+      offset: req.body.offset,
+      limit: req.body.limit,
+    });
     res.status(200).json(topics);
   } catch (e) {
     res.status(400).json(e);
   }
 };
 
-/** Контроллер на создание или обновление темы форума
- * req.body.topic_id - id Topic, данные которого нужно изменить
- * @param req
- * @param res
+/**
+ * Создания или обновление темы форума
+ * @param req {ForumTopic} - тема форума, если id не указан, то создается новая тема, иначе обновляется
+ * @param res {ForumTopic} - тема форума, которая была создана или обновлена в БД или сообщение об ошибке
  */
 export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
   try {
@@ -60,11 +68,10 @@ export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
   }
 };
 
-/** Контроллер на удаление темы форума
- * req.params.topic_id - id темы форума, которую нужно удалить
- * Так же при удалении темы форума удаляются все сообщения этой темы
- * @param req
- * @param res
+/**
+ * Удаления темы форума
+ * @param req {params {topic_id: number}} - id темы форума
+ * @param res {message: string} - сообщение об успешном удалении, или об ошибке
  */
 export const deleteForumTopic = async (req: Request, res: Response) => {
   try {
@@ -72,9 +79,6 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
     if (!topic) {
       res.status(400).json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
-      await topic.destroy();
-      // TODO: обсудить, нужно ли удалять сообщения при удалении темы форума
-      // Ищем все сообщения этой темы и удаляем их
       const messages = await ForumMessage.findAll({
         where: {
           topic_id: req.params.topic_id,
@@ -82,9 +86,11 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
       });
       if (messages) {
         for (const forumMessage of messages) {
+          await deleteAllEmojiByMessageId(forumMessage.id);
           await forumMessage.destroy();
         }
       }
+      await topic.destroy();
       res
         .status(200)
         .json({ message: `Тема форума c id ${req.params.topic_id} и все сообщения удалены` });

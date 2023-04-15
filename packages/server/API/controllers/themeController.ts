@@ -3,16 +3,11 @@ import type { Request, Response } from 'express';
 import { Theme } from '../models/Theme';
 import { User } from '../models/User';
 
-// ----------------------------
-/** Контроллер на получение темы по id пользователя
- * req.params.user_id - id пользователя, тему которого нужно получить
- * res.status(200).json(theme) - тема, если она есть для
- * res.status(400).json({error:''}) - ошибка, если пользователь не найден
- * res.status(400).json(e) - ошибка
- * @param req
- * @param res
+/**
+ * Получение темы по id пользователя
+ * @param req {params {user_id: number}} - id пользователя, тему которого нужно получить
+ * @param res {Theme} - тема пользователя или сообщение об ошибке
  */
-
 export const getTheme = async (req: Request, res: Response) => {
   try {
     const user: User | null = await User.findByPk(req.params.user_id);
@@ -31,22 +26,17 @@ export const getTheme = async (req: Request, res: Response) => {
   }
 };
 
-// ----------------------------
-/** Контроллер на создание или изменение темы пользователя
- * req.body.user_id - id пользователя, тему которого нужно изменить
- * req.body.theme - тема
- * res.status(200).json(theme) - тема, если она есть
- * res.status(400).json({error:''}) - ошибка, если пользователь не найден
- * res.status(400).json(e) - ошибка
- * @param req
- * @param res
+/**
+ * Создание или изменение темы пользователя
+ * @param req {Theme} - id пользователя и тема
+ * @param res {Theme} - тема, если она была создана или изменена или сообщение об ошибке
  */
 export const setTheme = async (req: Request, res: Response) => {
   try {
     const reqTheme: Theme = req.body;
     const user: User | null = await User.findByPk(reqTheme.user_id);
     if (!user) {
-      res.status(400).json({ error: 'Пользователь не найден' });
+      res.status(400).json({ error: `Пользователь c id:${reqTheme.user_id} не найден` });
     } else {
       const theme: Theme | null = await Theme.findByPk(reqTheme.user_id);
       if (!theme) {

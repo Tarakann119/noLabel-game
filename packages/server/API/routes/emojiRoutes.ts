@@ -15,7 +15,10 @@ emoji
   .get('/:message_id', emojiController.getAllEmojiByMessageId)
 
   /** Запрос на изменение эмодзи по id эмодзи */
-  .post('/', emojiController.createOrUpdateEmojiByMessageId)
+  .post('/', emojiController.createOrUpdateEmoji)
+
+  /** Запрос на удаление эмодзи по id сообщения и id автора */
+  .delete('/', emojiController.deleteEmoji)
 
   /** Запрос на удаление эмодзи по id эмодзи */
-  .delete('/', emojiController.deleteEmoji);
+  .delete('/id/:id', emojiController.deleteEmojiById);

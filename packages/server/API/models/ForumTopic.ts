@@ -4,11 +4,14 @@ import {
   BelongsTo,
   Column,
   DataType,
+  ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 
+import { ForumMessage } from './ForumMessage';
 import { User } from './User';
 
 /** Модель ForumTopic
@@ -29,9 +32,15 @@ export class ForumTopic extends Model<ForumTopic> {
   @Column(DataType.STRING)
   title!: string;
 
-  @Column(DataType.INTEGER)
-  lastMessage_id!: number;
+  @ForeignKey(() => User)
+  @AllowNull(false)
+  @Column
+  author!: number;
 
-  @BelongsTo(() => User, 'user_id')
-  author!: User;
+  @BelongsTo(() => User)
+  author_full_data!: User;
+
+  @HasMany(() => ForumMessage)
+  messages!: ForumMessage[];
+  last_message!: ForumMessage;
 }

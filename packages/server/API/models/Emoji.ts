@@ -1,6 +1,7 @@
 import {
   AllowNull,
   AutoIncrement,
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -14,7 +15,7 @@ import { User } from './User';
 
 /** Модель Emoji
  * @property {number} id - id эмодзи, первичный ключ, автоинкремент
- * @property {number} user_id - id пользователя, который поставил эмодзи
+ * @property {number} author - id пользователя, который поставил эмодзи
  * @property {number} message_id - id сообщения, на которое поставили эмодзи
  * @property {string} emoji - эмодзи
  */
@@ -30,15 +31,23 @@ export class Emoji extends Model<Emoji> {
   @Column(DataType.INTEGER)
   override id!: number;
 
-  @ForeignKey(() => User)
-  @Column
-  user_id!: number;
-
-  @ForeignKey(() => ForumMessage)
-  @Column
-  message_id!: number;
-
   @AllowNull(false)
   @Column(DataType.STRING)
   emoji!: string;
+
+  @ForeignKey(() => User)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  author!: number;
+
+  @BelongsTo(() => User)
+  author_data!: User;
+
+  @ForeignKey(() => ForumMessage)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  message_id!: number;
+
+  @BelongsTo(() => ForumMessage)
+  message!: ForumMessage;
 }

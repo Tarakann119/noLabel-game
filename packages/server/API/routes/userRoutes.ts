@@ -30,4 +30,4 @@ users
    *   updated_at: Date; // дата изменения, заполняется автоматически
    * }
    */
-  .post('/add', userController.createOrUpdateUser);
+  .post('/', userController.createOrUpdateUser);

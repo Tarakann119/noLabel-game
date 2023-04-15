@@ -4,10 +4,10 @@ import { Leaderboard } from '../models/Leaderboard';
 import { Theme } from '../models/Theme';
 import { User } from '../models/User';
 
-/** Запрос на получение пользователя
- * req.params.user_id - id пользователя, данные которого нужно получить
- * @param req
- * @param res
+/**
+ * Получение данных пользователя по id
+ * @param req {params {user_id : number}} - id пользователя, которого нужно получить
+ * @param res {User} - данные пользователя с таблицей лидеров и таблицей тем или сообщение об ошибке
  */
 export const getUser = async (req: Request, res: Response) => {
   try {
@@ -27,10 +27,10 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
-/** Запрос на создание пользователя или изменение данных существующего пользователя
- * req.body.user_id - id пользователя, которого нужно создать или изменить
- * @param req
- * @param res
+/**
+ * Создание пользователя или изменение данных существующего пользователя
+ * @param req {User} - данные пользователя
+ * @param res {User} - данные пользователя или сообщение об ошибке
  */
 export const createOrUpdateUser = async (req: Request, res: Response) => {
   try {
@@ -47,10 +47,20 @@ export const createOrUpdateUser = async (req: Request, res: Response) => {
   }
 };
 
-/** Запрос на получение всех пользователей */
-export const getAllUsers = async (_req: Request, res: Response) => {
+/**
+ * Получение всех пользователей
+ * @param req {offset : number, limit : number} - смещение и лимит, по умолчанию 0 и Infinity
+ * @param res {User[]} - массив пользователей или сообщение об ошибке
+ * */
+export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users: User[] = await User.findAll();
+    if (req.body.offset < 0 || req.body.limit < 0) {
+      res.status(400).json({ message: 'Некорректный запрос' });
+    }
+    const users: User[] = await User.findAll({
+      offset: req.body.offset,
+      limit: req.body.limit,
+    });
     res.status(200).json(users);
   } catch (e) {
     res.status(400).json(e);

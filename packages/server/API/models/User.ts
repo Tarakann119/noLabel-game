@@ -1,6 +1,7 @@
 import {
   Column,
   DataType,
+  HasMany,
   HasOne,
   Is,
   IsEmail,
@@ -10,6 +11,9 @@ import {
   Unique,
 } from 'sequelize-typescript';
 
+import { Emoji } from './Emoji';
+import { ForumMessage } from './ForumMessage';
+import { ForumTopic } from './ForumTopic';
 import { Leaderboard } from './Leaderboard';
 import { Theme } from './Theme';
 
@@ -72,4 +76,13 @@ export class User extends Model<User> {
 
   @HasOne(() => Theme)
   theme!: Theme;
+
+  @HasMany(() => ForumTopic, 'author')
+  topics!: ForumTopic[];
+
+  @HasMany(() => ForumMessage, 'author')
+  messages!: ForumMessage[];
+
+  @HasMany(() => Emoji, 'author')
+  emojis!: Emoji[];
 }
