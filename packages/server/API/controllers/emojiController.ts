@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 import { Emoji } from '../models/Emoji';
 import { ForumMessage } from '../models/ForumMessage';
@@ -23,12 +24,14 @@ export const getAllEmojiByMessageId = async (req: Request, res: Response) => {
       ],
     });
     if (emoji) {
-      res.status(200).json(emoji);
+      res.status(StatusCodes.OK).json(emoji);
     } else {
-      res.status(400).json({ message: `Сообщение c id:${req.params.message_id} не найдено` });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: `Сообщение c id:${req.params.message_id} не найдено` });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -69,14 +72,18 @@ export const createOrUpdateEmoji = async (req: Request, res: Response) => {
           },
         ],
       });
-      res.status(201).json(emoji);
+      res.status(StatusCodes.CREATED).json(emoji);
     } else if (!message) {
-      res.status(400).json({ message: `Сообщение c id:${req.body.message_id} не найдено` });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: `Сообщение c id:${req.body.message_id} не найдено` });
     } else if (!user) {
-      res.status(400).json({ message: `Пользователь c id:${req.body.user_id} не найден` });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: `Пользователь c id:${req.body.user_id} не найден` });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -95,14 +102,14 @@ export const deleteEmoji = async (req: Request, res: Response) => {
     });
     if (emoji) {
       await Emoji.destroy({ where: { id: emoji.id } });
-      res.status(200).json({ message: `Эмодзи c id:${emoji.id} удалено` });
+      res.status(StatusCodes.OK).json({ message: `Эмодзи c id:${emoji.id} удалено` });
     } else {
-      res.status(400).json({
+      res.status(StatusCodes.BAD_REQUEST).json({
         message: `Эмодзи для сообщения с id:${req.body.message_id} и пользователя с id:${req.body.user_id} не найдено`,
       });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -116,12 +123,14 @@ export const deleteEmojiById = async (req: Request, res: Response) => {
     const emoji = await Emoji.findByPk(req.params.id);
     if (emoji) {
       await Emoji.destroy({ where: { id: emoji.id } });
-      res.status(200).json({ message: `Эмодзи c id:${emoji.id} удалено` });
+      res.status(StatusCodes.OK).json({ message: `Эмодзи c id:${emoji.id} удалено` });
     } else {
-      res.status(400).json({ message: `Эмодзи c id:${req.params.id} не найдено` });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: `Эмодзи c id:${req.params.id} не найдено` });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 

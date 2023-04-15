@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 import { Leaderboard } from '../models/Leaderboard';
 import { User } from '../models/User';
@@ -11,7 +12,7 @@ import { User } from '../models/User';
 export const getLeaderboard = async (req: Request, res: Response) => {
   try {
     if (req.body.offset < 0 || req.body.limit < 0) {
-      res.status(400).json({ message: 'Некорректный запрос' });
+      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Некорректный запрос' });
     }
     const leaderboard: Leaderboard[] = await Leaderboard.findAll({
       attributes: ['score'],
@@ -20,9 +21,9 @@ export const getLeaderboard = async (req: Request, res: Response) => {
       offset: req.body.offset,
       limit: req.body.limit,
     });
-    res.status(200).json(leaderboard);
+    res.status(StatusCodes.OK).json(leaderboard);
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -40,14 +41,14 @@ export const getLeaderboardByUserId = async (req: Request, res: Response) => {
       include: [{ model: User }],
     });
     if (leaderboard) {
-      res.status(200).json(leaderboard);
+      res.status(StatusCodes.OK).json(leaderboard);
     } else {
       res
-        .status(404)
+        .status(StatusCodes.NOT_FOUND)
         .json({ message: `Пользователь c id:${req.params.user_id} не найден в таблице лидеров` });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -74,14 +75,16 @@ export const createOrUpdateLeaderboard = async (req: Request, res: Response) => 
           },
         }
       );
-      res.status(200).json({ message: 'Лидерборд обновлен' });
+      res.status(StatusCodes.ACCEPTED).json({ message: 'Лидерборд обновлен' });
     } else if (user) {
       await Leaderboard.create(req.body);
-      res.status(201).json({ message: 'Лидерборд создан' });
+      res.status(StatusCodes.CREATED).json({ message: 'Лидерборд создан' });
     } else {
-      res.status(404).json({ message: `Пользователь c id:${userId} не зарегистрирован` });
+      res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: `Пользователь c id:${userId} не зарегистрирован` });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };

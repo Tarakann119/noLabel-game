@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
@@ -17,12 +18,14 @@ export const getForumTopic = async (req: Request, res: Response) => {
       include: [{ model: User }, { model: ForumMessage, order: [['id', 'ASC']] }],
     });
     if (!topic) {
-      res.status(400).json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
-      res.status(200).json(topic);
+      res.status(StatusCodes.OK).json(topic);
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -34,16 +37,16 @@ export const getForumTopic = async (req: Request, res: Response) => {
 export const getAllForumTopic = async (req: Request, res: Response) => {
   try {
     if (req.body.offset < 0 || req.body.limit < 0) {
-      res.status(400).json({ message: 'Некорректный запрос' });
+      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Некорректный запрос' });
     }
     const topics: ForumTopic[] = await ForumTopic.findAll({
       include: [{ model: User }, { model: ForumMessage, order: [['id', 'ASC']] }],
       offset: req.body.offset,
       limit: req.body.limit,
     });
-    res.status(200).json(topics);
+    res.status(StatusCodes.OK).json(topics);
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -58,13 +61,13 @@ export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
     const topic: ForumTopic | null = await ForumTopic.findByPk(reqTopic.id);
     if (!topic) {
       const newTopic: ForumTopic = await ForumTopic.create(reqTopic);
-      res.status(200).json(newTopic);
+      res.status(StatusCodes.CREATED).json(newTopic);
     } else {
       await topic.update(reqTopic);
-      res.status(200).json(topic);
+      res.status(StatusCodes.ACCEPTED).json(topic);
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -77,7 +80,9 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
   try {
     const topic: ForumTopic | null = await ForumTopic.findByPk(req.params.topic_id);
     if (!topic) {
-      res.status(400).json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
       const messages = await ForumMessage.findAll({
         where: {
@@ -92,10 +97,10 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
       }
       await topic.destroy();
       res
-        .status(200)
+        .status(StatusCodes.OK)
         .json({ message: `Тема форума c id ${req.params.topic_id} и все сообщения удалены` });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };

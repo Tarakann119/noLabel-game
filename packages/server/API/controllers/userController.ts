@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 import { Leaderboard } from '../models/Leaderboard';
 import { Theme } from '../models/Theme';
@@ -18,12 +19,12 @@ export const getUser = async (req: Request, res: Response) => {
       include: [{ model: Leaderboard }, { model: Theme }],
     });
     if (!user) {
-      res.status(200).json({ message: 'Пользователь не найден' });
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Пользователь не найден' });
     } else {
-      res.status(200).json(user);
+      res.status(StatusCodes.OK).json(user);
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -41,9 +42,9 @@ export const createOrUpdateUser = async (req: Request, res: Response) => {
     } else {
       user = await user.update(reqUser);
     }
-    res.status(200).json(user);
+    res.status(StatusCodes.CREATED).json(user);
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -55,14 +56,14 @@ export const createOrUpdateUser = async (req: Request, res: Response) => {
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     if (req.body.offset < 0 || req.body.limit < 0) {
-      res.status(400).json({ message: 'Некорректный запрос' });
+      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Некорректный запрос' });
     }
     const users: User[] = await User.findAll({
       offset: req.body.offset,
       limit: req.body.limit,
     });
-    res.status(200).json(users);
+    res.status(StatusCodes.OK).json(users);
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };

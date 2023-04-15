@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 import { Emoji } from '../models/Emoji';
 import { ForumMessage } from '../models/ForumMessage';
@@ -27,12 +28,12 @@ export const getForumMessageById = async (req: Request, res: Response) => {
       ],
     });
     if (forumMessage) {
-      res.status(200).json(forumMessage);
+      res.status(StatusCodes.OK).json(forumMessage);
     } else {
-      res.status(404).json({ message: 'Сообщение не найдено' });
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Сообщение не найдено' });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -61,12 +62,12 @@ export const getForumMessageByTopicId = async (req: Request, res: Response) => {
       ],
     });
     if (forumMessages) {
-      res.status(200).json(forumMessages);
+      res.status(StatusCodes.OK).json(forumMessages);
     } else {
-      res.status(404).json({ message: 'Сообщения не найдены' });
+      res.status(StatusCodes.NOT_FOUND).json({ message: 'Сообщения не найдены' });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -80,9 +81,9 @@ export const getAllForumMessage = async (_req: Request, res: Response) => {
     const forumMessages: ForumMessage[] = await ForumMessage.findAll({
       include: [{ model: User }, { model: ForumTopic }, { model: Emoji }],
     });
-    res.status(200).json(forumMessages);
+    res.status(StatusCodes.OK).json(forumMessages);
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -97,13 +98,13 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
     const forumMessage = await ForumMessage.findByPk(reqForumMessage.message_id);
     if (forumMessage) {
       await forumMessage.update(reqForumMessage);
-      res.status(200).json(forumMessage);
+      res.status(StatusCodes.OK).json(forumMessage);
     } else {
       const newForumMessage = await ForumMessage.create(reqForumMessage);
-      res.status(200).json(newForumMessage);
+      res.status(StatusCodes.OK).json(newForumMessage);
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -119,12 +120,12 @@ export const deleteForumMessageById = async (req: Request, res: Response) => {
     console.log(forumMessage);
     if (forumMessage) {
       await forumMessage.destroy();
-      res.status(200).json({ message: 'Сообщение удалено' });
+      res.status(StatusCodes.OK).json({ message: 'Сообщение удалено' });
     } else {
-      res.status(400).json({ message: 'Сообщение не найдено' });
+      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Сообщение не найдено' });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
 
@@ -145,11 +146,11 @@ export const deleteForumMessageByTopicId = async (req: Request, res: Response) =
         await deleteAllEmojiByMessageId(forumMessage.id);
         await forumMessage.destroy();
       }
-      res.status(200).json({ message: 'Сообщения удалены' });
+      res.status(StatusCodes.OK).json({ message: 'Сообщения удалены' });
     } else {
-      res.status(400).json({ message: 'Сообщения не найдены' });
+      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Сообщения не найдены' });
     }
   } catch (e) {
-    res.status(400).json(e);
+    res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
