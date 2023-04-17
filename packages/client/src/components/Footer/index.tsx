@@ -15,7 +15,7 @@ export const Footer: FC<FooterProps> = ({ children }) => {
         <div className='footer__logo'></div>
         <div className='footer__children-container'>
           {children}
-          <AudioPlayer />
+          {AudioPlayer()}
         </div>
         <div className='footer__link-container'>
           <Link to={'/about'} className='custom-link'>
