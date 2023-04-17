@@ -6,10 +6,13 @@ import {
   DataType,
   ForeignKey,
   HasMany,
+  Is,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
+
+import { SQLRegExp, XSSRegExp } from '../../utils/regExp/XSS';
 
 import { ForumMessage } from './ForumMessage';
 import { User } from './User';
@@ -29,6 +32,7 @@ export class ForumTopic extends Model<ForumTopic> {
   override id!: number;
 
   @AllowNull(false)
+  @Is([SQLRegExp, XSSRegExp])
   @Column(DataType.STRING)
   title!: string;
 
