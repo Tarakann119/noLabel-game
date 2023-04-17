@@ -20,7 +20,7 @@ export const getForumTopic = async (req: Request, res: Response) => {
     if (!topic) {
       res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
+        .json({ reason: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
       res.status(StatusCodes.OK).json(topic);
     }
@@ -37,7 +37,7 @@ export const getForumTopic = async (req: Request, res: Response) => {
 export const getAllForumTopic = async (req: Request, res: Response) => {
   try {
     if (req.body.offset < 0 || req.body.limit < 0) {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Некорректный запрос' });
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
     }
     const topics: ForumTopic[] = await ForumTopic.findAll({
       include: [{ model: User }, { model: ForumMessage, order: [['id', 'ASC']] }],
@@ -98,7 +98,7 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
       await topic.destroy();
       res
         .status(StatusCodes.OK)
-        .json({ message: `Тема форума c id ${req.params.topic_id} и все сообщения удалены` });
+        .json({ reason: `Тема форума c id ${req.params.topic_id} и все сообщения удалены` });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);

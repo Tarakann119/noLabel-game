@@ -19,7 +19,7 @@ export const getUser = async (req: Request, res: Response) => {
       include: [{ model: Leaderboard }, { model: Theme }],
     });
     if (!user) {
-      res.status(StatusCodes.NOT_FOUND).json({ message: 'Пользователь не найден' });
+      res.status(StatusCodes.NOT_FOUND).json({ reason: 'Пользователь не найден' });
     } else {
       res.status(StatusCodes.OK).json(user);
     }
@@ -56,7 +56,7 @@ export const createOrUpdateUser = async (req: Request, res: Response) => {
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     if (req.body.offset < 0 || req.body.limit < 0) {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Некорректный запрос' });
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
     }
     const users: User[] = await User.findAll({
       offset: req.body.offset,

@@ -12,7 +12,7 @@ import { User } from '../models/User';
 export const getLeaderboard = async (req: Request, res: Response) => {
   try {
     if (req.body.offset < 0 || req.body.limit < 0) {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Некорректный запрос' });
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
     }
     const leaderboard: Leaderboard[] = await Leaderboard.findAll({
       attributes: ['score'],
@@ -75,14 +75,14 @@ export const createOrUpdateLeaderboard = async (req: Request, res: Response) => 
           },
         }
       );
-      res.status(StatusCodes.ACCEPTED).json({ message: 'Лидерборд обновлен' });
+      res.status(StatusCodes.ACCEPTED).json({ reason: 'Лидерборд обновлен' });
     } else if (user) {
       await Leaderboard.create(req.body);
-      res.status(StatusCodes.CREATED).json({ message: 'Лидерборд создан' });
+      res.status(StatusCodes.CREATED).json({ reason: 'Лидерборд создан' });
     } else {
       res
         .status(StatusCodes.NOT_FOUND)
-        .json({ message: `Пользователь c id:${userId} не зарегистрирован` });
+        .json({ reason: `Пользователь c id:${userId} не зарегистрирован` });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);

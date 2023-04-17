@@ -13,11 +13,11 @@ export const getTheme = async (req: Request, res: Response) => {
   try {
     const user: User | null = await User.findByPk(req.params.user_id);
     if (!user) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: 'Пользователь не найден' });
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
     } else {
       const theme: Theme | null = await Theme.findByPk(user.user_id);
       if (!theme) {
-        res.status(StatusCodes.BAD_REQUEST).json({ error: 'Тема не найдена' });
+        res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Тема не найдена' });
       } else {
         res.status(StatusCodes.OK).json(theme);
       }

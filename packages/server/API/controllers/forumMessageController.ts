@@ -30,7 +30,7 @@ export const getForumMessageById = async (req: Request, res: Response) => {
     if (forumMessage) {
       res.status(StatusCodes.OK).json(forumMessage);
     } else {
-      res.status(StatusCodes.NOT_FOUND).json({ message: 'Сообщение не найдено' });
+      res.status(StatusCodes.NOT_FOUND).json({ reason: 'Сообщение не найдено' });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
@@ -64,7 +64,7 @@ export const getForumMessageByTopicId = async (req: Request, res: Response) => {
     if (forumMessages) {
       res.status(StatusCodes.OK).json(forumMessages);
     } else {
-      res.status(StatusCodes.NOT_FOUND).json({ message: 'Сообщения не найдены' });
+      res.status(StatusCodes.NOT_FOUND).json({ reason: 'Сообщения не найдены' });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
@@ -120,9 +120,9 @@ export const deleteForumMessageById = async (req: Request, res: Response) => {
     console.log(forumMessage);
     if (forumMessage) {
       await forumMessage.destroy();
-      res.status(StatusCodes.OK).json({ message: 'Сообщение удалено' });
+      res.status(StatusCodes.OK).json({ reason: 'Сообщение удалено' });
     } else {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Сообщение не найдено' });
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщение не найдено' });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
@@ -146,9 +146,9 @@ export const deleteForumMessageByTopicId = async (req: Request, res: Response) =
         await deleteAllEmojiByMessageId(forumMessage.id);
         await forumMessage.destroy();
       }
-      res.status(StatusCodes.OK).json({ message: 'Сообщения удалены' });
+      res.status(StatusCodes.OK).json({ reason: 'Сообщения удалены' });
     } else {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: 'Сообщения не найдены' });
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщения не найдены' });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);

@@ -25,6 +25,11 @@ app.use('/api/forum/messages', forumMessage);
 app.use('/api/forum/emoji', emoji);
 app.use('/api/leaderboard', leaderboard);
 
-app.listen(port, () => {
-  console.log(`✅  Сервер запущен на порту ${port}`);
-});
+try {
+  app.listen(port, () => {
+    console.log(`✅  Сервер запущен на порту ${port}`);
+  });
+} catch (e) {
+  console.error('❌  Не удалось запустить сервер');
+  console.error(e);
+}

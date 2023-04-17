@@ -28,7 +28,7 @@ export const getAllEmojiByMessageId = async (req: Request, res: Response) => {
     } else {
       res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ message: `Сообщение c id:${req.params.message_id} не найдено` });
+        .json({ reason: `Сообщение c id:${req.params.message_id} не найдено` });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
@@ -76,11 +76,11 @@ export const createOrUpdateEmoji = async (req: Request, res: Response) => {
     } else if (!message) {
       res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ message: `Сообщение c id:${req.body.message_id} не найдено` });
+        .json({ reason: `Сообщение c id:${req.body.message_id} не найдено` });
     } else if (!user) {
       res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ message: `Пользователь c id:${req.body.user_id} не найден` });
+        .json({ reason: `Пользователь c id:${req.body.user_id} не найден` });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
@@ -123,11 +123,11 @@ export const deleteEmojiById = async (req: Request, res: Response) => {
     const emoji = await Emoji.findByPk(req.params.id);
     if (emoji) {
       await Emoji.destroy({ where: { id: emoji.id } });
-      res.status(StatusCodes.OK).json({ message: `Эмодзи c id:${emoji.id} удалено` });
+      res.status(StatusCodes.OK).json({ reason: `Эмодзи c id:${emoji.id} удалено` });
     } else {
       res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ message: `Эмодзи c id:${req.params.id} не найдено` });
+        .json({ reason: `Эмодзи c id:${req.params.id} не найдено` });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
