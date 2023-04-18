@@ -14,7 +14,7 @@
 
 ```typescript
 {
-  user_id: number;
+  id: number;
   first_name: string;
   second_name: string;
   login: string;
@@ -28,13 +28,13 @@
 
 ```json
 {
-  "user_id": 610819,
-  "first_name": "ТестТри",
-  "second_name": "ТестТри",
-  "login": "test3",
-  "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg",
-  "email": "test3@test.ru",
-  "phone": "+79271234567"
+  "id": 3,
+  "first_name": "Три",
+  "second_name": "Three",
+  "login": "three",
+  "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg",
+  "email": "test4@test.ru",
+  "phone": "+79271234569"
 }
 ```
 
@@ -42,26 +42,26 @@
 
 ```json
 {
-  "user_id": 610817,
-  "first_name": "ТестОдин",
-  "second_name": "ТестОдин",
-  "login": "test1",
-  "email": "test1@test.ru",
-  "phone": "+79271234567",
-  "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg",
-  "created_at": "2023-04-14T19:37:43.546Z",
-  "updated_at": "2023-04-14T19:37:43.546Z",
+  "id": 2,
+  "first_name": "Два",
+  "second_name": "Два",
+  "login": "two",
+  "email": "test@test.ru",
+  "phone": "+79271234568",
+  "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg",
+  "created_at": "2023-04-18T14:22:30.501Z",
+  "updated_at": "2023-04-18T14:23:39.049Z",
   "leaderboard": {
-    "user_id": 610817,
-    "score": 510,
-    "createdAt": "2023-04-14T22:24:30.325Z",
-    "updated_at": "2023-04-14T22:24:56.552Z"
+    "id": 2,
+    "score": 520,
+    "createdAt": "2023-04-18T15:27:59.929Z",
+    "updated_at": "2023-04-18T15:27:59.929Z"
   },
   "theme": {
-    "user_id": 610817,
-    "theme": "dark",
-    "created_at": "2023-04-14T19:39:02.352Z",
-    "updated_at": "2023-04-14T19:39:02.352Z"
+    "id": 2,
+    "theme": "light",
+    "created_at": "2023-04-18T14:31:36.926Z",
+    "updated_at": "2023-04-18T14:31:36.926Z"
   }
 }
 ```
@@ -77,7 +77,7 @@
 
 ```typescript
 {
-  user_id: number;
+  id: number;
   theme: string;
 }
 ```
@@ -86,8 +86,8 @@
 
 ```json
 {
-  "user_id": 610817,
-  "theme": "dark"
+  "id": 3,
+  "theme": "light"
 }
 ```
 
@@ -95,10 +95,10 @@
 
 ```json
 {
-  "user_id": 610817,
-  "theme": "dark",
-  "created_at": "2023-04-14T19:39:02.352Z",
-  "updated_at": "2023-04-14T19:39:02.352Z"
+  "id": 3,
+  "theme": "light",
+  "created_at": "2023-04-18T14:31:41.273Z",
+  "updated_at": "2023-04-18T14:31:41.273Z"
 }
 ```
 
@@ -114,7 +114,7 @@
 
 ```typescript
 {
-  user_id: number;
+  id: number;
   score: number;
 }
 ```
@@ -123,8 +123,8 @@
 
 ```json
 {
-  "user_id": 610817,
-  "score": 510
+  "id": 2,
+  "score": 520
 }
 ```
 
@@ -133,30 +133,13 @@
 ```json
 [
   {
-    "score": 525,
+    "score": 520,
+    "updated_at": "2023-04-18T15:27:59.929Z",
     "user": {
-      "user_id": 610819,
-      "first_name": "ТестТри",
-      "second_name": "ТестТри",
-      "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg"
-    }
-  },
-  {
-    "score": 515,
-    "user": {
-      "user_id": 610818,
-      "first_name": "ТестДва",
-      "second_name": "ТестДва",
-      "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg"
-    }
-  },
-  {
-    "score": 510,
-    "user": {
-      "user_id": 610817,
-      "first_name": "ТестОдин",
-      "second_name": "ТестОдин",
-      "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg"
+      "id": 2,
+      "first_name": "Два",
+      "second_name": "Два",
+      "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg"
     }
   }
 ]
@@ -166,20 +149,20 @@
 
 ```json
 {
-  "user_id": 610818,
-  "score": 515,
-  "createdAt": "2023-04-14T22:25:02.026Z",
-  "updated_at": "2023-04-14T22:25:09.579Z",
+  "id": 2,
+  "score": 520,
+  "createdAt": "2023-04-18T15:27:59.929Z",
+  "updated_at": "2023-04-18T15:27:59.929Z",
   "user": {
-    "user_id": 610818,
-    "first_name": "ТестДва",
-    "second_name": "ТестДва",
-    "login": "test2",
-    "email": "test1@test.ru",
-    "phone": "+79271234567",
-    "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg",
-    "created_at": "2023-04-14T19:35:47.198Z",
-    "updated_at": "2023-04-14T19:38:09.925Z"
+    "id": 2,
+    "first_name": "Два",
+    "second_name": "Два",
+    "login": "two",
+    "email": "test@test.ru",
+    "phone": "+79271234568",
+    "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg",
+    "created_at": "2023-04-18T14:22:30.501Z",
+    "updated_at": "2023-04-18T14:23:39.049Z"
   }
 }
 ```
@@ -198,7 +181,7 @@
 ```typescript
 {
   title: string;
-  author: number;
+  author_id: number;
 }
 ```
 
@@ -206,8 +189,8 @@
 
 ```json
 {
-  "title": "test",
-  "author": 610819
+  "title": "test3",
+  "author_id": 3
 }
 ```
 
@@ -215,32 +198,23 @@
 
 ```json
 {
-  "id": 3,
-  "title": "test",
-  "author": 610819,
-  "created_at": "2023-04-15T04:56:44.165Z",
-  "updated_at": "2023-04-15T04:56:44.165Z",
-  "author_full_data": {
-    "user_id": 610819,
-    "first_name": "ТестТри",
-    "second_name": "ТестТри",
-    "login": "test3",
-    "email": "test3@test.ru",
-    "phone": "+79271234567",
-    "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51a36-d4ee-4c85-8844-6d971ec2732a_ava_lite.jpg",
-    "created_at": "2023-04-14T19:38:38.970Z",
-    "updated_at": "2023-04-14T19:38:38.970Z"
+  "id": 4,
+  "title": "test3",
+  "author_id": 3,
+  "created_at": "2023-04-18T15:31:00.955Z",
+  "updated_at": "2023-04-18T15:31:00.955Z",
+  "author": {
+    "id": 3,
+    "first_name": "Три",
+    "second_name": "Three",
+    "login": "three",
+    "email": "test4@test.ru",
+    "phone": "+79271234569",
+    "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg",
+    "created_at": "2023-04-18T14:24:13.497Z",
+    "updated_at": "2023-04-18T14:24:13.497Z"
   },
-  "messages": [
-    {
-      "id": 33,
-      "text": "text",
-      "topic_id": 3,
-      "author": 610818,
-      "created_at": "2023-04-15T06:52:16.013Z",
-      "updated_at": "2023-04-15T06:52:16.013Z"
-    }
-  ]
+  "messages": []
 }
 ```
 
@@ -259,7 +233,7 @@
 ```typescript
 {
   text: string;
-  author: number;
+  author_id: number;
   topic_id: number;
 }
 ```
@@ -269,8 +243,8 @@
 ```json
 {
   "text": "text",
-  "author": 610818,
-  "topic_id": 3
+  "author_id": 1,
+  "topic_id": 1
 }
 ```
 
@@ -278,12 +252,12 @@
 
 ```json
 {
-  "id": 453,
-  "topic_id": null,
+  "id": 7,
   "text": "text",
-  "user_id": 54646,
-  "created_at": "2023-04-11T09:56:43.894Z",
-  "updated_at": "2023-04-11T09:56:43.894Z"
+  "author_id": 1,
+  "topic_id": 1,
+  "updated_at": "2023-04-18T14:55:53.039Z",
+  "created_at": "2023-04-18T14:55:53.039Z"
 }
 ```
 
@@ -300,7 +274,7 @@
 ```typescript
 {
   message_id: number;
-  user_id: number;
+  author_id: number;
   emoji: string;
 }
 ```
@@ -309,23 +283,43 @@
 
 ```json
 {
-  "message_id": 453,
-  "user_id": 610818,
-  "emoji": "test2"
+  "author_id": 2,
+  "message_id": 6,
+  "emoji": "😂"
 }
 ```
 
-Пример ответа
+Пример ответа GET /emoji/message_id
 
 ```json
 [
   {
+    "id": 1,
+    "emoji": "❤",
+    "author_id": 3,
+    "message_id": 6,
+    "created_at": "2023-04-18T15:20:29.100Z",
+    "updated_at": "2023-04-18T15:20:29.100Z",
+    "author": {
+      "id": 3,
+      "first_name": "Три",
+      "second_name": "Three",
+      "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg"
+    }
+  },
+  {
     "id": 2,
-    "user_id": 610818,
-    "message_id": 453,
-    "emoji": "test2",
-    "created_at": "2023-04-12T05:35:13.211Z",
-    "updated_at": "2023-04-12T05:35:13.211Z"
+    "emoji": "😂",
+    "author_id": 2,
+    "message_id": 6,
+    "created_at": "2023-04-18T15:21:10.525Z",
+    "updated_at": "2023-04-18T15:21:10.525Z",
+    "author": {
+      "id": 2,
+      "first_name": "Два",
+      "second_name": "Два",
+      "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg"
+    }
   }
 ]
 ```

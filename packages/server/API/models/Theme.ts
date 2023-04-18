@@ -13,7 +13,7 @@ import {
 import { User } from './User';
 
 /** Модель Theme
- * @property {number} user_id - id пользователя, первичный ключ, уникальный
+ * @property {number} id - id пользователя, первичный ключ, уникальный
  * @property {string} theme - тема оформления, может быть 'dark' или 'light'
  */
 

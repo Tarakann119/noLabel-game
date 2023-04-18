@@ -21,7 +21,7 @@ import { User } from './User';
  * @property {number} id - id темы, первичный ключ, автоинкремент
  * @property {string} title - заголовок темы форума
  * @property {number} lastMessage_id - id последнего сообщения в теме
- * @property {User} author - автор темы
+ * @property {User} author_id - автор темы
  */
 
 @Table({
