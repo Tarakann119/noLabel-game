@@ -29,6 +29,10 @@ import { User } from './User';
   tableName: 'forum_messages',
   createdAt: 'created_at',
   updatedAt: 'updated_at',
+  indexes: [
+    { unique: false, fields: ['topic_id'] },
+    { unique: false, fields: ['author_id'] },
+  ],
 })
 export class ForumMessage extends Model<ForumMessage> {
   @PrimaryKey
@@ -52,10 +56,10 @@ export class ForumMessage extends Model<ForumMessage> {
   @ForeignKey(() => User)
   @AllowNull(false)
   @Column
-  author!: number;
+  author_id!: number;
 
   @BelongsTo(() => User)
-  author_data!: User;
+  author!: User;
 
   @HasMany(() => Emoji, 'message_id')
   emojis!: Emoji[];

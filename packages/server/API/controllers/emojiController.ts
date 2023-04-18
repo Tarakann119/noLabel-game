@@ -19,7 +19,7 @@ export const getAllEmojiByMessageId = async (req: Request, res: Response) => {
       include: [
         {
           model: User,
-          attributes: ['user_id', 'first_name', 'second_name', 'avatar'],
+          attributes: ['id', 'first_name', 'second_name', 'avatar'],
         },
       ],
     });
@@ -43,19 +43,19 @@ export const getAllEmojiByMessageId = async (req: Request, res: Response) => {
 export const createOrUpdateEmoji = async (req: Request, res: Response) => {
   try {
     const message = await ForumMessage.findByPk(req.body.message_id);
-    const user = await User.findByPk(req.body.author);
+    const user = await User.findByPk(req.body.author_id);
     if (message && user) {
       let emoji = await Emoji.findOne({
         where: {
-          message_id: req.body.message_id,
-          author: req.body.author,
+          ['message_id']: req.body.message_id,
+          ['author_id']: req.body.author_id,
         },
       });
       if (emoji) {
         await Emoji.update(req.body, {
           where: {
-            message_id: req.body.message_id,
-            author: req.body.author,
+            ['message_id']: req.body.message_id,
+            ['author_id']: req.body.author_id,
           },
         });
       } else {
@@ -65,7 +65,7 @@ export const createOrUpdateEmoji = async (req: Request, res: Response) => {
         include: [
           {
             model: User,
-            attributes: ['user_id', 'first_name', 'second_name', 'avatar'],
+            attributes: ['id', 'first_name', 'second_name', 'avatar'],
           },
           {
             model: ForumMessage,
@@ -80,7 +80,7 @@ export const createOrUpdateEmoji = async (req: Request, res: Response) => {
     } else if (!user) {
       res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ reason: `Пользователь c id:${req.body.user_id} не найден` });
+        .json({ reason: `Пользователь c id:${req.body.author_id} не найден` });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
@@ -97,7 +97,7 @@ export const deleteEmoji = async (req: Request, res: Response) => {
     const emoji = await Emoji.findOne({
       where: {
         message_id: req.body.message_id,
-        author: req.body.user_id,
+        author_id: req.body.user_id,
       },
     });
     if (emoji) {
@@ -142,6 +142,6 @@ export const deleteAllEmojiByMessageId = async (message_id: number) => {
   try {
     await Emoji.destroy({ where: { message_id } });
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 };

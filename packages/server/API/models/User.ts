@@ -5,13 +5,15 @@ import {
   HasOne,
   Is,
   IsEmail,
-  IsUrl,
   Model,
+  Not,
   PrimaryKey,
   Table,
+  Unique,
 } from 'sequelize-typescript';
 
 import { loginRegExp, nameRegExp, phoneRegExp } from '../../utils/regExp/validation';
+import { XSSRegExp } from '../../utils/regExp/XSS';
 
 import { Emoji } from './Emoji';
 import { ForumMessage } from './ForumMessage';
@@ -20,7 +22,7 @@ import { Leaderboard } from './Leaderboard';
 import { Theme } from './Theme';
 
 /** Модель User
- * @property {number} user_id - id пользователя, первичный ключ, уникальный
+ * @property {number} id - id пользователя, первичный ключ, уникальный
  * @property {string} first_name - имя пользователя
  * @property {string} second_name - фамилия пользователя
  * @property {string} login - логин пользователя, необязательное поле
@@ -37,7 +39,7 @@ import { Theme } from './Theme';
 export class User extends Model<User> {
   @PrimaryKey
   @Column(DataType.INTEGER)
-  user_id!: number;
+  override id!: number;
 
   @Is(nameRegExp)
   @Column(DataType.STRING)
@@ -48,18 +50,21 @@ export class User extends Model<User> {
   second_name!: string;
 
   @Is(loginRegExp)
+  @Unique
   @Column(DataType.STRING)
   login?: string;
 
   @IsEmail
+  @Unique
   @Column(DataType.STRING)
   email?: string;
 
   @Is(phoneRegExp)
+  @Unique
   @Column(DataType.STRING)
   phone?: string;
 
-  @IsUrl
+  @Not(XSSRegExp)
   @Column(DataType.STRING)
   avatar?: string;
 
@@ -69,12 +74,12 @@ export class User extends Model<User> {
   @HasOne(() => Theme)
   theme!: Theme;
 
-  @HasMany(() => ForumTopic, 'author')
+  @HasMany(() => ForumTopic, 'author_id')
   topics!: ForumTopic[];
 
-  @HasMany(() => ForumMessage, 'author')
+  @HasMany(() => ForumMessage, 'author_id')
   messages!: ForumMessage[];
 
-  @HasMany(() => Emoji, 'author')
+  @HasMany(() => Emoji, 'author_id')
   emojis!: Emoji[];
 }

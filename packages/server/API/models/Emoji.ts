@@ -18,7 +18,7 @@ import { User } from './User';
 
 /** Модель Emoji
  * @property {number} id - id эмодзи, первичный ключ, автоинкремент
- * @property {number} author - id пользователя, который поставил эмодзи
+ * @property {number} author_id - id пользователя, который поставил эмодзи
  * @property {number} message_id - id сообщения, на которое поставили эмодзи
  * @property {string} emoji - эмодзи
  */
@@ -27,6 +27,10 @@ import { User } from './User';
   tableName: 'emojis',
   createdAt: 'created_at',
   updatedAt: 'updated_at',
+  indexes: [
+    { unique: false, fields: ['author_id'] },
+    { unique: false, fields: ['message_id'] },
+  ],
 })
 export class Emoji extends Model<Emoji> {
   @PrimaryKey
@@ -42,10 +46,10 @@ export class Emoji extends Model<Emoji> {
   @ForeignKey(() => User)
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  author!: number;
+  author_id!: number;
 
   @BelongsTo(() => User)
-  author_data!: User;
+  author!: User;
 
   @ForeignKey(() => ForumMessage)
   @AllowNull(false)

@@ -14,7 +14,7 @@ export const getUser = async (req: Request, res: Response) => {
   try {
     const user: User | null = await User.findOne({
       where: {
-        user_id: req.params.user_id,
+        id: req.params.user_id,
       },
       include: [{ model: Leaderboard }, { model: Theme }],
     });
@@ -36,7 +36,7 @@ export const getUser = async (req: Request, res: Response) => {
 export const createOrUpdateUser = async (req: Request, res: Response) => {
   try {
     const reqUser: User = req.body;
-    let user: User | null = await User.findByPk(reqUser.user_id);
+    let user: User | null = await User.findByPk(reqUser.id);
     if (!user) {
       user = await User.create(reqUser);
     } else {

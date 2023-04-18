@@ -19,13 +19,14 @@ export const getForumMessageById = async (req: Request, res: Response) => {
       include: [
         {
           model: User,
-          attributes: ['user_id', 'first_name', 'second_name', 'avatar'],
+          attributes: ['id', 'first_name', 'second_name', 'avatar'],
         },
         {
           model: Emoji,
-          attributes: ['id', 'emoji', 'author'],
+          attributes: ['id', 'emoji'],
         },
       ],
+      attributes: ['id', 'text', 'created_at', 'updated_at'],
     });
     if (forumMessage) {
       res.status(StatusCodes.OK).json(forumMessage);
@@ -53,13 +54,14 @@ export const getForumMessageByTopicId = async (req: Request, res: Response) => {
       include: [
         {
           model: User,
-          attributes: ['user_id', 'first_name', 'second_name', 'avatar'],
+          attributes: ['id', 'first_name', 'second_name', 'avatar'],
         },
         {
           model: Emoji,
-          attributes: ['id', 'emoji', 'author'],
+          attributes: ['id', 'emoji'],
         },
       ],
+      attributes: ['id', 'text', 'created_at', 'updated_at'],
     });
     if (forumMessages) {
       res.status(StatusCodes.OK).json(forumMessages);
@@ -80,6 +82,7 @@ export const getAllForumMessage = async (_req: Request, res: Response) => {
   try {
     const forumMessages: ForumMessage[] = await ForumMessage.findAll({
       include: [{ model: User }, { model: ForumTopic }, { model: Emoji }],
+      attributes: ['id', 'text', 'created_at', 'updated_at'],
     });
     res.status(StatusCodes.OK).json(forumMessages);
   } catch (e) {
@@ -95,7 +98,7 @@ export const getAllForumMessage = async (_req: Request, res: Response) => {
 export const createOrUpdateForumMessage = async (req: Request, res: Response) => {
   try {
     const reqForumMessage = req.body;
-    const user = await User.findByPk(reqForumMessage.author);
+    const user = await User.findByPk(reqForumMessage.author_id);
     if (!user) {
       res.status(StatusCodes.NOT_FOUND).json({ reason: 'Пользователь не найден' });
       return;
@@ -122,7 +125,6 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
 export const deleteForumMessageById = async (req: Request, res: Response) => {
   try {
     const forumMessage = await ForumMessage.findByPk(req.params.message_id);
-    console.log(forumMessage);
     if (forumMessage) {
       await forumMessage.destroy();
       res.status(StatusCodes.OK).json({ reason: 'Сообщение удалено' });
@@ -146,7 +148,7 @@ export const deleteForumMessageByTopicId = async (req: Request, res: Response) =
         topic_id: req.params.topic_id,
       },
     });
-    if (forumMessages) {
+    if (forumMessages.length) {
       for (const forumMessage of forumMessages) {
         await deleteAllEmojiByMessageId(forumMessage.id);
         await forumMessage.destroy();

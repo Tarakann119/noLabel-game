@@ -12,17 +12,17 @@ import {
 import { User } from './User';
 
 /** Модель Leaderboard
- * @property {number} user_id - id пользователя, первичный ключ, уникальный
+ * @property {number} id - id пользователя, первичный ключ, уникальный
  * @property {number} score - количество очков пользователя
  */
 
-@Table({ tableName: 'leaderboard', updatedAt: 'updated_at' })
+@Table({ tableName: 'leaderboards', updatedAt: 'updated_at' })
 export class Leaderboard extends Model<Leaderboard> {
   @PrimaryKey
   @ForeignKey(() => User)
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  user_id!: number;
+  override id!: number;
 
   @Column(DataType.INTEGER)
   score!: number;

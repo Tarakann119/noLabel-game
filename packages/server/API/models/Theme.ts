@@ -27,7 +27,7 @@ export class Theme extends Model<Theme> {
   @ForeignKey(() => User)
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  user_id!: number;
+  override id!: number;
 
   @IsIn([['dark', 'light']])
   @NotEmpty

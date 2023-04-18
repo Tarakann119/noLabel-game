@@ -7,6 +7,7 @@ import { currentUser } from '@store/selectors';
 import { Spacer } from '@ui/Spacer';
 import classNames from 'classnames';
 
+// По неизвестной причине, линтер на github actions считает, что тут есть ошибка в импорте
 import './index.scss';
 import '@assets/styles/App.scss';
 

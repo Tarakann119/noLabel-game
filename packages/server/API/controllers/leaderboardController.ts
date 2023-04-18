@@ -15,8 +15,8 @@ export const getLeaderboard = async (req: Request, res: Response) => {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
     }
     const leaderboard: Leaderboard[] = await Leaderboard.findAll({
-      attributes: ['score'],
-      include: [{ model: User, attributes: ['user_id', 'first_name', 'second_name', 'avatar'] }],
+      include: [{ model: User, attributes: ['id', 'first_name', 'second_name', 'avatar'] }],
+      attributes: ['score', 'updated_at'],
       order: [['score', 'DESC']],
       offset: req.body.offset,
       limit: req.body.limit,
@@ -36,7 +36,7 @@ export const getLeaderboardByUserId = async (req: Request, res: Response) => {
   try {
     const leaderboard = await Leaderboard.findOne({
       where: {
-        user_id: req.params.user_id,
+        id: req.params.user_id,
       },
       include: [{ model: User }],
     });
@@ -59,7 +59,7 @@ export const getLeaderboardByUserId = async (req: Request, res: Response) => {
  */
 export const createOrUpdateLeaderboard = async (req: Request, res: Response) => {
   try {
-    const userId = req.body.user_id;
+    const userId = req.body.id;
     const user = await User.findByPk(userId);
     const leaderboard = await Leaderboard.findByPk(userId);
     if (leaderboard) {
@@ -67,11 +67,11 @@ export const createOrUpdateLeaderboard = async (req: Request, res: Response) => 
         {
           // Если новый счет больше старого, то обновляем, иначе оставляем старый
           score: req.body.score > leaderboard.score ? req.body.score : leaderboard.score,
-          user_id: userId,
+          id: userId,
         },
         {
           where: {
-            user_id: userId,
+            id: userId,
           },
         }
       );

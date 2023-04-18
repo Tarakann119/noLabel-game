@@ -24,7 +24,12 @@ import { User } from './User';
  * @property {User} author - автор темы
  */
 
-@Table({ tableName: 'forum_topics', createdAt: 'created_at', updatedAt: 'updated_at' })
+@Table({
+  tableName: 'forum_topics',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  indexes: [{ unique: false, fields: ['author_id'] }],
+})
 export class ForumTopic extends Model<ForumTopic> {
   @PrimaryKey
   @AutoIncrement
@@ -39,10 +44,10 @@ export class ForumTopic extends Model<ForumTopic> {
   @ForeignKey(() => User)
   @AllowNull(false)
   @Column
-  author!: number;
+  author_id!: number;
 
   @BelongsTo(() => User)
-  author_full_data!: User;
+  author!: User;
 
   @HasMany(() => ForumMessage)
   messages!: ForumMessage[];

@@ -15,7 +15,7 @@ export const getTheme = async (req: Request, res: Response) => {
     if (!user) {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
     } else {
-      const theme: Theme | null = await Theme.findByPk(user.user_id);
+      const theme: Theme | null = await Theme.findByPk(user.id);
       if (!theme) {
         res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Тема не найдена' });
       } else {
@@ -35,19 +35,20 @@ export const getTheme = async (req: Request, res: Response) => {
 export const setTheme = async (req: Request, res: Response) => {
   try {
     const reqTheme: Theme = req.body;
-    const user: User | null = await User.findByPk(reqTheme.user_id);
+    const user: User | null = await User.findByPk(reqTheme.id);
     if (!user) {
       res
         .status(StatusCodes.BAD_REQUEST)
-        .json({ error: `Пользователь c id:${reqTheme.user_id} не найден` });
+        .json({ error: `Пользователь c id:${reqTheme.id} не найден` });
     } else {
-      const theme: Theme | null = await Theme.findByPk(reqTheme.user_id);
+      let theme: Theme | null = await Theme.findByPk(reqTheme.id);
       if (!theme) {
         await Theme.create(reqTheme);
       } else {
         await theme.update(reqTheme);
-        res.status(StatusCodes.ACCEPTED).json(theme);
       }
+      theme = await Theme.findByPk(reqTheme.id);
+      res.status(StatusCodes.ACCEPTED).json(theme);
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
