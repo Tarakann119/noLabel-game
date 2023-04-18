@@ -5,14 +5,13 @@ import {
   HasOne,
   Is,
   IsEmail,
+  IsUrl,
   Model,
   PrimaryKey,
   Table,
-  Unique,
 } from 'sequelize-typescript';
 
 import { loginRegExp, nameRegExp, phoneRegExp } from '../../utils/regExp/validation';
-import { SQLRegExp, XSSRegExp } from '../../utils/regExp/XSS';
 
 import { Emoji } from './Emoji';
 import { ForumMessage } from './ForumMessage';
@@ -37,33 +36,30 @@ import { Theme } from './Theme';
 })
 export class User extends Model<User> {
   @PrimaryKey
-  @Unique
-  @Is([loginRegExp, SQLRegExp, XSSRegExp])
   @Column(DataType.INTEGER)
   user_id!: number;
 
-  @Is([nameRegExp, SQLRegExp, XSSRegExp])
+  @Is(nameRegExp)
   @Column(DataType.STRING)
   first_name!: string;
 
-  @Is([nameRegExp, SQLRegExp, XSSRegExp])
+  @Is(nameRegExp)
   @Column(DataType.STRING)
   second_name!: string;
 
-  @Is([loginRegExp, SQLRegExp, XSSRegExp])
+  @Is(loginRegExp)
   @Column(DataType.STRING)
   login?: string;
 
   @IsEmail
-  @Is([SQLRegExp, XSSRegExp])
   @Column(DataType.STRING)
   email?: string;
 
-  @Is([phoneRegExp, SQLRegExp, XSSRegExp])
+  @Is(phoneRegExp)
   @Column(DataType.STRING)
   phone?: string;
 
-  @Is([SQLRegExp, XSSRegExp])
+  @IsUrl
   @Column(DataType.STRING)
   avatar?: string;
 

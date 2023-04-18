@@ -5,13 +5,13 @@ import {
   Column,
   DataType,
   ForeignKey,
-  Is,
   Model,
+  Not,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 
-import { SQLRegExp, XSSRegExp } from '../../utils/regExp/XSS';
+import { XSSRegExp } from '../../utils/regExp/XSS';
 
 import { ForumMessage } from './ForumMessage';
 import { User } from './User';
@@ -35,7 +35,7 @@ export class Emoji extends Model<Emoji> {
   override id!: number;
 
   @AllowNull(false)
-  @Is([SQLRegExp, XSSRegExp])
+  @Not(XSSRegExp)
   @Column(DataType.STRING)
   emoji!: string;
 

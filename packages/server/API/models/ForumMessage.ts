@@ -6,13 +6,13 @@ import {
   DataType,
   ForeignKey,
   HasMany,
-  Is,
   Model,
+  Not,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 
-import { SQLRegExp, XSSRegExp } from '../../utils/regExp/XSS';
+import { XSSRegExp } from '../../utils/regExp/XSS';
 
 import { Emoji } from './Emoji';
 import { ForumTopic } from './ForumTopic';
@@ -37,7 +37,7 @@ export class ForumMessage extends Model<ForumMessage> {
   override id!: number;
 
   @AllowNull(false)
-  @Is([SQLRegExp, XSSRegExp])
+  @Not(XSSRegExp)
   @Column(DataType.STRING)
   text!: string;
 

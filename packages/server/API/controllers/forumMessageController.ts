@@ -95,6 +95,11 @@ export const getAllForumMessage = async (_req: Request, res: Response) => {
 export const createOrUpdateForumMessage = async (req: Request, res: Response) => {
   try {
     const reqForumMessage = req.body;
+    const user = await User.findByPk(reqForumMessage.author);
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND).json({ reason: 'Пользователь не найден' });
+      return;
+    }
     const forumMessage = await ForumMessage.findByPk(reqForumMessage.message_id);
     if (forumMessage) {
       await forumMessage.update(reqForumMessage);

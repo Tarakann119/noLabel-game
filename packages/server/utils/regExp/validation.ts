@@ -6,6 +6,3 @@ export const loginRegExp = /^[a-z0-9_-]{2,19}$/;
 
 /** RegExp для валидации first_name и second_name */
 export const nameRegExp = /^[a-zA-Zа-яА-Я][a-zA-Za-яА-Я-\\.]{1,20}$/g;
-
-/** RegExp для валидации url */
-export const urlRegExp = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
