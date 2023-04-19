@@ -26,9 +26,10 @@ const initialState = {
   },
 };
 
-const userReducer = createSlice({
+export const userReducer = createSlice({
   name: 'user',
   initialState,
+
   reducers: {
     setUser(state, { payload }) {
       state.user = payload;
@@ -47,8 +48,8 @@ const userReducer = createSlice({
 });
 
 export const { setUser, removeUser } = userReducer.actions;
-
 export default userReducer.reducer;
+
 const redirectUri = `http://localhost:3000/`;
 
 export const loginWithToken = createAsyncThunk('user/token', async () => {
@@ -176,9 +177,14 @@ export const getCurrentUser = createAsyncThunk(
       withCredentials: true,
     })
       .then((response) => {
-        showSuccess('Данные пользователя загружены!');
+        if (data !== 'done') {
+          showSuccess('Данные пользователя загружены!');
+        }
+
         const user = (response as AxiosResponse).data as UserInfo;
-        localStorage.setItem('userId', user.id);
+
+        localStorage.setItem('user', JSON.stringify(user));
+
         thunkAPI.dispatch(
           setUser({
             email: user.email,
@@ -193,11 +199,15 @@ export const getCurrentUser = createAsyncThunk(
         );
       })
       .then(() => {
-        navigate('/profile');
+        if (data !== 'done') {
+          navigate('/profile');
+        }
       })
       .catch((error) => {
         console.log(error);
-        showError();
+        if (data !== 'done') {
+          showError();
+        }
       });
   }
 );
@@ -344,6 +354,8 @@ export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
         'Content-Type': 'application/json',
       },
     });
+
+    localStorage.removeItem('user');
   } catch (e) {
     console.log(e);
   } finally {
