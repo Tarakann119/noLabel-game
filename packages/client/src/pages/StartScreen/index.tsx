@@ -1,24 +1,9 @@
-import { useEffect } from 'react';
-
 import { Link } from '@/components/Link';
 import { Title } from '@/components/Title';
-import { useAppDispatch } from '@/hooks/reduxHooks';
-import { signInWithToken } from '@/store/slices/Autification';
 
 import './index.scss';
 
 export const StartScreen = () => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    const params = new URL(document.location.href).searchParams;
-    const code = params.get('code');
-
-    if (code) {
-      window.history.pushState({}, '', 'http://localhost:3000/');
-      dispatch(signInWithToken({ code }));
-    }
-  }, []);
-
   return (
     <main className='start-screen'>
       <div className='start-screen__face bg-image_hero container'>

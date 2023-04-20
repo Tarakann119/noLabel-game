@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
 import { Header } from '@/components/Header';
+import { useAppDispatch } from '@/hooks/reduxHooks';
 import { AboutUs } from '@/pages/AboutUs';
 import { Error404 } from '@/pages/Errors/404';
 import { Forum } from '@/pages/Forum';
@@ -16,9 +18,25 @@ import { ChangePassword } from '@/pages/Profile/ChangePassword';
 import { Register } from '@/pages/Register';
 import { StartScreen } from '@/pages/StartScreen';
 import { currentUser } from '@/store/selectors';
+import { getCurrentUser, signInWithToken } from '@/store/slices/Autification';
 
 export const Layout = () => {
   const user = useSelector(currentUser);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!user.id) {
+      const params = new URL(document.location.href).searchParams;
+      const code = params.get('code');
+
+      if (code) {
+        window.history.pushState({}, '', 'http://localhost:3000/');
+        dispatch(signInWithToken({ code }));
+      } else {
+        dispatch(getCurrentUser());
+      }
+    }
+  }, []);
 
   const RequireAuth = () => {
     if (!user.id) {
