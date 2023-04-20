@@ -26,9 +26,10 @@ const initialState = {
   },
 };
 
-const userReducer = createSlice({
+export const userReducer = createSlice({
   name: 'user',
   initialState,
+
   reducers: {
     setUser(state, { payload }) {
       state.user = payload;
@@ -47,8 +48,70 @@ const userReducer = createSlice({
 });
 
 export const { setUser, removeUser } = userReducer.actions;
-
 export default userReducer.reducer;
+
+const redirectUri = `http://localhost:3000/`;
+
+export const loginWithToken = createAsyncThunk('user/token', async () => {
+  axios(`https://ya-praktikum.tech/api/v2/oauth/yandex/service-id?redirect_uri=${redirectUri}`, {
+    method: 'get',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+    responseType: 'json',
+  })
+    .then((response) => {
+      document.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.data.service_id}&redirect_uri=${redirectUri}`;
+    })
+    .catch(() => {
+      showError();
+    });
+});
+
+export const signInWithToken = createAsyncThunk(
+  'user/tokenSignIn',
+  async (
+    {
+      code,
+      navigate,
+    }: {
+      code: string;
+      navigate: NavigateFunction;
+    },
+    thunkAPI
+  ) => {
+    axios('https://ya-praktikum.tech/api/v2/oauth/yandex', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+      responseType: 'json',
+      data: { code: code, redirect_uri: redirectUri },
+    })
+      .then((response) => {
+        if (response.data === 'OK') {
+          try {
+            toast.success('Вы успешно вошли в систему!');
+            thunkAPI.dispatch(getCurrentUser({ navigate }));
+          } catch {
+            showError();
+          }
+        }
+      })
+      .catch((error) => {
+        if (error.response.data.reason === 'User already in system') {
+          thunkAPI.dispatch(getCurrentUser({ navigate }));
+        } else {
+          showError();
+        }
+      });
+  }
+);
+
 export const handleSubmitLogin = createAsyncThunk(
   'user/login',
   async (
@@ -78,7 +141,7 @@ export const handleSubmitLogin = createAsyncThunk(
         if (response.data === 'OK') {
           try {
             toast.success('Вы успешно вошли в систему!');
-            thunkAPI.dispatch(getCurrentUser({ data, navigate }));
+            thunkAPI.dispatch(getCurrentUser({ navigate }));
           } catch {
             showError();
           }
@@ -86,7 +149,7 @@ export const handleSubmitLogin = createAsyncThunk(
       })
       .catch((error) => {
         if (error.response.data.reason === 'User already in system') {
-          thunkAPI.dispatch(getCurrentUser({ data, navigate }));
+          thunkAPI.dispatch(getCurrentUser({ navigate }));
         } else {
           setFieldError(error.response.data.reason);
           showError();
@@ -99,17 +162,16 @@ export const getCurrentUser = createAsyncThunk(
   'user/getUser',
   async (
     {
-      data,
       navigate,
+      data,
     }: {
       navigate: NavigateFunction;
-      data: string;
+      data?: string;
     },
     thunkAPI
   ) => {
     axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
       method: 'get',
-      data: data,
       headers: {
         Accept: '*/*',
         'Content-Type': 'application/json; charset=utf-8',
@@ -117,9 +179,14 @@ export const getCurrentUser = createAsyncThunk(
       withCredentials: true,
     })
       .then((response) => {
-        showSuccess('Данные пользователя загружены!');
+        if (data !== 'init') {
+          showSuccess('Данные пользователя загружены!');
+        }
+
         const user = (response as AxiosResponse).data as UserInfo;
-        localStorage.setItem('userId', user.id);
+
+        localStorage.setItem('user', JSON.stringify(user));
+
         thunkAPI.dispatch(
           setUser({
             email: user.email,
@@ -134,11 +201,15 @@ export const getCurrentUser = createAsyncThunk(
         );
       })
       .then(() => {
-        navigate('/profile');
+        if (data !== 'init') {
+          navigate('/profile');
+        }
       })
       .catch((error) => {
         console.log(error);
-        showError();
+        if (data !== 'init') {
+          showError();
+        }
       });
   }
 );
@@ -164,6 +235,9 @@ export const changeUserProfile = createAsyncThunk(
     editValue.display_name = values.login;
 
     const data = JSON.stringify(editValue);
+
+    console.log(data);
+
     axios('https://ya-praktikum.tech/api/v2/user/profile', {
       method: 'put',
       data: data,
@@ -175,7 +249,7 @@ export const changeUserProfile = createAsyncThunk(
     })
       .then(() => {
         showSuccess('Пользователь изменен!');
-        thunkAPI.dispatch(getCurrentUser({ data, navigate }));
+        thunkAPI.dispatch(getCurrentUser({ navigate }));
       })
       .then(() => {
         navigate('/profile');
@@ -285,6 +359,8 @@ export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
         'Content-Type': 'application/json',
       },
     });
+
+    localStorage.removeItem('user');
   } catch (e) {
     console.log(e);
   } finally {
