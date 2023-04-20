@@ -163,8 +163,10 @@ export const getCurrentUser = createAsyncThunk(
   async (
     {
       navigate,
+      data,
     }: {
       navigate: NavigateFunction;
+      data?: string;
     },
     thunkAPI
   ) => {
@@ -177,7 +179,7 @@ export const getCurrentUser = createAsyncThunk(
       withCredentials: true,
     })
       .then((response) => {
-        if (data !== 'done') {
+        if (data !== 'init') {
           showSuccess('Данные пользователя загружены!');
         }
 
@@ -199,13 +201,13 @@ export const getCurrentUser = createAsyncThunk(
         );
       })
       .then(() => {
-        if (data !== 'done') {
+        if (data !== 'init') {
           navigate('/profile');
         }
       })
       .catch((error) => {
         console.log(error);
-        if (data !== 'done') {
+        if (data !== 'init') {
           showError();
         }
       });
@@ -233,6 +235,9 @@ export const changeUserProfile = createAsyncThunk(
     editValue.display_name = values.login;
 
     const data = JSON.stringify(editValue);
+
+    console.log(data);
+
     axios('https://ya-praktikum.tech/api/v2/user/profile', {
       method: 'put',
       data: data,

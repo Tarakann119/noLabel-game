@@ -27,7 +27,7 @@ export const App = () => {
     const user = localStorage.getItem('user');
 
     if (user) {
-      dispatch(getCurrentUser({ navigate, data: 'done' }));
+      dispatch(getCurrentUser({ navigate, data: 'init' }));
       dispatch(fetchLeaderboard());
       dispatch(pushUserScore({ score: 100 }));
     }
