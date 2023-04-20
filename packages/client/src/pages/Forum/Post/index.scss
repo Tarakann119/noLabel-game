@@ -1,0 +1,31 @@
+@import '@/assets/styles/helpers/helpers';
+
+.post-page {
+  // .post-page__content
+  &__content {
+    padding: 1rem;
+    border: $border var(--text);
+    border-radius: $border-radius;
+  }
+
+  // .post-page__send
+  &__send {
+    margin-left: auto;
+  }
+
+  // .post-page__message
+  &__message {
+    width: 100%;
+    height: 200px;
+  }
+
+  // .post-page__not-authorized
+  &__not-authorized {
+    font-size: $text-md-size;
+    text-align: center;
+
+    .link {
+      color: var(--primary);
+    }
+  }
+}

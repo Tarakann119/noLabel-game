@@ -1,8 +1,124 @@
-.forum {
-  &__container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+@import '@/assets/styles/helpers/helpers';
+
+.forum-page {
+  // .forum-page__header
+  &__header {
+    @include flex-center;
+
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  // .forum-page__search
+  &__search {
+    flex-grow: 1;
+
+    .form-control__wrapper {
+      width: 100%;
+    }
+
+    .form-control__input {
+      font-size: $text-md-size;
+
+      @include mq(sm) {
+        font-size: $text-bg-size;
+      }
+    }
+  }
+
+  // .forum-page__button
+  &__button {
+    &::after {
+      display: none;
+    }
+  }
+
+  // .forum-page__filter
+  &__filter {
+    color: var(--text);
+    font-weight: bold;
+    font-size: $text-md-size;
+    border: $border var(--text);
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+
+    @include mq(lg) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: space-between;
+    }
+  }
+
+  // .forum-page__group
+  &__group {
+    @include flex-center-vert;
+
+    justify-content: center;
+    min-height: $min-control-size;
+    padding: 0 0.5rem;
+
+    @include mq(lg) {
+      width: $forum-col-width;
+    }
+
+    // .forum-page__group_main
+    &_main {
+      @include mq(lg) {
+        justify-content: flex-start;
+        width: $forum-main-col-width;
+        padding-left: 1rem;
+      }
+    }
+
+    // .forum-page__group_right
+    &_right {
+      @include mq(lg) {
+        padding-right: 1rem;
+      }
+    }
+  }
+
+  // .forum-page__sort
+  &__sort {
+    position: relative;
+    color: var(--text);
+    font-size: $text-md-size;
+    font-family: $font-base;
+
+    // .forum-page__sort::after
+    &::after {
+      @include css-triangle(var(--text), down, 6px, static);
+
+      margin: 3px 0 0 3px;
+      content: '';
+    }
+
+    // .forum-page__sort_toggle
+    &_toggle {
+      &::after {
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid var(--text);
+      }
+    }
+  }
+
+  // .forum-page__topics
+  &__topics {
+    @include flex-column;
+
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: $border var(--text);
+    border-top: none;
+    border-bottom-right-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+
+  // .forum-page__pagination
+  &__pagination {
+    justify-content: flex-end;
+    margin-bottom: 1rem;
   }
 }

@@ -1,0 +1,83 @@
+@import '@/assets/styles/helpers/helpers';
+
+.topic {
+  @include flex-column;
+
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  color: var(--text);
+  font-size: $text-md-size;
+
+  // .topic:not(:last-child)
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--text);
+  }
+
+  @include mq(md) {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  // .topic__group
+  &__group {
+    @include mq(md) {
+      gap: 0.5rem;
+      width: $forum-col-width;
+      @include flex-column;
+    }
+
+    // .topic__group_main
+    &_main {
+      @include mq(md) {
+        width: $forum-main-col-width;
+      }
+
+      .topic__created {
+        margin-left: 0.5rem;
+      }
+    }
+
+    // .topic__group_right
+    &_right {
+      @include mq(lg) {
+        text-align: right;
+      }
+    }
+
+    // .topic__group_center
+    &_center {
+      @include mq(lg) {
+        text-align: center;
+      }
+    }
+  }
+
+  // .topic__title
+  &__title {
+    @include text-shorten(2);
+
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+    font-size: $text-bg-size;
+    font-family: $font-title;
+    letter-spacing: 1px;
+    border-radius: $border-radius;
+    transition: all $transition;
+
+    @include mq(md) {
+      @include text-shorten();
+    }
+
+    // .topic__title::hover
+    &:hover {
+      background-color: var(--popup);
+    }
+
+    // .topic__title::after
+    &::after {
+      display: none;
+    }
+  }
+}
