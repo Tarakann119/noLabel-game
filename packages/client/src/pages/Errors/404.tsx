@@ -1,15 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@components/Button';
-import { Title } from '@components/Title';
+import { Link } from '@/components/Link';
+import { Title } from '@/components/Title';
 
 import './index.scss';
 
-export const Error404 = () => {
-  const navigate = useNavigate();
-  return (
-    <div className='container-content bg-image_404 error-page'>
-      <Title text='Ошибка 404' />
-      <Button onClick={() => navigate(-1)} text='Вернуться назад' />
-    </div>
-  );
-};
+export const Error404 = () => (
+  <main className='main main-bg main-h container bg-image_error error-page'>
+    <Title level='1'>404: Страница не найдена</Title>
+    <Link className='error-page__link' to='/'>
+      Вернуться на главную
+    </Link>
+  </main>
+);

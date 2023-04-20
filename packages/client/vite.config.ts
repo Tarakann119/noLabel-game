@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import react from '@vitejs/plugin-react';
+import autoprefixer from 'autoprefixer';
 import dotenv from 'dotenv';
 import path from 'path';
 import { defineConfig } from 'vite';
@@ -19,14 +19,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@ui': path.resolve(__dirname, './src/ui'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@store': path.resolve(__dirname, './src/store'),
-      '@game': path.resolve(__dirname, '.src/game'),
       '@typings': path.resolve(__dirname, './typings'),
-      '@utils': path.resolve(__dirname, './utils'),
     },
   },
   plugins: [
@@ -34,21 +27,15 @@ export default defineConfig({
     VitePluginFonts({
       custom: {
         families: [
-          { name: 'Romvel Cyr', local: 'RomvelCyr', src: './src/assets/fonts/RomvelCyr.*' },
           {
-            name: 'Cormorant-Bold',
+            name: 'Romvel Cyr',
+            local: 'RomvelCyr',
+            src: './src/assets/fonts/RomvelCyr.*',
+          },
+          {
+            name: 'Cormorant Bold',
             local: 'Cormorant-Bold',
             src: './src/assets/fonts/Cormorant-Bold.*',
-          },
-          {
-            name: 'Cormorant-Regular',
-            local: 'Cormorant-Regular',
-            src: './src/assets/fonts/Cormorant-Regular.*',
-          },
-          {
-            name: 'Cormorant-SemiBold',
-            local: 'Cormorant-SemiBold',
-            src: './src/assets/fonts/Cormorant-SemiBold.*',
           },
         ],
       },
@@ -58,6 +45,7 @@ export default defineConfig({
       srcDir: 'src',
       filename: 'sw.ts',
       manifest: {
+        id: '/',
         name: 'Tower defence by noLabel',
         short_name: 'nL TowerDefence',
         scope: '/',
@@ -102,4 +90,9 @@ export default defineConfig({
       },
     }),
   ],
+  css: {
+    postcss: {
+      plugins: [autoprefixer],
+    },
+  },
 });

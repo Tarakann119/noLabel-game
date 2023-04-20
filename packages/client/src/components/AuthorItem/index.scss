@@ -1,0 +1,53 @@
+@import '@/assets/styles/helpers/helpers';
+
+.author-item {
+  @include flex-column;
+
+  gap: 1rem;
+  align-items: center;
+
+  // .author-item__picture
+  &__picture {
+    display: block;
+    max-width: 200px;
+  }
+
+  // .author-item__img
+  &__img {
+    width: 100%;
+    object-fit: cover;
+    transform: scale(-1, 1);
+  }
+
+  // .author-item__name
+  &__name {
+    display: block;
+    font-size: $text-bg-size;
+    font-family: $font-title;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+
+  // .author-item__img
+  &__group {
+    @include flex-center;
+
+    gap: 1rem;
+  }
+
+  // .author-item__link
+  &__link {
+    width: $min-control-size;
+    height: $min-control-size;
+    fill: var(--text);
+
+    .icon {
+      width: 100%;
+      height: 100%;
+    }
+    // .author-item__link::after
+    &::after {
+      display: none;
+    }
+  }
+}

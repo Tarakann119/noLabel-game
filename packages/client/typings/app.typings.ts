@@ -5,16 +5,16 @@ export enum EnemiesList {
   ORC_WARRIOR = 'ORC_WARRIOR',
 }
 
-export type EnemyType = keyof typeof EnemiesList;
-
 export enum TowersList {
   ARCHER = 'ARCHER',
   STONE = 'STONE',
 }
 
-export type TowerType = keyof typeof TowersList;
+export type TEnemy = keyof typeof EnemiesList;
 
-export type TowerListItemType = {
+export type TTower = keyof typeof TowersList;
+
+export type TTowerListItem = {
   x: number;
   y: number;
   width: number;
@@ -33,12 +33,12 @@ export type TGameSettings = {
   coins: number;
   waves: {
     enemies: {
-      type: EnemyType;
+      type: TEnemy;
       count: number;
       waveCount: number;
     }[];
   }[];
-  towers: TowerType[];
+  towers: TTower[];
   placementTiles: number[];
   waypoints: {
     x: number;
@@ -70,15 +70,8 @@ export type TBuildingSettings = {
   };
 };
 
-export type State = {
-  game: GameState;
-};
-export type GameState = {
-  points: number;
-};
-
-export type UserInfo = {
-  id: string;
+export type TUser = {
+  id: number;
   first_name: string;
   second_name: string;
   display_name: string | null;
@@ -88,11 +81,13 @@ export type UserInfo = {
   phone: string | null;
 };
 
-export type LoginType = {
+export type TLogin = {
   login: string;
   password: string;
 };
-export type ChangeProfileType = {
+
+export type TChangeProfile = {
+  display_name: string;
   first_name: string;
   second_name: string;
   login: string;
@@ -100,23 +95,29 @@ export type ChangeProfileType = {
   phone: string;
 };
 
-export type ChangePasswordType = {
+export type TChangePassword = {
   oldPassword: string;
   newPassword: string;
   confirmPassword: string;
 };
 
-export type ProfileType = {
+export type TSignupRequest = {
   first_name: string;
   second_name: string;
   login: string;
+  email: string;
+  phone: string;
   password: string;
   confirmPassword: string;
 };
 
-export type LeaderboardResponse = Record<'data', LeaderboardUserType>[];
+export type TLeaderboardResponse = {
+  data: Record<'data', TLeaderboardUser>[];
+  status: number;
+  statusText: string;
+};
 
-export type LeaderboardUserType = {
+export type TLeaderboardUser = {
   id: number;
   first_name: string;
   second_name: string;
@@ -125,16 +126,17 @@ export type LeaderboardUserType = {
   avatar?: string;
 };
 
-export type LeaderboardType = LeaderboardUserType[] | [];
+export type TLeaderboard = TLeaderboardUser[] | [];
 
-export type leaderboardRequest = {
-  ratingFieldName: string;
-  cursor: number;
-  limit: number;
+export type TLeaderboardRequest = {
+  score: number;
 };
 
-export type pushLeaderboardRequest = {
-  data: LeaderboardUserType;
-  ratingFieldName: 'towerDefenceScore';
-  teamName: 'tower-defence-001';
+export type TAPIResponseError = {
+  response: {
+    data: {
+      reason: string;
+    };
+    status: number;
+  };
 };

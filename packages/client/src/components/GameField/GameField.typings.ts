@@ -1,3 +1,3 @@
-export type GameFieldProps = {
+export type TGameFieldProps = {
   mapName: string;
 };

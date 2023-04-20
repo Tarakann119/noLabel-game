@@ -1,0 +1,16 @@
+@import '@/assets/styles/helpers/helpers';
+
+.dropdown {
+  position: relative;
+
+  // .dropdown__menu
+  &__menu {
+    @include popup;
+
+    position: absolute;
+    right: 0;
+    @include flex-column;
+
+    padding: 1rem;
+  }
+}

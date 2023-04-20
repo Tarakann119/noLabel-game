@@ -1,4 +1,4 @@
-export type AvatarProps = {
+export type TAvatarProps = {
   size?: 'default' | 'small' | 'header';
   className?: string;
   isLink?: boolean;

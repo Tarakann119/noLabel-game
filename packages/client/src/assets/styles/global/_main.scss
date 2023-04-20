@@ -1,0 +1,17 @@
+.main {
+  padding: 1rem 0;
+
+  // .main-h
+  &-h {
+    min-height: calc(100vh - 77px);
+
+    @include mq(lg) {
+      min-height: calc(100vh - 81px);
+    }
+  }
+
+  // .main-bg
+  &-bg {
+    background-color: var(--background);
+  }
+}

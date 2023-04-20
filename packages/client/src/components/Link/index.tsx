@@ -1,16 +1,15 @@
 import { FC } from 'react';
-import { memo } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { LinkProps } from './Link.typings';
+import { TLinkProps } from './Link.typings';
 
-import '@Button/index.css';
+import './index.scss';
 
-export const Link: FC<LinkProps> = memo(({ href, text, view = 'primary', ...props }) => {
+export const Link: FC<TLinkProps> = ({ children, className, to }) => {
   return (
-    <RouterLink className={classNames('button', `button_${view}`)} to={href} {...props}>
-      {text}
+    <RouterLink className={classNames('link', className)} to={to}>
+      {children}
     </RouterLink>
   );
-});
+};

@@ -1,143 +1,137 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { handleSubmitRegistration } from '@components/Autification/slice';
-import { Button } from '@components/Button';
-import { InputValidate } from '@components/InputValidate';
-import { Title } from '@components/Title';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
-import classNames from 'classnames';
-import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { TSignupRequest } from '@typings/app.typings';
+import { Field, FieldProps, Form, Formik } from 'formik';
 
-import './index.scss';
-
-const SignupSchema = Yup.object().shape({
-  first_name: Yup.string()
-    .min(2, 'Слишком короткое имя!')
-    .max(10, 'Тебя правда так зовут?!')
-    .matches(/^[a-zA-Zа-яА-Я][a-zA-Za-яА-Я-\\.]{1,20}$/g)
-    .required('Поле не может быть пустым'),
-  second_name: Yup.string()
-    .min(2, 'Слишком короткое имя!')
-    .max(10, 'Тебя правда так зовут?!')
-    .matches(/^[a-zA-Zа-яА-Я][a-zA-Za-яА-Я-\\.]{1,20}$/g)
-    .required('Поле не может быть пустым'),
-  login: Yup.string()
-    .min(2, 'Слишком короткий!')
-    .max(10, 'Слишком длинный!')
-    .matches(/^[a-z0-9_-]{2,19}$/, 'Поле зполнено некорректно')
-    .required('Поле не может быть пустым'),
-  email: Yup.string()
-    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i, 'Поле зполнено некорректно')
-    .required('Поле не может быть пустым'),
-  phone: Yup.string()
-    .matches(/^[\d\\+][\d\\(\\)\\ -]{9,14}\d$/, 'Поле зполнено некорректно')
-    .required('Поле не может быть пустым'),
-  password: Yup.string()
-    .min(2, 'Слишком короткий!')
-    .max(10, 'Слишком длинный!')
-    .matches(/(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,40}/g, 'Поле зполнено некорректно')
-    .required('Поле не может быть пустым'),
-  confirmPassword: Yup.string()
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    .oneOf([Yup.ref('password'), null], 'Пароли не совпадают!'),
-});
+import { Button } from '@/components/Button';
+import { InputValidate } from '@/components/InputValidate';
+import { Link } from '@/components/Link';
+import { Loader } from '@/components/Loader';
+import { Title } from '@/components/Title';
+import { useAppDispatch } from '@/hooks/reduxHooks';
+import { useLoading } from '@/hooks/useLoading';
+import { currentUser } from '@/store/selectors';
+import { handleSubmitRegistration } from '@/store/slices/Autification';
+import { showError, showSuccess } from '@/utils/toastifyNotifications';
+import { SignupSchema } from '@/validationSchemas';
 
 export const Register = () => {
   const navigate = useNavigate();
-  const [fieldError, setFieldError] = useState(null);
   const dispatch = useAppDispatch();
+  const user = useSelector(currentUser);
+  const { loading, showLoading, hideLoading } = useLoading();
+  const initialValues: TSignupRequest = {
+    first_name: '',
+    second_name: '',
+    login: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleLogin = async (cb: any) => {
+    showLoading();
+
+    try {
+      await dispatch(cb);
+      showSuccess('Вы успешно зарегистрированы.');
+    } catch (error) {
+      showError(error as string);
+    } finally {
+      hideLoading();
+    }
+  };
+  const formFields: {
+    name: string;
+    label: string;
+    type: 'text' | 'password' | 'email' | 'tel' | 'search';
+  }[] = [
+    {
+      name: 'first_name',
+      label: 'Имя',
+      type: 'text',
+    },
+    {
+      name: 'second_name',
+      label: 'Фамилия',
+      type: 'text',
+    },
+    {
+      name: 'login',
+      label: 'Логин',
+      type: 'text',
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email',
+    },
+    {
+      name: 'phone',
+      label: 'Номер телефона',
+      type: 'tel',
+    },
+    {
+      name: 'password',
+      label: 'Пароль',
+      type: 'password',
+    },
+    {
+      name: 'confirmPassword',
+      label: 'Подтвердите пароль',
+      type: 'password',
+    },
+  ];
+
+  useEffect(() => {
+    if (user.id) {
+      const path = window.localStorage.getItem('destinationPath') ?? '/';
+      navigate(`${path}`);
+    }
+  }, [user]);
 
   return (
-    <div className={classNames('container-content', 'bg-image_login', 'container-content_main')}>
-      <Formik
-        initialValues={{
-          first_name: '',
-          second_name: '',
-          login: '',
-          email: '',
-          phone: '',
-          password: '',
-          confirmPassword: '',
-        }}
-        validationSchema={SignupSchema}
-        onSubmit={(values) => {
-          dispatch(
-            handleSubmitRegistration({
-              navigate: navigate,
-              values: values,
-              setFieldError: setFieldError,
-            })
-          );
-        }}>
-        {({ errors, values, handleChange }) => (
-          <Form className={classNames('colum-6', 'container__reg-form')}>
-            <Title text='Регистрация' />
-            <InputValidate
-              handleChange={handleChange}
-              name='first_name'
-              type='text'
-              label='Имя'
-              value={values.first_name}
-              error={errors.first_name}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='second_name'
-              type='text'
-              label='Фамилия'
-              value={values.second_name}
-              error={errors.second_name}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='login'
-              type='text'
-              label='Логин'
-              value={values.login}
-              error={errors.login}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='email'
-              type='text'
-              label='Ваша почта'
-              value={values.email}
-              error={errors.email}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='phone'
-              type='text'
-              label='Номер телефона'
-              value={values.phone}
-              error={errors.phone}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='password'
-              type='password'
-              label='Пароль'
-              value={values.password}
-              error={errors.password}
-            />
-            <InputValidate
-              handleChange={handleChange}
-              name='confirmPassword'
-              type='password'
-              label='Повторите пароль'
-              value={values.confirmPassword}
-              error={errors.confirmPassword}
-            />
-            <div>{fieldError}</div>
-            <Button text='Регистрация' type='submit' className='custom-button' />
-            <Link className='plane-link' to={'/login'}>
-              Уже зарегистрированы? Войти!
-            </Link>
-          </Form>
-        )}
-      </Formik>
-    </div>
+    <main className='main main-h main-bg form-page bg-image_form container'>
+      <div className='form-page__wrapper main-h'>
+        <div className='form-page__content'>
+          <Title level='1' className='form-page__title'>
+            Регистрация
+          </Title>
+
+          <Formik
+            initialValues={initialValues}
+            validationSchema={SignupSchema}
+            onSubmit={(values: TSignupRequest) =>
+              handleLogin(handleSubmitRegistration({ values }))
+            }>
+            {() => (
+              <Form className='form form-page__form'>
+                {loading && <Loader />}
+
+                {formFields.map(({ name, type, label }) => (
+                  <Field key={name} name={name}>
+                    {({ field, meta }: FieldProps) => (
+                      <InputValidate label={label} type={type} field={field} meta={meta} />
+                    )}
+                  </Field>
+                ))}
+
+                <Button view='primary' type='submit' className='form-page__button'>
+                  Регистрация
+                </Button>
+
+                <div className='form-page__links'>
+                  <Link className='form-page__link' to='/login'>
+                    Уже зарегистрированы? Войти.
+                  </Link>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    </main>
   );
 };

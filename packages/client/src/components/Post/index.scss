@@ -1,0 +1,83 @@
+@import '@/assets/styles/helpers/helpers';
+
+.post {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  color: var(--text);
+  font-size: $text-md-size;
+  border-bottom: $border var(--text);
+
+  // .post-title
+  &-title {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  // .post-reactions
+  &-reactions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    // .post-reactions__item
+    &__item {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      background-color: var(--popup);
+      border-radius: $border-radius;
+      fill: var(--text);
+    }
+
+    // .post-reactions__icon
+    &__icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  // .post__user-info
+  &__user-info {
+    @include flex-center-vert;
+
+    margin-bottom: 1rem;
+  }
+
+  // .post__group
+  &__group {
+    @include flex-column;
+  }
+
+  // .post__buttons
+  &__buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+  }
+
+  // .post__author
+  &__author {
+    margin-left: 1rem;
+  }
+
+  // .post__created
+  &__created {
+    margin-bottom: 0.5rem;
+  }
+
+  // .post__text
+  &__text {
+    margin-bottom: 1rem;
+  }
+
+  // .post__button
+  &__button {
+    fill: var(--primary);
+
+    // .post__button:hover
+    &:hover {
+      fill: var(--primary-dark);
+    }
+  }
+}

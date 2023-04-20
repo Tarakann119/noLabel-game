@@ -1,0 +1,35 @@
+:root[data-theme='light'] {
+  --body-color: #1e1f1e;
+  --background: rgb(43 46 43 / 70%);
+  --overlay: rgb(30 31 30 / 70%);
+  --popup: rgb(50 52 53 / 100%);
+  --text: #fff;
+  --text-disable: #b1ad99;
+  --primary: #7185f8;
+  --primary-dark: #6b7ee9;
+  --box-shadow-primary: rgb(222 167 75 / 77%);
+  --fields-bg: rgb(193 211 255 / 80%);
+  --button-border: #727272;
+  --button-disable: linear-gradient(90deg, rgb(122 112 99 / 100%) 0%, rgb(71 70 64 / 100%) 100%);
+  --header-gradient: linear-gradient(90deg, #484844 0%, #66655b 50%, #41413c 100%);
+  --danger: #fa4343;
+  --form-bg: #323435;
+}
+
+:root[data-theme='dark'] {
+  --body-color: #1e1f1e;
+  --background: rgb(43 46 43 / 70%);
+  --overlay: rgb(30 31 30 / 70%);
+  --popup: rgb(50 52 53 / 100%);
+  --text: #fff;
+  --text-disable: #b1ad99;
+  --primary: #dea74b;
+  --primary-dark: #bb9046;
+  --box-shadow-primary: rgb(222 167 75 / 77%);
+  --fields-bg: rgb(193 211 255 / 80%);
+  --button-border: #727272;
+  --button-disable: linear-gradient(90deg, rgb(122 112 99 / 100%) 0%, rgb(71 70 64 / 100%) 100%);
+  --header-gradient: linear-gradient(90deg, #484844 0%, #66655b 50%, #41413c 100%);
+  --danger: #fa4343;
+  --form-bg: #323435;
+}

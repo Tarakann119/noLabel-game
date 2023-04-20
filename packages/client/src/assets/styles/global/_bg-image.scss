@@ -1,0 +1,43 @@
+%bg-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-image {
+  // .bg-image_base
+  &_base {
+    @extend %bg-image;
+
+    background-image: url('/img/background/base.jpg');
+  }
+
+  // .bg-image_form
+  &_form {
+    @extend %bg-image;
+
+    background-image: url('/img/background/form.jpg');
+    background-position: center;
+  }
+
+  // .bg-image_about
+  &_about {
+    @extend %bg-image;
+
+    background-image: url('/img/background/about.jpg');
+  }
+
+  // .bg-image_error
+  &_error {
+    background-image: url('/img/background/404.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  // .bg-image_hero
+  &_hero {
+    @extend %bg-image;
+
+    background-image: url('/img/background/hero.jpg');
+  }
+}

@@ -1,0 +1,37 @@
+// Media query
+$breakpoints: (
+  'xs': 400px,
+  'sm': 544px,
+  'md': 768px,
+  'lg': 960px,
+  'xl': 1280px,
+  'xxl': 1440px,
+);
+
+// Z-index
+$z-indexes: ('header', 'modal');
+
+// Fonts
+$font-base: 'Cormorant Bold', garamond, 'Palatino Linotype', serif;
+$font-title: 'Romvel Cyr', tahoma, verdana, sans-serif;
+
+// Fonts size
+$text-base-size: clamp(1rem, 2vw + 1rem, torem(18));
+$text-md-size: clamp(torem(18), 2vw + torem(18), torem(20));
+$text-bg-size: clamp(torem(22), 2vw + torem(22), torem(24));
+$text-strong: clamp(torem(24), 2vw + torem(24), torem(26));
+$h1-size: clamp(torem(50), 2vw + torem(50), torem(60));
+$h2-size: clamp(torem(40), 2vw + torem(40), torem(50));
+$h3-size: clamp(torem(35), 2vw + torem(35), torem(40));
+
+// Animations
+$transition: 0.5s ease-in;
+
+// Interface
+$min-control-size: 45px;
+$border: 2px solid;
+$border-radius: 2px;
+
+// Forum
+$forum-main-col-width: 50%;
+$forum-col-width: 25%;

@@ -1,49 +1,62 @@
-import { Title } from '@components/Title';
-import AuthorItem from '@ui/AuthorItem';
+import { AuthorItem } from '@/components/AuthorItem';
+import { Title } from '@/components/Title';
 
 import './index.scss';
 
 export const AboutUs = () => {
   return (
-    <div className='container-content about__container'>
-      <Title text='Наша команда' className='about__title' />
-      <div className='about__container_link'>
+    <main className='container about main main-h main-bg bg-image_base'>
+      <Title level='1' className='about__title'>
+        Наша команда
+      </Title>
+
+      <div className='about__links'>
         <AuthorItem
-          title='Аркадий Самохвалов'
-          link={[
+          className='about__item'
+          img='/img/about/arkadiy.png'
+          name='Аркадий Самохвалов'
+          links={[
             { type: 'github', url: 'https://github.com/ArkadiySamokhvalov' },
             { type: 'telegram', url: 'https://t.me/ArkadySamokhvalov' },
           ]}
         />
         <AuthorItem
-          title='Дмитрий Циммер'
-          link={[
-            { type: 'github', url: 'https://github.com/Zimer-D' },
-            { type: 'telegram', url: 'https://t.me/Tarakann' },
-          ]}
-        />
-        <AuthorItem
-          title='Татьяна'
-          link={[
+          className='about__item'
+          img='/img/about/tatyana.png'
+          name='Татьяна'
+          links={[
             { type: 'github', url: 'https://github.com/tmj1' },
             { type: 'telegram', url: 'https://t.me/tomr753' },
           ]}
         />
         <AuthorItem
-          title='Андрей Стрельцов'
-          link={[
-            { type: 'github', url: 'https://github.com/Antidods' },
-            { type: 'telegram', url: 'https://t.me/Andrey_Strelt' },
-          ]}
-        />
-        <AuthorItem
-          title='Тамерлан'
-          link={[
+          className='about__item'
+          img='/img/about/tamerlan.png'
+          name='Тамерлан'
+          links={[
             { type: 'github', url: 'https://github.com/tamerlan2451' },
             { type: 'telegram', url: 'https://t.me/Tamerlan2451' },
           ]}
         />
+        <AuthorItem
+          className='about__item'
+          img='/img/about/dmitriy.png'
+          name='Дмитрий Циммер'
+          links={[
+            { type: 'github', url: 'https://github.com/Zimer-D' },
+            { type: 'telegram', url: 'https://t.me/Tarakann' },
+          ]}
+        />
+        <AuthorItem
+          className='about__item'
+          img='/img/about/andrey.png'
+          name='Андрей Стрельцов'
+          links={[
+            { type: 'github', url: 'https://github.com/Antidods' },
+            { type: 'telegram', url: 'https://t.me/Andrey_Strelt' },
+          ]}
+        />
       </div>
-    </div>
+    </main>
   );
 };

@@ -9,6 +9,7 @@ module.exports = {
   rules: {
     'import-notation': 'string',
     'selector-class-pattern':
-      '^([a-z]+)([0-9]*)?(-[a-z0-9]+)?(__[a-z]+)?(-[a-z]+)?(_[a-z]+)?(-[a-z]+)?$',
+      '^([a-zA-Z]+)([0-9]*)?(-[a-z0-9]+)?(__[a-z]+)?(-[a-z]+)?(_[a-z]+)?(-[a-z]+)?$',
+    'property-no-unknown': [true, { ignoreProperties: ['mask'] }],
   },
 };

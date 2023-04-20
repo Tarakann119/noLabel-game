@@ -3,13 +3,12 @@ import userEvent from '@testing-library/user-event';
 
 import '@testing-library/jest-dom';
 
-import { ButtonProps } from './Button.typings';
+import { TButtonProps } from './Button.typings';
 import { Button } from './index';
 
 const BUTTON_TEXT = 'Button text';
 
-const renderButton = (props?: Omit<ButtonProps, 'text'>) =>
-  render(<Button text={BUTTON_TEXT} {...props} />);
+const renderButton = (props?: TButtonProps) => render(<Button {...props}>{BUTTON_TEXT}</Button>);
 
 describe('Button component', () => {
   it('Correctly renders in the DOM', () => {

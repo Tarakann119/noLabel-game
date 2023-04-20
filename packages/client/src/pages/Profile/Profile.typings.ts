@@ -1,6 +1,4 @@
-export type UserKeys = 'Логин' | 'Имя' | 'Фамилия' | 'Почта' | 'Телефон';
-
-export type FileType = {
+export type TFile = {
   path: string;
   preview: string;
   lastModified: number;
