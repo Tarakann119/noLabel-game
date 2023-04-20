@@ -32,10 +32,6 @@ export const Post: FC<TPostProps> = ({ isTopicStarter = false, data }) => {
 
       <div className='post-reactions'>
         <div className='post-reactions__item'>
-          <Icon className='post-reactions__icon' icon='thumb-up' />
-          <div className='post-reactions__count'>3</div>
-        </div>
-        <div className='post-reactions__item'>
           <Icon className='post-reactions__icon' icon='edit' />
           <div className='post-reactions__count'>3</div>
         </div>

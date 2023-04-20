@@ -27,6 +27,7 @@
       padding: 0.5rem;
       background-color: var(--popup);
       border-radius: $border-radius;
+      fill: var(--text);
     }
 
     // .post-reactions__icon
@@ -72,11 +73,11 @@
 
   // .post__button
   &__button {
-    color: var(--primary);
+    fill: var(--primary);
 
     // .post__button:hover
     &:hover {
-      color: var(--primary-dark);
+      fill: var(--primary-dark);
     }
   }
 }
