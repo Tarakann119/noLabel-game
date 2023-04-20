@@ -1,4 +1,4 @@
-import { EnemyType, TEnemySettings } from '@typings/app.typings';
+import { TEnemy, TEnemySettings } from '@typings/app.typings';
 
 import { settings } from './settings/enemies';
 import { Sprite } from './Sprite';
@@ -13,7 +13,7 @@ export class Enemy extends Sprite {
   constructor(
     protected readonly context: CanvasRenderingContext2D,
     public position: { x: number; y: number } = { x: 0, y: 0 },
-    private readonly enemyType: EnemyType,
+    private readonly enemyType: TEnemy,
     private readonly waypoints: { x: number; y: number }[]
   ) {
     super(context, position, settings[enemyType].imageSrc, { x: 0, y: 0 }, 7);

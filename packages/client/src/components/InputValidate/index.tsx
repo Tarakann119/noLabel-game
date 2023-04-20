@@ -1,44 +1,59 @@
 import { FC, useState } from 'react';
-import { ValidateErrorMessage } from '@components/ValidateErrorMessage';
 import classNames from 'classnames';
 
-import { InputValidateProps } from './InputValidate.typings';
+import { Button } from '../Button';
+
+import { TInputValidateProps } from './InputValidate.typings';
 
 import './index.scss';
 
-export const InputValidate: FC<InputValidateProps> = ({
+export const InputValidate: FC<TInputValidateProps> = ({
   label,
-  name,
   type,
-  value,
-  error,
-  errorTitle,
-  handleChange,
+  className,
+  field,
+  meta,
+  placeholder,
+  disabled,
 }) => {
-  // Для предотвращения потенциальных ошибок типизации и для повышения универсальности компонента
-  // в message компонента ValidateErrorMessage передаём error в виде строки.
+  const [showPass, setShowPass] = useState(false);
+  const input = (type: string) => (
+    <input
+      type={type}
+      className='form-control__input'
+      placeholder={placeholder}
+      {...field}
+      disabled={disabled}
+    />
+  );
 
-  const [err, setErr] = useState(false);
   return (
-    <div className='input__container'>
-      <label className='input__label' htmlFor='login'>
-        {label}
-      </label>
-      <div className={classNames('input__wrapper', { 'input__wrapper-error': error })}>
-        <input
-          onChange={handleChange}
-          value={value}
-          name={name}
-          type={type}
-          className='input__field'
-          onFocus={() => setErr(true)}
-          onBlur={() => setErr(false)}
-        />
-        <ValidateErrorMessage
-          title={errorTitle ? errorTitle : 'Ошибка валидации'}
-          message={`${error}`}
-          visible={err && !!error}
-        />
+    <div className={classNames('form-control', className)}>
+      {label && (
+        <label htmlFor={field?.name} className='form-control__label'>
+          {label}
+        </label>
+      )}
+
+      <div className='form-control__wrapper'>
+        {type === 'password' ? (
+          <div className='form-control__group'>
+            {input(showPass ? 'text' : 'password')}
+            <Button
+              className='form-control__show-pass'
+              type='button'
+              view='icon'
+              icon={showPass ? 'eye' : 'eye-blocked'}
+              onClick={() => setShowPass(!showPass)}
+            />
+          </div>
+        ) : (
+          input(type)
+        )}
+
+        {type !== 'search' && meta?.touched && meta.error && (
+          <div className='form-control__feedback'>{meta.error}</div>
+        )}
       </div>
     </div>
   );

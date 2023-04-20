@@ -1,39 +1,97 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
-.input {
-  &__container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    margin: 12px 0;
+.form-control {
+  // .form-control__label
+  &__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    padding-left: 3px;
+    color: var(--text);
+    font-size: $text-md-size;
+    font-family: $font-title;
+    line-height: 1.5;
+    letter-spacing: 1.5px;
   }
 
+  // .form-control__wrapper
   &__wrapper {
+    position: relative;
     width: 300px;
-    height: 56px;
-    background-color: $color-ui-fields-bg;
-    border-radius: 12px;
+  }
 
-    &:active,
+  // .form-control__show-pass
+  &__show-pass {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 100%;
+    transform: translateY(-50%);
+
+    .icon {
+      width: torem(30);
+    }
+
+    // .form-control__show-pass:hover, .form-control__show-pass:focus
+    &:hover,
+    &:focus {
+      transform: translateY(-50%);
+
+      .icon {
+        fill: var(--body-color);
+      }
+    }
+  }
+
+  // .form-control__input
+  &__input {
+    width: 100%;
+    height: 55px;
+    padding: 1rem;
+    font-size: $text-bg-size;
+    font-family: $font-base;
+    background-color: var(--fields-bg);
+    border: none;
+    border-radius: $border-radius;
+    outline: none;
+    transition: box-shadow $transition;
+
+    // .form-control__input:focus,
+    // .form-control__input:hover
     &:focus,
     &:hover {
-      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px $color-ui-primary;
+      box-shadow: inset 0 1px 5px 0 var(--box-shadow-primary), 0 3px 5px 0 var(--box-shadow-primary);
     }
 
-    &-error {
-      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px $color-ui-danger;
+    // .form-control__input::placeholder
+    &::placeholder {
+      color: var(--text);
+      font-family: $font-title;
+      letter-spacing: 0.5px;
+    }
+
+    // .form-control__input:focus::placeholder
+    &:focus::placeholder {
+      color: transparent;
     }
   }
 
-  &__label {
+  // .form-control__group
+  &__group {
+    position: relative;
+    display: flex;
     height: 100%;
-    margin-right: 60px;
-    margin-bottom: 5px;
-    color: $color-text-primary;
-    font-weight: 700;
-    font-size: 20px;
-    font-family: $font-defence;
-    line-height: 1.5;
+
+    .form-control__input {
+      padding-right: 50px;
+    }
+  }
+
+  // .form-control__feedback
+  &__feedback {
+    @include popup;
+
+    color: var(--danger);
+    font-size: $text-md-size;
+    background: var(--overlay);
   }
 }

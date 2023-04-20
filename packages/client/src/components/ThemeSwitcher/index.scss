@@ -1,0 +1,46 @@
+@import '@/assets/styles/helpers/helpers';
+
+.switcher {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+
+  // .switcher__slider
+  &__slider {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--text);
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: $transition;
+
+    // .switcher__slider::before
+    &::before {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      width: 26px;
+      height: 26px;
+      background-color: var(--primary);
+      border-radius: $border-radius;
+      transition: $transition;
+      content: '';
+    }
+  }
+
+  // .switcher__checkbox
+  &__checkbox {
+    width: 0;
+    height: 0;
+    opacity: 0;
+
+    // .switcher__checkbox:cheked + switcher__slider::before
+    &:checked + .switcher__slider::before {
+      transform: translateX(26px);
+    }
+  }
+}

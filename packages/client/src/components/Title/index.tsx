@@ -2,10 +2,14 @@ import { FC } from 'react';
 import { memo } from 'react';
 import classNames from 'classnames';
 
-import { TitleProps } from './Title.typings';
+import { TTitleProps } from './Title.typings';
 
 import './index.scss';
 
-export const Title: FC<TitleProps> = memo(({ className, text, view = 'base' }) => {
-  return <h2 className={classNames('title', `title_view-${view}`, className)}>{text}</h2>;
+export const Title: FC<TTitleProps> = memo(({ children, className, level, size }) => {
+  const Title = `h${level}` as keyof JSX.IntrinsicElements;
+
+  return (
+    <Title className={classNames('title', className, { title_small: size })}>{children}</Title>
+  );
 });

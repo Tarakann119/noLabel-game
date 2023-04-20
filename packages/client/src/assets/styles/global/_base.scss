@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
+html,
+body {
+  width: 100%;
+}
+
+body {
+  color: var(--text);
+  font-weight: 700;
+  font-family: $font-base;
+  text-shadow: 1px 1px 2px var(--body-color);
+  background-color: var(--body-color);
+}
+
+li {
+  list-style-type: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: $font-title;
+}
+
+h1 {
+  font-size: $h1-size;
+}
+
+h2 {
+  font-size: $h2-size;
+}
+
+h3 {
+  font-size: $h3-size;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  background: var(--body-color);
+
+  &-thumb {
+    background: var(--primary);
+    border-radius: $border-radius;
+
+    &:hover {
+      background: var(--primary-dark);
+    }
+  }
+}

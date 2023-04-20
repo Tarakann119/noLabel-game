@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .profile {
   &__container {
@@ -18,18 +18,18 @@
     justify-content: flex-end;
     width: 200px;
     margin-right: 30px;
-    color: $color-text-primary;
+    color: var(--primary);
     font-weight: 400;
-    font-size: 20px;
-    font-family: $font-defence;
+    font-size: $text-md-size;
+    font-family: $font-title;
     font-style: normal;
     line-height: 100%;
 
     &-value {
       justify-content: flex-start;
       margin-left: 30px;
-      color: $color-ui-primary;
-      font-size: 24px;
+      color: var(--primary);
+      font-size: $text-bg-size;
     }
 
     &-container {
@@ -66,15 +66,15 @@
     height: 300px;
     margin: 20px 0 60px;
     padding: 40px;
-    background-color: $color-ui-fields-bg;
+    background-color: var(--fields-bg);
     border-radius: 12px;
     cursor: pointer;
 
     &-title {
-      color: $color-text-primary;
+      color: var(--primary);
       font-weight: 400;
-      font-size: 20px;
-      font-family: $font-defence;
+      font-size: $text-md-size;
+      font-family: $font-title;
       font-style: normal;
       line-height: 100%;
       text-align: center;

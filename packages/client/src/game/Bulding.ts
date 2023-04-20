@@ -1,4 +1,4 @@
-import { TBuildingSettings, TowerType } from '@typings/app.typings';
+import { TBuildingSettings, TTower } from '@typings/app.typings';
 
 import { settings } from './settings/buldings';
 import { Enemy } from './Enemy';
@@ -15,7 +15,7 @@ export class Building extends Sprite {
   constructor(
     protected readonly context: CanvasRenderingContext2D,
     public position: { x: number; y: number } = { x: 0, y: 0 },
-    private towerType: TowerType,
+    private towerType: TTower,
     private readonly tileSize: number
   ) {
     super(

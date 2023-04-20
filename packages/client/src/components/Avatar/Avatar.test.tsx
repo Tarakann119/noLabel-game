@@ -2,12 +2,12 @@ import { render, screen } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
-import { AvatarProps } from './Avatar.typings';
+import { TAvatarProps } from './Avatar.typings';
 import { Avatar } from './index';
 
 const TEST_TEXT = 'test-text';
 
-const renderAvatar = (props?: AvatarProps) => render(<Avatar {...props} />);
+const renderAvatar = (props?: TAvatarProps) => render(<Avatar {...props} />);
 
 describe('Тестирование компонента Avatar', () => {
   it('Корректный рендер в DOM', () => {

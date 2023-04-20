@@ -1,5 +1,4 @@
-export type LinkProps = {
-  href: string;
-  text: string;
-  view?: 'primary' | 'secondary' | 'ghost';
+export type TLinkProps = {
+  to: string;
+  className?: string;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>;

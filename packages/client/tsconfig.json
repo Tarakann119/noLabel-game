@@ -19,16 +19,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@assets/*": ["src/assets/*"],
-      "@components/*": ["src/components/*"],
-      "@ui/*": ["src/ui/*"],
-      "@pages/*": ["src/pages/*"],
-      "@store/*": ["src/store/*"],
-      "@game/*": ["src/game/*"],
-      "@typings/*": ["typings/*"],
-      "@utils/*": ["utils/*"]
+      "@typings/*": ["typings/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "utils/hooks/context.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,6 +1,15 @@
+@import '@/assets/styles/helpers/helpers';
+
 .error-page {
-  display: flex;
-  flex-direction: column;
+  @include flex-center-column;
+
+  gap: 2rem;
   align-items: center;
-  justify-content: center;
+  height: calc(100vh - 77px);
+
+  // error-page__link
+  &__link {
+    color: var(--primary);
+    font-size: $text-bg-size;
+  }
 }

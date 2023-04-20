@@ -1,20 +1,15 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { pushUserScore } from '@components/Leaderboard/slice';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 
-import { Game } from '../../game/Game';
-import { withFullscreen } from '../../hocs/withFullscreen';
+import { Game } from '@/game/Game';
+import { withFullscreen } from '@/hocs/withFullscreen';
+import { useAppDispatch } from '@/hooks/reduxHooks';
+import { pushUserScore } from '@/store/slices/Leaderboard';
 
-import { GameFieldProps } from './GameField.typings';
-import { setPoints } from './slice';
+import { TGameFieldProps } from './GameField.typings';
 
-const GameField = forwardRef<HTMLCanvasElement, GameFieldProps>((props, ref) => {
+const GameField = forwardRef<HTMLCanvasElement, TGameFieldProps>(({ mapName }, ref) => {
   const dispatch = useAppDispatch();
   const innerRef = useRef<HTMLCanvasElement>(null);
-
-  const pushScore = (score: number) => {
-    dispatch(pushUserScore({ score: score }));
-  };
 
   useImperativeHandle(ref, () => innerRef.current as HTMLCanvasElement);
 
@@ -22,16 +17,17 @@ const GameField = forwardRef<HTMLCanvasElement, GameFieldProps>((props, ref) => 
     const canvas = innerRef.current;
 
     if (canvas) {
-      const game = new Game(canvas, props.mapName);
+      const game = new Game(canvas, mapName);
 
       const startGame = async () => {
-        const game = new Game(canvas, props.mapName);
-        const points = await game.start();
+        const game = new Game(canvas, mapName);
+        const score = await game.start();
 
-        dispatch(setPoints(points));
-        points && pushScore(points);
+        score && dispatch(pushUserScore({ score }));
       };
+
       startGame();
+
       return () => game.removeAllEvents();
     }
   }, []);

@@ -1,12 +1,17 @@
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { logOut, removeUser } from '@components/Autification/slice';
-import { Button } from '@components/Button';
-import { clearLeaderboard } from '@components/Leaderboard/slice';
-import { UserCard } from '@components/UserCard';
-import { currentUser } from '@store/selectors';
-import { Spacer } from '@ui/Spacer';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import { useNavigate } from 'react-router-dom';
+
+import { Avatar } from '@/components/Avatar';
+import { BurgerMenu } from '@/components/BurgerMenu';
+import { Dropdown } from '@/components/Dropdown';
+import { Icon } from '@/components/Icon';
+import { Link } from '@/components/Link';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { useAppDispatch } from '@/hooks/reduxHooks';
+import { currentUser } from '@/store/selectors';
+import { logOut } from '@/store/slices/Autification';
+
+import { HeaderNav } from './HeaderNav';
 
 import './index.scss';
 
@@ -15,50 +20,84 @@ export const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleLogOut = () => {
-    dispatch(logOut());
-    dispatch(removeUser());
-    dispatch(clearLeaderboard());
+  const handleLogOut = async () => {
+    await dispatch(logOut());
     navigate('/');
   };
 
   return (
-    <>
-      <div className='header'>
-        <div className='header__logo'></div>
-        <div className='header__container header__container_link-autch'>
-          <div className='header__container header__container_link'>
-            <Link to={'/'} className='custom-link'>
-              Главная
-            </Link>
-            <Link to={'/game'} className='custom-link'>
-              Игра
-            </Link>
-            <Link to={'/rating'} className='custom-link'>
-              Рейтинг
-            </Link>
-            <Link to={'/forum'} className='custom-link'>
-              Форум
-            </Link>
-          </div>
+    <header className='header'>
+      <div className='header__container container'>
+        <Link className='header__logo' to={'/'}>
+          <Icon className='header-logo' icon='logo' />
+        </Link>
+
+        <div className='header__block desktop-only'>
+          <HeaderNav />
+
+          <ThemeSwitcher className='header__switcher' />
+
           {!user.login ? (
-            <div className='header__container header__container_autch'>
-              <Button text={'ВХОД'} onClick={() => navigate('/login')} />
-            </div>
+            <Link className='button header__link' to={'/login'}>
+              Войти
+            </Link>
           ) : (
-            <div style={{ cursor: 'pointer' }}>
-              <UserCard
-                avatarUrl={user.avatar ? user.avatar : undefined}
-                variant='header'
-                userName={user.login ?? 'Игрок'}
-                clickCard={() => navigate('/profile')}
-                clickButton={handleLogOut}
-              />
-            </div>
+            <Dropdown
+              className='header__dropdown'
+              childrenBtn={<Avatar src={user.avatar ?? ''} size='header' />}
+              childrenMenu={
+                <>
+                  <div className='header-user'>
+                    <div className='header-user__login'>{`${user.first_name} ${user.second_name}`}</div>
+                    <div className='header-user__email'>{user.email}</div>
+                  </div>
+
+                  <div className='header-user-links'>
+                    <Link className='button header__link' to={'/profile'}>
+                      Профиль
+                    </Link>
+                    <button className='button header__link' onClick={handleLogOut}>
+                      Выйти
+                    </button>
+                  </div>
+                </>
+              }></Dropdown>
           )}
         </div>
+
+        <div className='header__block mobile-only'>
+          <ThemeSwitcher className='header__switcher' />
+
+          <BurgerMenu className='header__burger-menu'>
+            {!user.login ? (
+              <Link className='button header__link' to={'/login'}>
+                Войти
+              </Link>
+            ) : (
+              <>
+                <div className='header-user'>
+                  <Avatar className='header-user__avatar' src={user.avatar ?? ''} size='header' />
+                  <div className='header-user__block'>
+                    <div className='header-user__login'>{`${user.first_name} ${user.second_name}`}</div>
+                    <div className='header-user__email'>{user.email}</div>
+                  </div>
+                </div>
+
+                <div className='header-user-links'>
+                  <Link className='button header__link' to={'/profile'}>
+                    Профиль
+                  </Link>
+                  <button className='button header__link' onClick={handleLogOut}>
+                    Выйти
+                  </button>
+                </div>
+              </>
+            )}
+
+            <HeaderNav />
+          </BurgerMenu>
+        </div>
       </div>
-      <Spacer />
-    </>
+    </header>
   );
 };

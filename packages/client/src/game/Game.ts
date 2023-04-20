@@ -1,10 +1,4 @@
-import {
-  EnemyType,
-  TGameSettings,
-  TowerListItemType,
-  TowersList,
-  TowerType,
-} from '@typings/app.typings';
+import { TEnemy, TGameSettings, TowersList, TTower, TTowerListItem } from '@typings/app.typings';
 
 import { Building } from './Bulding';
 import { Enemy } from './Enemy';
@@ -27,9 +21,9 @@ export class Game {
   private cursor: { x: number; y: number } = { x: 0, y: 0 };
   private activeTile: PlacementTile | undefined = undefined;
 
-  private towers: TowerListItemType[] = [];
+  private towers: TTowerListItem[] = [];
   private dragok = false;
-  private towerType: TowerType | null = null;
+  private towerType: TTower | null = null;
   private startX: number | undefined;
   private startY: number | undefined;
 
@@ -319,7 +313,7 @@ export class Game {
     });
   }
 
-  private createEnemy(enemyType: EnemyType, xOffset: number) {
+  private createEnemy(enemyType: TEnemy, xOffset: number) {
     const { enemies, context, settings } = this;
     const { waypoints } = <TGameSettings>settings;
 
@@ -338,11 +332,11 @@ export class Game {
 
   private mixWaves(
     wave: {
-      type: EnemyType;
+      type: TEnemy;
       count: number;
     }[]
   ) {
-    const output: EnemyType[] = [];
+    const output: TEnemy[] = [];
     const counts = wave.map((enemy) => ({ type: enemy.type, count: enemy.count }));
 
     let index = 0;
@@ -427,7 +421,7 @@ export class Game {
     this.startY = cursor.y;
   }
 
-  private rect(towerListItem: TowerListItemType) {
+  private rect(towerListItem: TTowerListItem) {
     if (this.context) {
       const img = new Image();
       img.src = towerListItem.imageSrc;
