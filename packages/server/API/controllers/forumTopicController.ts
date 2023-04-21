@@ -1,5 +1,7 @@
 import type { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { Op } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
 import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
@@ -15,7 +17,19 @@ import { deleteAllEmojiByMessageId } from './emojiController';
 export const getForumTopic = async (req: Request, res: Response) => {
   try {
     const topic: ForumTopic | null = await ForumTopic.findByPk(req.params.topic_id, {
-      include: [{ model: User }, { model: ForumMessage, order: [['id', 'ASC']] }],
+      include: [
+        { model: User },
+        {
+          model: ForumMessage,
+          // Сортировка тем по id в порядке убывания
+          order: [['id', 'ASC']],
+          where: {
+            id: {
+              [Op.in]: Sequelize.literal('(SELECT MAX(id) FROM forum_messages GROUP BY topic_id)'),
+            },
+          },
+        },
+      ],
     });
     if (!topic) {
       res
@@ -40,7 +54,20 @@ export const getAllForumTopic = async (req: Request, res: Response) => {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
     }
     const topics: ForumTopic[] = await ForumTopic.findAll({
-      include: [{ model: User }, { model: ForumMessage, order: [['id', 'ASC']] }],
+      include: [
+        { model: User },
+        {
+          model: ForumMessage,
+          // Сортировка тем по id в порядке убывания
+          order: [['id', 'ASC']],
+          where: {
+            id: {
+              [Op.in]: Sequelize.literal('(SELECT MAX(id) FROM forum_messages GROUP BY topic_id)'),
+            },
+          },
+        },
+      ],
+      order: [['id', 'DESC']],
       offset: req.body.offset,
       limit: req.body.limit,
     });
@@ -66,6 +93,12 @@ export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
     const topic: ForumTopic | null = await ForumTopic.findByPk(reqTopic.id);
     if (!topic) {
       const newTopic: ForumTopic = await ForumTopic.create(reqTopic);
+      const author: User | null = await User.findByPk(reqTopic.author_id);
+      await ForumMessage.create({
+        topic_id: newTopic.id,
+        author_id: reqTopic.author_id,
+        text: `Пользователь ${author?.first_name} ${author?.second_name} создал тему`,
+      } as ForumMessage);
       res.status(StatusCodes.CREATED).json(newTopic);
     } else {
       await topic.update(reqTopic);

@@ -5,7 +5,7 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasMany,
+  HasOne,
   Model,
   Not,
   PrimaryKey,
@@ -49,7 +49,6 @@ export class ForumTopic extends Model<ForumTopic> {
   @BelongsTo(() => User)
   author!: User;
 
-  @HasMany(() => ForumMessage)
-  messages!: ForumMessage[];
+  @HasOne(() => ForumMessage)
   last_message!: ForumMessage;
 }

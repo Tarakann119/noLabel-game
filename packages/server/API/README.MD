@@ -198,11 +198,11 @@
 
 ```json
 {
-  "id": 4,
+  "id": 3,
   "title": "test3",
   "author_id": 3,
-  "created_at": "2023-04-18T15:31:00.955Z",
-  "updated_at": "2023-04-18T15:31:00.955Z",
+  "created_at": "2023-04-19T09:37:41.653Z",
+  "updated_at": "2023-04-19T09:37:41.653Z",
   "author": {
     "id": 3,
     "first_name": "Три",
@@ -211,10 +211,17 @@
     "email": "test4@test.ru",
     "phone": "+79271234569",
     "avatar": "/6b557c29-229a-45dc-8ae6-51a887ad0814/88d51aasd36-d4ee-4c85dasdad-8844-6d971ec2732a_ava_lite.jpg",
-    "created_at": "2023-04-18T14:24:13.497Z",
-    "updated_at": "2023-04-18T14:24:13.497Z"
+    "created_at": "2023-04-19T09:37:17.821Z",
+    "updated_at": "2023-04-19T09:37:17.821Z"
   },
-  "messages": []
+  "last_message": {
+    "id": 12,
+    "text": "text",
+    "topic_id": 3,
+    "author_id": 3,
+    "created_at": "2023-04-19T10:34:39.125Z",
+    "updated_at": "2023-04-19T10:34:39.125Z"
+  }
 }
 ```
 
