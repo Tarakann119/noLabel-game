@@ -35,7 +35,6 @@ export const Layout = () => {
   return (
     <>
       <div className='left-image'></div>
-
       <div className='content'>
         <Header />
         <Routes>
@@ -59,9 +58,7 @@ export const Layout = () => {
         </Routes>
         <Footer />
       </div>
-
       <div className='right-image'></div>
-
       <ToastContainer
         theme='dark'
         position='top-right'
