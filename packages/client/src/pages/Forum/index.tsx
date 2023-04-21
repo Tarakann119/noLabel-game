@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Title } from '@components/Title';
-import { ForumHeader } from '@pages/Forum/ForumHeader';
-import { uuid } from '@utils/generateId';
 import classNames from 'classnames';
 
-import '@components/Button/index.scss';
-import '@components/Header/index.scss';
-import '@pages/StartScreen/index.scss';
+import { Title } from '@/components/Title';
+import { ForumHeader } from '@/pages/Forum/ForumHeader';
+import { uuid } from '@/utils/generateId';
+
+import '@/components/Button/index.scss';
+import '@/components/Header/index.scss';
+import '@/pages/StartScreen/index.scss';
 import './index.scss';
 
 const mockData = [

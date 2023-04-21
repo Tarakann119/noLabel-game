@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useNavigate } from 'react-router';
-import { uploadAvatar } from '@components/Autification/slice';
-import { Button } from '@components/Button';
-import { Title } from '@components/Title';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
+
+import { uploadAvatar } from '@/components/Autification/slice';
+import { Button } from '@/components/Button';
+import { Title } from '@/components/Title';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import { FileType } from './Profile.typings';
 

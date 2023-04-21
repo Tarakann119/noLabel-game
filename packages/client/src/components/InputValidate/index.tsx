@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
-import { ValidateErrorMessage } from '@components/ValidateErrorMessage';
 import classNames from 'classnames';
+
+import { ValidateErrorMessage } from '@/components/ValidateErrorMessage';
 
 import { InputValidateProps } from './InputValidate.typings';
 

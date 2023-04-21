@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
-import { Title } from '@components/Title';
-import { getDataForLeaderBoard, getLeaderboard, getUserScore } from '@store/selectors';
 import { LeaderboardType, LeaderboardUserType } from '@typings/app.typings';
+
+import { Title } from '@/components/Title';
+import { getDataForLeaderBoard, getLeaderboard, getUserScore } from '@/store/selectors';
 
 import { LeaderboardView } from './LeaderboardView';
 

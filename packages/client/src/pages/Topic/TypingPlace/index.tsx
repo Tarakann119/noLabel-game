@@ -1,7 +1,8 @@
-import { Button } from '@components/Button';
-import { InputValidate } from '@components/InputValidate';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { Button } from '@/components/Button';
+import { InputValidate } from '@/components/InputValidate';
 
 import './index.scss';
 

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Spacer } from '@ui/Spacer';
+
+import { Spacer } from '@/ui/Spacer';
 
 import { FooterProps } from './Footer.typings';
 

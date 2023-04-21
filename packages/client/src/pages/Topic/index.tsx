@@ -1,6 +1,7 @@
-import { Title } from '@components/Title';
-import { uuid } from '@utils/generateId';
 import classNames from 'classnames';
+
+import { Title } from '@/components/Title';
+import { uuid } from '@/utils/generateId';
 
 import { Message } from './Message';
 import { TypingPlace } from './TypingPlace';

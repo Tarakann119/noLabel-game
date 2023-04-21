@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .logo-text {
   z-index: 3;
@@ -7,7 +7,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  color: $color-text-primary;
+  color: var(--text-primary);
   font-weight: 400;
   font-size: 96px;
   font-family: $font-defence;

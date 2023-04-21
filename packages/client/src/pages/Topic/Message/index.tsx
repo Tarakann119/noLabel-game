@@ -1,5 +1,6 @@
 import React, { FC, memo } from 'react';
-import { Avatar } from '@components/Avatar';
+
+import { Avatar } from '@/components/Avatar';
 
 import './index.scss';
 

@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .input {
   &__container {
@@ -12,17 +12,17 @@
   &__wrapper {
     width: 300px;
     height: 56px;
-    background-color: $color-ui-fields-bg;
+    background-color: var(--ui-fields-bg);
     border-radius: 12px;
 
     &:active,
     &:focus,
     &:hover {
-      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px $color-ui-primary;
+      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px var(--ui-primary);
     }
 
     &-error {
-      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px $color-ui-danger;
+      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px var(--ui-danger);
     }
   }
 
@@ -30,7 +30,7 @@
     height: 100%;
     margin-right: 60px;
     margin-bottom: 5px;
-    color: $color-text-primary;
+    color: var(--text-primary);
     font-weight: 700;
     font-size: 20px;
     font-family: $font-defence;

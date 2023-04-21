@@ -1,0 +1,60 @@
+.plane-link {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 20px;
+  font-family: $font-primary;
+  line-height: 1.5;
+  text-align: -webkit-center;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease-in;
+
+  &:hover {
+    color: var(--ui-primary);
+  }
+}
+
+.custom-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  margin: 0 20px;
+  color: var(--text-primary);
+  font-weight: 400;
+  font-size: 26px;
+  font-family: $font-defence;
+  font-style: normal;
+  line-height: 100%;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ui-primary);
+
+    // анимация custom-link при наведении
+    animation: hover 0.5s forwards;
+    @keyframes hover {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 9px var(--ui-primary));
+        transition-delay: inherit;
+      }
+
+      100% {
+        transform: scale(1);
+        text-decoration-line: underline;
+        filter: drop-shadow(0 0 9px var(--ui-primary));
+        transition-delay: inherit;
+      }
+    }
+  }
+
+  &:disabled {
+    color: var(--text-disable);
+  }
+}

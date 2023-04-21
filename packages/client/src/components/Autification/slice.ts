@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavigateFunction } from 'react-router';
 import { toast } from 'react-toastify';
-import { clearLeaderboard } from '@components/Leaderboard/slice';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   ChangePasswordType,
@@ -10,8 +9,10 @@ import {
   ProfileType,
   UserInfo,
 } from '@typings/app.typings';
-import { showError, showSuccess } from '@utils/ShowError';
 import axios, { AxiosResponse } from 'axios';
+
+import { clearLeaderboard } from '@/components/Leaderboard/slice';
+import { showError, showSuccess } from '@/utils/ShowError';
 
 const initialState = {
   user: {

@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .author-item {
   &__container {
@@ -26,7 +26,7 @@
     width: 50%;
     height: 80px;
     margin-bottom: 10px;
-    color: $color-text-primary;
+    color: var(--text-primary);
     font-weight: 400;
     font-size: 26px;
     font-family: $font-defence;

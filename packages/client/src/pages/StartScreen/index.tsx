@@ -1,13 +1,14 @@
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@components/Button';
-import { Rating } from '@components/Leaderboard';
-import { LogoText } from '@components/LogoText';
-import { currentUser } from '@store/selectors';
 import classNames from 'classnames';
 
+import { Button } from '@/components/Button';
+import { Rating } from '@/components/Leaderboard';
+import { LogoText } from '@/components/LogoText';
+import { currentUser } from '@/store/selectors';
+
 import './index.scss';
-import '@assets/styles/App.scss';
+import '@/assets/styles/App.scss';
 
 export const StartScreen = () => {
   const navigate = useNavigate();

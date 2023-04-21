@@ -1,22 +1,23 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { Footer } from '@components/Footer';
-import { Header } from '@components/Header';
-import { AboutUs } from '@pages/AboutUs';
-import { DevPage } from '@pages/DevPage';
-import { Error404 } from '@pages/Errors/404';
-import { Forum } from '@pages/Forum';
-import { Game } from '@pages/Game';
-import { LeaderboardPage } from '@pages/Leaderboard';
-import { Login } from '@pages/Login';
-import { Profile } from '@pages/Profile';
-import { ChangeAvatar } from '@pages/Profile/ChangeAvatar';
-import { ChangePassword } from '@pages/Profile/ChangePassword';
-import { ChangeProfile } from '@pages/Profile/ChangeProfile';
-import { Register } from '@pages/Register';
-import { StartScreen } from '@pages/StartScreen';
-import { Topic } from '@pages/Topic';
-import { useAuth } from '@utils/hooks/userAuth';
+
+import { Footer } from '@/components/Footer';
+import { Header } from '@/components/Header';
+import { AboutUs } from '@/pages/AboutUs';
+import { DevPage } from '@/pages/DevPage';
+import { Error404 } from '@/pages/Errors/404';
+import { Forum } from '@/pages/Forum';
+import { Game } from '@/pages/Game';
+import { LeaderboardPage } from '@/pages/Leaderboard';
+import { Login } from '@/pages/Login';
+import { Profile } from '@/pages/Profile';
+import { ChangeAvatar } from '@/pages/Profile/ChangeAvatar';
+import { ChangePassword } from '@/pages/Profile/ChangePassword';
+import { ChangeProfile } from '@/pages/Profile/ChangeProfile';
+import { Register } from '@/pages/Register';
+import { StartScreen } from '@/pages/StartScreen';
+import { Topic } from '@/pages/Topic';
+import { useAuth } from '@/utils/hooks/userAuth';
 
 function RequireAuth() {
   const auth = useAuth();

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { ButtonImg } from '@ui/ButtonImg';
-import { uuid } from '@utils/generateId';
+
+import { ButtonImg } from '@/ui/ButtonImg';
+import { uuid } from '@/utils/generateId';
 
 import './index.scss';
 

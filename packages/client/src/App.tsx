@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { LoadingProvider } from '@components/LoaderComponent';
 
-import '@ui/Loader/img/Loader.png';
+import { LoadingProvider } from '@/components/LoaderComponent';
+
+import '@/ui/Loader/img/Loader.png';
 
 import { Layout } from './Layout';
 
-import '@assets/styles/App.scss';
+import '@/assets/styles/App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
