@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { handleSubmitLogin } from '@/components/Autification/slice';
+import { handleSubmitLogin, loginWithToken } from '@/components/Autification/slice';
 import { Button } from '@/components/Button';
 import { InputValidate } from '@/components/InputValidate';
 import { useLoading } from '@/components/LoaderComponent';
@@ -32,6 +32,10 @@ export const Login = () => {
   const [fieldError, setFieldError] = useState(null);
   const { loading } = useLoading();
   const dispatch = useAppDispatch();
+
+  const oAuth = () => {
+    dispatch(loginWithToken());
+  };
 
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
@@ -67,6 +71,12 @@ export const Login = () => {
               error={errors.password}
             />
             <Button text='Вход' type='submit' className='custom-button' />
+            <Button
+              text='Войти с помощью Яндекс.ID'
+              type='button'
+              className='custom-button'
+              onClick={() => oAuth()}
+            />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?
             </Link>

@@ -1,8 +1,6 @@
 @import '@/assets/styles/helpers/helpers';
 
-.button {
-  @extend %border-button;
-
+%button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,6 +20,11 @@
   box-shadow: 0 14px 24px rgb(0 0 0 / 25%);
   cursor: pointer;
   transition: 0.1s ease-in;
+}
+
+.button {
+  @extend %border-button;
+  @extend %button;
 
   &:hover {
     filter: drop-shadow(0 0 8px var(--text-secondary));

@@ -28,7 +28,7 @@ export const LeaderboardPage = () => {
   const maxWidth = 100;
 
   // Переменные для хранения мин и макс значений в рейтинге пользователей
-  const maxValue = leaderboardList[0].towerDefenceScore;
+  const maxValue = leaderboardList[0]?.towerDefenceScore;
 
   // Коэффициент для конвертации очков рейтинга юзеров в высоту столбца гистограммы
   const correction = maxWidth / maxValue;

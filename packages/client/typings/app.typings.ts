@@ -78,11 +78,11 @@ export type GameState = {
 };
 
 export type UserInfo = {
-  id: string;
-  first_name: string;
-  second_name: string;
+  id: string | null;
+  first_name: string | null;
+  second_name: string | null;
   display_name: string | null;
-  login: string;
+  login: string | null;
   avatar: string | null;
   email: string | null;
   phone: string | null;
