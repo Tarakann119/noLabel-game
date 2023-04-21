@@ -5,8 +5,8 @@ import { Button } from '@components/Button';
 import { Rating } from '@components/Leaderboard';
 import { LogoText } from '@components/LogoText';
 import { currentUser } from '@store/selectors';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import { Spacer } from '@ui/Spacer';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
 
 import { signInWithToken } from '@/components/Autification/slice';
