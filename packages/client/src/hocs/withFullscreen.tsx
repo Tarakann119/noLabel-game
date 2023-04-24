@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export const withFullscreen =
   (Component: typeof React.Component | React.ForwardRefExoticComponent<{ mapName: string }>) =>
