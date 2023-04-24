@@ -1,22 +1,44 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
+import express from 'express';
+import helmet from 'helmet';
+
+import { emoji } from './API/routes/emojiRoutes';
+import { forumMessage } from './API/routes/forumMessageRoutes';
+import { forumTopic } from './API/routes/forumTopicRoutes';
+import { leaderboard } from './API/routes/leaderboardRoutes';
+import { themes } from './API/routes/themeRoutes';
+import { users } from './API/routes/userRoutes';
+import { initPostgreSQLConnection } from './db';
+
+// Загрузка переменных окружения
 dotenv.config();
 
-import * as console from 'console';
-import express from 'express';
+// Инициализация соединения с БД
+initPostgreSQLConnection();
 
-import { createClientAndConnect } from './db';
-
+// Создание сервера
 const app = express();
 app.use(cors());
-const port = Number(process.env.SERVER_PORT) || 3001;
+const port = process.env.SERVER_PORT || 3001;
 
-createClientAndConnect().then((r) => console.log(r));
+// Защита от некоторых типов атак
+app.use(helmet());
 
-app.get('/', (_, res) => {
-  res.json('👋 Howdy from the server :)');
-});
+// Подключение роутов
+app.use('/api/user', users);
+app.use('/api/theme', themes);
+app.use('/api/forum/topics', forumTopic);
+app.use('/api/forum/messages', forumMessage);
+app.use('/api/forum/emoji', emoji);
+app.use('/api/leaderboard', leaderboard);
 
-app.listen(port, () => {
-  console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
-});
+// Запуск сервера
+try {
+  app.listen(port, () => {
+    console.log(`✅  Сервер запущен на порту ${port}`);
+  });
+} catch (e) {
+  console.error('❌  Не удалось запустить сервер');
+  console.error(e);
+}

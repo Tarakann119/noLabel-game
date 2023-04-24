@@ -5,8 +5,9 @@ import { Button } from '@components/Button';
 import { Rating } from '@components/Leaderboard';
 import { LogoText } from '@components/LogoText';
 import { currentUser } from '@store/selectors';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import { Spacer } from '@ui/Spacer';
+import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import randomClickSound from '@utils/randomClickSound/randomClickSound';
 import classNames from 'classnames';
 
 import { signInWithToken } from '@/components/Autification/slice';
@@ -39,7 +40,10 @@ export const StartScreen = () => {
         <LogoText />
         <Button
           text='Начать игру'
-          onClick={() => navigate('/game')}
+          onClick={() => {
+            navigate('/game');
+            randomClickSound();
+          }}
           className='button button_primary'
           style={{ margin: 20 }}
         />

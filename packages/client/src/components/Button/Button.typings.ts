@@ -1,5 +1,8 @@
+import { ButtonHTMLAttributes } from 'react';
+
 export type ButtonProps = {
   text: string;
   view?: 'primary' | 'secondary' | 'ghost';
   className?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+  withSound?: boolean;
+} & ButtonHTMLAttributes<HTMLButtonElement>;

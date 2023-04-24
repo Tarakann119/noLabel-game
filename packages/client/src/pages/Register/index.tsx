@@ -5,6 +5,7 @@ import { Button } from '@components/Button';
 import { InputValidate } from '@components/InputValidate';
 import { Title } from '@components/Title';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
+import randomClickSound from '@utils/randomClickSound/randomClickSound';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -25,10 +26,10 @@ const SignupSchema = Yup.object().shape({
   login: Yup.string()
     .min(2, 'Слишком короткий!')
     .max(10, 'Слишком длинный!')
-    .matches(/^[a-z0-9_-]{2,19}$/, 'Поле зполнено некорректно')
+    .matches(/^[a-z0-9_-]{2,19}$/, 'Поле заполнено некорректно')
     .required('Поле не может быть пустым'),
   email: Yup.string()
-    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i, 'Поле зполнено некорректно')
+    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i, 'Поле заполнено некорректно')
     .required('Поле не может быть пустым'),
   phone: Yup.string()
     .matches(/^[\d\\+][\d\\(\\)\\ -]{9,14}\d$/, 'Поле зполнено некорректно')
@@ -36,7 +37,7 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string()
     .min(2, 'Слишком короткий!')
     .max(10, 'Слишком длинный!')
-    .matches(/(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,40}/g, 'Поле зполнено некорректно')
+    .matches(/(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,40}/g, 'Поле заполнено некорректно')
     .required('Поле не может быть пустым'),
   confirmPassword: Yup.string()
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -131,7 +132,12 @@ export const Register = () => {
               error={errors.confirmPassword}
             />
             <div>{fieldError}</div>
-            <Button text='Регистрация' type='submit' className='custom-button' />
+            <Button
+              text='Регистрация'
+              type='submit'
+              className='custom-button'
+              onClick={randomClickSound}
+            />
             <Link className='plane-link' to={'/login'}>
               Уже зарегистрированы? Войти!
             </Link>

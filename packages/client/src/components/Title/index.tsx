@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { memo } from 'react';
+import { FC, memo } from 'react';
 import classNames from 'classnames';
 
 import { TitleProps } from './Title.typings';
