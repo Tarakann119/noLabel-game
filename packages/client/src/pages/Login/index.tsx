@@ -9,8 +9,8 @@ import { Loader } from '@ui/Loader';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
+import randomClickSound from '@utils/randomClickSound/randomClickSound';
 import * as Yup from 'yup';
-import randomClickSound from '@utils/randomClickSound/randomClickSound'
 
 import './index.scss';
 
@@ -75,7 +75,7 @@ export const Login = () => {
               text='Войти с помощью Яндекс.ID'
               type='button'
               className='custom-button'
-              onClick={() => oAuth(); randomClickSound()}
+              onClick={()=>{ oAuth(); randomClickSound()}}
             />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?

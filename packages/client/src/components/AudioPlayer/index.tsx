@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Beautiful from '../../assets/tracks/Orgrimmar.mp3';
 
 function AudioPlayer() {

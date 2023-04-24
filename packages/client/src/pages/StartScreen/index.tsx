@@ -8,7 +8,7 @@ import { currentUser } from '@store/selectors';
 import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import { Spacer } from '@ui/Spacer';
 import classNames from 'classnames';
-import randomClickSound from '@utils/randomClickSound/randomClickSound'
+import randomClickSound from '@utils/randomClickSound/randomClickSound';
 
 import { signInWithToken } from '@/components/Autification/slice';
 
