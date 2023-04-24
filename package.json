@@ -7,11 +7,18 @@
     "dev:client": "lerna run dev --scope=client",
     "dev:server": "lerna run dev --scope=server",
     "dev": "lerna run dev",
+    "start:client": "lerna run start --scope=client",
+    "start:server": "lerna run start --scope=server",
+    "start": "lerna run start",
     "test": "lerna run test",
     "lint": "lerna run lint",
     "format": "lerna run format",
     "preview": "lerna run preview",
-    "slint": "lerna run slint"
+    "slint": "lerna run slint",
+    "docker:up": "docker compose up",
+    "docker:client": "docker compose up client",
+    "docker:server": "docker compose up server",
+    "docker:postgres": "docker compose up postgres"
   },
   "license": "MIT",
   "workspaces": [
@@ -24,7 +31,5 @@
     "@evilmartians/lefthook": "1.3.0",
     "lerna": "6.5.1"
   },
-  "dependencies": {
-
-  }
+  "dependencies": {}
 }

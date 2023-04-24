@@ -1,13 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
+import window from 'global';
 
 const getTheme = () => {
-  const theme = `${window?.localStorage?.getItem('theme')}`;
-  if (['light', 'dark'].includes(theme)) return theme;
+  let theme = 'light';
 
-  const userMedia = window.matchMedia('(prefers-color-scheme: dark)');
-  if (userMedia.matches) return 'dark';
+  // у нас нет пока переменных для смены тем.
+  // я не могу это щас проверить
 
-  return 'light';
+  if (typeof window !== 'undefined' && window.localStorage) {
+    theme = `${window.localStorage.getItem('theme')}`;
+  }
+
+  if (!['light', 'dark'].includes(theme)) {
+    const userMedia =
+      typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)');
+    if (userMedia.matches) {
+      theme = 'dark';
+    }
+  }
+
+  return theme;
 };
 
 const initialState = getTheme();

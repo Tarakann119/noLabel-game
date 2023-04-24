@@ -4,8 +4,18 @@ import leaderboardReducer from '@components/Leaderboard/slice';
 import isLoadingReducer from '@components/LoaderComponent/slice';
 import themeReducer from '@components/Theme/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+
+declare global {
+  interface Window {
+    __PRELOADED_STATE__?: object;
+  }
+}
+
+let preloadedState;
+if (!import.meta.env.SSR) {
+  preloadedState = window.__PRELOADED_STATE__;
+  delete window.__PRELOADED_STATE__;
+}
 
 const reducers = combineReducers({
   theme: themeReducer,
@@ -16,20 +26,13 @@ const reducers = combineReducers({
 });
 
 export const store = configureStore({
-  reducer: persistReducer(
-    {
-      key: 'root',
-      storage,
-    },
-    reducers
-  ),
+  preloadedState,
+  reducer: reducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
 });
-
-export const persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

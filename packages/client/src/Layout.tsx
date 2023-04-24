@@ -16,14 +16,16 @@ import { ChangePassword } from '@pages/Profile/ChangePassword';
 import { ChangeProfile } from '@pages/Profile/ChangeProfile';
 import { Register } from '@pages/Register';
 import { StartScreen } from '@pages/StartScreen';
-import { useAuth } from '@utils/hooks/userAuth';
 
 function RequireAuth() {
-  const auth = useAuth();
-  if (!auth.isAuth) {
-    toast.error('Вы не авторизованы!');
-    return <Navigate to='/login' />;
+  // условие нужно для ssr, либо использовать useEffect
+  if (typeof window !== 'undefined') {
+    if (!localStorage.getItem('user')) {
+      toast.error('Вы не авторизованы!');
+      return <Navigate to='/login' />;
+    }
   }
+
   return <Outlet />;
 }
 
