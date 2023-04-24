@@ -193,121 +193,70 @@ export class Game {
         img.src = './game/assets/towers/tower_list.png';
         this.context.drawImage(img, activeTile.position.x - 64, activeTile.position.y - 64);
 
-        if (
-          this.cursor.y + 64 > activeTile.position.y &&
-          this.cursor.y < activeTile.position.y &&
-          this.cursor.x + 64 > activeTile.position.x &&
-          this.cursor.x < activeTile.position.x
-        ) {
-          if (coins && coins.getCount() >= 50 && this.activePlacementTile === 2) {
-            buildings.push(
-              new Building(
-                <CanvasRenderingContext2D>context,
-                {
-                  x: activeTile.position.x,
-                  y: activeTile.position.y,
-                },
-                TowersList.STONE,
-                tileSize
-              )
-            );
+        const towerList = [
+          {
+            position:
+              this.cursor.y + 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y &&
+              this.cursor.x + 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x,
+            price: 50,
+            type: TowersList.STONE,
+          },
+          {
+            position:
+              this.cursor.y + 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y &&
+              this.cursor.x - 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x + 128,
+            price: 100,
+            type: TowersList.ARCHER,
+          },
+          {
+            position:
+              this.cursor.y - 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y + 128 &&
+              this.cursor.x + 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x,
+            price: 150,
+            type: TowersList.CROSSBOWMAN,
+          },
+          {
+            position:
+              this.cursor.y - 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y + 128 &&
+              this.cursor.x - 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x + 128,
+            price: 200,
+            type: TowersList.MAGICTOWER,
+          },
+        ];
 
-            activeTile.isOccupied = true;
+        towerList.forEach((el) => {
+          if (el.position) {
+            if (coins && coins.getCount() >= el.price && this.activePlacementTile === 2) {
+              buildings.push(
+                new Building(
+                  <CanvasRenderingContext2D>context,
+                  {
+                    x: activeTile.position.x,
+                    y: activeTile.position.y,
+                  },
+                  el.type,
+                  tileSize
+                )
+              );
 
-            coins.setCount(coins.getCount() - 50);
+              activeTile.isOccupied = true;
 
-            buildings.sort((a, b) => {
-              return a.position.y - b.position.y;
-            });
+              coins.setCount(coins.getCount() - el.price);
+
+              buildings.sort((a, b) => {
+                return a.position.y - b.position.y;
+              });
+            }
           }
-        }
-
-        if (
-          this.cursor.y + 64 > activeTile.position.y &&
-          this.cursor.y < activeTile.position.y &&
-          this.cursor.x - 64 > activeTile.position.x &&
-          this.cursor.x < activeTile.position.x + 128
-        ) {
-          if (coins && coins.getCount() >= 100 && this.activePlacementTile === 2) {
-            buildings.push(
-              new Building(
-                <CanvasRenderingContext2D>context,
-                {
-                  x: activeTile.position.x,
-                  y: activeTile.position.y,
-                },
-                TowersList.ARCHER,
-                tileSize
-              )
-            );
-
-            activeTile.isOccupied = true;
-
-            coins.setCount(coins.getCount() - 100);
-
-            buildings.sort((a, b) => {
-              return a.position.y - b.position.y;
-            });
-          }
-        }
-
-        if (
-          this.cursor.y - 64 > activeTile.position.y &&
-          this.cursor.y < activeTile.position.y + 128 &&
-          this.cursor.x + 64 > activeTile.position.x &&
-          this.cursor.x < activeTile.position.x
-        ) {
-          if (coins && coins.getCount() >= 150 && this.activePlacementTile === 2) {
-            buildings.push(
-              new Building(
-                <CanvasRenderingContext2D>context,
-                {
-                  x: activeTile.position.x,
-                  y: activeTile.position.y,
-                },
-                TowersList.CROSSBOWMAN,
-                tileSize
-              )
-            );
-
-            activeTile.isOccupied = true;
-
-            coins.setCount(coins.getCount() - 150);
-
-            buildings.sort((a, b) => {
-              return a.position.y - b.position.y;
-            });
-          }
-        }
-
-        if (
-          this.cursor.y - 64 > activeTile.position.y &&
-          this.cursor.y < activeTile.position.y + 128 &&
-          this.cursor.x - 64 > activeTile.position.x &&
-          this.cursor.x < activeTile.position.x + 128
-        ) {
-          if (coins && coins.getCount() >= 200 && this.activePlacementTile === 2) {
-            buildings.push(
-              new Building(
-                <CanvasRenderingContext2D>context,
-                {
-                  x: activeTile.position.x,
-                  y: activeTile.position.y,
-                },
-                TowersList.MAGICTOWER,
-                tileSize
-              )
-            );
-
-            activeTile.isOccupied = true;
-
-            coins.setCount(coins.getCount() - 200);
-
-            buildings.sort((a, b) => {
-              return a.position.y - b.position.y;
-            });
-          }
-        }
+        });
       }
 
       if (this.activePlacementTile === 2) {
