@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 import Beautiful from '../../assets/tracks/Orgrimmar.mp3';
 
@@ -8,8 +8,8 @@ function AudioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    setAudio(new Audio(sound))
-  }, [])
+    setAudio(new Audio(sound));
+  }, []);
 
   useEffect(() => {
     if (audio) {

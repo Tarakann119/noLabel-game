@@ -1,4 +1,3 @@
-
 import { EnemyType, TGameSettings, TowersList } from '@typings/app.typings';
 
 import { Building } from './Bulding';

@@ -40,7 +40,10 @@ export const StartScreen = () => {
         <LogoText />
         <Button
           text='Начать игру'
-          onClick={() => { navigate('/game'); randomClickSound()}}
+          onClick={() => {
+            navigate('/game');
+            randomClickSound();
+          }}
           className='button button_primary'
           style={{ margin: 20 }}
         />

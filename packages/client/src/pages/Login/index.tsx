@@ -75,7 +75,10 @@ export const Login = () => {
               text='Войти с помощью Яндекс.ID'
               type='button'
               className='custom-button'
-              onClick={()=>{ oAuth(); randomClickSound()}}
+              onClick={() => {
+                oAuth();
+                randomClickSound();
+              }}
             />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?

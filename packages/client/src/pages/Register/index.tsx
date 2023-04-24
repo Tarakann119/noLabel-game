@@ -132,7 +132,12 @@ export const Register = () => {
               error={errors.confirmPassword}
             />
             <div>{fieldError}</div>
-            <Button text='Регистрация' type='submit' className='custom-button' onClick={randomClickSound}/>
+            <Button
+              text='Регистрация'
+              type='submit'
+              className='custom-button'
+              onClick={randomClickSound}
+            />
             <Link className='plane-link' to={'/login'}>
               Уже зарегистрированы? Войти!
             </Link>
