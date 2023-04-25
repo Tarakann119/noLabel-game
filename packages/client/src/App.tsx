@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { getCurrentUser } from '@components/Autification/slice';
-import { LoadingProvider } from '@components/LoaderComponent';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 
-import '@ui/Loader/img/Loader.png';
+import { getCurrentUser } from '@/components/Autification/slice';
+import { LoadingProvider } from '@/components/LoaderComponent';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
+
+import '@/ui/Loader/img/Loader.png';
 
 import { fetchLeaderboard, pushUserScore } from './components/Leaderboard/slice';
 import { Layout } from './Layout';
 
-import '@assets/styles/App.scss';
+import '@/assets/styles/App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {

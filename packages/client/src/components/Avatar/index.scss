@@ -1,9 +1,9 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .avatar {
   display: block;
   object-fit: cover;
-  border: 3px solid $color-ui-primary;
+  border: 3px solid var(--ui-primary);
   border-radius: 50%;
   aspect-ratio: 1;
   // анимация avatar при наведении
@@ -11,12 +11,12 @@
 
   &:hover {
     transform: scale(1.1);
-    filter: drop-shadow(0 0 10px $color-ui-primary);
+    filter: drop-shadow(0 0 10px var(--ui-primary));
   }
 
   // .avatar-active
   &-active {
-    border: 3px solid $color-ui-secondary;
+    border: 3px solid var(--ui-secondary);
   }
 
   // .avatar_default
@@ -42,12 +42,12 @@
 
     // .avatar_link:hover
     &:hover {
-      filter: drop-shadow(0 0 10px $color-ui-primary);
+      filter: drop-shadow(0 0 10px var(--ui-primary));
     }
 
     // .avatar_link:active
     &:active {
-      filter: drop-shadow(0 0 10px $color-text-primary);
+      filter: drop-shadow(0 0 10px var(--text-primary));
     }
   }
 }

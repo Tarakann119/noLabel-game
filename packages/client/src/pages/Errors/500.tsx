@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@components/Button';
+
+import { Button } from '@/components/Button';
 
 export const Error500 = () => {
   const navigate = useNavigate();

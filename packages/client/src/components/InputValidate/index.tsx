@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
-import { ValidateErrorMessage } from '@components/ValidateErrorMessage';
 import classNames from 'classnames';
+
+import { ValidateErrorMessage } from '@/components/ValidateErrorMessage';
 
 import { InputValidateProps } from './InputValidate.typings';
 
@@ -12,6 +13,7 @@ export const InputValidate: FC<InputValidateProps> = ({
   type,
   value,
   error,
+  placeholder,
   errorTitle,
   handleChange,
 }) => {
@@ -33,6 +35,7 @@ export const InputValidate: FC<InputValidateProps> = ({
           className='input__field'
           onFocus={() => setErr(true)}
           onBlur={() => setErr(false)}
+          placeholder={placeholder}
         />
         <ValidateErrorMessage
           title={errorTitle ? errorTitle : 'Ошибка валидации'}

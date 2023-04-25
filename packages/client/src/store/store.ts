@@ -1,8 +1,3 @@
-import userReducer from '@components/Autification/slice';
-import gameReducer from '@components/GameField/slice';
-import leaderboardReducer from '@components/Leaderboard/slice';
-import isLoadingReducer from '@components/LoaderComponent/slice';
-import themeReducer from '@components/Theme/slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 declare global {
@@ -16,6 +11,12 @@ if (!import.meta.env.SSR) {
   preloadedState = window.__PRELOADED_STATE__;
   delete window.__PRELOADED_STATE__;
 }
+
+import userReducer from '@/components/Autification/slice';
+import gameReducer from '@/components/GameField/slice';
+import leaderboardReducer from '@/components/Leaderboard/slice';
+import isLoadingReducer from '@/components/LoaderComponent/slice';
+import themeReducer from '@/components/Theme/slice';
 
 const reducers = combineReducers({
   theme: themeReducer,

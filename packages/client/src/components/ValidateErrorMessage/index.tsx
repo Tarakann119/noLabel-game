@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
-import { ButtonImg } from '@ui/ButtonImg';
 import classNames from 'classnames';
+
+import { ButtonImg } from '@/ui/ButtonImg';
 
 import { ValidateErrorMessageProps } from './ValidateErrorMessage.typings';
 

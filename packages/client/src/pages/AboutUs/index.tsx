@@ -1,5 +1,5 @@
-import { Title } from '@components/Title';
-import AuthorItem from '@ui/AuthorItem';
+import { Title } from '@/components/Title';
+import AuthorItem from '@/ui/AuthorItem';
 
 import './index.scss';
 
