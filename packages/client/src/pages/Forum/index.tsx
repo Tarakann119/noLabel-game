@@ -133,6 +133,7 @@ export const Forum = () => {
       )}>
       <div className='forum__container'>
         <ForumHeader />
+
         <Title text='Актуальные темы' />
 
         <div className='forum-topics'>
@@ -169,3 +170,4 @@ export const Forum = () => {
     </div>
   );
 };
+export default Forum;

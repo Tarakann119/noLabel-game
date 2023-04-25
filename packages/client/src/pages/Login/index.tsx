@@ -11,6 +11,7 @@ import { useLoading } from '@/components/LoaderComponent';
 import { Title } from '@/components/Title';
 import { Loader } from '@/ui/Loader';
 import { useAppDispatch } from '@/utils/hooks/reduxHooks';
+import randomClickSound from '@/utils/randomClickSound/randomClickSound';
 
 import './index.scss';
 
@@ -75,7 +76,10 @@ export const Login = () => {
               text='Войти с помощью Яндекс.ID'
               type='button'
               className='custom-button'
-              onClick={() => oAuth()}
+              onClick={() => {
+                oAuth();
+                randomClickSound();
+              }}
             />
             <Link className='plane-link' to='/registration'>
               Нет аккаунта?

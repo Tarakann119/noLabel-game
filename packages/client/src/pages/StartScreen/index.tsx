@@ -10,6 +10,7 @@ import { LogoText } from '@/components/LogoText';
 import { currentUser } from '@/store/selectors';
 import { Spacer } from '@/ui/Spacer';
 import { useAppDispatch } from '@/utils/hooks/reduxHooks';
+import randomClickSound from '@/utils/randomClickSound/randomClickSound';
 
 import './index.scss';
 import '@/assets/styles/App.scss';
@@ -39,7 +40,10 @@ export const StartScreen = () => {
         <LogoText />
         <Button
           text='Начать игру'
-          onClick={() => navigate('/game')}
+          onClick={() => {
+            navigate('/game');
+            randomClickSound();
+          }}
           className='button button_primary'
           style={{ margin: 20 }}
         />
