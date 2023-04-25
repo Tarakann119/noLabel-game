@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .validate-error-message {
   &__container {
@@ -25,7 +25,7 @@
   }
 
   &__title {
-    color: $color-text-primary;
+    color: var(--text-primary);
     font-weight: 400;
     font-size: 24px;
     font-family: $font-defence;
@@ -36,7 +36,7 @@
 
   &__error-text {
     width: 100%;
-    color: $color-text-primary;
+    color: var(--text-primary);
     font-weight: 700;
     font-size: 20px;
     font-family: $font-primary;

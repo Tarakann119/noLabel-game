@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchLeaderboard } from '@components/Leaderboard/slice';
-import { Title } from '@components/Title';
-import { getDataForLeaderBoard, getLeaderboard, getLeaderboardIsLoading } from '@store/selectors';
 import { LeaderboardType } from '@typings/app.typings';
-import { Loader } from '@ui/Loader';
-import { uuid } from '@utils/generateId';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
+
+import { fetchLeaderboard } from '@/components/Leaderboard/slice';
+import { Title } from '@/components/Title';
+import { getDataForLeaderBoard, getLeaderboard, getLeaderboardIsLoading } from '@/store/selectors';
+import { Loader } from '@/ui/Loader';
+import { uuid } from '@/utils/generateId';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import './index.scss';
 

@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .leaderboard {
   &__user {
@@ -10,13 +10,13 @@
     min-height: 35px;
     margin: 10px 0;
     padding: 0 10px;
-    color: $color-text-primary;
+    color: var(--text-primary);
     font-weight: 150;
     font-size: 18px;
     font-family: $font-defence;
     letter-spacing: 4px;
     text-shadow: 0 0 5px rgb(0 0 0 / 89%);
-    background: $color-header-footer-gradient;
+    background: var(--header-footer-gradient);
     border-radius: 5px;
     box-shadow: 0 0 7px rgb(255 255 255 / 78%);
     // анимация leaderboard__user при наведении
@@ -40,9 +40,9 @@
     animation: load 1s;
 
     &_current {
-      color: $color-text-primary;
-      background: $color-ui-primary;
-      box-shadow: 0 0 12px $color-ui-primary;
+      color: var(--text-primary);
+      background: var(--ui-primary);
+      box-shadow: 0 0 12px var(--ui-primary);
     }
   }
 

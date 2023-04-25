@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { changeUserProfile } from '@components/Autification/slice';
-import { Button } from '@components/Button';
-import { InputValidate } from '@components/InputValidate';
-import { Title } from '@components/Title';
-import { currentUser } from '@store/selectors';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { changeUserProfile } from '@/components/Autification/slice';
+import { Button } from '@/components/Button';
+import { InputValidate } from '@/components/InputValidate';
+import { Title } from '@/components/Title';
+import { currentUser } from '@/store/selectors';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 const ProfileSchema = Yup.object().shape({
   first_name: Yup.string()

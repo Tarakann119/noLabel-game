@@ -1,12 +1,13 @@
 import { Fragment, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Avatar } from '@components/Avatar';
-import { fetchLeaderboard } from '@components/Leaderboard/slice';
-import { Theme } from '@components/Theme';
-import { Title } from '@components/Title';
-import { currentUser } from '@store/selectors';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
+
+import { Avatar } from '@/components/Avatar';
+import { fetchLeaderboard } from '@/components/Leaderboard/slice';
+import { Theme } from '@/components/Theme';
+import { Title } from '@/components/Title';
+import { currentUser } from '@/store/selectors';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import { UserKeys } from './Profile.typings';
 

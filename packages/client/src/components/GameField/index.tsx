@@ -1,9 +1,9 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import { pushUserScore } from '@components/Leaderboard/slice';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 
-import { Game } from '../../game/Game';
-import { withFullscreen } from '../../hocs/withFullscreen';
+import { pushUserScore } from '@/components/Leaderboard/slice';
+import { Game } from '@/game/Game';
+import { withFullscreen } from '@/hocs/withFullscreen';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import { GameFieldProps } from './GameField.typings';
 import { setPoints } from './slice';

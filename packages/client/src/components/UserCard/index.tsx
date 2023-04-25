@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { toast } from 'react-toastify';
-import { Avatar } from '@components/Avatar';
-import { ButtonImg } from '@ui/ButtonImg';
+
+import { Avatar } from '@/components/Avatar';
+import { ButtonImg } from '@/ui/ButtonImg';
 
 import { UserCardProps } from './UserCard.typings';
 

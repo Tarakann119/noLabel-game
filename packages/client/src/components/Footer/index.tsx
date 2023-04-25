@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import AudioPlayer from '@components/AudioPlayer';
-import { Spacer } from '@ui/Spacer';
+
+import { AudioPlayer } from '@/components/AudioPlayer';
+import { Spacer } from '@/ui/Spacer';
 
 import { FooterProps } from './Footer.typings';
 

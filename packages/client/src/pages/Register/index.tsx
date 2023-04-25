@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { handleSubmitRegistration } from '@components/Autification/slice';
-import { Button } from '@components/Button';
-import { InputValidate } from '@components/InputValidate';
-import { Title } from '@components/Title';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
-import randomClickSound from '@utils/randomClickSound/randomClickSound';
 import * as Yup from 'yup';
+
+import { handleSubmitRegistration } from '@/components/Autification/slice';
+import { Button } from '@/components/Button';
+import { InputValidate } from '@/components/InputValidate';
+import { Title } from '@/components/Title';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
+import randomClickSound from '@/utils/randomClickSound/randomClickSound';
 
 import './index.scss';
 
@@ -132,7 +133,12 @@ export const Register = () => {
               error={errors.confirmPassword}
             />
             <div>{fieldError}</div>
-            <Button text='Регистрация' type='submit' className='custom-button' onClick={randomClickSound}/>
+            <Button
+              text='Регистрация'
+              type='submit'
+              className='custom-button'
+              onClick={randomClickSound}
+            />
             <Link className='plane-link' to={'/login'}>
               Уже зарегистрированы? Войти!
             </Link>

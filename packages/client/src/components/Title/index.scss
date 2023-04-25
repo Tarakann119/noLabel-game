@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .title {
   margin-top: 30px;
@@ -17,7 +17,7 @@
   &_view {
     // .title_view-base
     &-base {
-      color: $color-text-primary;
+      color: var(--text-primary);
     }
   }
 }
