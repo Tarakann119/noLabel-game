@@ -3,16 +3,12 @@ import {
   DataType,
   HasMany,
   HasOne,
-  Is,
-  IsEmail,
   Model,
   Not,
   PrimaryKey,
   Table,
-  Unique,
 } from 'sequelize-typescript';
 
-import { loginRegExp, nameRegExp, phoneRegExp } from '../../utils/regExp/validation';
 import { XSSRegExp } from '../../utils/regExp/XSS';
 
 import { Emoji } from './Emoji';
@@ -41,26 +37,26 @@ export class User extends Model<User> {
   @Column(DataType.INTEGER)
   override id!: number;
 
-  @Is(nameRegExp)
+  // @Is(nameRegExp)
   @Column(DataType.STRING)
   first_name!: string;
 
-  @Is(nameRegExp)
+  // @Is(nameRegExp)
   @Column(DataType.STRING)
   second_name!: string;
 
-  @Is(loginRegExp)
-  @Unique
+  // @Is(loginRegExp)
+  // @Unique
   @Column(DataType.STRING)
   login?: string;
 
-  @IsEmail
-  @Unique
+  // @IsEmail
+  // @Unique
   @Column(DataType.STRING)
   email?: string;
 
-  @Is(phoneRegExp)
-  @Unique
+  // @Is(phoneRegExp)
+  // @Unique
   @Column(DataType.STRING)
   phone?: string;
 
