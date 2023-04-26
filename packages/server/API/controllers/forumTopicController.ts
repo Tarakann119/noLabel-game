@@ -85,11 +85,12 @@ export const getAllForumTopic = async (req: Request, res: Response) => {
 export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
   try {
     const reqTopic: ForumTopic = req.body;
-    const user: User | null = await User.findByPk(reqTopic.author_id);
-    if (!user) {
-      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
-      return;
-    }
+    // TODO: проверка на существование пользователя отключена, пока нет прокси для авторизации
+    // const user: User | null = await User.findByPk(reqTopic.author_id);
+    // if (!user) {
+    //   res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
+    //   return;
+    // }
     const topic: ForumTopic | null = await ForumTopic.findByPk(reqTopic.id);
     if (!topic) {
       const newTopic: ForumTopic = await ForumTopic.create(reqTopic);
