@@ -184,7 +184,8 @@ export const Forum = () => {
                   </div>
                   <div className='forum-topics-list__group'>
                     <span>{data.last_message.author_id.toString()}</span>
-                    <span>{data.last_message.created_at.toDateString()}</span>
+                    // TODO: Переделать вывод даты
+                    <span>{data.last_message.created_at.toString()}</span>
                   </div>
                 </li>
               ))}
