@@ -232,7 +232,9 @@ export class Game {
           },
         ];
 
-        towerList.forEach((el) => {
+        for (let i = 0; i < towerList.length; i++) {
+          const el = towerList[i];
+
           if (el.position) {
             if (coins && coins.getCount() >= el.price && this.activePlacementTile === 2) {
               buildings.push(
@@ -250,12 +252,14 @@ export class Game {
               activeTile.isOccupied = true;
 
               coins.setCount(coins.getCount() - el.price);
-
-              buildings.sort((a, b) => {
-                return a.position.y - b.position.y;
-              });
             }
+
+            break;
           }
+        }
+
+        buildings.sort((a, b) => {
+          return a.position.y - b.position.y;
         });
       }
 
