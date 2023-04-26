@@ -143,3 +143,39 @@ export type APIResponseError = {
     status: number;
   };
 };
+
+export type ForumTopicType = {
+  id: number;
+  title: string;
+  author_id: number;
+  created_at: Date;
+  updated_at: Date;
+  author: {
+    id: number;
+    first_name: string;
+    second_name: string;
+    login: string;
+    email: string;
+    phone: string;
+    avatar: string;
+    created_at: Date;
+    updated_at: Date;
+  };
+  last_message: {
+    id: number;
+    text: string;
+    topic_id: number;
+    author_id: number;
+    created_at: Date;
+    updated_at: Date;
+  };
+};
+
+export type ForumMessageType = {
+  id: number;
+  text: string;
+  author_id: number;
+  topic_id: number;
+  updated_at: Date;
+  created_at: Date;
+};

@@ -1,8 +1,15 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { Editor, EditorState } from 'draft-js';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { Button } from '@/components/Button';
 import { InputValidate } from '@/components/InputValidate';
+import { currentUser } from '@/store/selectors';
+import { showError } from '@/utils/ShowError';
 
 import './index.scss';
 
@@ -14,7 +21,9 @@ const MessageSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export function TypingPlace() {
+export function TypingPlace({ topic_id }: { topic_id: number | undefined }) {
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+  const user = useSelector(currentUser);
   return (
     <Formik
       initialValues={{
@@ -23,6 +32,32 @@ export function TypingPlace() {
       validationSchema={MessageSchema}
       onSubmit={(values) => {
         console.log(values);
+        const data = JSON.stringify({
+          text: values.message,
+          author_id: user.id,
+          topic_id: topic_id,
+        });
+        axios('http://localhost:3001/api/forum/messages', {
+          method: 'post',
+          data: data,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          responseType: 'json',
+        })
+          .then((response) => {
+            if (response.data === 'OK') {
+              try {
+                toast.success('Сообщение добавлено!');
+              } catch {
+                showError();
+              }
+            }
+          })
+          .catch(() => {
+            showError();
+          });
       }}>
       {({ errors, values, handleChange }) => (
         <Form className='typing-place'>
@@ -34,6 +69,7 @@ export function TypingPlace() {
             error={errors.message}
             handleChange={handleChange}
           />
+          <Editor editorState={editorState} onChange={setEditorState} />
           <Button
             text='Отправить'
             className='button button_view_primary custom-button'

@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 
 import { InputValidate } from '@/components/InputValidate';
 
-export function SearchTopic() {
+export function SearchTopic({ setSearch }: { setSearch: (value: string) => void }) {
   const [value, setValue] = useState('');
   const debounceFn = useMemo(() => debounce(handleDebounceFn, 1000), []);
 
@@ -15,6 +15,7 @@ export function SearchTopic() {
     const { value } = event.currentTarget as HTMLInputElement;
 
     setValue(value);
+    setSearch(value);
     debounceFn(value);
   }
 
