@@ -98,10 +98,22 @@ export const getAllForumMessage = async (_req: Request, res: Response) => {
 export const createOrUpdateForumMessage = async (req: Request, res: Response) => {
   try {
     const reqForumMessage = req.body;
+
+    // TODO: проверка на существование пользователя отключена, пока нет прокси для авторизации
     const user = await User.findByPk(reqForumMessage.author_id);
+    // if (!user) {
+    //   res.status(StatusCodes.NOT_FOUND).json({ reason: 'Пользователь не найден' });
+    //   return;
+    // }
+    // Этот костыль нужен, чтобы в сообщениях форума отображался пользователь Аноним, если пользователь не найден
+    // после добавления прокси для авторизации, этот костыль можно будет удалить
     if (!user) {
-      res.status(StatusCodes.NOT_FOUND).json({ reason: 'Пользователь не найден' });
-      return;
+      await User.create({
+        id: reqForumMessage.author_id,
+        first_name: 'Аноним',
+        second_name: 'Аноним',
+      } as User);
+
     }
     const forumMessage = await ForumMessage.findByPk(reqForumMessage.message_id);
     if (forumMessage) {
