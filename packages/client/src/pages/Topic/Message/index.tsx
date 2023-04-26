@@ -27,7 +27,6 @@ export const Message: FC<ForumMessageType> = memo(({ author_id, text, created_at
     };
     fetchData();
   }, []);
-
   function handleEmojiClick(e: unknown) {
     setEmojies([...emojies]);
     console.log(e);
@@ -41,8 +40,7 @@ export const Message: FC<ForumMessageType> = memo(({ author_id, text, created_at
         <p className='user-name'>{author?.login}</p>
       </div>
       <p className='message'>{text}</p>
-      // TODO: переделать вывод даты
-      <p className='send-time'>{created_at.toString()}</p>
+      <p className='send-time'>{created_at.toDateString()}</p>
       <div onClick={() => setEmojiMenuVisible(true)}>☹️</div>
       {emojiMenuVisible && (
         <div>

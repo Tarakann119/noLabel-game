@@ -98,6 +98,7 @@ export const getAllForumMessage = async (_req: Request, res: Response) => {
 export const createOrUpdateForumMessage = async (req: Request, res: Response) => {
   try {
     const reqForumMessage = req.body;
+
     // TODO: проверка на существование пользователя отключена, пока нет прокси для авторизации
     const user = await User.findByPk(reqForumMessage.author_id);
     // if (!user) {
@@ -112,6 +113,7 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
         first_name: 'Аноним',
         second_name: 'Аноним',
       } as User);
+
     }
     const forumMessage = await ForumMessage.findByPk(reqForumMessage.message_id);
     if (forumMessage) {
