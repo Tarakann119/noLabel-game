@@ -14,7 +14,8 @@ export class Enemy extends Sprite {
     protected readonly context: CanvasRenderingContext2D,
     public position: { x: number; y: number } = { x: 0, y: 0 },
     private readonly enemyType: EnemyType,
-    private readonly waypoints: { x: number; y: number }[]
+    private readonly waypoints: { x: number; y: number }[],
+    private readonly gameSpeed: number = 1
   ) {
     super(context, position, settings[enemyType].imageSrc, { x: 0, y: 0 }, 7);
 
@@ -66,15 +67,15 @@ export class Enemy extends Sprite {
     this.draw();
     super.update();
 
-    const { waypoints, center, position, velocity, settings, waypointIndex } = this;
+    const { waypoints, center, position, velocity, settings, waypointIndex, gameSpeed } = this;
 
     const waypoint = waypoints[waypointIndex];
     const yDistance = waypoint.y - center.y;
     const xDistance = waypoint.x - center.x;
     const angle = Math.atan2(yDistance, xDistance);
 
-    velocity.x = Math.cos(angle) * settings.speed;
-    velocity.y = Math.sin(angle) * settings.speed;
+    velocity.x = Math.cos(angle) * settings.speed * gameSpeed;
+    velocity.y = Math.sin(angle) * settings.speed * gameSpeed;
 
     position.x += velocity.x;
     position.y += velocity.y;

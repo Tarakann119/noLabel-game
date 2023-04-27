@@ -14,6 +14,25 @@ export enum TowersList {
 
 export type TowerType = keyof typeof TowersList;
 
+export enum GameScreens {
+  START = 'START',
+  MAP = 'MAP',
+  GAME = 'GAME',
+}
+
+export type TGameScreens = keyof typeof GameScreens;
+
+export enum GameModals {
+  MENU = 'MENU',
+  END = 'END',
+}
+
+export type TGameModals = keyof typeof GameModals;
+
+export type TEnemy = keyof typeof EnemiesList;
+
+export type TTower = keyof typeof TowersList;
+
 export type TowerListItemType = {
   x: number;
   y: number;

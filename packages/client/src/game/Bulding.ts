@@ -3,7 +3,6 @@ import { TBuildingSettings, TowerType } from '@typings/app.typings';
 import { settings } from './settings/buldings';
 import { Enemy } from './Enemy';
 import { Projectile } from './Projectile';
-import { Resource } from './Resources';
 import { Sprite } from './Sprite';
 
 export class Building extends Sprite {
@@ -34,7 +33,7 @@ export class Building extends Sprite {
     };
   }
 
-  public shoot(enemies: Enemy[], coins: Resource, points: Resource) {
+  public shoot(enemies: Enemy[]) {
     const { projectiles } = this;
 
     for (let i = projectiles.length - 1; i >= 0; i--) {
@@ -44,6 +43,7 @@ export class Building extends Sprite {
 
       if (this.isValidEnemy(projectile.enemy, projectile.position, projectile.settings.radius)) {
         projectile.enemy.wounds += projectile.settings.damage;
+        let reward = null;
 
         if (projectile.enemy.wounds >= projectile.enemy.settings.health) {
           const enemyIndex = enemies.findIndex((enemy) => {
@@ -52,12 +52,16 @@ export class Building extends Sprite {
 
           if (enemyIndex > -1) {
             enemies.splice(enemyIndex, 1);
-            coins.setCount(coins.getCount() + projectile.enemy.settings.coins);
-            points.setCount(points.getCount() + projectile.enemy.settings.points);
+
+            reward = {
+              coins: projectile.enemy.settings.coins,
+              points: projectile.enemy.settings.points,
+            };
           }
         }
 
         projectiles.splice(i, 1);
+        return reward;
       }
     }
   }

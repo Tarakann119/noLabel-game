@@ -1,24 +1,28 @@
-import { EnemyType, TGameSettings, TowerListItemType, TowersList, TowerType } from '@typings/app.typings';
+import {
+  EnemyType,
+  TGameSettings,
+  TowerListItemType,
+  TowersList,
+  TowerType,
+} from '@typings/app.typings';
+import { throttle } from 'lodash';
 
 import { Building } from './Bulding';
 import { Enemy } from './Enemy';
-import { Menu } from './Menu';
 import { PlacementTile } from './PlacementTile';
-import { Resource } from './Resources';
-
-const mapsSettings = import.meta.glob(`../../public/game/maps/*.json`);
-
+import { Resources } from './Resources';
 export class Game {
   private imageSrc: string | undefined;
   private context: CanvasRenderingContext2D | null;
-  private settings: TGameSettings | undefined;
 
   private placementTiles: PlacementTile[] = [];
   private buildings: Building[] = [];
   private enemies: Enemy[] = [];
+  private gameResources: Resources | undefined;
 
   private waveIndex = 0;
   private cursor: { x: number; y: number } = { x: 0, y: 0 };
+  private tileSize: { height: number; width: number };
   private activeTile: PlacementTile | undefined = undefined;
 
   private towers: TowerListItemType[] = [];
@@ -27,72 +31,67 @@ export class Game {
   private startX: number | undefined;
   private startY: number | undefined;
 
-  private resources = {
-    coins: <Resource | null>null,
-  };
-
   handleMouseMoveEvent = (event: MouseEvent) => this.handleMouseMove(event);
-  handleClickEvent = () => this.handleClick();
-  myUpEvent = () => this.myUp();
-  myDownEvent = () => this.myDown();
+  handleClickEvent = () => this.handleClick;
+  myUpEvent = () => this.myUp;
+  myDownEvent = () => this.myDown;
 
-  constructor(private readonly canvas: HTMLCanvasElement, private readonly mapName: string) {
+  constructor(
+    private readonly canvas: HTMLCanvasElement,
+    private readonly wrapperSize: { height: number; width: number },
+    private readonly mapName: string,
+    private readonly mapSettings: TGameSettings
+  ) {
     this.context = this.canvas.getContext('2d');
-  }
-
-  private async init() {
-    const path = <string>Object.keys(mapsSettings).find((path) => {
-      const position = path.lastIndexOf('/') + 1;
-      const filename = path.substring(position);
-
-      return filename === `settings-${this.mapName}.json`;
-    });
-
-    const settings = await mapsSettings[path]();
-
-    this.settings = <TGameSettings>JSON.parse(JSON.stringify(settings));
     this.imageSrc = `./game/maps/background-${this.mapName}.png`;
+    this.tileSize = {
+      height: wrapperSize.height / mapSettings.height,
+      width: wrapperSize.width / mapSettings.width,
+    };
   }
 
   public async start() {
-    await this.init();
-
-    const { settings, context, imageSrc } = this;
+    const { context, wrapperSize, imageSrc, mapSettings } = this;
     this.createTowerListItems();
 
-    if (settings && context && imageSrc) {
+    if (mapSettings && context && imageSrc) {
       const { canvas, imageSrc, cursor, placementTiles, buildings, enemies } = this;
-      const { tileSize, width, height, waves } = settings;
+      const { waves, coins, hearts } = mapSettings;
 
-      canvas.width = width * tileSize;
-      canvas.height = height * tileSize;
+      const canvasHeight = wrapperSize.height;
+      const canvasWidth = wrapperSize.width;
+
+      canvas.height = canvasHeight;
+      canvas.width = canvasWidth;
 
       const img = await this.loadBackground(<string>imageSrc);
 
       if (img) {
-        const menu = new Menu(context, { x: canvas.width / 2, y: canvas.height / 2 });
-        const { hearts, coins, points } = this.createResources();
+        this.gameResources = new Resources(canvas, {
+          hearts,
+          coins,
+          points: 0,
+        });
+
         this.createPlacementTiles();
+
         this.spawnEnemiesWave(this.waveIndex);
 
-        this.resources.coins = coins;
+        this.gameResources.setValue('coins', coins);
 
         canvas.addEventListener('mousemove', this.handleMouseMoveEvent);
         canvas.addEventListener('click', this.handleClickEvent);
         canvas.addEventListener('mouseup', this.myUpEvent);
         canvas.addEventListener('mousedown', this.myDownEvent);
 
-        return new Promise<number>((resolve) => {
+        return new Promise<{ text: string; score: number }>((resolve) => {
           const animate = () => {
             const animationId = requestAnimationFrame(animate);
 
-            context.drawImage(img, 0, 0);
+            context.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+            (this.gameResources as Resources).update();
 
             this.draw();
-
-            coins.update();
-            hearts.update();
-            points.update();
 
             placementTiles.forEach((tile) => {
               tile.update(cursor);
@@ -101,7 +100,15 @@ export class Game {
             buildings.forEach((building) => {
               building.updateTower(cursor);
               building.setTarget(enemies);
-              building.shoot(enemies, coins, points);
+              const reward = building.shoot(enemies);
+
+              if (reward) {
+                const newCoins = (this.gameResources as Resources).getValue('coins') + reward.coins;
+                const newPoints =
+                  (this.gameResources as Resources).getValue('points') + reward.points;
+                (this.gameResources as Resources).setValue('coins', newCoins);
+                (this.gameResources as Resources).setValue('points', newPoints);
+              }
             });
 
             for (let i = enemies.length - 1; i >= 0; i -= 1) {
@@ -109,18 +116,16 @@ export class Game {
               enemy.update();
 
               if (enemy.isAtTheEndPoint(canvas)) {
-                hearts.setCount(hearts.getCount() - 1);
+                const newHearts = (this.gameResources as Resources).getValue('hearts') - 1;
+                (this.gameResources as Resources).setValue('hearts', newHearts);
                 enemies.splice(i, 1);
 
-                if (hearts.getCount() <= 0) {
-                  hearts.update();
-
-                  menu.setText('Поражение!');
-                  menu.setPoints(points.getCount());
-                  menu.update();
-
+                if ((this.gameResources as Resources).getValue('hearts') <= 0) {
                   cancelAnimationFrame(animationId);
-                  resolve(points.getCount());
+                  resolve({
+                    text: 'Поражение',
+                    score: (this.gameResources as Resources).getValue('points'),
+                  });
                 }
               }
             }
@@ -130,15 +135,11 @@ export class Game {
                 this.waveIndex += 1;
                 this.spawnEnemiesWave(this.waveIndex);
               } else {
-                coins.update();
-                points.update();
-
-                menu.setText('Победа!');
-                menu.setPoints(points.getCount());
-                menu.update();
-
                 cancelAnimationFrame(animationId);
-                resolve(points.getCount());
+                resolve({
+                  text: 'Победа',
+                  score: (this.gameResources as Resources).getValue('points'),
+                });
               }
             }
           };
@@ -181,8 +182,6 @@ export class Game {
       const scaleFactorY = this.canvas.height / screenHeight;
       cursor.x = Math.min(Math.max(event.clientX * scaleFactorX, 0), 1280);
       cursor.y = Math.min(Math.max(event.clientY * scaleFactorY, 0), 768);
-    } else {
-      // если фулл скрин убран
     }
 
     if (dragok && this.startX && this.startY) {
@@ -205,19 +204,17 @@ export class Game {
   }
 
   private handleClick() {
-    const { activeTile, buildings, context, settings } = this;
-    const { tileSize } = <TGameSettings>settings;
-
-    const coins = this.resources.coins;
+    const { activeTile, buildings, context, mapSettings } = this;
+    const { tileSize } = <TGameSettings>mapSettings;
 
     if (
-      coins &&
       activeTile &&
       !activeTile.isOccupied &&
-      coins.getCount() >= 25 &&
+      (this.gameResources as Resources).getValue('coins') >= 25 &&
       this.towerType !== null
     ) {
-      coins.setCount(coins.getCount() - 25);
+      const newCoins = (this.gameResources as Resources).getValue('coins') + 25;
+      (this.gameResources as Resources).setValue('coins', newCoins);
 
       buildings.push(
         new Building(
@@ -250,46 +247,10 @@ export class Game {
     });
   }
 
-  private createResources() {
-    const { canvas, context, settings } = this;
-    const { coins: initialСoins, hearts: initialHearts } = <TGameSettings>settings;
-
-    const hearts = new Resource(
-      <CanvasRenderingContext2D>context,
-      {
-        x: canvas.width - 190,
-        y: 0,
-      },
-      initialHearts,
-      'heart.png'
-    );
-    const coins = new Resource(
-      <CanvasRenderingContext2D>context,
-      {
-        x: canvas.width - 120,
-        y: 0,
-      },
-      initialСoins,
-      'coin.png'
-    );
-    const points = new Resource(
-      <CanvasRenderingContext2D>context,
-      {
-        x: 20,
-        y: 0,
-      },
-      0,
-      'points.png'
-    );
-
-    return { hearts, coins, points };
-  }
-
   private createPlacementTiles() {
-    const { placementTiles: placementTilesArr, width, tileSize } = <TGameSettings>this.settings;
-    const { placementTiles, context } = this;
+    const { placementTiles: placementTilesArr, width } = <TGameSettings>this.mapSettings;
+    const { placementTiles, context, tileSize } = this;
     const placementTilesData2D: number[][] = [];
-    const placementTileСoordinates = 91448;
 
     for (let i = 0; i < placementTilesArr.length; i += width) {
       placementTilesData2D.push(placementTilesArr.slice(i, i + width));
@@ -297,13 +258,13 @@ export class Game {
 
     placementTilesData2D.forEach((row, y) => {
       row.forEach((symbol, x) => {
-        if (symbol === placementTileСoordinates) {
+        if (symbol !== 0) {
           placementTiles.push(
             new PlacementTile(
               <CanvasRenderingContext2D>context,
               {
-                x: x * tileSize,
-                y: y * tileSize,
+                x: x * tileSize.width,
+                y: y * tileSize.height,
               },
               tileSize
             )
@@ -314,8 +275,8 @@ export class Game {
   }
 
   private createEnemy(enemyType: EnemyType, xOffset: number) {
-    const { enemies, context, settings } = this;
-    const { waypoints } = <TGameSettings>settings;
+    const { enemies, context, mapSettings } = this;
+    const { waypoints } = <TGameSettings>mapSettings;
 
     enemies.push(
       new Enemy(
@@ -356,7 +317,7 @@ export class Game {
   }
 
   private spawnEnemiesWave(waveNumber: number) {
-    const { waves } = <TGameSettings>this.settings;
+    const { waves } = <TGameSettings>this.mapSettings;
 
     const wave = waves[waveNumber].enemies;
 
@@ -461,12 +422,12 @@ export class Game {
   }
 
   private draw() {
-    const { context } = this;
+    const { context, canvas } = this;
 
     if (context) {
       const img = new Image();
-      img.src = './game/assets/interface-game/table_down.png';
-      context.drawImage(img, -70, 650);
+      img.src = './game/assets/interface/table/table_down.png';
+      context.drawImage(img, -70, canvas.height, canvas.width, 70);
     }
 
     for (let i = 0; i < this.towers.length; i++) {
