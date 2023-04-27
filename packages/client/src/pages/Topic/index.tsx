@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { ForumMessageType, ForumTopicType } from '@typings/app.typings';
+import { ForumThemeType, ForumTopicType } from '@typings/app.typings';
 import axios from 'axios';
 import classNames from 'classnames';
 
@@ -13,7 +13,7 @@ import './index.scss';
 
 export function Topic() {
   const { id } = useParams();
-  const [messages, setMessages] = useState<ForumMessageType[]>([]);
+  const [messages, setMessages] = useState<ForumThemeType[]>([]);
   const [topic, setTopic] = useState<ForumTopicType>();
 
   useEffect(() => {
@@ -27,6 +27,7 @@ export function Topic() {
     };
     fetchData();
   }, []);
+  console.log(messages);
   useEffect(() => {
     const topicData = async () => {
       try {
@@ -37,7 +38,8 @@ export function Topic() {
       }
     };
     topicData();
-  }, [messages]);
+  }, []);
+
   // const messageList: IMessage[] = [
   //   {
   //     userName: 'Ivan',
@@ -88,19 +90,18 @@ export function Topic() {
       <div className='forum__container'>
         <Title className='form-login-title' text={topic?.title || ' '} />
         <div className='chat-wrapper'>
-          {/* {messages && (
+          {topic && (
             <div className='topic-message'>
               <Message
-                userName={topic!.author.login}
-                text={topic?.}
-                date={questionMessage.date}
+                //@ts-expect-error
+                data={topic}
               />
             </div>
-          )} */}
+          )}
           <ul className='topic-chat'>
             {messages.map((data) => (
               <li key={data.id.toString()}>
-                <Message {...data} />
+                <Message data={data} />
               </li>
             ))}
           </ul>

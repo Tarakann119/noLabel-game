@@ -17,7 +17,7 @@ const MessageSchema = Yup.object().shape({
   login: Yup.string()
     .min(2, 'Сообщение слишком короткое!')
     .max(2000, 'Сообщение слишком длинное!')
-    .matches(/[^\s\t\r\n\v\f]$/, 'Поле содержит недопустимые символы')
+    // .matches(/[^\s\t\r\n\v\f]$/, 'Поле содержит недопустимые символы')
     .required('Required'),
 });
 
@@ -29,7 +29,7 @@ export function TypingPlace({ topic_id }: { topic_id: number | undefined }) {
       initialValues={{
         message: '',
       }}
-      validationSchema={MessageSchema}
+      // validationSchema={MessageSchema}
       onSubmit={(values) => {
         console.log(values);
         const data = JSON.stringify({
@@ -69,7 +69,7 @@ export function TypingPlace({ topic_id }: { topic_id: number | undefined }) {
             error={errors.message}
             handleChange={handleChange}
           />
-          <Editor editorState={editorState} onChange={setEditorState} />
+          {/* <Editor editorState={editorState} onChange={setEditorState} /> */}
           <Button
             text='Отправить'
             className='button button_view_primary custom-button'
