@@ -175,7 +175,7 @@ export const Forum = () => {
             <ol className='forum-topics-list'>
               {!forumData.length && <div>Нет тем,соответствующих запросу</div>}
               {forumData.map((data) => (
-                <li className='forum-topics-list__item' key={data.id.toString()}>
+                <li className='forum-topics-list__item' key={data.id}>
                   <div className='forum-topics-list__group'>
                     <Link className='plane-link' to={`./${data.id}`}>
                       {data.title}
@@ -183,8 +183,8 @@ export const Forum = () => {
                     <span>{data.author.login}</span>
                   </div>
                   <div className='forum-topics-list__group'>
-                    <span>{data.last_message.author_id.toString()}</span>
-                    <span>{data.last_message.created_at.toDateString()}</span>
+                    <span>{data.last_message.author_id}</span>
+                    <span>{data.last_message.created_at}</span>
                   </div>
                 </li>
               ))}

@@ -148,8 +148,8 @@ export type ForumTopicType = {
   id: number;
   title: string;
   author_id: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   author: {
     id: number;
     first_name: string;
@@ -158,16 +158,16 @@ export type ForumTopicType = {
     email: string;
     phone: string;
     avatar: string;
-    created_at: Date;
-    updated_at: Date;
+    created_at: string;
+    updated_at: string;
   };
   last_message: {
     id: number;
     text: string;
     topic_id: number;
     author_id: number;
-    created_at: Date;
-    updated_at: Date;
+    created_at: string;
+    updated_at: string;
   };
 };
 
@@ -176,6 +176,25 @@ export type ForumMessageType = {
   text: string;
   author_id: number;
   topic_id: number;
-  updated_at: Date;
-  created_at: Date;
+  updated_at: string;
+  created_at: string;
+};
+
+export type Emoji = {
+  id: number;
+  emoji: string;
+};
+
+export type ForumThemeType = {
+  author: {
+    avatar: string;
+    first_name: string;
+    id: number;
+    second_name: string;
+  };
+  created_at: string;
+  emojis: Emoji[];
+  id: number;
+  text: string;
+  updated_at: string;
 };
