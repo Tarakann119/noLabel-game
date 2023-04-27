@@ -1,11 +1,4 @@
-import {
-  EnemyType,
-  TGameSettings,
-  TowerListItemType,
-  TowersList,
-  TowerType,
-} from '@typings/app.typings';
-import { throttle } from 'lodash';
+import { EnemyType, TGameSettings, TowersList } from '@typings/app.typings';
 
 import { Building } from './Bulding';
 import { Enemy } from './Enemy';
@@ -25,16 +18,12 @@ export class Game {
   private tileSize: { height: number; width: number };
   private activeTile: PlacementTile | undefined = undefined;
 
-  private towers: TowerListItemType[] = [];
-  private dragok = false;
-  private towerType: TowerType | null = null;
-  private startX: number | undefined;
-  private startY: number | undefined;
+  private gameOver: boolean | undefined;
 
   handleMouseMoveEvent = (event: MouseEvent) => this.handleMouseMove(event);
-  handleClickEvent = () => this.handleClick;
-  myUpEvent = () => this.myUp;
-  myDownEvent = () => this.myDown;
+  handleClickEvent = () => this.handleClick();
+
+  private activePlacementTile = 0;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -52,7 +41,6 @@ export class Game {
 
   public async start() {
     const { context, wrapperSize, imageSrc, mapSettings } = this;
-    this.createTowerListItems();
 
     if (mapSettings && context && imageSrc) {
       const { canvas, imageSrc, cursor, placementTiles, buildings, enemies } = this;
@@ -81,8 +69,6 @@ export class Game {
 
         canvas.addEventListener('mousemove', this.handleMouseMoveEvent);
         canvas.addEventListener('click', this.handleClickEvent);
-        canvas.addEventListener('mouseup', this.myUpEvent);
-        canvas.addEventListener('mousedown', this.myDownEvent);
 
         return new Promise<{ text: string; score: number }>((resolve) => {
           const animate = () => {
@@ -90,8 +76,6 @@ export class Game {
 
             context.drawImage(img, 0, 0, canvasWidth, canvasHeight);
             (this.gameResources as Resources).update();
-
-            this.draw();
 
             placementTiles.forEach((tile) => {
               tile.update(cursor);
@@ -121,6 +105,7 @@ export class Game {
                 enemies.splice(i, 1);
 
                 if ((this.gameResources as Resources).getValue('hearts') <= 0) {
+                  this.gameOver = true;
                   cancelAnimationFrame(animationId);
                   resolve({
                     text: 'Поражение',
@@ -135,6 +120,7 @@ export class Game {
                 this.waveIndex += 1;
                 this.spawnEnemiesWave(this.waveIndex);
               } else {
+                this.gameOver = true;
                 cancelAnimationFrame(animationId);
                 resolve({
                   text: 'Победа',
@@ -155,12 +141,10 @@ export class Game {
 
     canvas.removeEventListener('mousemove', this.handleMouseMoveEvent);
     canvas.removeEventListener('click', this.handleClickEvent);
-    canvas.removeEventListener('mouseup', this.myUpEvent);
-    canvas.removeEventListener('mousedown', this.myDownEvent);
   }
 
   private handleMouseMove(event: MouseEvent) {
-    const { placementTiles, cursor, dragok, towers } = this;
+    const { placementTiles, cursor } = this;
 
     if (this.canvas.width <= window.innerWidth) {
       cursor.x = event.clientX - ((window.innerWidth - this.canvas.width) / 2 - 20);
@@ -184,22 +168,6 @@ export class Game {
       cursor.y = Math.min(Math.max(event.clientY * scaleFactorY, 0), 768);
     }
 
-    if (dragok && this.startX && this.startY) {
-      const dx = cursor.x - this.startX;
-      const dy = cursor.y - this.startY;
-
-      for (let i = 0; i < towers.length; i++) {
-        if (towers[i].isDragging == true) {
-          towers[i].x += dx;
-          towers[i].y += dy;
-        }
-      }
-      this.draw();
-
-      this.startX = cursor.x;
-      this.startY = cursor.y;
-    }
-
     this.activeTile = placementTiles.find((tile) => tile.isCursorInTileBorders(cursor));
   }
 
@@ -207,34 +175,96 @@ export class Game {
     const { activeTile, buildings, context, mapSettings } = this;
     const { tileSize } = <TGameSettings>mapSettings;
 
-    if (
-      activeTile &&
-      !activeTile.isOccupied &&
-      (this.gameResources as Resources).getValue('coins') >= 25 &&
-      this.towerType !== null
-    ) {
-      const newCoins = (this.gameResources as Resources).getValue('coins') + 25;
-      (this.gameResources as Resources).setValue('coins', newCoins);
+    this.activePlacementTile++;
+    const animate = () => {
+      const animationId = requestAnimationFrame(animate);
 
-      buildings.push(
-        new Building(
-          <CanvasRenderingContext2D>context,
+      if (this.context && activeTile && activeTile.isOccupied !== true && !this.gameOver) {
+        const img = new Image();
+        img.src = './game/assets/towers/tower_list.png';
+        this.context.drawImage(img, activeTile.position.x - 64, activeTile.position.y - 64);
+
+        const towerList = [
           {
-            x: activeTile.position.x,
-            y: activeTile.position.y,
+            position:
+              this.cursor.y + 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y &&
+              this.cursor.x + 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x,
+            price: 50,
+            type: TowersList.STONE,
           },
-          this.towerType,
-          tileSize
-        )
-      );
-      this.towerType = null;
+          {
+            position:
+              this.cursor.y + 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y &&
+              this.cursor.x - 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x + 128,
+            price: 100,
+            type: TowersList.ARCHER,
+          },
+          {
+            position:
+              this.cursor.y - 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y + 128 &&
+              this.cursor.x + 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x,
+            price: 150,
+            type: TowersList.CROSSBOWMAN,
+          },
+          {
+            position:
+              this.cursor.y - 64 > activeTile.position.y &&
+              this.cursor.y < activeTile.position.y + 128 &&
+              this.cursor.x - 64 > activeTile.position.x &&
+              this.cursor.x < activeTile.position.x + 128,
+            price: 200,
+            type: TowersList.MAGICTOWER,
+          },
+        ];
 
-      activeTile.isOccupied = true;
+        for (let i = 0; i < towerList.length; i++) {
+          const el = towerList[i];
 
-      buildings.sort((a, b) => {
-        return a.position.y - b.position.y;
-      });
-    }
+          if (el.position) {
+            if (
+              (this.gameResources as Resources).getValue('coins') >= el.price &&
+              this.activePlacementTile === 2
+            ) {
+              buildings.push(
+                new Building(
+                  <CanvasRenderingContext2D>context,
+                  {
+                    x: activeTile.position.x,
+                    y: activeTile.position.y,
+                  },
+                  el.type,
+                  tileSize
+                )
+              );
+
+              activeTile.isOccupied = true;
+
+              const newCoins = (this.gameResources as Resources).getValue('coins') + -el.price;
+              (this.gameResources as Resources).setValue('coins', newCoins);
+            }
+
+            break;
+          }
+        }
+
+        buildings.sort((a, b) => {
+          return a.position.y - b.position.y;
+        });
+      }
+
+      if (this.activePlacementTile === 2) {
+        cancelAnimationFrame(animationId);
+        this.activePlacementTile = 1;
+      }
+    };
+
+    requestAnimationFrame(animate);
   }
 
   private loadBackground(src: string) {
@@ -337,101 +367,6 @@ export class Game {
         this.createEnemy(type, xOffset);
         index++;
       });
-    }
-  }
-
-  private myUp() {
-    const { towers } = this;
-
-    this.dragok = false;
-
-    for (let i = 0; i < towers.length; i++) {
-      towers[0].x = 30;
-      towers[0].y = 630;
-      towers[1].x = 170;
-      towers[1].y = 630;
-
-      towers[i].isDragging = false;
-      this.draw();
-    }
-  }
-
-  private myDown() {
-    const { towers, cursor } = this;
-
-    this.dragok = true;
-    const group = [];
-
-    for (let i = 0; i < towers.length; i++) {
-      if (
-        cursor.x > towers[i].x &&
-        cursor.x < towers[i].x + towers[i].width + 10 &&
-        cursor.y > towers[i].y + 22 &&
-        cursor.y < towers[i].y + 22 + towers[i].height
-      ) {
-        group.push(towers[i]);
-      }
-    }
-
-    if (group.length === 1) {
-      group[0].isDragging = true;
-      this.towerType = group[0].type;
-    }
-
-    this.startX = cursor.x;
-    this.startY = cursor.y;
-  }
-
-  private rect(towerListItem: TowerListItemType) {
-    if (this.context) {
-      const img = new Image();
-      img.src = towerListItem.imageSrc;
-
-      this.context.fillStyle = towerListItem.fill;
-      this.context.drawImage(img, towerListItem.x, towerListItem.y);
-      this.context.fillRect(
-        towerListItem.x,
-        towerListItem.y,
-        towerListItem.width,
-        towerListItem.height
-      );
-    }
-  }
-
-  private createTowerListItems() {
-    this.towers.push({
-      x: 30,
-      y: 630,
-      width: 128,
-      height: 128,
-      fill: 'rgba(0, 0, 0, 0)',
-      imageSrc: './game/assets/towers/stone/tower.png',
-      isDragging: false,
-      type: TowersList.STONE,
-    });
-    this.towers.push({
-      x: 170,
-      y: 630,
-      width: 128,
-      height: 128,
-      fill: 'rgba(0, 0, 0, 0)',
-      isDragging: false,
-      imageSrc: './game/assets/towers/archer/tower.png',
-      type: TowersList.ARCHER,
-    });
-  }
-
-  private draw() {
-    const { context, canvas } = this;
-
-    if (context) {
-      const img = new Image();
-      img.src = './game/assets/interface/table/table_down.png';
-      context.drawImage(img, -70, canvas.height, canvas.width, 70);
-    }
-
-    for (let i = 0; i < this.towers.length; i++) {
-      this.rect(this.towers[i]);
     }
   }
 }

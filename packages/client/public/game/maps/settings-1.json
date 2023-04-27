@@ -3,7 +3,7 @@
   "width": 20,
   "height": 12,
   "hearts": 10,
-  "coins": 50,
+  "coins": 200,
   "waves": [
     {
       "enemies": [

@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { Title } from '@/components/Title';
-import { ForumHeader } from '@/pages/Forum/ForumHeader';
 import { uuid } from '@/utils/generateId';
 
 import '@/components/Button/index.scss';
@@ -135,7 +134,6 @@ export const Forum = () => {
         'forum'
       )}>
       <div className='forum__container'>
-        <ForumHeader />
         <Title text='Актуальные темы' />
 
         <div className='forum-topics'>
@@ -172,3 +170,4 @@ export const Forum = () => {
     </div>
   );
 };
+export default Forum;
