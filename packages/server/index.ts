@@ -1,4 +1,3 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import helmet from 'helmet';
@@ -9,9 +8,9 @@ import { forumTopic } from './API/routes/forumTopicRoutes';
 import { leaderboard } from './API/routes/leaderboardRoutes';
 import { themes } from './API/routes/themeRoutes';
 import { users } from './API/routes/userRoutes';
+import { proxyMiddleware } from './middlewares/proxy';
 import { initPostgreSQLConnection } from './db';
 
-// Загрузка переменных окружения
 dotenv.config();
 
 // Инициализация соединения с БД
@@ -19,11 +18,27 @@ initPostgreSQLConnection();
 
 // Создание сервера
 const app = express();
-app.use(cors());
+
+// const corsOptions = {
+//   AccessControlAllowOrigin: '*',
+//   AccessControlAllowHeaders: 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With',
+//   AccessControlAllowMethods: 'PUT,POST,GET,DELETE,OPTIONS',
+// } as cors.CorsOptions;
+
 const port = process.env.SERVER_PORT || 3001;
 
 // Защита от некоторых типов атак
 app.use(helmet());
+
+app.use(function (_req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+// Middleware
+// app.use('/api/v2', cors(corsOptions), proxyMiddleware);
+app.use('/api/v2', proxyMiddleware);
 
 // Подключение роутов
 app.use('/api/user', users);
