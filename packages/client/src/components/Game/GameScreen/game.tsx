@@ -108,7 +108,7 @@ export const GameScreen: FC<TGameScreen> = ({ className }) => {
     } else {
       setGameScreen('MAP');
     }
-  }, [wrapperRef.current, elementObserver, restart]);
+  }, [wrapperRef.current, elementObserver]);
 
   return (
     <div className={classNames('game-field', className)} ref={wrapperRef}>

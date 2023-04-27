@@ -4,9 +4,8 @@ import classNames from 'classnames';
 import { Title } from '@/components/Title';
 import { uuid } from '@/utils/generateId';
 
-import '@/components/Button/index.scss';
-import '@/components/Header/index.scss';
-import '@/pages/StartScreen/index.scss';
+import { ForumHeader } from './ForumHeader';
+
 import './index.scss';
 
 const mockData = [
@@ -134,6 +133,8 @@ export const Forum = () => {
         'forum'
       )}>
       <div className='forum__container'>
+        <ForumHeader />
+
         <Title text='Актуальные темы' />
 
         <div className='forum-topics'>

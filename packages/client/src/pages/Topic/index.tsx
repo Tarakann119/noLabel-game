@@ -13,6 +13,8 @@ interface IMessage {
   date: string;
 }
 
+import './index.scss';
+
 export function Topic() {
   const messageList: IMessage[] = [
     {

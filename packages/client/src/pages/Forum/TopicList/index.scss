@@ -1,0 +1,34 @@
+.topics-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 20px;
+}
+
+.topics-list {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: left;
+  flex-wrap: wrap;
+  max-width: 100%;
+  overflow-y: auto;
+}
+
+.topics-list__item {
+  width: 100%;
+  flex: 1 0 100%;
+  margin: 10px 0;
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+}
+
+.topics-list__item .button.button_view_ghost {
+  max-width: 100%;
+  width: 100%;
+  text-align: left;
+}

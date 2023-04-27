@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -13,7 +12,7 @@ const CreatePostSchema = Yup.object().shape({
 
 export const CreateTopic = () => {
   return (
-    <main className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
+    <main className='container-content container-content_main bg-image_login'>
       <div className='forum__container'>
         <Formik
           initialValues={{

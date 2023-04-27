@@ -13,6 +13,7 @@ export const InputValidate: FC<InputValidateProps> = ({
   type,
   value,
   error,
+  placeholder,
   errorTitle,
   handleChange,
 }) => {
@@ -34,6 +35,7 @@ export const InputValidate: FC<InputValidateProps> = ({
           className='input__field'
           onFocus={() => setErr(true)}
           onBlur={() => setErr(false)}
+          placeholder={placeholder}
         />
         <ValidateErrorMessage
           title={errorTitle ? errorTitle : 'Ошибка валидации'}
