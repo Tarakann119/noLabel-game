@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import Beautiful from '../../assets/tracks/Orgrimmar.mp3';
+import Beautiful from '@/assets/tracks/Orgrimmar.mp3';
 
-function AudioPlayer() {
+export const AudioPlayer = () => {
   const sound = Beautiful;
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     setAudio(new Audio(sound));
-  }, []);
 
-  useEffect(() => {
     if (audio) {
       if (isPlaying) {
         audio.play();
@@ -19,7 +17,7 @@ function AudioPlayer() {
         audio.pause();
       }
     }
-  }, [isPlaying, audio]);
+  }, [isPlaying]);
 
   const handlePlay = () => {
     setIsPlaying(true);
@@ -35,6 +33,4 @@ function AudioPlayer() {
       <button onClick={handlePause}>Pause</button>
     </div>
   );
-}
-
-export default AudioPlayer;
+};

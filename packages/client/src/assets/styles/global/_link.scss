@@ -1,7 +1,5 @@
-@import './varThemeDefault';
-
 .plane-link {
-  color: $color-text-primary;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 20px;
   font-family: $font-primary;
@@ -12,7 +10,7 @@
   transition: 0.3s ease-in;
 
   &:hover {
-    color: $color-ui-primary;
+    color: var(--ui-primary);
   }
 }
 
@@ -22,7 +20,7 @@
   justify-content: flex-start;
   height: 100%;
   margin: 0 20px;
-  color: $color-text-primary;
+  color: var(--text-primary);
   font-weight: 400;
   font-size: 26px;
   font-family: $font-defence;
@@ -32,7 +30,7 @@
   cursor: pointer;
 
   &:hover {
-    color: $color-ui-primary;
+    color: var(--ui-primary);
 
     // анимация custom-link при наведении
     animation: hover 0.5s forwards;
@@ -43,20 +41,20 @@
 
       50% {
         transform: scale(1.05);
-        filter: drop-shadow(0 0 9px $color-ui-primary);
+        filter: drop-shadow(0 0 9px var(--ui-primary));
         transition-delay: inherit;
       }
 
       100% {
         transform: scale(1);
         text-decoration-line: underline;
-        filter: drop-shadow(0 0 9px $color-ui-primary);
+        filter: drop-shadow(0 0 9px var(--ui-primary));
         transition-delay: inherit;
       }
     }
   }
 
   &:disabled {
-    color: $color-text-disable;
+    color: var(--text-disable);
   }
 }

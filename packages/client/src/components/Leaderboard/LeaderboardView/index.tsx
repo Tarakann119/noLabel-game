@@ -1,5 +1,6 @@
-import { Avatar } from '@components/Avatar';
 import { LeaderboardUserType } from '@typings/app.typings';
+
+import { Avatar } from '@/components/Avatar';
 
 import './index.scss';
 

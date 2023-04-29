@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { ButtonImgProps } from '@ui/ButtonImg/ButtonImg.typings';
 import classNames from 'classnames';
+
+import { ButtonImgProps } from '@/ui/ButtonImg/ButtonImg.typings';
 
 import './index.scss';
 

@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { handleSubmitLogin, loginWithToken } from '@components/Autification/slice';
-import { Button } from '@components/Button';
-import { InputValidate } from '@components/InputValidate';
-import { useLoading } from '@components/LoaderComponent';
-import { Title } from '@components/Title';
-import { Loader } from '@ui/Loader';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
-import randomClickSound from '@utils/randomClickSound/randomClickSound';
 import classNames from 'classnames';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { handleSubmitLogin, loginWithToken } from '@/components/Autification/slice';
+import { Button } from '@/components/Button';
+import { InputValidate } from '@/components/InputValidate';
+import { useLoading } from '@/components/LoaderComponent';
+import { Title } from '@/components/Title';
+import { Loader } from '@/ui/Loader';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
+import randomClickSound from '@/utils/randomClickSound/randomClickSound';
 
 import './index.scss';
 

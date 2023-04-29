@@ -1,6 +1,5 @@
-import Ask from '@assets/sounds/ask.mp3';
-import ClickSound from '@assets/sounds/orcsound.mp3';
-
+import Ask from '@/assets/sounds/ask.mp3';
+import ClickSound from '@/assets/sounds/orcsound.mp3';
 import Say from '@/assets/sounds/say.mp3';
 import Smile from '@/assets/sounds/smile.mp3';
 

@@ -19,14 +19,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@ui': path.resolve(__dirname, './src/ui'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@store': path.resolve(__dirname, './src/store'),
-      '@game': path.resolve(__dirname, '.src/game'),
       '@typings': path.resolve(__dirname, './typings'),
-      '@utils': path.resolve(__dirname, './utils'),
     },
   },
   plugins: [

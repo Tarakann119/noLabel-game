@@ -1,4 +1,4 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .footer {
   display: flex;
@@ -8,7 +8,7 @@
   height: 45px;
   overflow: hidden;
   background: black;
-  background: $color-header-footer-gradient;
+  background: var(--header-footer-gradient);
 
   &__logo {
     width: 350px;

@@ -1,11 +1,11 @@
-@import '@assets/styles/varThemeDefault';
+@import '@/assets/styles/helpers/helpers';
 
 .player {
   display: flex;
   align-items: center;
   height: 70px;
   margin-bottom: 15px;
-  color: $color-text-secondary;
+  color: var(--text-secondary);
   font-weight: 600;
   font-size: 18px;
   font-family: $font-secondary;

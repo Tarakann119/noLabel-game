@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@components/Button';
-import { Rating } from '@components/Leaderboard';
-import { LogoText } from '@components/LogoText';
-import { currentUser } from '@store/selectors';
-import { Spacer } from '@ui/Spacer';
-import { useAppDispatch } from '@utils/hooks/reduxHooks';
-import randomClickSound from '@utils/randomClickSound/randomClickSound';
 import classNames from 'classnames';
 
 import { signInWithToken } from '@/components/Autification/slice';
+import { Button } from '@/components/Button';
+import { Rating } from '@/components/Leaderboard';
+import { LogoText } from '@/components/LogoText';
+import { currentUser } from '@/store/selectors';
+import { Spacer } from '@/ui/Spacer';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
+import randomClickSound from '@/utils/randomClickSound/randomClickSound';
 
 import './index.scss';
-import '@assets/styles/App.scss';
+import '@/assets/styles/App.scss';
 
 export const StartScreen = () => {
   const navigate = useNavigate();

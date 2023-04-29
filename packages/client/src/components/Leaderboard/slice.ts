@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { currentUser } from '@store/selectors';
 import {
   LeaderboardResponse,
   LeaderboardUserType,
   pushLeaderboardRequest,
 } from '@typings/app.typings';
 import axios from 'axios';
+
+import { currentUser } from '@/store/selectors';
 
 const initialState = {
   leaderboard: [],
