@@ -184,7 +184,38 @@ export class Game {
 
     const coins = this.resources.coins;
 
+    const positions = {
+      stone: null as boolean | null,
+      archer: null as boolean | null,
+      crossbowman: null as boolean | null,
+      magicTower: null as boolean | null,
+    };
+
+    const towerList = [
+      {
+        position: 'stone',
+        price: 50,
+        type: TowersList.STONE,
+      },
+      {
+        position: 'archer',
+        price: 100,
+        type: TowersList.ARCHER,
+      },
+      {
+        position: 'crossbowman',
+        price: 150,
+        type: TowersList.CROSSBOWMAN,
+      },
+      {
+        position: 'magicTower',
+        price: 200,
+        type: TowersList.MAGICTOWER,
+      },
+    ];
+
     this.activePlacementTile++;
+
     const animate = () => {
       const animationId = requestAnimationFrame(animate);
 
@@ -193,50 +224,43 @@ export class Game {
         img.src = './game/assets/towers/tower_list.png';
         this.context.drawImage(img, activeTile.position.x - 64, activeTile.position.y - 64);
 
-        const towerList = [
-          {
-            position:
-              this.cursor.y + 64 > activeTile.position.y &&
-              this.cursor.y < activeTile.position.y &&
-              this.cursor.x + 64 > activeTile.position.x &&
-              this.cursor.x < activeTile.position.x,
-            price: 50,
-            type: TowersList.STONE,
-          },
-          {
-            position:
-              this.cursor.y + 64 > activeTile.position.y &&
-              this.cursor.y < activeTile.position.y &&
-              this.cursor.x - 64 > activeTile.position.x &&
-              this.cursor.x < activeTile.position.x + 128,
-            price: 100,
-            type: TowersList.ARCHER,
-          },
-          {
-            position:
-              this.cursor.y - 64 > activeTile.position.y &&
-              this.cursor.y < activeTile.position.y + 128 &&
-              this.cursor.x + 64 > activeTile.position.x &&
-              this.cursor.x < activeTile.position.x,
-            price: 150,
-            type: TowersList.CROSSBOWMAN,
-          },
-          {
-            position:
-              this.cursor.y - 64 > activeTile.position.y &&
-              this.cursor.y < activeTile.position.y + 128 &&
-              this.cursor.x - 64 > activeTile.position.x &&
-              this.cursor.x < activeTile.position.x + 128,
-            price: 200,
-            type: TowersList.MAGICTOWER,
-          },
-        ];
+        positions.stone =
+          this.cursor.y + 64 > activeTile.position.y &&
+          this.cursor.y < activeTile.position.y &&
+          this.cursor.x + 64 > activeTile.position.x &&
+          this.cursor.x < activeTile.position.x;
 
-        for (let i = 0; i < towerList.length; i++) {
-          const el = towerList[i];
+        positions.archer =
+          this.cursor.y + 64 > activeTile.position.y &&
+          this.cursor.y < activeTile.position.y &&
+          this.cursor.x - 64 > activeTile.position.x &&
+          this.cursor.x < activeTile.position.x + 128;
 
-          if (el.position) {
-            if (coins && coins.getCount() >= el.price && this.activePlacementTile === 2) {
+        positions.crossbowman =
+          this.cursor.y - 64 > activeTile.position.y &&
+          this.cursor.y < activeTile.position.y + 128 &&
+          this.cursor.x + 64 > activeTile.position.x &&
+          this.cursor.x < activeTile.position.x;
+
+        positions.magicTower =
+          this.cursor.y - 64 > activeTile.position.y &&
+          this.cursor.y < activeTile.position.y + 128 &&
+          this.cursor.x - 64 > activeTile.position.x &&
+          this.cursor.x < activeTile.position.x + 128;
+
+        if (
+          (positions.stone || positions.archer || positions.crossbowman || positions.magicTower) &&
+          activeTile &&
+          !activeTile.isOccupied
+        ) {
+          for (let i = 0; i < towerList.length; i++) {
+            const tower = towerList[i];
+            if (
+              positions[tower.position as keyof typeof positions] &&
+              coins &&
+              coins.getCount() >= tower.price &&
+              this.activePlacementTile === 2
+            ) {
               buildings.push(
                 new Building(
                   <CanvasRenderingContext2D>context,
@@ -244,17 +268,14 @@ export class Game {
                     x: activeTile.position.x,
                     y: activeTile.position.y,
                   },
-                  el.type,
+                  tower.type,
                   tileSize
                 )
               );
-
               activeTile.isOccupied = true;
-
-              coins.setCount(coins.getCount() - el.price);
+              coins.setCount(coins.getCount() - tower.price);
+              break;
             }
-
-            break;
           }
         }
 
