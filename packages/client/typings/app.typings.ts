@@ -10,6 +10,8 @@ export type EnemyType = keyof typeof EnemiesList;
 export enum TowersList {
   ARCHER = 'ARCHER',
   STONE = 'STONE',
+  CROSSBOWMAN = 'CROSSBOWMAN',
+  MAGICTOWER = 'MAGICTOWER',
 }
 
 export type TowerType = keyof typeof TowersList;
@@ -20,9 +22,7 @@ export type TowerListItemType = {
   width: number;
   height: number;
   fill: string;
-  isDragging: boolean;
   imageSrc: string;
-  type: TowersList;
 };
 
 export type TGameSettings = {
