@@ -1,3 +1,5 @@
+import { type ButtonHTMLAttributes, type MouseEventHandler, type ReactElement } from 'react';
+
 export enum EnemiesList {
   GOBLIN = 'GOBLIN',
   HOBGOBLIN = 'HOBGOBLIN',
@@ -180,12 +182,14 @@ export type ForumMessageType = {
   created_at: string;
 };
 
-export type Emoji = {
-  id: number;
-  emoji: string;
+export type EmojiType = {
+  id?: number;
+  emoji?: string;
+  counter?: number;
 };
 
 export type ForumThemeType = {
+  title?: string;
   author: {
     avatar: string;
     first_name: string;
@@ -193,8 +197,20 @@ export type ForumThemeType = {
     second_name: string;
   };
   created_at: string;
-  emojis: Emoji[];
+  emojis: EmojiType[];
   id: number;
   text: string;
   updated_at: string;
+};
+
+export type DropdownMenuItems = {
+  title: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export type DropdownProps = {
+  className?: string;
+  trigger: ReactElement;
+  emoteClass?: string;
+  menuItems: DropdownMenuItems[];
 };
