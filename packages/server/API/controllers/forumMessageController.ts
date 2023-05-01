@@ -6,8 +6,6 @@ import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
 import { User } from '../models/User';
 
-import { deleteAllEmojiByMessageId } from './emojiController';
-
 /**
  * Получение сообщения форума по id сообщения
  * @param req {params: {message_id: number}} - id сообщения, данные которого нужно получить
@@ -38,7 +36,6 @@ export const getForumMessageById = async (req: Request, res: Response) => {
   }
 };
 
-// ----------------------------
 /**
  * Получение сообщений форума по id темы
  * @param req {params: {topic_id: number}} - id темы, данные которой нужно получить
@@ -113,7 +110,6 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
         first_name: 'Аноним',
         second_name: 'Аноним',
       } as User);
-
     }
     const forumMessage = await ForumMessage.findByPk(reqForumMessage.message_id);
     if (forumMessage) {
@@ -136,8 +132,10 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
 
 export const deleteForumMessageById = async (req: Request, res: Response) => {
   try {
-    const forumMessage = await ForumMessage.findByPk(req.params.message_id);
+    const messageId = req.params.message_id;
+    const forumMessage = await ForumMessage.findByPk(messageId);
     if (forumMessage) {
+      await Emoji.destroy({ where: { message_id: messageId } });
       await forumMessage.destroy();
       res.status(StatusCodes.OK).json({ reason: 'Сообщение удалено' });
     } else {
@@ -160,11 +158,9 @@ export const deleteForumMessageByTopicId = async (req: Request, res: Response) =
         topic_id: req.params.topic_id,
       },
     });
-    if (forumMessages.length) {
-      for (const forumMessage of forumMessages) {
-        await deleteAllEmojiByMessageId(forumMessage.id);
-        await forumMessage.destroy();
-      }
+    if (forumMessages) {
+      await Emoji.destroy({ where: { message_id: forumMessages.map((message) => message.id) } });
+      await ForumMessage.destroy({ where: { topic_id: req.params.topic_id } });
       res.status(StatusCodes.OK).json({ reason: 'Сообщения удалены' });
     } else {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщения не найдены' });

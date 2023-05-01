@@ -3,11 +3,10 @@ import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 
+import { Emoji } from '../models/Emoji';
 import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
 import { User } from '../models/User';
-
-import { deleteAllEmojiByMessageId } from './emojiController';
 
 /**
  * Получения всех тем форума по id
@@ -100,7 +99,6 @@ export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
         first_name: 'Аноним',
         second_name: 'Аноним',
       } as User);
-
     }
     const topic: ForumTopic | null = await ForumTopic.findByPk(reqTopic.id);
     if (!topic) {
@@ -141,7 +139,7 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
       });
       if (messages) {
         for (const forumMessage of messages) {
-          await deleteAllEmojiByMessageId(forumMessage.id);
+          await Emoji.destroy({ where: { message_id: forumMessage.id } });
           await forumMessage.destroy();
         }
       }
