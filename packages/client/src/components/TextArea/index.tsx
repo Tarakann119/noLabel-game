@@ -25,6 +25,7 @@ export const MyTextArea: FC<InputValidateProps> = ({
       </label>
       <div className={classNames('input__wrapper', { 'input__wrapper-error': error })}>
         <TextareaAutosize
+          required
           onChange={handleChange}
           value={value}
           name={name}

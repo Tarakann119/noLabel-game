@@ -12,9 +12,15 @@ import { showError } from '@/utils/ShowError';
 
 import './index.scss';
 
-export function TypingPlace({ topic_id }: { topic_id: number | undefined }) {
-  const [messageContent, setMessageContent] = useState<string>('');
-
+export function TypingPlace({
+  topic_id,
+  messageContent,
+  setMessageContent,
+}: {
+  topic_id: number | undefined;
+  messageContent: string;
+  setMessageContent: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const pasteEmojiHandler = (emoji: string) => {
     setMessageContent(messageContent + emoji);
   };
@@ -41,11 +47,7 @@ export function TypingPlace({ topic_id }: { topic_id: number | undefined }) {
         })
           .then((response) => {
             if (response.data === 'OK') {
-              try {
-                toast.success('Сообщение добавлено!');
-              } catch {
-                showError();
-              }
+              toast.success('Сообщение добавлено!');
             }
           })
           .catch(() => {
