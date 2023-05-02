@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
@@ -16,6 +17,7 @@ const CreatePostSchema = Yup.object().shape({
 
 export const CreateTopic = () => {
   const user = useSelector(currentUser);
+  const navigate = useNavigate();
   return (
     <main className='container-content container-content_main bg-image_login'>
       <div className='forum__container'>
@@ -36,9 +38,10 @@ export const CreateTopic = () => {
               responseType: 'json',
             })
               .then((response) => {
-                if (response.data === 'OK') {
+                if (response.data.id) {
                   try {
                     toast.success('Тема успешно создана!');
+                    navigate('/forum');
                   } catch {
                     showError();
                   }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { EmojiType, ForumThemeType, ForumTopicType } from '@typings/app.typings';
 import axios from 'axios';
 import classNames from 'classnames';
@@ -13,6 +14,7 @@ import { TypingPlace } from './TypingPlace';
 import './index.scss';
 
 export function Topic() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [messages, setMessages] = useState<ForumThemeType[]>([]);
   const [topic, setTopic] = useState<ForumTopicType>();
@@ -56,6 +58,24 @@ export function Topic() {
     fetchData();
   };
 
+  const deleteTopic = async (id: number) => {
+    await axios(`http://localhost:3001/api/forum/topics/${id}`, {
+      method: 'delete',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      responseType: 'json',
+    })
+      .catch(() => {
+        showError();
+      })
+      .finally(() => {
+        navigate('/forum');
+        fetchData();
+      });
+  };
+
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
       <div className='forum__container'>
@@ -67,6 +87,7 @@ export function Topic() {
                 //@ts-expect-error need to pass different data
                 data={topic}
                 topic={true}
+                deleteMessage={deleteTopic}
               />
             </div>
           )}
