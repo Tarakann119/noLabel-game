@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 import { Op } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
 
-import { Emoji } from '../models/Emoji';
 import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
 import { User } from '../models/User';
@@ -132,17 +131,6 @@ export const deleteForumTopic = async (req: Request, res: Response) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     } else {
-      const messages = await ForumMessage.findAll({
-        where: {
-          topic_id: req.params.topic_id,
-        },
-      });
-      if (messages) {
-        for (const forumMessage of messages) {
-          await Emoji.destroy({ where: { message_id: forumMessage.id } });
-          await forumMessage.destroy();
-        }
-      }
       await topic.destroy();
       res
         .status(StatusCodes.OK)

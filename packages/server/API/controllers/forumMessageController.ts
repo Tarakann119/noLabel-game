@@ -135,8 +135,11 @@ export const deleteForumMessageById = async (req: Request, res: Response) => {
     const messageId = req.params.message_id;
     const forumMessage = await ForumMessage.findByPk(messageId);
     if (forumMessage) {
-      await Emoji.destroy({ where: { message_id: messageId } });
-      await forumMessage.destroy();
+      await ForumMessage.destroy({
+        where: {
+          id: messageId,
+        },
+      });
       res.status(StatusCodes.OK).json({ reason: 'Сообщение удалено' });
     } else {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщение не найдено' });
@@ -159,7 +162,6 @@ export const deleteForumMessageByTopicId = async (req: Request, res: Response) =
       },
     });
     if (forumMessages) {
-      await Emoji.destroy({ where: { message_id: forumMessages.map((message) => message.id) } });
       await ForumMessage.destroy({ where: { topic_id: req.params.topic_id } });
       res.status(StatusCodes.OK).json({ reason: 'Сообщения удалены' });
     } else {
