@@ -10,6 +10,9 @@
   --ui-fields-bg: rgb(193 211 255 / 50%);
   --ui-button-border: #727272;
   --ui-button-disable: linear-gradient(90deg, rgb(122 112 99 / 100%) 0%, rgb(71 70 64 / 100%) 100%);
+  --ui-bgpicture-start: url('@/assets/images/metall-texture.jpg') no-repeat center;
+  --ui-bgpicture-login: url('@/assets/images/background/knight.jpg') no-repeat center;
+  --ui-bgpicture-404: url('@/assets/images/background/helmet.png') no-repeat center;
   --header-footer-gradient: linear-gradient(
     89.98deg,
     #484844 0.06%,
@@ -26,17 +29,20 @@
   --text-primary: #fff;
   --text-primary-10: #494945;
   --text-disable: #b1ad99;
-  --text-secondary: #7185f8;
-  --ui-primary: #7185f8;
+  --text-secondary: #dea74b;
+  --ui-primary: #dea74b;
   --ui-secondary: #fff;
   --ui-fields-bg: rgb(193 211 255 / 50%);
   --ui-button-border: #727272;
   --ui-button-disable: linear-gradient(90deg, rgb(122 112 99 / 100%) 0%, rgb(71 70 64 / 100%) 100%);
+  --ui-bgpicture-start: url('@/assets/images/tree-texture.jpg') no-repeat center;
+  --ui-bgpicture-login: url('@/assets/images/background/wooden-knight.jpg') no-repeat center;
+  --ui-bgpicture-404: url('@/assets/images/background/wooden-knight.jpg') no-repeat center;
   --header-footer-gradient: linear-gradient(
     89.98deg,
-    #484844 0.06%,
-    #66655b 48.46%,
-    #41413c 99.98%
+    #80583E 0.06%,
+    #A98771 48.46%,
+    #80583E 99.98%
   );
   --ui-danger: #965454;
   --ui-form-bg: #323435;
