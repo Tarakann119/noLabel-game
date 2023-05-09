@@ -111,14 +111,8 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
         second_name: 'Аноним',
       } as User);
     }
-    const forumMessage = await ForumMessage.findByPk(reqForumMessage.message_id);
-    if (forumMessage) {
-      await forumMessage.update(reqForumMessage);
-      res.status(StatusCodes.OK).json(forumMessage);
-    } else {
-      const newForumMessage = await ForumMessage.create(reqForumMessage);
-      res.status(StatusCodes.OK).json(newForumMessage);
-    }
+    const newForumMessage = await ForumMessage.upsert(reqForumMessage);
+    res.status(StatusCodes.OK).json(newForumMessage[0]);
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
   }
@@ -133,13 +127,12 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
 export const deleteForumMessageById = async (req: Request, res: Response) => {
   try {
     const messageId = req.params.message_id;
-    const forumMessage = await ForumMessage.findByPk(messageId);
-    if (forumMessage) {
-      await ForumMessage.destroy({
-        where: {
-          id: messageId,
-        },
-      });
+    const result = await ForumMessage.destroy({
+      where: {
+        id: messageId,
+      },
+    });
+    if (result) {
       res.status(StatusCodes.OK).json({ reason: 'Сообщение удалено' });
     } else {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщение не найдено' });
@@ -156,13 +149,8 @@ export const deleteForumMessageById = async (req: Request, res: Response) => {
 
 export const deleteForumMessageByTopicId = async (req: Request, res: Response) => {
   try {
-    const forumMessages = await ForumMessage.findAll({
-      where: {
-        topic_id: req.params.topic_id,
-      },
-    });
-    if (forumMessages) {
-      await ForumMessage.destroy({ where: { topic_id: req.params.topic_id } });
+    const result = await ForumMessage.destroy({ where: { topic_id: req.params.topic_id } });
+    if (result) {
       res.status(StatusCodes.OK).json({ reason: 'Сообщения удалены' });
     } else {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщения не найдены' });
