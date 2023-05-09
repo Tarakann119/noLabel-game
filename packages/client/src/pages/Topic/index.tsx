@@ -20,6 +20,7 @@ export function Topic() {
   const [topic, setTopic] = useState<ForumTopicType>();
   const [messageContent, setMessageContent] = useState<string>('');
   const [messageReactions, setMessageReactions] = useState<EmojiType>();
+
   const fetchData = async () => {
     try {
       const result = await axios(`http://localhost:3001/api/forum/messages/topic/${id}`);
@@ -30,7 +31,7 @@ export function Topic() {
   };
   useEffect(() => {
     fetchData();
-  }, [messageContent, messageReactions]);
+  }, [messageReactions]);
 
   useEffect(() => {
     const topicData = async () => {
@@ -108,6 +109,7 @@ export function Topic() {
             topic_id={topic?.id}
             messageContent={messageContent}
             setMessageContent={setMessageContent}
+            fetchData={fetchData}
           />
         </div>
       </div>

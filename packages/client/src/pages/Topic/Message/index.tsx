@@ -52,8 +52,8 @@ export const Message = memo(
 
     const reactions = data.emojis;
 
-    if (reactions) {
-      useEffect(() => {
+    useEffect(() => {
+      if (reactions) {
         let counter = 1;
         const idArray = reactions.map((elem) => elem.id);
         const namesTraversed: unknown[] = [];
@@ -73,8 +73,8 @@ export const Message = memo(
           }
         });
         setMessageReactions({ ...reactions, counter });
-      }, []);
-    }
+      }
+    }, []);
 
     return (
       <div className='message-wrapper'>

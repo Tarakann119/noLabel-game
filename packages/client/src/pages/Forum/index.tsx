@@ -15,8 +15,8 @@ export const Forum = () => {
   const [items, setItems] = useState<ForumTopicType[]>([]);
   const [searchItem, setSearchItem] = useState('');
   useEffect(() => {
-    const fetchData = async () => {
-      await axios(`http://localhost:3001/api/forum/topics/all`)
+    const fetchData = () => {
+      axios(`http://localhost:3001/api/forum/topics/all`)
         .then((result) => {
           setItems(result.data);
         })
@@ -66,7 +66,9 @@ export const Forum = () => {
                     <Link className='plane-link' to={`./${data.id}`}>
                       {data.title}
                     </Link>
-                    <span>{data.author.login}</span>
+                    <span>
+                      {data.author.first_name} {data.author.second_name}
+                    </span>
                   </div>
                   <div className='forum-topics-list__group'>
                     <span>{data.last_message.author_id}</span>

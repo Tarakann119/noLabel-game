@@ -16,10 +16,12 @@ export function TypingPlace({
   topic_id,
   messageContent,
   setMessageContent,
+  fetchData,
 }: {
   topic_id: number | undefined;
   messageContent: string;
   setMessageContent: React.Dispatch<React.SetStateAction<string>>;
+  fetchData: () => Promise<void>;
 }) {
   const pasteEmojiHandler = (emoji: string) => {
     setMessageContent(messageContent + emoji);
@@ -46,12 +48,12 @@ export function TypingPlace({
           responseType: 'json',
         })
           .then((response) => {
-            if (response.data === 'OK') {
-              toast.success('Сообщение добавлено!');
-            }
+            fetchData();
+            toast.success('Сообщение добавлено!');
           })
-          .catch(() => {
+          .catch((e) => {
             showError();
+            console.log(e);
           });
         setMessageContent('');
       }}>
