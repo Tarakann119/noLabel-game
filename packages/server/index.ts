@@ -19,16 +19,14 @@ initPostgreSQLConnection();
 // Создание сервера
 const app = express();
 
-// const corsOptions = {
-//   AccessControlAllowOrigin: '*',
-//   AccessControlAllowHeaders: 'Content-Type,Content-Length, Authorization, Accept,X-Requested-With',
-//   AccessControlAllowMethods: 'PUT,POST,GET,DELETE,OPTIONS',
-// } as cors.CorsOptions;
-
 const port = process.env.SERVER_PORT || 3001;
 
 // Защита от некоторых типов атак
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  })
+);
 
 app.use(function (_req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -37,7 +35,6 @@ app.use(function (_req, res, next) {
 });
 
 // Middleware
-// app.use('/api/v2', cors(corsOptions), proxyMiddleware);
 app.use('/api/v2', proxyMiddleware);
 
 // Подключение роутов
