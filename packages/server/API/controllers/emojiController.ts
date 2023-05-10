@@ -133,15 +133,3 @@ export const deleteEmojiById = async (req: Request, res: Response) => {
     res.status(StatusCodes.BAD_REQUEST).json(e);
   }
 };
-
-/** Удаление всех эмодзи по id сообщения
- * ВНИМАНИЕ! Функция для использования в других контроллерах
- * @param message_id {number} - id сообщения, эмодзи которого нужно удалить
- * */
-export const deleteAllEmojiByMessageId = async (message_id: number) => {
-  try {
-    await Emoji.destroy({ where: { message_id } });
-  } catch (e) {
-    console.error(e);
-  }
-};

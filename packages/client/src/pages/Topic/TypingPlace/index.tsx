@@ -1,39 +1,70 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
 
 import { Button } from '@/components/Button';
-import { InputValidate } from '@/components/InputValidate';
+import { EmoteMenu } from '@/components/Emoji/EmoteMenu';
+import { MyTextArea } from '@/components/TextArea';
+import { currentUser } from '@/store/selectors';
+import { showError } from '@/utils/ShowError';
 
 import './index.scss';
 
-const MessageSchema = Yup.object().shape({
-  login: Yup.string()
-    .min(2, 'Сообщение слишком короткое!')
-    .max(2000, 'Сообщение слишком длинное!')
-    .matches(/[^\s\t\r\n\v\f]$/, 'Поле содержит недопустимые символы')
-    .required('Required'),
-});
-
-export function TypingPlace() {
+export function TypingPlace({
+  topic_id,
+  messageContent,
+  setMessageContent,
+}: {
+  topic_id: number | undefined;
+  messageContent: string;
+  setMessageContent: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  const pasteEmojiHandler = (emoji: string) => {
+    setMessageContent(messageContent + emoji);
+  };
+  const user = useSelector(currentUser);
   return (
     <Formik
       initialValues={{
         message: '',
       }}
-      validationSchema={MessageSchema}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={() => {
+        const data = JSON.stringify({
+          text: messageContent,
+          author_id: user.id,
+          topic_id: topic_id,
+        });
+        axios('http://localhost:3001/api/forum/messages', {
+          method: 'post',
+          data: data,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          responseType: 'json',
+        })
+          .then((response) => {
+            if (response.data === 'OK') {
+              toast.success('Сообщение добавлено!');
+            }
+          })
+          .catch(() => {
+            showError();
+          });
+        setMessageContent('');
       }}>
-      {({ errors, values, handleChange }) => (
+      {() => (
         <Form className='typing-place'>
-          <InputValidate
+          <MyTextArea
             name='message'
             type='text'
             label='Сообщение'
-            value={values.message}
-            error={errors.message}
-            handleChange={handleChange}
+            value={messageContent}
+            handleChange={(e) => setMessageContent(e.target.value)}
           />
+          <EmoteMenu onEmojiSelect={pasteEmojiHandler} />
           <Button
             text='Отправить'
             className='button button_view_primary custom-button'
