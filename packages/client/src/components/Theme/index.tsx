@@ -21,17 +21,17 @@ export const Theme = () => {
 
   return (
     <div className='theme__container'>
-      <div className='theme__label'>Тема</div>
+      <div className='theme__label'></div>
       <div className='theme__item-container'>
         <div
           className={classNames('theme__item', { theme__item_active: theme === 'dark' })}
           onClick={() => handleChange('dark')}>
-          Металл
+          Дерево
         </div>
         <div
           className={classNames('theme__item', { theme__item_active: theme === 'light' })}
           onClick={() => handleChange('light')}>
-          Дерево
+          Металл
         </div>
       </div>
     </div>
