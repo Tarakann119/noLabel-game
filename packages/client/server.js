@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import express from "express";
 import fs from "node:fs";
 import path from "node:path";
@@ -10,6 +11,10 @@ async function start() {
 
   const app = express();
 
+  app.use(cookieParser());
+  /**
+   * @type {import('vite').ViteDevServer}
+   */
   let vite;
   if (!isProduction) {
     vite = await (
@@ -44,7 +49,10 @@ async function start() {
         render = (await import("./dist/server/entry-server.js")).render;
       }
 
-      const { html, initialState } = render(url);
+      // все пустые 
+      console.log(req.cookies, req.signedCookies, req.headers.cookie);
+
+      const { html, initialState } = await render(url);
 
       const cssDir = path.resolve('dist/client/assets');
       const files = fs.readdirSync(cssDir);
@@ -64,6 +72,7 @@ async function start() {
         .replace(`<!--store-data-->`, JSON.stringify(initialState).replace(/</g, "\\u003c"));
 
       res.status(200).set({ "Content-Type": "text/html" }).end(htmlWithReplacements);
+
     } catch (e) {
       !isProduction && vite.ssrFixStacktrace(e);
       console.log(e.stack);
