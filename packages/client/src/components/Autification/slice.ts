@@ -180,6 +180,7 @@ export const getCurrentUser = createAsyncThunk(
         'Content-Type': 'application/json; charset=utf-8',
       },
       withCredentials: true,
+      responseType: 'json',
     })
       .then((response) => {
         if (data !== 'init') {

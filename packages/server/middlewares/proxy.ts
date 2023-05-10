@@ -5,15 +5,19 @@ import { User } from '../API/models/User';
 import { YANDEX_API_URL } from '../config/constants';
 
 export const proxyMiddleware: RequestHandler = (req, res, next) => {
-  console.log(`🔥  Проксируем запрос ${req.url}`);
   return createProxyMiddleware({
+    logLevel: 'debug',
     changeOrigin: true,
-    cookieDomainRewrite: { '*': '' },
+    cookieDomainRewrite: { 'ya-praktikum.tech': req.hostname },
     selfHandleResponse: true,
     target: YANDEX_API_URL,
-    onProxyRes: responseInterceptor(async (buffer) => {
-      if (req.url.includes('/auth/user') && req.method === 'GET') {
-        console.log(`🔥  Получен ответ от ${req.url}`);
+    onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
+      const buffer = responseBuffer;
+      if (req.url.includes('/auth/user')) {
+        if (!responseBuffer || !responseBuffer.length) {
+          console.log('❌  Пустой ответ от Яндекса');
+          console.log(proxyRes.statusCode); // Возвращает 304, вообще не понятно почему
+        }
         const response = buffer.toString();
         let user;
         try {
@@ -21,7 +25,6 @@ export const proxyMiddleware: RequestHandler = (req, res, next) => {
         } catch (e) {
           user = null;
         }
-        console.log(`🔥  ${user}`);
         if (user && user.id) {
           try {
             await User.upsert({

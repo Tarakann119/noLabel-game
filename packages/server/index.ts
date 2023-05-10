@@ -8,6 +8,7 @@ import { forumTopic } from './API/routes/forumTopicRoutes';
 import { leaderboard } from './API/routes/leaderboardRoutes';
 import { themes } from './API/routes/themeRoutes';
 import { users } from './API/routes/userRoutes';
+import { LOCAL_API_URL } from './config/constants';
 import { proxyMiddleware } from './middlewares/proxy';
 import { initPostgreSQLConnection } from './db';
 
@@ -21,21 +22,18 @@ const app = express();
 
 const port = process.env.SERVER_PORT || 3001;
 
-// Защита от некоторых типов атак
-app.use(
-  helmet({
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
-  })
-);
-
-app.use(function (_req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-// Middleware
-app.use('/api/v2', proxyMiddleware);
+// Установка заголовков
+app
+  .use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    })
+  )
+  .use(function (_req, res, next) {
+    res.header('Access-Control-Allow-Origin', LOCAL_API_URL);
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
 
 // Подключение роутов
 app.use('/api/user', users);
@@ -44,6 +42,9 @@ app.use('/api/forum/topics', forumTopic);
 app.use('/api/forum/messages', forumMessage);
 app.use('/api/forum/emoji', emoji);
 app.use('/api/leaderboard', leaderboard);
+
+// Middleware
+app.use('/', proxyMiddleware);
 
 // Запуск сервера
 try {
