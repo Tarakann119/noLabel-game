@@ -1,19 +1,15 @@
-import { FC, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { TGameModals } from '@typings/app.typings';
 import classNames from 'classnames';
-import { debounce } from 'lodash';
 
 import { pushUserScore } from '@/components/Leaderboard/slice';
 import { Game } from '@/game/Game';
 import { getGameMap } from '@/store/selectors';
-import { activateFullscreen, deactivateFullscreen } from '@/utils/fullscreen';
 import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import { TGameScreen } from '../Game.typings';
 import { GameContext } from '../GameContext';
 import { EndModal } from '../GameModal/end';
-import { MenuModal } from '../GameModal/menu';
 
 import { GameModalContext } from './GameModalContext';
 
@@ -23,39 +19,14 @@ export const GameScreen: FC<TGameScreen> = ({ className }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const { name, settings } = useSelector(getGameMap);
+  const { name, settings, track } = useSelector(getGameMap);
 
   const { setGameScreen } = useContext(GameContext);
 
   const [dimensions, setDimensions] = useState({ height: 0, width: 0 });
-  const [isFullscreen, setIsFulscreen] = useState(false);
-  const [modal, setModal] = useState<TGameModals | null>(null);
-  const [gameResut, setGameResult] = useState({ text: '', score: 0 });
+  const [showModal, setShowModal] = useState(false);
+  const [gameResult, setGameResult] = useState({ text: '', score: 0 });
   const [restart, setRestart] = useState(false);
-
-  const elementObserver = useMemo(() => {
-    return new ResizeObserver(() => {
-      debounce(() => {
-        if (!wrapperRef.current) return;
-        setDimensions({
-          height: wrapperRef.current.clientHeight,
-          width: wrapperRef.current.clientWidth,
-        });
-      }, 1000)();
-    });
-  }, [wrapperRef.current]);
-
-  const handleToggleFullscreen = () => {
-    if (!canvasRef.current) return;
-
-    if (!isFullscreen) {
-      activateFullscreen(canvasRef.current);
-    } else {
-      deactivateFullscreen(canvasRef.current);
-    }
-
-    setIsFulscreen(!isFullscreen);
-  };
 
   const handleOpenMap = () => {
     setGameScreen('MAP');
@@ -63,38 +34,30 @@ export const GameScreen: FC<TGameScreen> = ({ className }) => {
 
   const handleRestart = () => {
     setRestart(!restart);
-    setModal(null);
-  };
-
-  const handlePlay = () => {
-    console.log('play');
-  };
-
-  const handleCloseModal = () => {
-    setModal(null);
-  };
-
-  const handleToggleSound = () => {
-    console.log('ToggleSound');
+    setShowModal(false);
   };
 
   useEffect(() => {
     if (!wrapperRef || !canvasRef) return;
+    setShowModal(false);
 
     const wrapper = wrapperRef.current as HTMLDivElement;
     const canvas = canvasRef.current as HTMLCanvasElement;
 
-    if (name && settings) {
-      elementObserver.observe(wrapper);
+    setDimensions({
+      height: wrapper.clientHeight,
+      width: wrapper.clientWidth,
+    });
 
-      const game = new Game(canvas, dimensions, name, settings);
+    if (name && settings && track && dimensions.height && dimensions.width) {
+      const game = new Game(canvas, dimensions, name, settings, track);
 
       const startGame = async () => {
         const result = await game.start();
 
         if (result) {
           setGameResult(result);
-          setModal('END');
+          setShowModal(true);
           dispatch(pushUserScore({ score: result.score }));
         }
       };
@@ -102,45 +65,20 @@ export const GameScreen: FC<TGameScreen> = ({ className }) => {
       startGame();
 
       return () => {
-        elementObserver.unobserve(wrapper);
         game.removeAllEvents();
       };
-    } else {
-      setGameScreen('MAP');
     }
-  }, [wrapperRef.current, elementObserver]);
+  }, [wrapperRef.current, restart]);
 
   return (
     <div className={classNames('game-field', className)} ref={wrapperRef}>
-      <>
-        <div className='game-interface game-interface_top'>
-          <div className='game-interface__block'>
-            <button
-              className='game-button game-button_fullscreen'
-              onClick={handleToggleFullscreen}
-            />
+      <canvas className='game-field__canvas' ref={canvasRef} />
 
-            {/* <button className='game-button game-button_menu' onClick={handleShowMenu} /> */}
-          </div>
-        </div>
-
-        <canvas className='game-field__canvas' ref={canvasRef} />
-
-        <div className='game-interface game-interface_bottom'>
-          <button className='game-button game-button_sound' onClick={handleToggleSound} />
-        </div>
-
-        <GameModalContext.Provider
-          value={{ handleOpenMap, handleRestart, handlePlay, handleCloseModal }}>
-          {modal === 'MENU' ? (
-            <MenuModal />
-          ) : modal === 'END' ? (
-            <EndModal result={gameResut} />
-          ) : (
-            <></>
-          )}
+      {showModal && (
+        <GameModalContext.Provider value={{ handleOpenMap, handleRestart }}>
+          <EndModal result={gameResult} />
         </GameModalContext.Provider>
-      </>
+      )}
     </div>
   );
 };

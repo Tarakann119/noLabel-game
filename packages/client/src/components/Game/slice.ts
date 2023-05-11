@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TGameModals, TGameScreens, TGameSettings } from '@typings/app.typings';
+import { TGameScreens, TGameSettings } from '@typings/app.typings';
 
 const initialState: {
   screen: TGameScreens;
   map: {
     name: string | null;
     settings: TGameSettings | null;
+    track: string | null;
   };
-  modal: TGameModals | null;
 } = {
-  screen: 'START',
+  screen: 'MAP',
   map: {
     name: null,
     settings: null,
+    track: null,
   },
-  modal: null,
 };
 
 const gameReducer = createSlice({
@@ -25,11 +25,10 @@ const gameReducer = createSlice({
       state.screen = payload;
     },
     setMap: (state, { payload }) => {
+      console.log(payload);
       state.map.name = payload.mapName;
       state.map.settings = payload.mapSettings;
-    },
-    setModal: (state, { payload }) => {
-      state.modal = payload;
+      state.map.track = payload.track.default;
     },
   },
 });

@@ -1,4 +1,4 @@
-import { roundedRectPath } from './utils';
+import { drawRoundedRect } from './utils/drawRoundedRect';
 export class Resources {
   private readonly pathToSprites = './game/assets/resources';
   private context: CanvasRenderingContext2D;
@@ -40,14 +40,19 @@ export class Resources {
 
     context.drawImage(img, x, y, w, h);
 
-    // const textOffesetX = context.measureText(`${value}`).width / 2;
+    const textOffesetX = context.measureText(`${value}`).width;
+    const textLength = String(value).length;
+
+    const offsetX = textLength === 1 ? x + textOffesetX / 2 : x - textLength * (textLength - 1);
 
     context.font = `${h}px IMPACT`;
-    context.strokeText(`${value}`, x, y + img.height + h + y);
+    context.strokeStyle = '#000';
+    context.lineWidth = 2;
+    context.strokeText(`${value}`, offsetX, y + img.height + h + y);
 
     context.font = `${h}px IMPACT`;
     context.fillStyle = 'white';
-    context.fillText(`${value}`, x, y + img.height + h + y);
+    context.fillText(`${value}`, offsetX, y + img.height + h + y);
   }
 
   private draw() {
@@ -62,7 +67,7 @@ export class Resources {
     context.fillStyle = '#00000054';
     context.fill(
       new Path2D(
-        roundedRectPath(
+        drawRoundedRect(
           resourseFieldOffsetX,
           resourseFieldOffsetY,
           resourseFieldWidth,

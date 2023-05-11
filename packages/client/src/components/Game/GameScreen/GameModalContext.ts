@@ -2,8 +2,6 @@
 import { createContext } from 'react';
 
 export const GameModalContext = createContext({
-  handlePlay: () => {},
   handleOpenMap: () => {},
   handleRestart: () => {},
-  handleCloseModal: () => {},
 });

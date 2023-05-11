@@ -1,6 +1,4 @@
 export enum EnemiesList {
-  GOBLIN = 'GOBLIN',
-  HOBGOBLIN = 'HOBGOBLIN',
   ORC = 'ORC',
   ORC_WARRIOR = 'ORC_WARRIOR',
 }
@@ -17,19 +15,11 @@ export enum TowersList {
 export type TowerType = keyof typeof TowersList;
 
 export enum GameScreens {
-  START = 'START',
   MAP = 'MAP',
   GAME = 'GAME',
 }
 
 export type TGameScreens = keyof typeof GameScreens;
-
-export enum GameModals {
-  MENU = 'MENU',
-  END = 'END',
-}
-
-export type TGameModals = keyof typeof GameModals;
 
 export type TEnemy = keyof typeof EnemiesList;
 
@@ -45,7 +35,6 @@ export type TowerListItemType = {
 };
 
 export type TGameSettings = {
-  tileSize: number;
   width: number;
   height: number;
   hearts: number;
@@ -54,7 +43,6 @@ export type TGameSettings = {
     enemies: {
       type: EnemyType;
       count: number;
-      waveCount: number;
     }[];
   }[];
   towers: TowerType[];
@@ -66,9 +54,6 @@ export type TGameSettings = {
 };
 
 export type TEnemySettings = {
-  width: number;
-  height: number;
-  radius: number;
   health: number;
   speed: number;
   imageSrc: string;
@@ -84,7 +69,6 @@ export type TBuildingSettings = {
   maxFrames: number;
   projectile: {
     imageSrc: string;
-    radius: number;
     damage: number;
   };
 };
@@ -161,4 +145,16 @@ export type APIResponseError = {
     };
     status: number;
   };
+};
+
+export enum GameButtons {
+  PAUSE = 'pause',
+  QUICK = 'quick',
+  SOUND = 'sound',
+  FULLSCREEN = 'fullscreen',
+}
+
+export type TInterfaceButton = {
+  img?: HTMLImageElement;
+  isCursorInButtonBorders?: (cursor: { x: number; y: number }) => boolean;
 };

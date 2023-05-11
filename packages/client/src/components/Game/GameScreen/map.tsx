@@ -7,25 +7,31 @@ import { TGameMap, TGameScreen } from '../Game.typings';
 import { GameContext } from '../GameContext';
 import { setMap } from '../slice';
 
-const mapsSettings = import.meta.glob(`../../../../public//game/maps/*.json`);
+const mapsSettings = import.meta.glob(`../../../../public/game/maps/*.json`);
+const mapsTracks = import.meta.glob(`../../../../public/game/maps/*.mp3`);
+
+const getMapName = (path: string) => {
+  const beforeMapName = path.lastIndexOf('-') + 1;
+  const afterMapName = path.lastIndexOf('.');
+
+  return path.substring(beforeMapName, afterMapName);
+};
 
 export const MapScreen: FC<TGameScreen> = ({ className }) => {
   const dispatch = useDispatch();
   const { setGameScreen } = useContext(GameContext);
   const [maps, setMaps] = useState<TGameMap[]>([]);
+  const [tracks, setTracks] = useState<Record<string, string>>({});
 
   const handleStartLevel = (mapName: string, mapSettings: TGameSettings) => {
-    dispatch(setMap({ mapName, mapSettings }));
+    dispatch(setMap({ mapName, mapSettings, track: tracks[`${mapName}`] }));
     setGameScreen('GAME');
   };
 
   useEffect(() => {
     const getMaps = async () => {
       const result = Object.keys(mapsSettings).map(async (path) => {
-        const beforeMapName = path.lastIndexOf('-') + 1;
-        const afterMapName = path.lastIndexOf('.');
-        const mapName = path.substring(beforeMapName, afterMapName);
-
+        const mapName = getMapName(path);
         const settings = await mapsSettings[path]();
 
         return {
@@ -34,11 +40,25 @@ export const MapScreen: FC<TGameScreen> = ({ className }) => {
         };
       });
 
-      const resp = await Promise.all(result);
-      setMaps(resp);
+      const response = await Promise.all(result);
+      setMaps(response);
     };
 
     getMaps().catch(console.error);
+
+    const getTrack = async () => {
+      Object.keys(mapsTracks).forEach(async (path) => {
+        const mapName = getMapName(path);
+        const track = (await mapsTracks[path]()) as string;
+
+        setTracks((tracks) => ({
+          ...tracks,
+          [`${mapName}`]: track,
+        }));
+      });
+    };
+
+    getTrack().catch(console.error);
   }, []);
 
   return (
@@ -56,6 +76,7 @@ export const MapScreen: FC<TGameScreen> = ({ className }) => {
                   />
                 </picture>
               </div>
+
               <div className='game-body'>
                 <picture className='game-card__img-wrap'>
                   <img
@@ -65,6 +86,7 @@ export const MapScreen: FC<TGameScreen> = ({ className }) => {
                   />
                 </picture>
               </div>
+
               <div className='game-card__footer'>
                 <button
                   className='game-card__button game-button game-button_start'

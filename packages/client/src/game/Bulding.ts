@@ -11,11 +11,16 @@ export class Building extends Sprite {
   private target: Enemy | null = null;
   public readonly projectiles: Projectile[] = [];
 
+  private enemyRadius = 30;
+
   constructor(
     protected readonly context: CanvasRenderingContext2D,
     public position: { x: number; y: number } = { x: 0, y: 0 },
     private towerType: TowerType,
-    private readonly tileSize: number
+    private readonly tileSize: {
+      height: number;
+      width: number;
+    }
   ) {
     super(
       context,
@@ -28,8 +33,8 @@ export class Building extends Sprite {
 
     this.settings = settings[this.towerType];
     this.center = {
-      x: this.position.x + this.tileSize / 2,
-      y: this.position.y + this.tileSize / 2,
+      x: this.position.x + this.tileSize.width / 2,
+      y: this.position.y + this.tileSize.height / 2,
     };
   }
 
@@ -41,7 +46,7 @@ export class Building extends Sprite {
 
       projectile.update();
 
-      if (this.isValidEnemy(projectile.enemy, projectile.position, projectile.settings.radius)) {
+      if (this.isValidEnemy(projectile.enemy, projectile.position, projectile.radius)) {
         projectile.enemy.wounds += projectile.settings.damage;
         let reward = null;
 
@@ -80,7 +85,7 @@ export class Building extends Sprite {
     const yDifference = enemy.center.y - position.y;
     const distance = Math.hypot(xDifference, yDifference);
 
-    return distance < enemy.settings.radius + radius;
+    return distance < this.enemyRadius + radius;
   }
 
   private createProjectile() {
@@ -110,9 +115,9 @@ export class Building extends Sprite {
 
     return (
       cursor.x > position.x &&
-      cursor.x < position.x + tileSize * 1.5 &&
+      cursor.x < position.x + tileSize.width * 1.5 &&
       cursor.y > position.y &&
-      cursor.y < position.y + tileSize * 1.5
+      cursor.y < position.y + tileSize.height * 1.5
     );
   }
 

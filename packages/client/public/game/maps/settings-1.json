@@ -1,5 +1,4 @@
 {
-  "tileSize": 64,
   "width": 20,
   "height": 12,
   "hearts": 10,
@@ -8,24 +7,20 @@
     {
       "enemies": [
         {
-          "type": "GOBLIN",
-          "count": 5
-        },
-        {
           "type": "ORC",
-          "count": 1
-        },
-        {
-          "type": "HOBGOBLIN",
-          "count": 3
+          "count": 2
         }
       ]
     },
     {
       "enemies": [
         {
+          "type": "ORC",
+          "count": 2
+        },
+        {
           "type": "ORC_WARRIOR",
-          "count": 3
+          "count": 1
         }
       ]
     }
@@ -44,11 +39,11 @@
   ],
   "waypoints": [
     {
-      "x": -100,
-      "y": 640
+      "x": 0,
+      "y": 576
     },
     {
-      "x": -128,
+      "x": 50,
       "y": 576
     },
     {
@@ -64,16 +59,12 @@
       "y": 320
     },
     {
-      "x": 896,
+      "x": 900,
       "y": 192
     },
     {
-      "x": 896,
-      "y": 64
-    },
-    {
-      "x": 1215.5,
-      "y": -130
+      "x": 1050,
+      "y": -200
     }
   ]
 }

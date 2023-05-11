@@ -1,13 +1,11 @@
-import { FullScreenCanvasElement } from './fullscreen.typing';
+import { FullScreenElement } from './fullscreen.typing';
 
-export function activateFullscreen(element: FullScreenCanvasElement) {
+export function activateFullscreen(element: FullScreenElement) {
   if (element.webkitRequestFullscreen) {
     element.webkitRequestFullscreen();
   }
 }
 
-export function deactivateFullscreen(element: FullScreenCanvasElement) {
-  if (element.exitFullscreen) {
-    element.exitFullscreen();
-  }
+export function deactivateFullscreen() {
+  document.exitFullscreen();
 }
