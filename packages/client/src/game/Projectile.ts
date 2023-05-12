@@ -3,13 +3,13 @@ import { Sprite } from './Sprite';
 
 export class Projectile extends Sprite {
   private velocity: { x: number; y: number } = { x: 0, y: 0 };
+  public radius = 3;
 
   constructor(
     protected readonly context: CanvasRenderingContext2D,
     public position: { x: number; y: number } = { x: 0, y: 0 },
     public readonly settings: {
       imageSrc: string;
-      radius: number;
       damage: number;
     },
     public readonly enemy: Enemy

@@ -1,0 +1,348 @@
+@import '@/assets/styles/helpers/helpers';
+
+.game {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 84px - 45px - 6px * 2);
+
+  // .game__screen
+  &__screen {
+    width: 100%;
+  }
+
+  // .game-start
+  &-start {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('@/assets/images/background/game.png') center center / cover no-repeat;
+
+    &::before {
+      position: absolute;
+      background-color: var(--overlay);
+      content: '';
+      inset: 0;
+    }
+
+    // .game-start__menu
+    &__menu {
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  // .game-map
+  &-map {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    background: url('@/assets/images/background/map.png') center center / cover no-repeat;
+
+    &::before {
+      position: absolute;
+      background-color: var(--overlay);
+      content: '';
+      inset: 0;
+    }
+  }
+
+  // .game-field
+  &-field {
+    position: relative;
+  }
+
+  // .game-button
+  &-button {
+    // min-width: 45px;
+    // min-height: 45px;
+    object-fit: contain;
+    background: center / contain no-repeat;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+    @media (orientation: portrait) {
+      width: 8vh;
+      height: 8vh;
+    }
+
+    @media (orientation: landscape) {
+      width: 8vw;
+      height: 8vw;
+    }
+
+    // .game-button_play
+    &_play {
+      min-width: 90px;
+      min-height: 90px;
+      background-image: url('./game/assets/interface/buttons/button_play_circle.png');
+
+      @media (orientation: portrait) {
+        width: 15vh;
+        height: 15vh;
+      }
+
+      @media (orientation: landscape) {
+        width: 15vw;
+        height: 15vw;
+      }
+    }
+
+    // .game-button_pause
+    &_pause {
+      background-image: url('./game/assets/interface/buttons/button_pause.png');
+    }
+
+    // .game-button_quick
+    &_quick {
+      background-image: url('./game/assets/interface/buttons/button_quick.png');
+    }
+
+    // .game-button_sound
+    &_sound {
+      background-image: url('./game/assets/interface/buttons/button_sound.png');
+
+      &_off {
+        background-image: url('./game/assets/interface/buttons/button_sound_off.png');
+      }
+    }
+
+    // .game-button_music
+    &_music {
+      background-image: url('./game/assets/interface/buttons/button_music.png');
+
+      &_off {
+        background-image: url('./game/assets/interface/buttons/button_music_off.png');
+      }
+    }
+
+    // .game-button_menu
+    &_menu {
+      background-image: url('./game/assets/interface/buttons/button_menu.png');
+    }
+
+    // .game-button_settings
+    &_settings {
+      background-image: url('./game/assets/interface/buttons/button_settings.png');
+    }
+
+    // .game-button_start
+    &_start {
+      background-image: url('./game/assets/interface/buttons/button_start.png');
+    }
+
+    // .game-button_restart
+    &_restart {
+      background-image: url('./game/assets/interface/buttons/button_restart.png');
+    }
+
+    // .game-button_fullscreen
+    &_fullscreen {
+      background-image: url('./game/assets/interface/buttons/button_fullscreen.png');
+    }
+
+    // .game-button_back
+    &_back {
+      background-image: url('./game/assets/interface/buttons/button_left.png');
+    }
+
+    // .game-button_next
+    &_next {
+      background-image: url('./game/assets/interface/buttons/button_right.png');
+    }
+
+    // .game-button_close
+    &_close {
+      background-image: url('./game/assets/interface/buttons/button_close.png');
+    }
+  }
+
+  // .game-interface
+  &-interface {
+    position: absolute;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 10%;
+
+    // .game-interface_top
+    &_top {
+      top: 5px;
+    }
+
+    // .game-interface_bottom
+    &_bottom {
+      bottom: 15px;
+      flex-direction: row;
+    }
+
+    // .game-interface__block
+    &__block {
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .game-button {
+      width: 10vh;
+      height: 100%;
+    }
+  }
+
+  // .game-modal
+  &-modal {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    z-index: 3;
+    min-width: 320px;
+    min-height: 400px;
+    background: url('/game/assets/interface/table/table-1.png') top center / 100% no-repeat;
+    transform: translateX(-50%);
+
+    &__button {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      color: var(--text-primary);
+      font-size: 24px;
+      font-family: $font-secondary;
+      letter-spacing: 1px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .game-button {
+      width: 6vh;
+      height: 6vh;
+      margin-right: 1rem;
+
+      // .game-button_play
+      &_play {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+
+    // .game-modal__body
+    &__body {
+      padding: 1.5rem 2rem;
+    }
+
+    // .game-modal__close
+    &__close {
+      position: absolute;
+      top: -10px;
+      right: -25px;
+    }
+
+    // .game-modal__item
+    &__item {
+      margin-bottom: 0.5rem;
+    }
+
+    // .game-modal__text
+    &__text,
+    &__score {
+      color: var(--text-primary);
+      font-family: $font-secondary;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    // .game-modal__text
+    &__text {
+      font-size: 24px;
+    }
+
+    // .game-modal__score
+    &__score {
+      margin-bottom: 1rem;
+      font-size: 36px;
+    }
+  }
+
+  // .game-button-group
+  &-button-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .game-button + .game-button {
+      margin-left: 2vh;
+    }
+  }
+
+  // .game-card
+  &-card {
+    position: relative;
+    width: 300px;
+    height: 420px;
+    background: center / 100% no-repeat url('./game/assets/interface/table/table-1.png');
+
+    // .game-card__header
+    &__header {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    // .game-card__lvl
+    &__lvl {
+      height: 40px;
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      padding: 3rem 2rem;
+    }
+
+    // .game-card__footer
+    &__footer {
+      display: flex;
+      align-self: flex-end;
+      justify-content: flex-end;
+      padding-bottom: 1rem;
+    }
+
+    // .game-card__img-wrap
+    &__img-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    // .game-card__stars
+    &__stars {
+      width: 150px;
+      height: 100%;
+      margin-bottom: 1rem;
+      object-fit: cover;
+    }
+
+    // .game-card__img
+    &__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    // .game-card__button
+    &__button {
+      width: 60px;
+      height: 60px;
+    }
+  }
+}
