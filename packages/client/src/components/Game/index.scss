@@ -57,112 +57,112 @@
     position: relative;
   }
 
-    // .game-button
-    &-button {
-      // min-width: 45px;
-      // min-height: 45px;
-      object-fit: contain;
-      background: center / contain no-repeat;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      transition: 0.3s;
+  // .game-button
+  &-button {
+    // min-width: 45px;
+    // min-height: 45px;
+    object-fit: contain;
+    background: center / contain no-repeat;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+    @media (orientation: portrait) {
+      width: 8vh;
+      height: 8vh;
+    }
+
+    @media (orientation: landscape) {
+      width: 8vw;
+      height: 8vw;
+    }
+
+    // .game-button_play
+    &_play {
+      min-width: 90px;
+      min-height: 90px;
+      background-image: url('./game/assets/interface/buttons/button_play_circle.png');
 
       @media (orientation: portrait) {
-        width: 8vh;
-        height: 8vh;
+        width: 15vh;
+        height: 15vh;
       }
 
       @media (orientation: landscape) {
-        width: 8vw;
-        height: 8vw;
-      }
-
-      // .game-button_play
-      &_play {
-        min-width: 90px;
-        min-height: 90px;
-        background-image: url('./game/assets/interface/buttons/button_play_circle.png');
-
-        @media (orientation: portrait) {
-          width: 15vh;
-          height: 15vh;
-        }
-
-        @media (orientation: landscape) {
-          width: 15vw;
-          height: 15vw;
-        }
-      }
-
-      // .game-button_pause
-      &_pause {
-        background-image: url('./game/assets/interface/buttons/button_pause.png');
-      }
-
-      // .game-button_quick
-      &_quick {
-        background-image: url('./game/assets/interface/buttons/button_quick.png');
-      }
-
-      // .game-button_sound
-      &_sound {
-        background-image: url('./game/assets/interface/buttons/button_sound.png');
-
-        &_off {
-          background-image: url('./game/assets/interface/buttons/button_sound_off.png');
-        }
-      }
-
-      // .game-button_music
-      &_music {
-        background-image: url('./game/assets/interface/buttons/button_music.png');
-
-        &_off {
-          background-image: url('./game/assets/interface/buttons/button_music_off.png');
-        }
-      }
-
-      // .game-button_menu
-      &_menu {
-        background-image: url('./game/assets/interface/buttons/button_menu.png');
-      }
-
-      // .game-button_settings
-      &_settings {
-        background-image: url('./game/assets/interface/buttons/button_settings.png');
-      }
-
-      // .game-button_start
-      &_start {
-        background-image: url('./game/assets/interface/buttons/button_start.png');
-      }
-
-      // .game-button_restart
-      &_restart {
-        background-image: url('./game/assets/interface/buttons/button_restart.png');
-      }
-
-      // .game-button_fullscreen
-      &_fullscreen {
-        background-image: url('./game/assets/interface/buttons/button_fullscreen.png');
-      }
-
-      // .game-button_back
-      &_back {
-        background-image: url('./game/assets/interface/buttons/button_left.png');
-      }
-
-      // .game-button_next
-      &_next {
-        background-image: url('./game/assets/interface/buttons/button_right.png');
-      }
-
-      // .game-button_close
-      &_close {
-        background-image: url('./game/assets/interface/buttons/button_close.png');
+        width: 15vw;
+        height: 15vw;
       }
     }
+
+    // .game-button_pause
+    &_pause {
+      background-image: url('./game/assets/interface/buttons/button_pause.png');
+    }
+
+    // .game-button_quick
+    &_quick {
+      background-image: url('./game/assets/interface/buttons/button_quick.png');
+    }
+
+    // .game-button_sound
+    &_sound {
+      background-image: url('./game/assets/interface/buttons/button_sound.png');
+
+      &_off {
+        background-image: url('./game/assets/interface/buttons/button_sound_off.png');
+      }
+    }
+
+    // .game-button_music
+    &_music {
+      background-image: url('./game/assets/interface/buttons/button_music.png');
+
+      &_off {
+        background-image: url('./game/assets/interface/buttons/button_music_off.png');
+      }
+    }
+
+    // .game-button_menu
+    &_menu {
+      background-image: url('./game/assets/interface/buttons/button_menu.png');
+    }
+
+    // .game-button_settings
+    &_settings {
+      background-image: url('./game/assets/interface/buttons/button_settings.png');
+    }
+
+    // .game-button_start
+    &_start {
+      background-image: url('./game/assets/interface/buttons/button_start.png');
+    }
+
+    // .game-button_restart
+    &_restart {
+      background-image: url('./game/assets/interface/buttons/button_restart.png');
+    }
+
+    // .game-button_fullscreen
+    &_fullscreen {
+      background-image: url('./game/assets/interface/buttons/button_fullscreen.png');
+    }
+
+    // .game-button_back
+    &_back {
+      background-image: url('./game/assets/interface/buttons/button_left.png');
+    }
+
+    // .game-button_next
+    &_next {
+      background-image: url('./game/assets/interface/buttons/button_right.png');
+    }
+
+    // .game-button_close
+    &_close {
+      background-image: url('./game/assets/interface/buttons/button_close.png');
+    }
+  }
 
   // .game-interface
   &-interface {
@@ -195,17 +195,6 @@
     .game-button {
       width: 10vh;
       height: 100%;
-    }
-  }
-
-  // .game-button-group
-  &-button-group {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .game-button + .game-button {
-      margin-left: 2vh;
     }
   }
 
@@ -250,10 +239,6 @@
       padding: 1.5rem 2rem;
     }
 
-    // .game-modal__list
-    &__list {
-    }
-
     // .game-modal__close
     &__close {
       position: absolute;
@@ -264,14 +249,6 @@
     // .game-modal__item
     &__item {
       margin-bottom: 0.5rem;
-    }
-
-    // .game-modal__title
-    &__title {
-    }
-
-    // .game-modal__group
-    &__group {
     }
 
     // .game-modal__text
@@ -292,6 +269,17 @@
     &__score {
       margin-bottom: 1rem;
       font-size: 36px;
+    }
+  }
+
+  // .game-button-group
+  &-button-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .game-button + .game-button {
+      margin-left: 2vh;
     }
   }
 
