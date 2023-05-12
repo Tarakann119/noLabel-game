@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -21,7 +20,7 @@ export function TypingPlace({
   topic_id: number | undefined;
   messageContent: string;
   setMessageContent: React.Dispatch<React.SetStateAction<string>>;
-  fetchData: () => Promise<void>;
+  fetchData: () => void;
 }) {
   const pasteEmojiHandler = (emoji: string) => {
     setMessageContent(messageContent + emoji);

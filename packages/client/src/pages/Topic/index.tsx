@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { EmojiType, ForumThemeType, ForumTopicType } from '@typings/app.typings';
-import axios from 'axios';
 import classNames from 'classnames';
 
+import { deleteForumTopic, getCurrentTopic } from '@/components/ForumSlice/forumSlice';
+import { deleteCurrentMessage, getMessagesForTopic } from '@/components/ForumSlice/messagesSlice';
 import { Title } from '@/components/Title';
-import { showError } from '@/utils/ShowError';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import { Message } from './Message';
 import { TypingPlace } from './TypingPlace';
@@ -20,61 +21,25 @@ export function Topic() {
   const [topic, setTopic] = useState<ForumTopicType>();
   const [messageContent, setMessageContent] = useState<string>('');
   const [messageReactions, setMessageReactions] = useState<EmojiType>();
+  const dispatch = useAppDispatch();
 
-  const fetchData = async () => {
-    try {
-      const result = await axios(`http://localhost:3001/api/forum/messages/topic/${id}`);
-      setMessages(result.data);
-    } catch (error) {
-      showError();
-    }
+  const fetchData = () => {
+    dispatch(getMessagesForTopic({ id })).then((e) => setMessages(e.payload));
   };
   useEffect(() => {
     fetchData();
   }, [messageReactions]);
 
   useEffect(() => {
-    const topicData = async () => {
-      try {
-        const result = await axios(`http://localhost:3001/api/forum/topics/${id}`);
-        setTopic(result.data);
-      } catch (error) {
-        showError();
-      }
-    };
-    topicData();
-  }, []);
+    dispatch(getCurrentTopic({ id })).then((e) => setTopic(e.payload));
+  }, [dispatch]);
 
-  const deleteMessage = async (id: number) => {
-    await axios(`http://localhost:3001/api/forum/messages/${id}`, {
-      method: 'delete',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      responseType: 'json',
-    }).catch(() => {
-      showError();
-    });
-    fetchData();
+  const deleteMessage = (id: number) => {
+    dispatch(deleteCurrentMessage({ id })).then(() => fetchData());
   };
 
   const deleteTopic = async (id: number) => {
-    await axios(`http://localhost:3001/api/forum/topics/${id}`, {
-      method: 'delete',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      responseType: 'json',
-    })
-      .catch(() => {
-        showError();
-      })
-      .finally(() => {
-        navigate('/forum');
-        fetchData();
-      });
+    await dispatch(deleteForumTopic({ id, navigate })).then(() => fetchData());
   };
 
   return (
@@ -85,7 +50,7 @@ export function Topic() {
           {topic && (
             <div className='topic-message'>
               <Message
-                //@ts-expect-error need to pass different data
+                //@ts-expect-error need to pass different types of data
                 data={topic}
                 topic={true}
                 deleteMessage={deleteTopic}
@@ -101,6 +66,7 @@ export function Topic() {
                   messageReactions={messageReactions}
                   setMessageReactions={setMessageReactions}
                   deleteMessage={deleteMessage}
+                  fetchData={fetchData}
                 />
               </li>
             ))}

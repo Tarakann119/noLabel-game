@@ -1,14 +1,14 @@
 import { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { EmojiType, ForumThemeType } from '@typings/app.typings';
-import axios from 'axios';
 import moment from 'moment';
 
 import { Avatar } from '@/components/Avatar';
 import { EmoteMenu } from '@/components/Emoji/EmoteMenu';
+import { postEmojies } from '@/components/ForumSlice/forumSlice';
 import { currentUser } from '@/store/selectors';
 import { ButtonImg } from '@/ui/ButtonImg';
-import { showError } from '@/utils/ShowError';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import 'moment/locale/ru';
 
@@ -23,13 +23,17 @@ export const Message = memo(
     messageReactions,
     setMessageReactions,
     deleteMessage,
+    fetchData,
   }: {
     data: ForumThemeType;
     topic: boolean;
     messageReactions: EmojiType | undefined;
     setMessageReactions: React.Dispatch<React.SetStateAction<EmojiType | undefined>>;
-    deleteMessage: (id: number) => Promise<void>;
+    deleteMessage: (id: number) => void;
+    fetchData: () => void;
   }) => {
+    const [reactions, setReactions] = useState(data.emojis);
+    const dispatch = useAppDispatch();
     const user = useSelector(currentUser);
     const pasteEmojiHandler = (emoji: string) => {
       const requestData = JSON.stringify({
@@ -37,20 +41,8 @@ export const Message = memo(
         author_id: data.author.id,
         emoji: emoji,
       });
-      axios('http://localhost:3001/api/forum/emoji', {
-        method: 'post',
-        data: requestData,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        responseType: 'json',
-      }).catch(() => {
-        showError();
-      });
+      dispatch(postEmojies({ data: requestData })).then(() => fetchData());
     };
-
-    const reactions = data.emojis;
 
     useEffect(() => {
       if (reactions) {
@@ -73,8 +65,9 @@ export const Message = memo(
           }
         });
         setMessageReactions({ ...reactions, counter });
-      }
-    }, []);
+        fetchData();
+      } else return;
+    }, [reactions]);
 
     return (
       <div className='message-wrapper'>
