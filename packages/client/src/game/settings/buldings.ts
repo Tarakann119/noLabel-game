@@ -18,6 +18,32 @@ export const settings: TBuldingsSettings = {
       imageSrc: 'towers/archer/projectile/sprite.png',
     },
   },
+  [TowersList.MAGICTOWER]: {
+    radius: 150,
+    // задержка при стрельбе, чем выше, тем медленнее стреляет
+    delay: 4,
+    imageSrc: 'towers/magicTower/sprite.png',
+    cost: 25,
+    maxFrames: 13,
+    projectile: {
+      damage: 6,
+      radius: 3,
+      imageSrc: 'towers/magicTower/projectile/sprite.png',
+    },
+  },
+  [TowersList.CROSSBOWMAN]: {
+    radius: 300,
+    // задержка при стрельбе, чем выше, тем медленнее стреляет
+    delay: 8,
+    imageSrc: 'towers/crossbowman/sprite.png',
+    cost: 25,
+    maxFrames: 13,
+    projectile: {
+      damage: 3,
+      radius: 3,
+      imageSrc: 'towers/archer/projectile/sprite.png',
+    },
+  },
   [TowersList.STONE]: {
     radius: 150,
     delay: 10,
