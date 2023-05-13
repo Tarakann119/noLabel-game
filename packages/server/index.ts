@@ -1,3 +1,4 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import helmet from 'helmet';
@@ -29,11 +30,13 @@ app
       crossOriginResourcePolicy: { policy: 'cross-origin' },
     })
   )
-  .use(function (_req, res, next) {
-    res.header('Access-Control-Allow-Origin', LOCAL_API_URL);
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-  });
+  .use(
+    cors({
+      origin: LOCAL_API_URL,
+      credentials: true,
+      exposedHeaders: ['Origin, X-Requested-With, Content-Type, Accept'],
+    })
+  );
 
 // Подключение роутов
 app.use('/api/user', users);
@@ -44,7 +47,7 @@ app.use('/api/forum/emoji', emoji);
 app.use('/api/leaderboard', leaderboard);
 
 // Middleware
-app.use('/', proxyMiddleware);
+app.use('/api/v2', proxyMiddleware);
 
 // Запуск сервера
 try {

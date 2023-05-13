@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { EmojiType, ForumThemeType } from '@typings/app.typings';
 import axios from 'axios';
@@ -45,6 +45,7 @@ export const Message = memo(
           'Content-Type': 'application/json',
         },
         responseType: 'json',
+        withCredentials: true,
       }).catch(() => {
         showError();
       });

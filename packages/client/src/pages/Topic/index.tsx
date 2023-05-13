@@ -22,7 +22,9 @@ export function Topic() {
   const [messageReactions, setMessageReactions] = useState<EmojiType>();
   const fetchData = async () => {
     try {
-      const result = await axios(`http://localhost:3001/api/forum/messages/topic/${id}`);
+      const result = await axios(`http://localhost:3001/api/forum/messages/topic/${id}`, {
+        withCredentials: true,
+      });
       setMessages(result.data);
     } catch (error) {
       showError();
@@ -35,7 +37,9 @@ export function Topic() {
   useEffect(() => {
     const topicData = async () => {
       try {
-        const result = await axios(`http://localhost:3001/api/forum/topics/${id}`);
+        const result = await axios(`http://localhost:3001/api/forum/topics/${id}`, {
+          withCredentials: true,
+        });
         setTopic(result.data);
       } catch (error) {
         showError();
@@ -52,6 +56,7 @@ export function Topic() {
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     }).catch(() => {
       showError();
     });
@@ -66,6 +71,7 @@ export function Topic() {
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .catch(() => {
         showError();

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -44,6 +44,7 @@ export function TypingPlace({
             'Content-Type': 'application/json',
           },
           responseType: 'json',
+          withCredentials: true,
         })
           .then((response) => {
             if (response.data === 'OK') {

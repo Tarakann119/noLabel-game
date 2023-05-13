@@ -16,7 +16,9 @@ export const Forum = () => {
   const [searchItem, setSearchItem] = useState('');
   useEffect(() => {
     const fetchData = async () => {
-      await axios(`http://localhost:3001/api/forum/topics/all`)
+      await axios(`http://localhost:3001/api/forum/topics/all`, {
+        withCredentials: true,
+      })
         .then((result) => {
           setItems(result.data);
         })

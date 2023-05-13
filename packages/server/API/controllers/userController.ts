@@ -42,7 +42,7 @@ export const createOrUpdateUser = async (req: Request, res: Response) => {
     } else {
       user = await user.update(reqUser);
     }
-    res.status(StatusCodes.CREATED).json(user);
+    res.status(StatusCodes.OK).json(user);
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
   }

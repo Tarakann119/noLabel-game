@@ -36,6 +36,7 @@ export const CreateTopic = () => {
                 'Content-Type': 'application/json',
               },
               responseType: 'json',
+              withCredentials: true,
             })
               .then((response) => {
                 if (response.data.id) {
