@@ -1,128 +1,35 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { ForumTopicType } from '@typings/app.typings';
 import classNames from 'classnames';
+import moment from 'moment';
 
+import { getForumTopics } from '@/components/ForumSlice/forumSlice';
 import { Title } from '@/components/Title';
 import { ForumHeader } from '@/pages/Forum/ForumHeader';
-import { uuid } from '@/utils/generateId';
+import { getTopics } from '@/store/selectors';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import './index.scss';
 
-const mockData = [
-  {
-    id: 1,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '1',
-    title: 'Моя тактика',
-  },
-  {
-    id: 2,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '2',
-    title: 'Не получается пройти уровень',
-  },
-  {
-    id: 3,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '3',
-    title: 'Дружелюбное комьюнити миф?',
-  },
-  {
-    id: 4,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '4',
-    title: 'Опыт какой игры поможет при прохождении Tower Defence',
-  },
-  {
-    id: 5,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '5',
-    title: 'Моя тактика',
-  },
-  {
-    id: 6,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '6',
-    title: 'Не получается пройти уровень',
-  },
-  {
-    id: 7,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '7',
-    title: 'Дружелюбное комьюнити миф?',
-  },
-  {
-    id: 8,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '8',
-    title: 'Опыт какой игры поможет при прохождении Tower Defence',
-  },
-  {
-    id: 9,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '9',
-    title: 'Моя тактика',
-  },
-  {
-    id: 10,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '10',
-    title: 'Не получается пройти уровень',
-  },
-  {
-    id: 11,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '11',
-    title: 'Дружелюбное комьюнити миф?',
-  },
-  {
-    id: 12,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '12',
-    text: 'Опыт какой игры поможет п ри прохождении Tower Defence',
-  },
-  {
-    id: 13,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '13',
-    title: 'Моя тактика',
-  },
-  {
-    id: 14,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '14',
-    title: 'Не получается пройти уровень',
-  },
-  {
-    id: 15,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '15',
-    title: 'Дружелюбное комьюнити миф?',
-  },
-  {
-    id: 16,
-    author: 'author',
-    last_message: { author: 'mes_author', created_at: '22.04.2023 1:11' },
-    href: '15',
-    title: 'Опыт какой игры поможет при прохождении Tower Defence',
-  },
-];
-
 export const Forum = () => {
+  const [searchItem, setSearchItem] = useState('');
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getForumTopics());
+  }, [dispatch]);
+  const items = useSelector(getTopics);
+
+  const forumData = useMemo(() => {
+    let searchRes = items as unknown as ForumTopicType[];
+    searchRes = searchRes?.filter((item) =>
+      item.title.toLowerCase().includes(searchItem.toLowerCase())
+    );
+    return searchRes;
+  }, [searchItem, items]);
+
   return (
     <div
       className={classNames(
@@ -132,40 +39,48 @@ export const Forum = () => {
         'forum'
       )}>
       <div className='forum__container'>
-        <ForumHeader />
-
+        <ForumHeader setSearchInfo={setSearchItem} />
         <Title text='Актуальные темы' />
-
-        <div className='forum-topics'>
-          <div className='forum-topics-header'>
-            <div className='forum-topics-header__title'>Загловок / Автор</div>
-            <div className='forum-topics-header__title'>
-              {/* При сортировке добавлять класс в завивисомтсти от направления сортировки.
+        {items.length ? (
+          <div className='forum-topics'>
+            <div className='forum-topics-header'>
+              <div className='forum-topics-header__title'>Загловок / Автор</div>
+              <div className='forum-topics-header__title'>
+                {/* При сортировке добавлять класс в завивисомтсти от направления сортировки.
                   forum-topics-header__sort_sorted-down /
                   forum-topics-header__sort_sorted-up
                   По умолчанию сортировки нет.
               */}
-              <button className='forum-topics-header__sort'>Последнее сообщение от</button>
+                <button className='forum-topics-header__sort'>Последнее сообщение от</button>
+              </div>
             </div>
-          </div>
 
-          <ol className='forum-topics-list'>
-            {mockData.map((data) => (
-              <li className='forum-topics-list__item' key={uuid()}>
-                <div className='forum-topics-list__group'>
-                  <Link className='plane-link' to={`./${data.href}`}>
-                    {data.title}
-                  </Link>
-                  <span>{data.author}</span>
-                </div>
-                <div className='forum-topics-list__group'>
-                  <span>{data.last_message.author}</span>
-                  <span>{data.last_message.created_at}</span>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+            <ol className='forum-topics-list'>
+              {!forumData?.length && <div>Нет тем,соответствующих запросу</div>}
+              {forumData &&
+                forumData!.map((data: ForumTopicType) => (
+                  <li className='forum-topics-list__item' key={data.id}>
+                    <div className='forum-topics-list__group'>
+                      <Link className='plane-link' to={`./${data.id}`}>
+                        {data.title}
+                      </Link>
+                      <span>
+                        {data.author.first_name} {data.author.second_name}
+                      </span>
+                    </div>
+                    <div className='forum-topics-list__group'>
+                      <span>{data.last_message.author_id}</span>
+                      <span>
+                        {moment(data.last_message.created_at).format('YYYY-MM-DD HH:mm:ss')}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+            </ol>
+          </div>
+        ) : (
+          <div>Пока нет ни одной темы</div>
+        )}
       </div>
     </div>
   );

@@ -7,8 +7,6 @@ import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
 import { User } from '../models/User';
 
-import { deleteAllEmojiByMessageId } from './emojiController';
-
 /**
  * Получения всех тем форума по id
  * @param req {params {topic_id: number}} - id темы форума
@@ -85,24 +83,32 @@ export const getAllForumTopic = async (req: Request, res: Response) => {
 export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
   try {
     const reqTopic: ForumTopic = req.body;
+
+    // TODO: проверка на существование пользователя отключена, пока нет прокси для авторизации
     const user: User | null = await User.findByPk(reqTopic.author_id);
+    // if (!user) {
+    //   res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
+    //   return;
+    // }
+    // Этот костыль нужен, чтобы в темах форума отображался пользователь Аноним, если пользователь не найден
+    // после добавления прокси для авторизации, этот костыль можно будет удалить
     if (!user) {
-      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
-      return;
+      await User.create({
+        id: reqTopic.author_id,
+        first_name: 'Аноним',
+        second_name: 'Аноним',
+      } as User);
     }
-    const topic: ForumTopic | null = await ForumTopic.findByPk(reqTopic.id);
-    if (!topic) {
-      const newTopic: ForumTopic = await ForumTopic.create(reqTopic);
-      const author: User | null = await User.findByPk(reqTopic.author_id);
+    const newTopic = await ForumTopic.upsert(reqTopic);
+    const author: User | null = await User.findByPk(reqTopic.author_id);
+    console.log(newTopic);
+    if (newTopic) {
       await ForumMessage.create({
-        topic_id: newTopic.id,
+        topic_id: newTopic[0].id,
         author_id: reqTopic.author_id,
         text: `Пользователь ${author?.first_name} ${author?.second_name} создал тему`,
       } as ForumMessage);
-      res.status(StatusCodes.CREATED).json(newTopic);
-    } else {
-      await topic.update(reqTopic);
-      res.status(StatusCodes.ACCEPTED).json(topic);
+      res.status(StatusCodes.OK).json(newTopic[0]);
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
@@ -116,27 +122,19 @@ export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
  */
 export const deleteForumTopic = async (req: Request, res: Response) => {
   try {
-    const topic: ForumTopic | null = await ForumTopic.findByPk(req.params.topic_id);
-    if (!topic) {
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
-    } else {
-      const messages = await ForumMessage.findAll({
-        where: {
-          topic_id: req.params.topic_id,
-        },
-      });
-      if (messages) {
-        for (const forumMessage of messages) {
-          await deleteAllEmojiByMessageId(forumMessage.id);
-          await forumMessage.destroy();
-        }
-      }
-      await topic.destroy();
+    const result = await ForumTopic.destroy({
+      where: {
+        id: req.params.topic_id,
+      },
+    });
+    if (result) {
       res
         .status(StatusCodes.OK)
         .json({ reason: `Тема форума c id ${req.params.topic_id} и все сообщения удалены` });
+    } else {
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: `Тема форума c id ${req.params.topic_id} не найдена` });
     }
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);

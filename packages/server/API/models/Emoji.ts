@@ -56,6 +56,8 @@ export class Emoji extends Model<Emoji> {
   @Column(DataType.INTEGER)
   message_id!: number;
 
-  @BelongsTo(() => ForumMessage)
+  @BelongsTo(() => ForumMessage, {
+    onDelete: 'CASCADE',
+  })
   message!: ForumMessage;
 }
