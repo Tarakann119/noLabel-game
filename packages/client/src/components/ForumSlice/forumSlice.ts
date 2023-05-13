@@ -22,7 +22,7 @@ export const forumTopicReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getForumTopics.fulfilled, (state, action) => {
-      state.forumTopic.push(action.payload);
+      state.forumTopic = action.payload;
     }),
       builder.addCase(getCurrentTopic.fulfilled, (state, action) => {
         state.forumTopic.push(action.payload);
@@ -45,7 +45,15 @@ export const getCurrentTopic = createAsyncThunk(
 );
 export const deleteForumTopic = createAsyncThunk(
   'forumTopic/deleteTopic',
-  async ({ id, navigate }: { id: number; navigate: NavigateFunction }) => {
+  async ({
+    id,
+    navigate,
+    fetchData,
+  }: {
+    id: number;
+    navigate: NavigateFunction;
+    fetchData: () => void;
+  }) => {
     axios(`http://localhost:3001/api/forum/topics/${id}`, {
       method: 'delete',
       headers: {
@@ -65,17 +73,34 @@ export const deleteForumTopic = createAsyncThunk(
 
 export const postEmojies = createAsyncThunk(
   'forumTopic/addEmojies',
-  async ({ data }: { data: string }) => {
+  async ({
+    dataId,
+    authorId,
+    emoji,
+    fetchData,
+  }: {
+    dataId: string | number;
+    authorId: string | number;
+    emoji: string;
+    fetchData: () => void;
+  }) => {
+    const requestData = JSON.stringify({
+      message_id: dataId,
+      author_id: authorId,
+      emoji: emoji,
+    });
     axios('http://localhost:3001/api/forum/emoji', {
       method: 'post',
-      data: data,
+      data: requestData,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       responseType: 'json',
-    }).catch(() => {
-      showError();
-    });
+    })
+      .then(() => fetchData())
+      .catch(() => {
+        showError();
+      });
   }
 );

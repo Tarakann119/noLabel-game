@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ForumTopicType } from '@typings/app.typings';
 import classNames from 'classnames';
@@ -7,18 +8,19 @@ import moment from 'moment';
 import { getForumTopics } from '@/components/ForumSlice/forumSlice';
 import { Title } from '@/components/Title';
 import { ForumHeader } from '@/pages/Forum/ForumHeader';
+import { getTopics } from '@/store/selectors';
 import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import './index.scss';
 
 export const Forum = () => {
   const [searchItem, setSearchItem] = useState('');
-  const [items, setItems] = useState<ForumTopicType[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getForumTopics()).then((e) => setItems(e.payload));
+    dispatch(getForumTopics());
   }, [dispatch]);
+  const items = useSelector(getTopics);
 
   const forumData = useMemo(() => {
     let searchRes = items as unknown as ForumTopicType[];

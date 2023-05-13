@@ -36,12 +36,14 @@ export const Message = memo(
     const dispatch = useAppDispatch();
     const user = useSelector(currentUser);
     const pasteEmojiHandler = (emoji: string) => {
-      const requestData = JSON.stringify({
-        message_id: data.id,
-        author_id: data.author.id,
-        emoji: emoji,
-      });
-      dispatch(postEmojies({ data: requestData })).then(() => fetchData());
+      dispatch(
+        postEmojies({
+          dataId: data.id,
+          authorId: data.author.id,
+          emoji: emoji,
+          fetchData: fetchData,
+        })
+      );
     };
 
     useEffect(() => {

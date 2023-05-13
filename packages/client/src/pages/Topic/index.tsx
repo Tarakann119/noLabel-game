@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { EmojiType, ForumThemeType, ForumTopicType } from '@typings/app.typings';
@@ -7,6 +8,7 @@ import classNames from 'classnames';
 import { deleteForumTopic, getCurrentTopic } from '@/components/ForumSlice/forumSlice';
 import { deleteCurrentMessage, getMessagesForTopic } from '@/components/ForumSlice/messagesSlice';
 import { Title } from '@/components/Title';
+import { getMessages, getTopics } from '@/store/selectors';
 import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import { Message } from './Message';
@@ -17,29 +19,27 @@ import './index.scss';
 export function Topic() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [messages, setMessages] = useState<ForumThemeType[]>([]);
-  const [topic, setTopic] = useState<ForumTopicType>();
   const [messageContent, setMessageContent] = useState<string>('');
   const [messageReactions, setMessageReactions] = useState<EmojiType>();
   const dispatch = useAppDispatch();
 
   const fetchData = () => {
-    dispatch(getMessagesForTopic({ id })).then((e) => setMessages(e.payload));
+    dispatch(getMessagesForTopic({ id }));
   };
+  const messages = useSelector(getMessages);
   useEffect(() => {
     fetchData();
   }, [messageReactions]);
 
-  useEffect(() => {
-    dispatch(getCurrentTopic({ id })).then((e) => setTopic(e.payload));
-  }, [dispatch]);
+  const items = useSelector(getTopics);
+  const topic = items.find((item) => item.id == id);
 
   const deleteMessage = (id: number) => {
-    dispatch(deleteCurrentMessage({ id })).then(() => fetchData());
+    dispatch(deleteCurrentMessage({ id, fetchData }));
   };
 
-  const deleteTopic = async (id: number) => {
-    await dispatch(deleteForumTopic({ id, navigate })).then(() => fetchData());
+  const deleteTopic = (id: number) => {
+    dispatch(deleteForumTopic({ id, navigate, fetchData }));
   };
 
   return (
@@ -61,6 +61,7 @@ export function Topic() {
             {messages.map((data) => (
               <li key={data.id.toString()} className='message-list'>
                 <Message
+                  //@ts-expect-error need to pass different types of data
                   data={data}
                   topic={false}
                   messageReactions={messageReactions}

@@ -19,7 +19,7 @@ export const forumMessagesReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getMessagesForTopic.fulfilled, (state, action) => {
-      state.forumMessages.push(action.payload);
+      state.forumMessages = action.payload;
     });
   },
 });
@@ -37,7 +37,7 @@ export const getMessagesForTopic = createAsyncThunk(
 
 export const deleteCurrentMessage = createAsyncThunk(
   'forumMessages/deleteMessages',
-  async ({ id }: { id: string | number | undefined }) => {
+  async ({ id, fetchData }: { id: string | number | undefined; fetchData: () => void }) => {
     await axios(`http://localhost:3001/api/forum/messages/${id}`, {
       method: 'delete',
       headers: {
@@ -45,8 +45,49 @@ export const deleteCurrentMessage = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
-    }).catch(() => {
-      showError();
+    })
+      .then(() => fetchData())
+      .catch(() => {
+        showError();
+      });
+  }
+);
+
+export const postTopicMessage = createAsyncThunk(
+  'forumMessages/postMessage',
+  async ({
+    text,
+    author_id,
+    topic_id,
+    fetchData,
+    setMessageContent,
+  }: {
+    text: string;
+    author_id: string | null;
+    topic_id: string | number | undefined;
+    fetchData: () => void;
+    setMessageContent: React.Dispatch<React.SetStateAction<string>>;
+  }) => {
+    const data = JSON.stringify({
+      text: text,
+      author_id: author_id,
+      topic_id: topic_id,
     });
+    await axios('http://localhost:3001/api/forum/messages', {
+      method: 'post',
+      data: data,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      responseType: 'json',
+    })
+      .then(() => {
+        fetchData();
+      })
+      .catch((e) => {
+        showError();
+      });
+    setMessageContent('');
   }
 );
