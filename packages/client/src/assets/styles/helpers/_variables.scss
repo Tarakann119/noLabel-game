@@ -13,16 +13,16 @@ $font-h1-size: 64px;
 }
 
 .bg-image {
-  background: url('@/assets/images/metall-texture.jpg') no-repeat center;
+  background: var(--ui-bgpicture-start);
   background-size: cover;
 
   &_login {
-    background: url('@/assets/images/background/knight.jpg') no-repeat center;
+    background: var(--ui-bgpicture-login);
     background-size: cover;
   }
 
   &_404 {
-    background: url('@/assets/images/background/helmet.png') no-repeat center;
+    background: var(--ui-bgpicture-404);
     background-size: cover;
   }
 }

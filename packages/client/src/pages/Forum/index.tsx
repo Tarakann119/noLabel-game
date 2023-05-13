@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { Title } from '@/components/Title';
-import { ForumHeader } from '@/pages/Forum/ForumHeader';
 import { uuid } from '@/utils/generateId';
+
+import { ForumHeader } from './ForumHeader';
 
 import './index.scss';
 

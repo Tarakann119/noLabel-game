@@ -6,14 +6,14 @@ import { uuid } from '@/utils/generateId';
 import { Message } from './Message';
 import { TypingPlace } from './TypingPlace';
 
-import './index.scss';
-
 interface IMessage {
   userName: string;
   text: string;
   messageId: number;
   date: string;
 }
+
+import './index.scss';
 
 export function Topic() {
   const messageList: IMessage[] = [

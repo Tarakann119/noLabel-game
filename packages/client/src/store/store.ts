@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-
 declare global {
   interface Window {
     __PRELOADED_STATE__?: object;
@@ -13,7 +12,7 @@ if (!import.meta.env.SSR) {
 }
 
 import userReducer from '@/components/Autification/slice';
-import gameReducer from '@/components/GameField/slice';
+import gameReducer from '@/components/Game/slice';
 import leaderboardReducer from '@/components/Leaderboard/slice';
 import isLoadingReducer from '@/components/LoaderComponent/slice';
 import themeReducer from '@/components/Theme/slice';

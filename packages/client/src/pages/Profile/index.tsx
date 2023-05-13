@@ -56,7 +56,6 @@ export const Profile = () => {
               ))
             )}
           </div>
-          <Theme />
         </div>
         <Link className='plane-link' to={'./edit'}>
           Изменить данные профиля
