@@ -7,6 +7,8 @@ export const currentUser = (state: RootState): UserInfo => state.auth.user;
 export const getAuthSate = (state: RootState) => !!state.auth.user.id;
 export const getLeaderboard = (state: RootState): LeaderboardType => state.leaderboard.leaderboard;
 export const getLeaderboardIsLoading = (state: RootState) => state.leaderboard.isLoading;
+export const getTopics = (state: RootState) => state.forumTopic.forumTopic;
+export const getMessages = (state: RootState) => state.forumMessages.forumMessages;
 export const getUserScore = (state: RootState): LeaderboardUserType | undefined => {
   return state.leaderboard.leaderboard.find(
     (user: LeaderboardUserType) => user.id === state.auth.user.id

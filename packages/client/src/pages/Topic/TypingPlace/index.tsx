@@ -1,14 +1,12 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import axios from 'axios';
 import { Form, Formik } from 'formik';
 
 import { Button } from '@/components/Button';
 import { EmoteMenu } from '@/components/Emoji/EmoteMenu';
+import { postTopicMessage } from '@/components/ForumSlice/messagesSlice';
 import { MyTextArea } from '@/components/TextArea';
 import { currentUser } from '@/store/selectors';
-import { showError } from '@/utils/ShowError';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import './index.scss';
 
@@ -16,11 +14,14 @@ export function TypingPlace({
   topic_id,
   messageContent,
   setMessageContent,
+  fetchData,
 }: {
-  topic_id: number | undefined;
+  topic_id: number | undefined | string;
   messageContent: string;
   setMessageContent: React.Dispatch<React.SetStateAction<string>>;
+  fetchData: () => void;
 }) {
+  const dispatch = useAppDispatch();
   const pasteEmojiHandler = (emoji: string) => {
     setMessageContent(messageContent + emoji);
   };
@@ -31,30 +32,15 @@ export function TypingPlace({
         message: '',
       }}
       onSubmit={() => {
-        const data = JSON.stringify({
-          text: messageContent,
-          author_id: user.id,
-          topic_id: topic_id,
-        });
-        axios('http://localhost:3001/api/forum/messages', {
-          method: 'post',
-          data: data,
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          responseType: 'json',
-          withCredentials: true,
-        })
-          .then((response) => {
-            if (response.data === 'OK') {
-              toast.success('Сообщение добавлено!');
-            }
+        dispatch(
+          postTopicMessage({
+            text: messageContent,
+            author_id: user.id,
+            topic_id: topic_id,
+            fetchData: fetchData,
+            setMessageContent: setMessageContent,
           })
-          .catch(() => {
-            showError();
-          });
-        setMessageContent('');
+        );
       }}>
       {() => (
         <Form className='typing-place'>
