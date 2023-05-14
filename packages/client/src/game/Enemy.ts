@@ -6,6 +6,8 @@ import { Sprite } from './Sprite';
 export class Enemy extends Sprite {
   public readonly settings: TEnemySettings;
   private velocity: { x: number; y: number } = { x: 0, y: 0 };
+  private size = 100;
+  private radius = 3;
   public center: { x: number; y: number };
   public waypointIndex = 0;
   public wounds = 0;
@@ -14,15 +16,17 @@ export class Enemy extends Sprite {
     protected readonly context: CanvasRenderingContext2D,
     public position: { x: number; y: number } = { x: 0, y: 0 },
     private readonly enemyType: EnemyType,
-    private readonly waypoints: { x: number; y: number }[]
+    private readonly waypoints: { x: number; y: number }[],
+    private readonly speedBuff: number,
+    private readonly healthBuff: number
   ) {
     super(context, position, settings[enemyType].imageSrc, { x: 0, y: 0 }, 7);
 
     this.settings = settings[this.enemyType];
 
     this.center = {
-      x: this.position.x + this.settings.width / 2,
-      y: this.position.y + this.settings.height / 2,
+      x: this.position.x + this.size / 2,
+      y: this.position.y + this.size / 2,
     };
   }
 
@@ -38,27 +42,23 @@ export class Enemy extends Sprite {
   protected draw() {
     super.draw();
 
-    const { context, position, settings, wounds } = this;
+    const { context, position, settings, wounds, radius, size, healthBuff } = this;
 
-    const width = settings.width / 2;
-    const segment = width / settings.health;
+    const health = settings.health + healthBuff;
+    const width = size / 2;
+    const segment = width / health;
 
     context.fillStyle = 'red';
-    context.fillRect(position.x + settings.radius, position.y - 15, width, 10);
+    context.fillRect(position.x + radius, position.y - 15, width, 10);
 
-    if (settings.health >= 0) {
+    if (health >= 0) {
       context.fillStyle = 'green';
-      context.fillRect(
-        position.x + settings.radius,
-        position.y - 15,
-        segment * (settings.health - wounds),
-        10
-      );
+      context.fillRect(position.x + radius, position.y - 15, segment * (health - wounds), 10);
     }
 
-    for (let i = 1; i < settings.health; i += 1) {
+    for (let i = 1; i < health; i += 1) {
       context.fillStyle = 'darkgreen';
-      context.fillRect(position.x + settings.radius + segment * i, position.y - 15, 1, 10);
+      context.fillRect(position.x + radius + segment * i, position.y - 15, 1, 10);
     }
   }
 
@@ -66,21 +66,22 @@ export class Enemy extends Sprite {
     this.draw();
     super.update();
 
-    const { waypoints, center, position, velocity, settings, waypointIndex } = this;
+    const { waypoints, center, position, velocity, settings, waypointIndex, size, speedBuff } =
+      this;
 
     const waypoint = waypoints[waypointIndex];
     const yDistance = waypoint.y - center.y;
     const xDistance = waypoint.x - center.x;
     const angle = Math.atan2(yDistance, xDistance);
 
-    velocity.x = Math.cos(angle) * settings.speed;
-    velocity.y = Math.sin(angle) * settings.speed;
+    velocity.x = Math.cos(angle) * (settings.speed + speedBuff);
+    velocity.y = Math.sin(angle) * (settings.speed + speedBuff);
 
     position.x += velocity.x;
     position.y += velocity.y;
 
-    center.x = position.x + settings.width / 2;
-    center.y = position.y + settings.height / 2;
+    center.x = position.x + size / 2;
+    center.y = position.y + size / 2;
 
     if (
       Math.abs(Math.round(center.x) - Math.round(waypoint.x)) < Math.abs(velocity.x) &&

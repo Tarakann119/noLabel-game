@@ -1,3 +1,9 @@
-import { CanvasWithFullscreen } from '@/components/GameField';
+import { GameField } from '@/components/Game';
 
-export const Game = () => <CanvasWithFullscreen mapName={'1'} />;
+export const Game = () => {
+  return (
+    <main className=''>
+      <GameField />
+    </main>
+  );
+};

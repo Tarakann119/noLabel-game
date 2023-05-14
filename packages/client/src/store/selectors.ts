@@ -14,9 +14,21 @@ export const getUserScore = (state: RootState): LeaderboardUserType | undefined 
     (user: LeaderboardUserType) => user.id === state.auth.user.id
   );
 };
+export const getGameScreen = (state: RootState) => state.game.screen;
+export const getGameMap = (state: RootState) => state.game.map;
+export const getGameModal = (state: RootState) => state.game.modal;
 
 export const getDataForLeaderBoard = createSelector(
-  [currentUser, getAuthSate, getLeaderboard, getLeaderboardIsLoading, getUserScore],
+  [
+    currentUser,
+    getAuthSate,
+    getLeaderboard,
+    getLeaderboardIsLoading,
+    getUserScore,
+    getGameScreen,
+    getGameMap,
+    getGameModal,
+  ],
   (player, score) => {
     return { ...player, score };
   }

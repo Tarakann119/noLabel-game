@@ -1,5 +1,4 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-
 declare global {
   interface Window {
     __PRELOADED_STATE__?: object;
