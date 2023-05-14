@@ -23,10 +23,10 @@ export const forumTopicReducer = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getForumTopics.fulfilled, (state, action) => {
       state.forumTopic = action.payload;
-    }),
-      builder.addCase(getCurrentTopic.fulfilled, (state, action) => {
-        state.forumTopic.push(action.payload);
-      });
+    });
+    builder.addCase(getCurrentTopic.fulfilled, (state, action) => {
+      state.forumTopic.push(action.payload);
+    });
   },
 });
 export const { setForumTopic, setTopicData } = forumTopicReducer.actions;
