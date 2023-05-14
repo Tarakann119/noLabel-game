@@ -5,14 +5,14 @@ export class PlacementTile {
   constructor(
     private readonly context: CanvasRenderingContext2D,
     public readonly position: { x: number; y: number } = { x: 0, y: 0 },
-    protected readonly tileSize: number
+    protected readonly tileSize: { height: number; width: number }
   ) {}
 
   private draw() {
     const { context, color, position, tileSize } = this;
 
     context.fillStyle = color;
-    context.fillRect(position.x, position.y, tileSize, tileSize);
+    context.fillRect(position.x, position.y, tileSize.width, tileSize.height);
   }
 
   public isCursorInTileBorders(cursor: { x: number; y: number }) {
@@ -20,9 +20,9 @@ export class PlacementTile {
 
     return (
       cursor.x > position.x &&
-      cursor.x < position.x + tileSize * 1.5 &&
+      cursor.x < position.x + tileSize.width * 1.5 &&
       cursor.y > position.y &&
-      cursor.y < position.y + tileSize * 1.5
+      cursor.y < position.y + tileSize.height * 1.5
     );
   }
 
