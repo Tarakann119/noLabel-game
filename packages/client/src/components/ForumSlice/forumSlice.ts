@@ -1,6 +1,7 @@
 import { NavigateFunction } from 'react-router';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ForumTopicType } from '@typings/app.typings';
+import { SERVER_URL } from '@typings/constants';
 import axios from 'axios';
 
 import { showError } from '@/utils/ShowError';
@@ -33,13 +34,13 @@ export const { setForumTopic, setTopicData } = forumTopicReducer.actions;
 export default forumTopicReducer.reducer;
 
 export const getForumTopics = createAsyncThunk('forumTopic/getTopics', async () => {
-  const response = await axios(`http://localhost:3001/api/forum/topics/all`);
+  const response = await axios(`${SERVER_URL}api/forum/topics/all`);
   return response.data;
 });
 export const getCurrentTopic = createAsyncThunk(
   'forumTopic/getCurrentTopic',
   async ({ id }: { id: number | string | undefined }) => {
-    const response = await axios(`http://localhost:3001/api/forum/topics/${id}`);
+    const response = await axios(`${SERVER_URL}api/forum/topics/${id}`);
     return response.data;
   }
 );
@@ -54,7 +55,7 @@ export const deleteForumTopic = createAsyncThunk(
     navigate: NavigateFunction;
     fetchData: () => void;
   }) => {
-    axios(`http://localhost:3001/api/forum/topics/${id}`, {
+    axios(`${SERVER_URL}api/forum/topics/${id}`, {
       method: 'delete',
       headers: {
         Accept: 'application/json',
@@ -89,7 +90,7 @@ export const postEmojies = createAsyncThunk(
       author_id: authorId,
       emoji: emoji,
     });
-    axios('http://localhost:3001/api/forum/emoji', {
+    axios(`${SERVER_URL}api/forum/emoji`, {
       method: 'post',
       data: requestData,
       headers: {
@@ -99,6 +100,42 @@ export const postEmojies = createAsyncThunk(
       responseType: 'json',
     })
       .then(() => fetchData())
+      .catch(() => {
+        showError();
+      });
+  }
+);
+
+export const createTopic = createAsyncThunk(
+  'forumTopic/createTopic',
+  async ({
+    values,
+    userId,
+    navigate,
+  }: {
+    navigate: NavigateFunction;
+    userId: string | null;
+    values: string;
+  }) => {
+    const data = JSON.stringify({ title: values, author_id: userId });
+    axios(`${SERVER_URL}api/forum/topics`, {
+      method: 'post',
+      data: data,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      responseType: 'json',
+    })
+      .then((response) => {
+        if (response.data.id) {
+          try {
+            navigate('/forum');
+          } catch {
+            showError();
+          }
+        }
+      })
       .catch(() => {
         showError();
       });
