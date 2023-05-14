@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { EmojiType, ForumThemeType } from '@typings/app.typings';
 import moment from 'moment';
@@ -32,7 +32,6 @@ export const Message = memo(
     deleteMessage: (id: number) => void;
     fetchData: () => void;
   }) => {
-    const [reactions] = useState(data.emojis);
     const dispatch = useAppDispatch();
     const user = useSelector(currentUser);
     const pasteEmojiHandler = (emoji: string) => {
@@ -47,12 +46,12 @@ export const Message = memo(
     };
 
     useEffect(() => {
-      if (reactions) {
+      if (data.emojis) {
         let counter = 1;
-        const idArray = reactions.map((elem) => elem.id);
+        const idArray = data.emojis.map((elem) => elem.id);
         const namesTraversed: unknown[] = [];
         let len = 0;
-        reactions.forEach((elem) => {
+        data.emojis.forEach((elem) => {
           len = idArray.filter((id) => id === elem.id).length;
           if (len > 1) {
             if (namesTraversed.includes(elem.id)) {
@@ -66,10 +65,10 @@ export const Message = memo(
             }
           }
         });
-        setMessageReactions({ ...reactions, counter });
+        setMessageReactions({ ...data.emojis, counter });
         fetchData();
       } else return;
-    }, [reactions]);
+    }, [data.emojis]);
 
     return (
       <div className='message-wrapper'>

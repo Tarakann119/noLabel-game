@@ -1,7 +1,6 @@
 import type { RequestHandler } from 'express';
 
 export const checkAuthMiddleware: RequestHandler = async (req, res, next) => {
-  console.log('🔐  Проверка авторизации');
   try {
     await fetch('https://ya-praktikum.tech/api/v2/auth/user', {
       method: 'GET',
@@ -10,7 +9,7 @@ export const checkAuthMiddleware: RequestHandler = async (req, res, next) => {
       },
     }).then(async (response) => {
       if (response.status === 200) {
-        console.log('✅  Пользователь авторизован');
+        res.locals.user = await response.json();
         next();
       } else {
         console.log('❌  Пользователь не авторизован');
