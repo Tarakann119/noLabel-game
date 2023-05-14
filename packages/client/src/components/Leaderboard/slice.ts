@@ -53,7 +53,7 @@ export const fetchLeaderboard = createAsyncThunk('leaderboard/fetchLeaderboard',
     cursor: 0,
     limit: 20,
   };
-  return await axios('https://ya-praktikum.tech/api/v2/leaderboard/all', {
+  return axios('http://localhost:3001/api/v2/leaderboard/all', {
     method: 'post',
     data: JSON.stringify(data),
     headers: {
@@ -81,7 +81,7 @@ export const pushUserScore = createAsyncThunk(
         ratingFieldName: 'towerDefenceScore',
       };
 
-      await axios('https://ya-praktikum.tech/api/v2/leaderboard', {
+      await axios('http://localhost:3001/api/v2/leaderboard', {
         method: 'post',
         data: JSON.stringify(data),
         headers: {

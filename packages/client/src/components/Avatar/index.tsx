@@ -8,7 +8,7 @@ import './index.scss';
 
 export const Avatar: FC<AvatarProps> = memo(
   ({ src, alt, size = 'default', className, isLink, ...props }) => {
-    const url = `https://ya-praktikum.tech/api/v2/resources${src}`;
+    const url = `http://localhost:3001/api/v2/resources${src}`;
     return (
       <img
         src={src ? url : defaultImages}

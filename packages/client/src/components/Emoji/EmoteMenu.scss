@@ -1,0 +1,45 @@
+.emote-menu {
+  margin: 5px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  // &:active {
+  //   background-color: red;
+  // }
+
+  &__svg {
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+  }
+
+  &__svg:hover {
+    opacity: 1;
+  }
+}
+
+.emote-menu__dropdown {
+  width: 50px;
+
+  .dropdown__menu {
+    display: flex;
+    flex-wrap: wrap;
+    width: 250px;
+
+    &-item {
+      flex: 1 1 20%;
+    }
+  }
+}
+
+.dropdown__menu-button-emote {
+  padding: 5px;
+  background-color: var(--ui-fields-bg);
+  border-radius: 50%;
+
+  &:hover {
+    box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px var(--ui-primary);
+  }
+}

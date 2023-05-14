@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 
+import { checkAuthMiddleware } from '../../middlewares/checkAuth';
 import * as leaderboardController from '../controllers/leaderboardController';
 
 export const leaderboard = Router();
@@ -7,6 +8,7 @@ export const leaderboard = Router();
 leaderboard
   .use(express.urlencoded({ extended: true }))
   .use(express.json())
+  .use('/', checkAuthMiddleware)
 
   /** Запрос на получение таблицы лидеров */
   .get('/all', leaderboardController.getLeaderboard)

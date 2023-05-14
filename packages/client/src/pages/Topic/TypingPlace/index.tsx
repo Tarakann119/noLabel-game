@@ -1,39 +1,57 @@
+import { useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
 
 import { Button } from '@/components/Button';
-import { InputValidate } from '@/components/InputValidate';
+import { EmoteMenu } from '@/components/Emoji/EmoteMenu';
+import { postTopicMessage } from '@/components/ForumSlice/messagesSlice';
+import { MyTextArea } from '@/components/TextArea';
+import { currentUser } from '@/store/selectors';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import './index.scss';
 
-const MessageSchema = Yup.object().shape({
-  login: Yup.string()
-    .min(2, 'Сообщение слишком короткое!')
-    .max(2000, 'Сообщение слишком длинное!')
-    .matches(/[^\s\t\r\n\v\f]$/, 'Поле содержит недопустимые символы')
-    .required('Required'),
-});
-
-export function TypingPlace() {
+export function TypingPlace({
+  topic_id,
+  messageContent,
+  setMessageContent,
+  fetchData,
+}: {
+  topic_id: number | undefined | string;
+  messageContent: string;
+  setMessageContent: React.Dispatch<React.SetStateAction<string>>;
+  fetchData: () => void;
+}) {
+  const dispatch = useAppDispatch();
+  const pasteEmojiHandler = (emoji: string) => {
+    setMessageContent(messageContent + emoji);
+  };
+  const user = useSelector(currentUser);
   return (
     <Formik
       initialValues={{
         message: '',
       }}
-      validationSchema={MessageSchema}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={() => {
+        dispatch(
+          postTopicMessage({
+            text: messageContent,
+            author_id: user.id,
+            topic_id: topic_id,
+            fetchData: fetchData,
+            setMessageContent: setMessageContent,
+          })
+        );
       }}>
-      {({ errors, values, handleChange }) => (
+      {() => (
         <Form className='typing-place'>
-          <InputValidate
+          <MyTextArea
             name='message'
             type='text'
             label='Сообщение'
-            value={values.message}
-            error={errors.message}
-            handleChange={handleChange}
+            value={messageContent}
+            handleChange={(e) => setMessageContent(e.target.value)}
           />
+          <EmoteMenu onEmojiSelect={pasteEmojiHandler} />
           <Button
             text='Отправить'
             className='button button_view_primary custom-button'
