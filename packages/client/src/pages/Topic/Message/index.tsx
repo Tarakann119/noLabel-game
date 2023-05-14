@@ -1,4 +1,5 @@
 import { memo, useEffect, useState } from 'react';
+
 import { useSelector } from 'react-redux';
 import { EmojiType, ForumThemeType } from '@typings/app.typings';
 import moment from 'moment';
@@ -10,11 +11,13 @@ import { currentUser } from '@/store/selectors';
 import { ButtonImg } from '@/ui/ButtonImg';
 import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
+
 import 'moment/locale/ru';
 
 import './index.scss';
 
 moment.locale('ru');
+
 
 export const Message = memo(
   ({

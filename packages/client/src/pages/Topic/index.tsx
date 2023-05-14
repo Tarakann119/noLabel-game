@@ -19,6 +19,7 @@ import './index.scss';
 export function Topic() {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [messageContent, setMessageContent] = useState<string>('');
   const [messageReactions, setMessageReactions] = useState<EmojiType>();
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ export function Topic() {
     dispatch(getMessagesForTopic({ id }));
   };
   const messages = useSelector(getMessages);
+
   useEffect(() => {
     fetchData();
   }, [messageReactions]);
