@@ -3,7 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer from '@/components/Autification/slice';
 import forumTopicReducer from '@/components/ForumSlice/forumSlice';
 import forumMessagesReducer from '@/components/ForumSlice/messagesSlice';
-import gameReducer from '@/components/GameField/slice';
+import gameReducer from '@/components/Game/slice';
 import leaderboardReducer from '@/components/Leaderboard/slice';
 import isLoadingReducer from '@/components/LoaderComponent/slice';
 import themeReducer from '@/components/Theme/slice';

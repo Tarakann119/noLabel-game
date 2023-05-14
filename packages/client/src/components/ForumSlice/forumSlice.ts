@@ -33,27 +33,23 @@ export const { setForumTopic, setTopicData } = forumTopicReducer.actions;
 export default forumTopicReducer.reducer;
 
 export const getForumTopics = createAsyncThunk('forumTopic/getTopics', async () => {
-  const response = await axios(`http://localhost:3001/api/forum/topics/all`);
+  const response = await axios(`http://localhost:3001/api/forum/topics/all`, {
+    withCredentials: true,
+  });
   return response.data;
 });
 export const getCurrentTopic = createAsyncThunk(
   'forumTopic/getCurrentTopic',
   async ({ id }: { id: number | string | undefined }) => {
-    const response = await axios(`http://localhost:3001/api/forum/topics/${id}`);
+    const response = await axios(`http://localhost:3001/api/forum/topics/${id}`, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
 export const deleteForumTopic = createAsyncThunk(
   'forumTopic/deleteTopic',
-  async ({
-    id,
-    navigate,
-    fetchData,
-  }: {
-    id: number;
-    navigate: NavigateFunction;
-    fetchData: () => void;
-  }) => {
+  async ({ id, navigate }: { id: number; navigate: NavigateFunction; fetchData: () => void }) => {
     axios(`http://localhost:3001/api/forum/topics/${id}`, {
       method: 'delete',
       headers: {
@@ -61,6 +57,7 @@ export const deleteForumTopic = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .catch(() => {
         showError();
@@ -97,6 +94,7 @@ export const postEmojies = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .then(() => fetchData())
       .catch(() => {

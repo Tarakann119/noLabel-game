@@ -32,7 +32,7 @@ export const Message = memo(
     deleteMessage: (id: number) => void;
     fetchData: () => void;
   }) => {
-    const [reactions, setReactions] = useState(data.emojis);
+    const [reactions] = useState(data.emojis);
     const dispatch = useAppDispatch();
     const user = useSelector(currentUser);
     const pasteEmojiHandler = (emoji: string) => {
