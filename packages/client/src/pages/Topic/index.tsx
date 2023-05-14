@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { ForumThemeType, ForumTopicType } from '@typings/app.typings';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { EmojiType, ForumThemeType, ForumTopicType } from '@typings/app.typings';
 import classNames from 'classnames';
 
+import { deleteForumTopic, getCurrentTopic } from '@/components/ForumSlice/forumSlice';
+import { deleteCurrentMessage, getMessagesForTopic } from '@/components/ForumSlice/messagesSlice';
 import { Title } from '@/components/Title';
+import { getMessages, getTopics } from '@/store/selectors';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import { Message } from './Message';
 import { TypingPlace } from './TypingPlace';
@@ -12,79 +17,31 @@ import { TypingPlace } from './TypingPlace';
 import './index.scss';
 
 export function Topic() {
+  const navigate = useNavigate();
   const { id } = useParams();
-  const [messages, setMessages] = useState<ForumThemeType[]>([]);
-  const [topic, setTopic] = useState<ForumTopicType>();
+  const [messageContent, setMessageContent] = useState<string>('');
+  const [messageReactions, setMessageReactions] = useState<EmojiType>();
+  const dispatch = useAppDispatch();
 
+  const fetchData = () => {
+    dispatch(getMessagesForTopic({ id }));
+  };
+  const messages = useSelector(getMessages);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios(`http://localhost:3001/api/forum/messages/topic/${id}`);
-        setMessages(result.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchData();
-  }, []);
-  console.log(messages);
-  useEffect(() => {
-    const topicData = async () => {
-      try {
-        const result = await axios(`http://localhost:3001/api/forum/topics/${id}`);
-        setTopic(result.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    topicData();
-  }, []);
+  }, [messageReactions]);
 
-  // const messageList: IMessage[] = [
-  //   {
-  //     userName: 'Ivan',
-  //     text: 'Не получается пройти уровень. ',
-  //     messageId: 1,
-  //     date: '22/02/2022 18.30',
-  //   },
-  //   {
-  //     userName: 'Laila',
-  //     text: 'Жми на кнопку сильнее и думай куда ставить башню!',
-  //     messageId: 2,
-  //     date: '22/02/2022 18.30',
-  //   },
-  //   {
-  //     userName: 'Jonh',
-  //     text: 'Check yours ping and connection',
-  //     messageId: 3,
-  //     date: '22/02/2022 18.30',
-  //   },
-  //   {
-  //     userName: 'Laila',
-  //     text: 'Жми на кнопку сильнее и думай куда ставить башню!',
-  //     messageId: 4,
-  //     date: '22/02/2022 18.30',
-  //   },
-  //   {
-  //     userName: 'Jonh',
-  //     text: 'Check yours ping and connection',
-  //     messageId: 5,
-  //     date: '22/02/2022 18.30',
-  //   },
-  //   {
-  //     userName: 'Laila',
-  //     text: 'Жми на кнопку сильнее и думай куда ставить башню!',
-  //     messageId: 6,
-  //     date: '22/02/2022 18.30',
-  //   },
-  //   {
-  //     userName: 'Jonh',
-  //     text: 'Check yours ping and connection',
-  //     messageId: 7,
-  //     date: '22/02/2022 18.30',
-  //   },
-  // ];
-  // const questionMessage = messageList.shift() as IMessage;
+  const items = useSelector(getTopics);
+  const topic = items.find((item) => item.id == id);
+
+  const deleteMessage = (id: number) => {
+    dispatch(deleteCurrentMessage({ id, fetchData }));
+  };
+
+  const deleteTopic = (id: number) => {
+    dispatch(deleteForumTopic({ id, navigate, fetchData }));
+  };
+
   return (
     <div className={classNames('container-content', 'container-content_main', 'bg-image_login')}>
       <div className='forum__container'>
@@ -93,19 +50,34 @@ export function Topic() {
           {topic && (
             <div className='topic-message'>
               <Message
-                //@ts-expect-error
+                //@ts-expect-error need to pass different types of data
                 data={topic}
+                topic={true}
+                deleteMessage={deleteTopic}
               />
             </div>
           )}
           <ul className='topic-chat'>
             {messages.map((data) => (
-              <li key={data.id.toString()}>
-                <Message data={data} />
+              <li key={data.id.toString()} className='message-list'>
+                <Message
+                  //@ts-expect-error need to pass different types of data
+                  data={data}
+                  topic={false}
+                  messageReactions={messageReactions}
+                  setMessageReactions={setMessageReactions}
+                  deleteMessage={deleteMessage}
+                  fetchData={fetchData}
+                />
               </li>
             ))}
           </ul>
-          <TypingPlace topic_id={topic?.id} />
+          <TypingPlace
+            topic_id={topic?.id}
+            messageContent={messageContent}
+            setMessageContent={setMessageContent}
+            fetchData={fetchData}
+          />
         </div>
       </div>
     </div>

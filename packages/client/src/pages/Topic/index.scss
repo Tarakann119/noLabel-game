@@ -16,3 +16,7 @@
   background-color: rgb(214 215 217 / 30%);
   border-radius: 8px;
 }
+
+.message-list:first-child {
+  display: none;
+}

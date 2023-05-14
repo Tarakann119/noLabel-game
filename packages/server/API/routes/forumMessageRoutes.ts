@@ -14,7 +14,7 @@ forumMessage
   /** получение сообщения форума по id сообщения */
   .get('/:message_id', forumMessageController.getForumMessageById)
 
-  /** получение сообщений форума по id темы */
+  /** получение всех сообщений форума по id темы */
   .get('/topic/:topic_id', forumMessageController.getForumMessageByTopicId)
 
   /** создание или обновление сообщения форума */

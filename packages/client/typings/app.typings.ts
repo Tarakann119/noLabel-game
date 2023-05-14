@@ -1,3 +1,5 @@
+import { type ButtonHTMLAttributes, type MouseEventHandler, type ReactElement } from 'react';
+
 export enum EnemiesList {
   ORC = 'ORC',
   ORC_WARRIOR = 'ORC_WARRIOR',
@@ -149,7 +151,7 @@ export type APIResponseError = {
 
 
 export type ForumTopicType = {
-  id: number;
+  id: number | string | undefined;
   title: string;
   author_id: number;
   created_at: string;
@@ -184,12 +186,14 @@ export type ForumMessageType = {
   created_at: string;
 };
 
-export type Emoji = {
-  id: number;
-  emoji: string;
+export type EmojiType = {
+  id?: number;
+  emoji?: string;
+  counter?: number;
 };
 
 export type ForumThemeType = {
+  title?: string;
   author: {
     avatar: string;
     first_name: string;
@@ -197,8 +201,20 @@ export type ForumThemeType = {
     second_name: string;
   };
   created_at: string;
-  emojis: Emoji[];
+  emojis: EmojiType[];
   id: number;
   text: string;
   updated_at: string;
+};
+
+export type DropdownMenuItems = {
+  title: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export type DropdownProps = {
+  className?: string;
+  trigger: ReactElement;
+  emoteClass?: string;
+  menuItems: DropdownMenuItems[];
 };
