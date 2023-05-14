@@ -151,7 +151,7 @@ export type APIResponseError = {
 
 
 export type ForumTopicType = {
-  id: number;
+  id: number | string | undefined;
   title: string;
   author_id: number;
   created_at: string;

@@ -14,10 +14,17 @@
   transition: 0.3s ease-in;
 }
 
+.author {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .user-wrapper {
   display: flex;
   gap: 20px;
   align-items: center;
+  justify-content: space-between;
 }
 
 .message {

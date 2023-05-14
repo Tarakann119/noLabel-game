@@ -6,8 +6,6 @@ import { ForumMessage } from '../models/ForumMessage';
 import { ForumTopic } from '../models/ForumTopic';
 import { User } from '../models/User';
 
-import { deleteAllEmojiByMessageId } from './emojiController';
-
 /**
  * Получение сообщения форума по id сообщения
  * @param req {params: {message_id: number}} - id сообщения, данные которого нужно получить
@@ -38,7 +36,6 @@ export const getForumMessageById = async (req: Request, res: Response) => {
   }
 };
 
-// ----------------------------
 /**
  * Получение сообщений форума по id темы
  * @param req {params: {topic_id: number}} - id темы, данные которой нужно получить
@@ -113,16 +110,9 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
         first_name: 'Аноним',
         second_name: 'Аноним',
       } as User);
-
     }
-    const forumMessage = await ForumMessage.findByPk(reqForumMessage.message_id);
-    if (forumMessage) {
-      await forumMessage.update(reqForumMessage);
-      res.status(StatusCodes.OK).json(forumMessage);
-    } else {
-      const newForumMessage = await ForumMessage.create(reqForumMessage);
-      res.status(StatusCodes.OK).json(newForumMessage);
-    }
+    const newForumMessage = await ForumMessage.upsert(reqForumMessage);
+    res.status(StatusCodes.OK).json(newForumMessage[0]);
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
   }
@@ -136,9 +126,13 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
 
 export const deleteForumMessageById = async (req: Request, res: Response) => {
   try {
-    const forumMessage = await ForumMessage.findByPk(req.params.message_id);
-    if (forumMessage) {
-      await forumMessage.destroy();
+    const messageId = req.params.message_id;
+    const result = await ForumMessage.destroy({
+      where: {
+        id: messageId,
+      },
+    });
+    if (result) {
       res.status(StatusCodes.OK).json({ reason: 'Сообщение удалено' });
     } else {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщение не найдено' });
@@ -155,16 +149,8 @@ export const deleteForumMessageById = async (req: Request, res: Response) => {
 
 export const deleteForumMessageByTopicId = async (req: Request, res: Response) => {
   try {
-    const forumMessages = await ForumMessage.findAll({
-      where: {
-        topic_id: req.params.topic_id,
-      },
-    });
-    if (forumMessages.length) {
-      for (const forumMessage of forumMessages) {
-        await deleteAllEmojiByMessageId(forumMessage.id);
-        await forumMessage.destroy();
-      }
+    const result = await ForumMessage.destroy({ where: { topic_id: req.params.topic_id } });
+    if (result) {
       res.status(StatusCodes.OK).json({ reason: 'Сообщения удалены' });
     } else {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Сообщения не найдены' });

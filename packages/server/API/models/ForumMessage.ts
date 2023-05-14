@@ -50,7 +50,9 @@ export class ForumMessage extends Model<ForumMessage> {
   @Column
   topic_id!: number;
 
-  @BelongsTo(() => ForumTopic)
+  @BelongsTo(() => ForumTopic, {
+    onDelete: 'CASCADE',
+  })
   topic!: ForumTopic;
 
   @ForeignKey(() => User)

@@ -36,13 +36,8 @@ export const getUser = async (req: Request, res: Response) => {
 export const createOrUpdateUser = async (req: Request, res: Response) => {
   try {
     const reqUser: User = req.body;
-    let user: User | null = await User.findByPk(reqUser.id);
-    if (!user) {
-      user = await User.create(reqUser);
-    } else {
-      user = await user.update(reqUser);
-    }
-    res.status(StatusCodes.CREATED).json(user);
+    const user = await User.upsert(reqUser);
+    res.status(StatusCodes.OK).json(user);
   } catch (e) {
     res.status(StatusCodes.BAD_REQUEST).json(e);
   }
