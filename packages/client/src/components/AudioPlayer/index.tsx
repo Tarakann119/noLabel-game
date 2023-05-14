@@ -4,8 +4,8 @@ import Beautiful from '@/assets/tracks/Orgrimmar.mp3';
 
 export const AudioPlayer = () => {
   const sound = Beautiful;
-  const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     setAudio(new Audio(sound));

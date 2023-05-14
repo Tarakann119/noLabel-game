@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 export const withFullscreen =
-  (Component: typeof React.Component | React.ForwardRefExoticComponent<{ mapName: string }>) =>
-  (
-    props: JSX.IntrinsicAttributes & { mapName: string } & React.RefAttributes<HTMLCanvasElement>
-  ) => {
+  (Component: typeof React.Component | React.ForwardRefExoticComponent<any>) =>
+  (props: JSX.IntrinsicAttributes & any & React.RefAttributes<HTMLCanvasElement>) => {
     const [isFullscreen, setIsFulscreen] = useState(false);
     const wrapper = useRef<HTMLDivElement>(null);
     const button = useRef<HTMLButtonElement>(null);
