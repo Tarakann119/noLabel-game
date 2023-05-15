@@ -1,7 +1,6 @@
 import { loadMe } from './components/Autification/slice';
 import { AppDispatch } from './store/store';
 
-
 export type Route = {
   path: string;
   loader?: (dispatch: AppDispatch) => void;
@@ -12,30 +11,30 @@ export const loadUser = (dispatch: AppDispatch) => dispatch(loadMe());
 //routes
 export const ROUTES: Record<string, Route> = {
   home: {
-    path: "/",
+    path: '/',
   },
   login: {
-    path: "/login",
+    path: '/login',
   },
   registration: {
-    path: "/registration",
+    path: '/registration',
   },
   profile: {
-    path: "/profile",
+    path: '/profile',
   },
   rating: {
-    path: "/rating",
+    path: '/rating',
   },
   forum: {
-    path: "/forum",
+    path: '/forum',
   },
   game: {
-    path: "/game",
+    path: '/game',
   },
 };
 
-export const SCHEMA_ERROR_MESSAGE = "Schema response is not valid";
+export const SCHEMA_ERROR_MESSAGE = 'Schema response is not valid';
 
-export const IS_SSR = typeof window === "undefined";
+export const IS_SSR = typeof window === 'undefined';
 
-export const RATING_FIELD_NAME = "gamesAmount";
+export const RATING_FIELD_NAME = 'gamesAmount';

@@ -1,13 +1,12 @@
-import { User } from './types'
-
+import { User } from './types';
 
 export interface UserRepository {
-  getCurrent(): Promise<User>
+  getCurrent(): Promise<User>;
 }
 
 export class UserService {
-  constructor(private _repo: UserRepository) { }
+  constructor(private _repo: UserRepository) {}
   getCurrentUser() {
-    return this._repo.getCurrent()
+    return this._repo.getCurrent();
   }
 }

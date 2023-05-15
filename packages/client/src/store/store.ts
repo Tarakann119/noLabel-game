@@ -15,8 +15,6 @@ declare global {
   }
 }
 
-
-
 const reducers = combineReducers({
   theme: themeReducer,
   game: gameReducer,
@@ -37,7 +35,7 @@ const reducers = combineReducers({
 // });
 
 interface IUserService {
-  getCurrentUser(): Promise<User>
+  getCurrentUser(): Promise<User>;
 }
 
 export const createStore = (service: IUserService, initialState?: RootState) => {
@@ -59,4 +57,4 @@ export const createStore = (service: IUserService, initialState?: RootState) => 
 // export type RootState = ReturnType<typeof store.getState>;
 
 export type RootState = ReturnType<typeof reducers>;
-export type AppDispatch = ReturnType<typeof createStore>["dispatch"];
+export type AppDispatch = ReturnType<typeof createStore>['dispatch'];

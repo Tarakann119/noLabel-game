@@ -29,16 +29,13 @@ const initialState = {
 };
 
 interface IUserService {
-  getCurrentUser(): Promise<User>
+  getCurrentUser(): Promise<User>;
 }
 
-export const loadMe = createAsyncThunk<User>(
-  'root/loadGreeting',
-  async (_, thunkApi) => {
-    const service: IUserService = thunkApi.extra as IUserService
-    return service.getCurrentUser()
-  }
-)
+export const loadMe = createAsyncThunk<User>('root/loadGreeting', async (_, thunkApi) => {
+  const service: IUserService = thunkApi.extra as IUserService;
+  return service.getCurrentUser();
+});
 
 export const userReducer = createSlice({
   name: 'user',
@@ -59,9 +56,9 @@ export const userReducer = createSlice({
       state.user.phone = null;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(loadMe.fulfilled, (store, action) => {
-      const { payload } = action
+      const { payload } = action;
       store.user = {
         id: payload.id,
         first_name: payload.first_name,
@@ -71,8 +68,8 @@ export const userReducer = createSlice({
         avatar: payload.avatar,
         email: payload.email,
         phone: payload.phone,
-      }
-    })
+      };
+    });
   },
 });
 

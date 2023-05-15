@@ -10,11 +10,8 @@ import { loadUser, Route, ROUTES } from './constants';
 import { userReducer } from './components/Autification/slice';
 
 export async function render(url: string, repository: UserRepository) {
-  const [pathname] = url.split('?')
-  const store = createStore(new UserService(repository))
-
-
-
+  const [pathname] = url.split('?');
+  const store = createStore(new UserService(repository));
 
   // await loadUser(store.dispatch);
 
@@ -26,7 +23,20 @@ export async function render(url: string, repository: UserRepository) {
   //   await loader(store.dispatch);
   // }
 
-  store.dispatch(userReducer.actions.setUser({ id: 1, login: 'test', password: 'test', first_name: 'test', second_name: 'test', display_name: 'test', email: 'test', phone: 'test', avatar: 'test', score: 100 }))
+  store.dispatch(
+    userReducer.actions.setUser({
+      id: 1,
+      login: 'test',
+      password: 'test',
+      first_name: 'test',
+      second_name: 'test',
+      display_name: 'test',
+      email: 'test',
+      phone: 'test',
+      avatar: 'test',
+      score: 100,
+    })
+  );
 
   const initialState = store.getState();
 

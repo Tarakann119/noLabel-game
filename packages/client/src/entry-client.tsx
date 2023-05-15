@@ -10,16 +10,14 @@ import { App } from './App';
 import 'virtual:fonts.css';
 import '@/assets/styles/App.scss';
 
-
 let preloadedState: RootState | undefined;
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   preloadedState = window.__PRELOADED_STATE__ as RootState;
   delete window.__PRELOADED_STATE__;
 }
 
 const store = createStore(new UserService(new YandexAPIRepository()), preloadedState);
-
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
