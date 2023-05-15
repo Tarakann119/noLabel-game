@@ -11,21 +11,34 @@ import {
 } from '@typings/app.typings';
 import axios, { AxiosResponse } from 'axios';
 
+import { User } from '@/api/types';
 import { clearLeaderboard } from '@/components/Leaderboard/slice';
 import { showError, showSuccess } from '@/utils/ShowError';
 
 const initialState = {
   user: {
-    id: null,
-    first_name: null,
-    second_name: null,
-    display_name: null,
-    login: null,
-    avatar: null,
-    email: null,
-    phone: null,
+    id: null as number | null,
+    first_name: null as string | null,
+    second_name: null as string | null,
+    display_name: null as string | null,
+    login: null as string | null,
+    avatar: null as string | null,
+    email: null as string | null,
+    phone: null as string | null,
   },
 };
+
+interface IUserService {
+  getCurrentUser(): Promise<User>
+}
+
+export const loadMe = createAsyncThunk<User>(
+  'root/loadGreeting',
+  async (_, thunkApi) => {
+    const service: IUserService = thunkApi.extra as IUserService
+    return service.getCurrentUser()
+  }
+)
 
 export const userReducer = createSlice({
   name: 'user',
@@ -45,6 +58,21 @@ export const userReducer = createSlice({
       state.user.email = null;
       state.user.phone = null;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(loadMe.fulfilled, (store, action) => {
+      const { payload } = action
+      store.user = {
+        id: payload.id,
+        first_name: payload.first_name,
+        second_name: payload.second_name,
+        display_name: payload.display_name,
+        login: payload.login,
+        avatar: payload.avatar,
+        email: payload.email,
+        phone: payload.phone,
+      }
+    })
   },
 });
 

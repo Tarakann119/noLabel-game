@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import { User } from '@/api/types';
 import userReducer from '@/components/Autification/slice';
 import forumTopicReducer from '@/components/ForumSlice/forumSlice';
 import forumMessagesReducer from '@/components/ForumSlice/messagesSlice';
@@ -14,11 +15,7 @@ declare global {
   }
 }
 
-let preloadedState;
-if (!import.meta.env.SSR) {
-  preloadedState = window.__PRELOADED_STATE__;
-  delete window.__PRELOADED_STATE__;
-}
+
 
 const reducers = combineReducers({
   theme: themeReducer,
@@ -30,14 +27,36 @@ const reducers = combineReducers({
   forumMessages: forumMessagesReducer,
 });
 
-export const store = configureStore({
-  preloadedState,
-  reducer: reducers,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-});
+// export const store = configureStore({
+//   preloadedState,
+//   reducer: reducers,
+//   middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//       serializableCheck: false,
+//     }),
+// });
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+interface IUserService {
+  getCurrentUser(): Promise<User>
+}
+
+export const createStore = (service: IUserService, initialState?: RootState) => {
+  return configureStore({
+    preloadedState: initialState,
+    reducer: reducers,
+    // devTools: process.env.NODE_ENV !== "production",
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware({
+        thunk: {
+          extraArgument: service,
+        },
+      });
+    },
+  });
+};
+
+// export type AppDispatch = typeof store.dispatch;
+// export type RootState = ReturnType<typeof store.getState>;
+
+export type RootState = ReturnType<typeof reducers>;
+export type AppDispatch = ReturnType<typeof createStore>["dispatch"];

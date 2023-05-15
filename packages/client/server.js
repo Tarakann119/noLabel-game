@@ -1,7 +1,32 @@
+import axios from "axios";
 import cookieParser from 'cookie-parser';
 import express from "express";
 import fs from "node:fs";
 import path from "node:path";
+
+// import { YandexAPIRepositoryServer } from './src/repository/YandexAPIRepositoryServer'
+// import { YandexAPIRepository } from './repository/YandexAPIRepository'
+
+const instance = axios.create({
+  baseURL: 'https://ya-praktikum.tech',
+  withCredentials: true,
+});
+
+class YandexAPISSR {
+  constructor(_cookieHeader) {
+    this._cookieHeader = _cookieHeader;
+  }
+
+  async getCurrent() {
+    const { data: result } = await instance.get("/api/v2/auth/user", {
+      headers: {
+        cookie: this._cookieHeader,
+      },
+    });
+
+    return result;
+  }
+}
 
 async function start() {
   const port = Number(process.env.CLIENT_PORT) || 3000;
@@ -39,6 +64,19 @@ async function start() {
     try {
       const url = req.originalUrl;
 
+      // await fetch('https://ya-praktikum.tech/api/v2/auth/user', {
+      //   method: 'GET',
+      //   headers: {
+      //     Cookie: req.headers.cookie || '',
+      //   },
+      // }).then(async (response) => {
+      //   console.log(await response.json());
+      // });
+
+      // console.log('cookies', req.headers.cookie);
+
+      // console.log(1);
+
       let template, render;
       if (!isProduction) {
         template = fs.readFileSync(path.resolve("index.html"), "utf-8");
@@ -49,10 +87,8 @@ async function start() {
         render = (await import("./dist/server/entry-server.js")).render;
       }
 
-      // все пустые 
-      console.log(req.cookies, req.signedCookies, req.headers.cookie);
 
-      const { html, initialState } = await render(url);
+      const { html, initialState } = await render(url, new YandexAPISSR(req.headers["cookie"]));
 
       const cssDir = path.resolve('dist/client/assets');
       const files = fs.readdirSync(cssDir);
