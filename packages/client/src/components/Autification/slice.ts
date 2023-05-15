@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigateFunction } from 'react-router';
 import { toast } from 'react-toastify';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import {
   ChangePasswordType,
   ChangeProfileType,
@@ -13,6 +13,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { User } from '@/api/types';
 import { clearLeaderboard } from '@/components/Leaderboard/slice';
+import { RootState } from '@/store/store';
 import { showError, showSuccess } from '@/utils/ShowError';
 
 const initialState = {
@@ -37,9 +38,44 @@ export const loadMe = createAsyncThunk<User>('root/loadGreeting', async (_, thun
   return service.getCurrentUser();
 });
 
+// interface UserSlice {
+//   profile: User | {
+//     id: null,
+//     first_name: null,
+//     second_name: null,
+//     display_name: null,
+//     login: null,
+//     avatar: null,
+//     email: null,
+//     phone: null,
+//   },
+//   isLoaded: boolean
+// }
+
+interface UserSlice {
+  user: {
+    id: number | null;
+    first_name: string | null;
+    second_name: string | null;
+    display_name: string | null;
+    login: string | null;
+    avatar: string | null;
+    email: string | null;
+    phone: string | null;
+  };
+}
+
+const selectUserSlice = (store: RootState) => store.auth;
+const selectIsAuthCompleted = createSelector(selectUserSlice, (user) => user.isLoaded);
+export const selectIsAuthenticated = createSelector(
+  selectUserSlice,
+  selectIsAuthCompleted,
+  (user, authCompleted) => [user.user.id !== null && user.user, authCompleted]
+);
+
 export const userReducer = createSlice({
   name: 'user',
-  initialState,
+  initialState: initialState as UserSlice,
 
   reducers: {
     setUser(state, { payload }) {
@@ -56,21 +92,38 @@ export const userReducer = createSlice({
       state.user.phone = null;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(loadMe.fulfilled, (store, action) => {
-      const { payload } = action;
-      store.user = {
-        id: payload.id,
-        first_name: payload.first_name,
-        second_name: payload.second_name,
-        display_name: payload.display_name,
-        login: payload.login,
-        avatar: payload.avatar,
-        email: payload.email,
-        phone: payload.phone,
-      };
-    });
-  },
+  // extraReducers: (builder) => {
+  //   builder.addCase(loadMe.fulfilled, (store, action) => {
+  //     const { payload } = action;
+  //     store.user = {
+  //       id: payload.id,
+  //       first_name: payload.first_name,
+  //       second_name: payload.second_name,
+  //       display_name: payload.display_name,
+  //       login: payload.login,
+  //       avatar: payload.avatar,
+  //       email: payload.email,
+  //       phone: payload.phone,
+  //     }
+  //     store.isLoaded = true
+  //   })
+  //   builder.addCase(loadMe.pending, store => {
+  //     store.isLoaded = true
+  //   })
+  //   builder.addCase(loadMe.rejected, store => {
+  //     store.isLoaded = true
+  //     store.user = {
+  //       id: null,
+  //       first_name: null,
+  //       second_name: null,
+  //       display_name: null,
+  //       login: null,
+  //       avatar: null,
+  //       email: null,
+  //       phone: null,
+  //     }
+  //   });
+  // },
 });
 
 export const { setUser, removeUser } = userReducer.actions;

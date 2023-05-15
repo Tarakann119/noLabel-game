@@ -15,7 +15,7 @@ export async function render(url: string, repository: UserRepository) {
 
   // await loadUser(store.dispatch);
 
-  // const currentRoute = Object.values(ROUTES).find((route) => matchPath(pathname, route.path)) || {};
+  const currentRoute = Object.values(ROUTES).find((route) => matchPath(pathname, route.path)) || {};
 
   // const { loader } = currentRoute as Route;
 
@@ -23,22 +23,25 @@ export async function render(url: string, repository: UserRepository) {
   //   await loader(store.dispatch);
   // }
 
-  // store.dispatch(
-  //   userReducer.actions.setUser({
-  //     id: 1,
-  //     login: 'test',
-  //     password: 'test',
-  //     first_name: 'test',
-  //     second_name: 'test',
-  //     display_name: 'test',
-  //     email: 'test',
-  //     phone: 'test',
-  //     avatar: 'test',
-  //     score: 100,
-  //   })
-  // );
+  // console.log(loader);
+
+  store.dispatch(
+    userReducer.actions.setUser({
+      id: 1,
+      login: 'test',
+      password: 'test',
+      first_name: 'test',
+      second_name: 'test',
+      display_name: 'test',
+      email: 'test',
+      phone: 'test',
+      avatar: 'test',
+    })
+  );
 
   const initialState = store.getState();
+
+  console.log(store.getState());
 
   const html = ReactDOMServer.renderToString(
     <StaticRouter location={url}>

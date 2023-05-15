@@ -45,6 +45,7 @@ export const createStore = (service: IUserService, initialState?: RootState) => 
     // devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) => {
       return getDefaultMiddleware({
+        serializableCheck: false,
         thunk: {
           extraArgument: service,
         },

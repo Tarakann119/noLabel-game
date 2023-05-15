@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { logOut, removeUser } from '@/components/Autification/slice';
+import { logOut, removeUser, selectIsAuthenticated } from '@/components/Autification/slice';
 import { Button } from '@/components/Button';
 import { clearLeaderboard } from '@/components/Leaderboard/slice';
 import { UserCard } from '@/components/UserCard';
@@ -15,6 +15,10 @@ export const Header = () => {
   const user = useSelector(currentUser);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const [completed, isAuthenticated] = useSelector(selectIsAuthenticated);
+
+  // console.log(completed, isAuthenticated);
 
   const handleLogOut = () => {
     dispatch(logOut());
@@ -42,7 +46,7 @@ export const Header = () => {
               Форум
             </Link>
           </div>
-          {!user.login ? (
+          {!completed ? (
             <div className='header__container header__container_autch'>
               <Button text={'ВХОД'} onClick={() => navigate('/login')} />
             </div>
