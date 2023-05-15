@@ -83,6 +83,10 @@ export const getAllForumTopic = async (req: Request, res: Response) => {
 export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
   try {
     const reqTopic: ForumTopic = req.body;
+    if (res.locals?.user?.id !== reqTopic.author_id) {
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
+      return;
+    }
     const user: User | null = await User.findByPk(reqTopic.author_id);
     if (!user) {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });

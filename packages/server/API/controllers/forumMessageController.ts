@@ -95,6 +95,10 @@ export const getAllForumMessage = async (_req: Request, res: Response) => {
 export const createOrUpdateForumMessage = async (req: Request, res: Response) => {
   try {
     const reqForumMessage = req.body;
+    if (res.locals?.user?.id !== reqForumMessage.author_id) {
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
+      return;
+    }
     const user = await User.findByPk(reqForumMessage.author_id);
 
     if (!user) {
