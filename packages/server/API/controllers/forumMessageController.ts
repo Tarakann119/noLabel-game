@@ -99,13 +99,6 @@ export const createOrUpdateForumMessage = async (req: Request, res: Response) =>
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
       return;
     }
-    const user = await User.findByPk(reqForumMessage.author_id);
-
-    if (!user) {
-      res.status(StatusCodes.NOT_FOUND).json({ reason: 'Пользователь не найден' });
-      return;
-    }
-
     const newForumMessage = await ForumMessage.upsert(reqForumMessage);
     res.status(StatusCodes.OK).json(newForumMessage[0]);
   } catch (e) {

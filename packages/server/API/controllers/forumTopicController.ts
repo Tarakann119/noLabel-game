@@ -87,13 +87,8 @@ export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
       res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
       return;
     }
-    const user: User | null = await User.findByPk(reqTopic.author_id);
-    if (!user) {
-      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
-      return;
-    }
+    const author = res.locals.user as User;
     const newTopic = await ForumTopic.upsert(reqTopic);
-    const author: User | null = await User.findByPk(reqTopic.author_id);
     if (newTopic) {
       await ForumMessage.create({
         topic_id: newTopic[0].id,
