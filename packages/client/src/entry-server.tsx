@@ -10,12 +10,12 @@ import { App } from './App';
 import { loadUser, Route, ROUTES } from './constants';
 
 export async function render(url: string, repository: UserRepository) {
-  const [pathname] = url.split('?');
+  // const [pathname] = url.split('?');
   const store = createStore(new UserService(repository));
 
-  // await loadUser(store.dispatch);
+  await loadUser(store.dispatch);
 
-  const currentRoute = Object.values(ROUTES).find((route) => matchPath(pathname, route.path)) || {};
+  // const currentRoute = Object.values(ROUTES).find((route) => matchPath(pathname, route.path)) || {};
 
   // const { loader } = currentRoute as Route;
 
@@ -25,19 +25,18 @@ export async function render(url: string, repository: UserRepository) {
 
   // console.log(loader);
 
-  store.dispatch(
-    userReducer.actions.setUser({
-      id: 1,
-      login: 'test',
-      password: 'test',
-      first_name: 'test',
-      second_name: 'test',
-      display_name: 'test',
-      email: 'test',
-      phone: 'test',
-      avatar: 'test',
-    })
-  );
+  // store.dispatch(
+  //   userReducer.actions.setUser({
+  //     id: 1,
+  //     login: 'test',
+  //     first_name: 'test',
+  //     second_name: 'test',
+  //     display_name: 'test',
+  //     email: 'test',
+  //     phone: 'test',
+  //     avatar: 'test',
+  //   })
+  // );
 
   const initialState = store.getState();
 
