@@ -1,7 +1,6 @@
 import { EnemyType, GameButtons, TGameSettings, TowersList } from '@typings/app.typings';
 import { throttle } from 'lodash';
 
-
 import { activateFullscreen, deactivateFullscreen } from '@/utils/fullscreen';
 
 import { loadImage } from './utils/loadImage';
