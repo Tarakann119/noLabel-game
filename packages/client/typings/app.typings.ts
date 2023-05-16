@@ -83,7 +83,7 @@ export type GameState = {
 };
 
 export type UserInfo = {
-  id: string | null;
+  id: number | null;
   first_name: string | null;
   second_name: string | null;
   display_name: string | null;

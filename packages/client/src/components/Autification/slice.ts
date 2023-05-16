@@ -26,13 +26,14 @@ const initialState = {
     email: null as string | null,
     phone: null as string | null,
   },
+  isLoaded: false,
 };
 
 interface IUserService {
   getCurrentUser(): Promise<User>;
 }
 
-export const loadMe = createAsyncThunk<User>('root/loadGreeting', async (_, thunkApi) => {
+export const loadMe = createAsyncThunk<User>('user/loadGreeting', async (_, thunkApi) => {
   const service: IUserService = thunkApi.extra as IUserService;
   return service.getCurrentUser();
 });
@@ -68,6 +69,23 @@ export const userReducer = createSlice({
         avatar: payload.avatar,
         email: payload.email,
         phone: payload.phone,
+      };
+      store.isLoaded = true;
+    });
+    builder.addCase(loadMe.pending, (store) => {
+      store.isLoaded = false;
+    });
+    builder.addCase(loadMe.rejected, (store) => {
+      store.isLoaded = true;
+      store.user = {
+        id: null,
+        first_name: null,
+        second_name: null,
+        display_name: null,
+        login: null,
+        avatar: null,
+        email: null,
+        phone: null,
       };
     });
   },

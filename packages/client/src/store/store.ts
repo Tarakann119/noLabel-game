@@ -25,15 +25,6 @@ const reducers = combineReducers({
   forumMessages: forumMessagesReducer,
 });
 
-// export const store = configureStore({
-//   preloadedState,
-//   reducer: reducers,
-//   middleware: (getDefaultMiddleware) =>
-//     getDefaultMiddleware({
-//       serializableCheck: false,
-//     }),
-// });
-
 interface IUserService {
   getCurrentUser(): Promise<User>;
 }
@@ -42,7 +33,6 @@ export const createStore = (service: IUserService, initialState?: RootState) => 
   return configureStore({
     preloadedState: initialState,
     reducer: reducers,
-    // devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) => {
       return getDefaultMiddleware({
         serializableCheck: false,
@@ -53,9 +43,6 @@ export const createStore = (service: IUserService, initialState?: RootState) => 
     },
   });
 };
-
-// export type AppDispatch = typeof store.dispatch;
-// export type RootState = ReturnType<typeof store.getState>;
 
 export type RootState = ReturnType<typeof reducers>;
 export type AppDispatch = ReturnType<typeof createStore>['dispatch'];
