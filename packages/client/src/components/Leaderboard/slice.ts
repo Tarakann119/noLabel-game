@@ -4,6 +4,7 @@ import {
   LeaderboardUserType,
   pushLeaderboardRequest,
 } from '@typings/app.typings';
+import { SERVER_URL } from '@typings/constants';
 import axios from 'axios';
 
 import { currentUser } from '@/store/selectors';
@@ -53,7 +54,7 @@ export const fetchLeaderboard = createAsyncThunk('leaderboard/fetchLeaderboard',
     cursor: 0,
     limit: 20,
   };
-  return axios('http://localhost:3001/api/v2/leaderboard/all', {
+  return axios(`${SERVER_URL}api/v2/leaderboard/all`, {
     method: 'post',
     data: JSON.stringify(data),
     headers: {
@@ -68,7 +69,7 @@ export const pushUserScore = createAsyncThunk(
   'leaderboard/pushUserScore',
   async ({ score }: pushLeaderboardRequest, thunkAPI) => {
     try {
-      const user = currentUser(thunkAPI.getState());
+      const user = currentUser(thunkAPI.getState() as never);
       const data = {
         data: {
           id: user.id,
@@ -81,7 +82,7 @@ export const pushUserScore = createAsyncThunk(
         ratingFieldName: 'towerDefenceScore',
       };
 
-      await axios('http://localhost:3001/api/v2/leaderboard', {
+      await axios(`${SERVER_URL}api/v2/leaderboard`, {
         method: 'post',
         data: JSON.stringify(data),
         headers: {
