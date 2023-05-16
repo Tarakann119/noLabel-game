@@ -42,7 +42,9 @@ export const getForumTopics = createAsyncThunk('forumTopic/getTopics', async () 
 export const getCurrentTopic = createAsyncThunk(
   'forumTopic/getCurrentTopic',
   async ({ id }: { id: number | string | undefined }) => {
-    const response = await axios(`${SERVER_URL}api/forum/topics/${id}`);
+    const response = await axios(`${SERVER_URL}api/forum/topics/${id}`, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
