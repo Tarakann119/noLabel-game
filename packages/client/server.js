@@ -1,6 +1,30 @@
-import express from 'express';
-import fs from 'node:fs';
-import path from 'node:path';
+import axios from "axios";
+import cookieParser from 'cookie-parser';
+import express from "express";
+import fs from "node:fs";
+import path from "node:path";
+
+
+const instance = axios.create({
+  baseURL: 'https://ya-praktikum.tech',
+  withCredentials: true,
+});
+
+class YandexAPISSR {
+  constructor(_cookieHeader) {
+    this._cookieHeader = _cookieHeader;
+  }
+
+  async getCurrent() {
+    const { data: result } = await instance.get("/api/v2/auth/user", {
+      headers: {
+        cookie: this._cookieHeader,
+      },
+    });
+
+    return result;
+  }
+}
 
 async function start() {
   const port = Number(process.env.CLIENT_PORT) || 3000;
@@ -12,6 +36,10 @@ async function start() {
 
   const app = express();
 
+  app.use(cookieParser());
+  /**
+   * @type {import('vite').ViteDevServer}
+   */
   let vite;
   if (!isProduction) {
     vite = await (
@@ -46,7 +74,8 @@ async function start() {
         render = (await import('./dist/server/entry-server.js')).render;
       }
 
-      const { html, initialState } = render(url);
+
+      const { html, initialState } = await render(url, new YandexAPISSR(req.headers["cookie"]));
 
       const cssDir = path.resolve('dist/client/assets');
       const files = fs.readdirSync(cssDir);
@@ -64,8 +93,7 @@ async function start() {
         .replace(`<!--app-html-->`, html)
         .replace(`<!--css-->`, `${css ? `<style>${css}</style>` : ''} `)
         .replace(`<!--store-data-->`, JSON.stringify(initialState).replace(/</g, '\\u003c'));
-
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(htmlWithReplacements);
+      res.status(200).set({ "Content-Type": "text/html" }).end(htmlWithReplacements);
     } catch (e) {
       !isProduction && vite.ssrFixStacktrace(e);
       console.log(e.stack);

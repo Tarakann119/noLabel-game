@@ -27,8 +27,8 @@ export const Rating = () => {
         </div>
       ) : null}
       <div className='board__list'>
-        {leaderboardList.map((player) => (
-          <LeaderboardView key={uuid()} {...player} />
+        {leaderboardList.map((player, i) => (
+          <LeaderboardView key={player.id + i} {...player} />
         ))}
       </div>
     </div>

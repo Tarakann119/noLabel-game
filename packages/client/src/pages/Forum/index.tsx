@@ -58,7 +58,7 @@ export const Forum = () => {
             <ol className='forum-topics-list'>
               {!forumData?.length && <div>Нет тем,соответствующих запросу</div>}
               {forumData &&
-                forumData!.map((data: ForumTopicType) => (
+                forumData?.map((data: ForumTopicType) => (
                   <li className='forum-topics-list__item' key={data.id}>
                     <div className='forum-topics-list__group'>
                       <Link className='plane-link' to={`./${data.id}`}>

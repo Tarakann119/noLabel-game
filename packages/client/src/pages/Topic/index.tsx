@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { EmojiType, ForumThemeType, ForumTopicType } from '@typings/app.typings';
+import { EmojiType } from '@typings/app.typings';
 import classNames from 'classnames';
 
-import { deleteForumTopic, getCurrentTopic } from '@/components/ForumSlice/forumSlice';
+import { deleteForumTopic } from '@/components/ForumSlice/forumSlice';
 import { deleteCurrentMessage, getMessagesForTopic } from '@/components/ForumSlice/messagesSlice';
 import { Title } from '@/components/Title';
 import { getMessages, getTopics } from '@/store/selectors';
@@ -19,6 +19,7 @@ import './index.scss';
 export function Topic() {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [messageContent, setMessageContent] = useState<string>('');
   const [messageReactions, setMessageReactions] = useState<EmojiType>();
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ export function Topic() {
     dispatch(getMessagesForTopic({ id }));
   };
   const messages = useSelector(getMessages);
+
   useEffect(() => {
     fetchData();
   }, [messageReactions]);

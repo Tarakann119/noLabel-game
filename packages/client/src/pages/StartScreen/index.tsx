@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { redirectUri } from '@typings/constants';
 import classNames from 'classnames';
 
 import { signInWithToken } from '@/components/Autification/slice';
@@ -24,7 +25,7 @@ export const StartScreen = () => {
     const code = params.get('code');
 
     if (code) {
-      window.history.pushState({}, '', `${__REDIRECT_URL__}`);
+      window.history.pushState({}, '', `${redirectUri}`);
       dispatch(signInWithToken({ code, navigate }));
     }
   }, [dispatch, navigate]);

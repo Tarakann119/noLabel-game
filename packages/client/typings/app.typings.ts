@@ -1,8 +1,6 @@
 import { type ButtonHTMLAttributes, type MouseEventHandler, type ReactElement } from 'react';
 
 export enum EnemiesList {
-  GOBLIN = 'GOBLIN',
-  HOBGOBLIN = 'HOBGOBLIN',
   ORC = 'ORC',
   ORC_WARRIOR = 'ORC_WARRIOR',
 }
@@ -12,9 +10,22 @@ export type EnemyType = keyof typeof EnemiesList;
 export enum TowersList {
   ARCHER = 'ARCHER',
   STONE = 'STONE',
+  CROSSBOWMAN = 'CROSSBOWMAN',
+  MAGICTOWER = 'MAGICTOWER',
 }
 
 export type TowerType = keyof typeof TowersList;
+
+export enum GameScreens {
+  MAP = 'MAP',
+  GAME = 'GAME',
+}
+
+export type TGameScreens = keyof typeof GameScreens;
+
+export type TEnemy = keyof typeof EnemiesList;
+
+export type TTower = keyof typeof TowersList;
 
 export type TowerListItemType = {
   x: number;
@@ -22,13 +33,10 @@ export type TowerListItemType = {
   width: number;
   height: number;
   fill: string;
-  isDragging: boolean;
   imageSrc: string;
-  type: TowersList;
 };
 
 export type TGameSettings = {
-  tileSize: number;
   width: number;
   height: number;
   hearts: number;
@@ -37,7 +45,6 @@ export type TGameSettings = {
     enemies: {
       type: EnemyType;
       count: number;
-      waveCount: number;
     }[];
   }[];
   towers: TowerType[];
@@ -49,9 +56,6 @@ export type TGameSettings = {
 };
 
 export type TEnemySettings = {
-  width: number;
-  height: number;
-  radius: number;
   health: number;
   speed: number;
   imageSrc: string;
@@ -67,7 +71,6 @@ export type TBuildingSettings = {
   maxFrames: number;
   projectile: {
     imageSrc: string;
-    radius: number;
     damage: number;
   };
 };
@@ -80,7 +83,7 @@ export type GameState = {
 };
 
 export type UserInfo = {
-  id: string | null;
+  id: number | null;
   first_name: string | null;
   second_name: string | null;
   display_name: string | null;
@@ -145,6 +148,13 @@ export type APIResponseError = {
     status: number;
   };
 };
+
+export enum GameButtons {
+  PAUSE = 'pause',
+  QUICK = 'quick',
+  SOUND = 'sound',
+  FULLSCREEN = 'fullscreen',
+}
 
 export type ForumTopicType = {
   id: number | string | undefined;

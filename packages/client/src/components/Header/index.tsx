@@ -16,6 +16,8 @@ export const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  // console.log(completed, isAuthenticated);
+
   const handleLogOut = () => {
     dispatch(logOut());
     dispatch(removeUser());
@@ -42,7 +44,7 @@ export const Header = () => {
               Форум
             </Link>
           </div>
-          {!user.login ? (
+          {!user.id ? (
             <div className='header__container header__container_autch'>
               <Button text={'ВХОД'} onClick={() => navigate('/login')} />
             </div>

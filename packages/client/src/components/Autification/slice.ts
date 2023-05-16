@@ -9,23 +9,35 @@ import {
   ProfileType,
   UserInfo,
 } from '@typings/app.typings';
+import { redirectUri, SERVER_URL } from '@typings/constants';
 import axios, { AxiosResponse } from 'axios';
 
+import { User } from '@/api/types';
 import { clearLeaderboard } from '@/components/Leaderboard/slice';
 import { showError, showSuccess } from '@/utils/ShowError';
 
 const initialState = {
   user: {
-    id: null,
-    first_name: null,
-    second_name: null,
-    display_name: null,
-    login: null,
-    avatar: null,
-    email: null,
-    phone: null,
+    id: null as number | null,
+    first_name: null as string | null,
+    second_name: null as string | null,
+    display_name: null as string | null,
+    login: null as string | null,
+    avatar: null as string | null,
+    email: null as string | null,
+    phone: null as string | null,
   },
+  isLoaded: false,
 };
+
+interface IUserService {
+  getCurrentUser(): Promise<User>;
+}
+
+export const loadMe = createAsyncThunk<User>('user/loadGreeting', async (_, thunkApi) => {
+  const service: IUserService = thunkApi.extra as IUserService;
+  return service.getCurrentUser();
+});
 
 export const userReducer = createSlice({
   name: 'user',
@@ -46,13 +58,45 @@ export const userReducer = createSlice({
       state.user.phone = null;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(loadMe.fulfilled, (store, action) => {
+      const { payload } = action;
+      store.user = {
+        id: payload.id,
+        first_name: payload.first_name,
+        second_name: payload.second_name,
+        display_name: payload.display_name,
+        login: payload.login,
+        avatar: payload.avatar,
+        email: payload.email,
+        phone: payload.phone,
+      };
+      store.isLoaded = true;
+    });
+    builder.addCase(loadMe.pending, (store) => {
+      store.isLoaded = false;
+    });
+    builder.addCase(loadMe.rejected, (store) => {
+      store.isLoaded = true;
+      store.user = {
+        id: null,
+        first_name: null,
+        second_name: null,
+        display_name: null,
+        login: null,
+        avatar: null,
+        email: null,
+        phone: null,
+      };
+    });
+  },
 });
 
 export const { setUser, removeUser } = userReducer.actions;
 export default userReducer.reducer;
 
 export const loginWithToken = createAsyncThunk('user/token', async () => {
-  axios(`${__API_BASE_URL__}oauth/yandex/service-id?redirect_uri=${__REDIRECT_URL__}`, {
+  axios(`${SERVER_URL}api/v2/oauth/yandex/service-id?redirect_uri=${redirectUri}`, {
     method: 'get',
     headers: {
       Accept: 'application/json',
@@ -81,7 +125,7 @@ export const signInWithToken = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    axios(`${__API_BASE_URL__}oauth/yandex`, {
+    axios(`${SERVER_URL}api/v2/oauth/yandex`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -126,7 +170,7 @@ export const handleSubmitLogin = createAsyncThunk(
     thunkAPI
   ) => {
     const data = JSON.stringify(values);
-    axios(`${__API_BASE_URL__}auth/signin`, {
+    axios(`${SERVER_URL}api/v2/auth/signin`, {
       method: 'post',
       data: data,
       headers: {
@@ -169,7 +213,7 @@ export const getCurrentUser = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    axios(`${__API_BASE_URL__}auth/user`, {
+    axios(`${SERVER_URL}api/v2/auth/user`, {
       method: 'get',
       headers: {
         Accept: '*/*',
@@ -234,10 +278,7 @@ export const changeUserProfile = createAsyncThunk(
     editValue.display_name = values.login;
 
     const data = JSON.stringify(editValue);
-
-    console.log(data);
-
-    axios(`${__API_BASE_URL__}user/profile`, {
+    axios(`${SERVER_URL}api/v2/user/profile`, {
       method: 'put',
       data: data,
       headers: {
@@ -264,7 +305,7 @@ export const changeUserPassword = createAsyncThunk(
   'user/profile',
   async ({ navigate, values }: { navigate: NavigateFunction; values: ChangePasswordType }) => {
     const data = JSON.stringify(values);
-    fetch(`${__API_BASE_URL__}user/password`, {
+    fetch(`${SERVER_URL}api/v2/user/password`, {
       method: 'post',
       body: data,
       headers: {
@@ -286,7 +327,7 @@ export const uploadAvatar = createAsyncThunk(
   'user/avatar',
   async ({ image, navigate }: { navigate: NavigateFunction; image: FormData }, thunkAPI) => {
     try {
-      const result = await axios(`${__API_BASE_URL__}user/profile/avatar`, {
+      const result = await axios(`${SERVER_URL}api/v2/user/profile/avatar`, {
         method: 'put',
         data: image,
         headers: {
@@ -329,7 +370,7 @@ export const handleSubmitRegistration = createAsyncThunk(
     setFieldError: React.Dispatch<React.SetStateAction<null>>;
   }) => {
     const data = JSON.stringify(values);
-    axios(`${__API_BASE_URL__}auth/signup`, {
+    axios(`${SERVER_URL}api/v2/auth/signup`, {
       method: 'post',
       data: data,
       headers: {
@@ -350,7 +391,7 @@ export const handleSubmitRegistration = createAsyncThunk(
 
 export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
   try {
-    fetch(`${__API_BASE_URL__}auth/logout`, {
+    fetch(`${SERVER_URL}api/v2/auth/logout`, {
       method: 'post',
       credentials: 'include',
       headers: {

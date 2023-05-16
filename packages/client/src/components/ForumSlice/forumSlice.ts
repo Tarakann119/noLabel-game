@@ -1,6 +1,7 @@
 import { NavigateFunction } from 'react-router';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ForumTopicType } from '@typings/app.typings';
+import { SERVER_URL } from '@typings/constants';
 import axios from 'axios';
 
 import { showError } from '@/utils/ShowError';
@@ -23,36 +24,50 @@ export const forumTopicReducer = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getForumTopics.fulfilled, (state, action) => {
       state.forumTopic = action.payload;
-    }),
-      builder.addCase(getCurrentTopic.fulfilled, (state, action) => {
-        state.forumTopic.push(action.payload);
-      });
+    });
+    builder.addCase(getCurrentTopic.fulfilled, (state, action) => {
+      state.forumTopic.push(action.payload);
+    });
   },
 });
 export const { setForumTopic, setTopicData } = forumTopicReducer.actions;
 export default forumTopicReducer.reducer;
 
 export const getForumTopics = createAsyncThunk('forumTopic/getTopics', async () => {
-  const response = await axios(`http://localhost:3001/api/forum/topics/all`);
+  const response = await axios(`${SERVER_URL}api/forum/topics/all`, {
+    withCredentials: true,
+  });
   return response.data;
 });
 export const getCurrentTopic = createAsyncThunk(
   'forumTopic/getCurrentTopic',
   async ({ id }: { id: number | string | undefined }) => {
-    const response = await axios(`${__SERVER_URL__}api/forum/topics/${id}`);
+
+    const response = await axios(`${SERVER_URL}api/forum/topics/${id}`, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
 export const deleteForumTopic = createAsyncThunk(
   'forumTopic/deleteTopic',
-  async ({ id, navigate }: { id: number; navigate: NavigateFunction; fetchData: () => void }) => {
-    axios(`${__SERVER_URL__}api/forum/topics/${id}`, {
+  async ({
+    id,
+    navigate,
+    fetchData,
+  }: {
+    id: number;
+    navigate: NavigateFunction;
+    fetchData: () => void;
+  }) => {
+    axios(`${SERVER_URL}api/forum/topics/${id}`, {
       method: 'delete',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .catch(() => {
         showError();
@@ -81,7 +96,7 @@ export const postEmojies = createAsyncThunk(
       author_id: authorId,
       emoji: emoji,
     });
-    axios(`${__SERVER_URL__}api/forum/emoji`, {
+    axios(`${SERVER_URL}api/forum/emoji`, {
       method: 'post',
       data: requestData,
       headers: {
@@ -89,6 +104,7 @@ export const postEmojies = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .then(() => fetchData())
       .catch(() => {
@@ -109,7 +125,7 @@ export const createTopic = createAsyncThunk(
     values: string;
   }) => {
     const data = JSON.stringify({ title: values, author_id: userId });
-    axios(`${__SERVER_URL__}api/forum/topics`, {
+    axios(`${SERVER_URL}api/forum/topics`, {
       method: 'post',
       data: data,
       headers: {
@@ -117,6 +133,7 @@ export const createTopic = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .then((response) => {
         if (response.data.id) {
