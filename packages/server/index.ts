@@ -9,7 +9,6 @@ import { forumTopic } from './API/routes/forumTopicRoutes';
 import { leaderboard } from './API/routes/leaderboardRoutes';
 import { themes } from './API/routes/themeRoutes';
 import { users } from './API/routes/userRoutes';
-import { LOCAL_API_URL } from './config/constants';
 import { proxyMiddleware } from './middlewares/proxy';
 import { initPostgreSQLConnection } from './db';
 
@@ -22,6 +21,10 @@ initPostgreSQLConnection();
 const app = express();
 
 const port = process.env.SERVER_PORT || 3001;
+const apiURL =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
+    ? process.env.REDIRECT_URL
+    : process.env.REDIRECT_URL_PROD;
 
 // Установка заголовков
 app
@@ -32,7 +35,7 @@ app
   )
   .use(
     cors({
-      origin: LOCAL_API_URL,
+      origin: apiURL,
       credentials: true,
       exposedHeaders: ['Origin, X-Requested-With, Content-Type, Accept'],
     })

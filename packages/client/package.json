@@ -7,7 +7,7 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
-    "start": "env-cmd -f ./.env node server",
+    "start": "node server",
     "lint": "eslint . --fix",
     "slint": "stylelint './src/**/*{.css,.scss}' --fix",
     "format": "prettier --write .",
