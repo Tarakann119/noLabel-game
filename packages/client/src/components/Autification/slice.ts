@@ -9,6 +9,7 @@ import {
   ProfileType,
   UserInfo,
 } from '@typings/app.typings';
+import { redirectUri, YA_API_BASE_URL } from '@typings/constants';
 import axios, { AxiosResponse } from 'axios';
 
 import { clearLeaderboard } from '@/components/Leaderboard/slice';
@@ -51,10 +52,8 @@ export const userReducer = createSlice({
 export const { setUser, removeUser } = userReducer.actions;
 export default userReducer.reducer;
 
-const redirectUri = `http://localhost:3000/`;
-
 export const loginWithToken = createAsyncThunk('user/token', async () => {
-  axios(`https://ya-praktikum.tech/api/v2/oauth/yandex/service-id?redirect_uri=${redirectUri}`, {
+  axios(`${YA_API_BASE_URL}oauth/yandex/service-id?redirect_uri=${redirectUri}`, {
     method: 'get',
     headers: {
       Accept: 'application/json',
@@ -83,7 +82,7 @@ export const signInWithToken = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    axios('https://ya-praktikum.tech/api/v2/oauth/yandex', {
+    axios(`${YA_API_BASE_URL}oauth/yandex`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -128,17 +127,15 @@ export const handleSubmitLogin = createAsyncThunk(
     thunkAPI
   ) => {
     const data = JSON.stringify(values);
-    axios('http://localhost:3001/api/v2/auth/signin', {
-      // axios('https://ya-praktikum.tech/api/v2/auth/signin', {
+    axios(`${YA_API_BASE_URL}auth/signin`, {
       method: 'post',
       data: data,
       headers: {
         Accept: 'application/json',
-        AccessControlAllowOrigin: '*',
         'Content-Type': 'application/json',
       },
-      responseType: 'json',
       withCredentials: true,
+      responseType: 'json',
     })
       .then((response) => {
         if (response.data === 'OK') {
@@ -173,14 +170,13 @@ export const getCurrentUser = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    axios(`http://localhost:3001/api/v2/auth/user`, {
+    axios(`${YA_API_BASE_URL}auth/user`, {
       method: 'get',
       headers: {
         Accept: '*/*',
         'Content-Type': 'application/json; charset=utf-8',
       },
       withCredentials: true,
-      responseType: 'json',
     })
       .then((response) => {
         if (data !== 'init') {
@@ -242,7 +238,7 @@ export const changeUserProfile = createAsyncThunk(
 
     console.log(data);
 
-    axios('http://localhost:3001/api/v2/user/profile', {
+    axios(`${YA_API_BASE_URL}user/profile`, {
       method: 'put',
       data: data,
       headers: {
@@ -269,7 +265,7 @@ export const changeUserPassword = createAsyncThunk(
   'user/profile',
   async ({ navigate, values }: { navigate: NavigateFunction; values: ChangePasswordType }) => {
     const data = JSON.stringify(values);
-    fetch('http://localhost:3001/api/v2/user/password', {
+    fetch(`${YA_API_BASE_URL}user/password`, {
       method: 'post',
       body: data,
       headers: {
@@ -291,7 +287,7 @@ export const uploadAvatar = createAsyncThunk(
   'user/avatar',
   async ({ image, navigate }: { navigate: NavigateFunction; image: FormData }, thunkAPI) => {
     try {
-      const result = await axios(`http://localhost:3001/api/v2/user/profile/avatar`, {
+      const result = await axios(`${YA_API_BASE_URL}user/profile/avatar`, {
         method: 'put',
         data: image,
         headers: {
@@ -334,7 +330,7 @@ export const handleSubmitRegistration = createAsyncThunk(
     setFieldError: React.Dispatch<React.SetStateAction<null>>;
   }) => {
     const data = JSON.stringify(values);
-    axios('http://localhost:3001/api/v2/auth/signup', {
+    axios(`${YA_API_BASE_URL}auth/signup`, {
       method: 'post',
       data: data,
       headers: {
@@ -355,7 +351,7 @@ export const handleSubmitRegistration = createAsyncThunk(
 
 export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
   try {
-    fetch('http://localhost:3001/api/v2/auth/logout', {
+    fetch(`${YA_API_BASE_URL}auth/logout`, {
       method: 'post',
       credentials: 'include',
       headers: {

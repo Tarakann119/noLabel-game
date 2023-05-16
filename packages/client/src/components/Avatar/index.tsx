@@ -1,4 +1,5 @@
 import { FC, memo } from 'react';
+import { YA_API_BASE_URL } from '@typings/constants';
 import classNames from 'classnames';
 
 import defaultImages from './images/avatar-default.png';
@@ -8,7 +9,7 @@ import './index.scss';
 
 export const Avatar: FC<AvatarProps> = memo(
   ({ src, alt, size = 'default', className, isLink, ...props }) => {
-    const url = `http://localhost:3001/api/v2/resources${src}`;
+    const url = `${YA_API_BASE_URL}resources${src}`;
     return (
       <img
         src={src ? url : defaultImages}
