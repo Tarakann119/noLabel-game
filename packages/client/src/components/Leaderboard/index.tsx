@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { Title } from '@/components/Title';
 import { getDataForLeaderBoard, getLeaderboard, getUserScore } from '@/store/selectors';
+import { uuid } from '@/utils/generateId';
 
 import { LeaderboardView } from './LeaderboardView';
 

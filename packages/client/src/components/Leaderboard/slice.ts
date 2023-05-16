@@ -54,6 +54,7 @@ export const fetchLeaderboard = createAsyncThunk('leaderboard/fetchLeaderboard',
     cursor: 0,
     limit: 20,
   };
+  
   return axios(`${SERVER_URL}api/v2/leaderboard/all`, {
     method: 'post',
     data: JSON.stringify(data),

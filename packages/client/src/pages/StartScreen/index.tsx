@@ -28,7 +28,7 @@ export const StartScreen = () => {
       window.history.pushState({}, '', `${redirectUri}`);
       dispatch(signInWithToken({ code, navigate }));
     }
-  }, []);
+  }, [dispatch, navigate]);
 
   return (
     <div className='container-content container-content_main bg-image'>

@@ -15,6 +15,9 @@ export default defineConfig({
   },
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
+    __API_BASE_URL__: JSON.stringify(process.env.API_BASE_URL),
+    __REDIRECT_URL__: JSON.stringify(process.env.REDIRECT_URL),
+    __SERVER_URL__: JSON.stringify(process.env.SERVER_URL),
   },
   resolve: {
     alias: {

@@ -90,7 +90,7 @@ export const postTopicMessage = createAsyncThunk(
       .then(() => {
         fetchData();
       })
-      .catch((e) => {
+      .catch(() => {
         showError();
       });
     setMessageContent('');

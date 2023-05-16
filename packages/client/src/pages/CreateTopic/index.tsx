@@ -22,6 +22,7 @@ export const CreateTopic = () => {
   const user = useSelector(currentUser);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   return (
     <main className='container-content container-content_main bg-image_login'>
       <div className='forum__container'>

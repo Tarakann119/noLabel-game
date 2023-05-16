@@ -106,7 +106,7 @@ export const loginWithToken = createAsyncThunk('user/token', async () => {
     responseType: 'json',
   })
     .then((response) => {
-      document.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.data.service_id}&redirect_uri=${redirectUri}`;
+      document.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.data.service_id}&redirect_uri=${__REDIRECT_URL__}`;
     })
     .catch(() => {
       showError();
@@ -133,7 +133,7 @@ export const signInWithToken = createAsyncThunk(
       },
       withCredentials: true,
       responseType: 'json',
-      data: { code: code, redirect_uri: redirectUri },
+      data: { code: code, redirect_uri: __REDIRECT_URL__ },
     })
       .then((response) => {
         if (response.data === 'OK') {
@@ -278,9 +278,6 @@ export const changeUserProfile = createAsyncThunk(
     editValue.display_name = values.login;
 
     const data = JSON.stringify(editValue);
-
-    console.log(data);
-
     axios(`${SERVER_URL}api/v2/user/profile`, {
       method: 'put',
       data: data,

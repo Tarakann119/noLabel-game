@@ -18,13 +18,6 @@ export const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-    };
-
     const user = localStorage.getItem('user');
 
     if (user) {
@@ -32,7 +25,6 @@ export const App = () => {
       dispatch(fetchLeaderboard());
       dispatch(pushUserScore({ score: 100 }));
     }
-    fetchServerData();
   }, []);
   return (
     <>
