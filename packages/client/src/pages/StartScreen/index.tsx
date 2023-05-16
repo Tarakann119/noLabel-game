@@ -24,10 +24,10 @@ export const StartScreen = () => {
     const code = params.get('code');
 
     if (code) {
-      window.history.pushState({}, '', 'http://localhost:3000/');
+      window.history.pushState({}, '', `${__REDIRECT_URL__}`);
       dispatch(signInWithToken({ code, navigate }));
     }
-  }, []);
+  }, [dispatch, navigate]);
 
   return (
     <div className='container-content container-content_main bg-image'>

@@ -39,22 +39,14 @@ export const getForumTopics = createAsyncThunk('forumTopic/getTopics', async () 
 export const getCurrentTopic = createAsyncThunk(
   'forumTopic/getCurrentTopic',
   async ({ id }: { id: number | string | undefined }) => {
-    const response = await axios(`http://localhost:3001/api/forum/topics/${id}`);
+    const response = await axios(`${__SERVER_URL__}api/forum/topics/${id}`);
     return response.data;
   }
 );
 export const deleteForumTopic = createAsyncThunk(
   'forumTopic/deleteTopic',
-  async ({
-    id,
-    navigate,
-    fetchData,
-  }: {
-    id: number;
-    navigate: NavigateFunction;
-    fetchData: () => void;
-  }) => {
-    axios(`http://localhost:3001/api/forum/topics/${id}`, {
+  async ({ id, navigate }: { id: number; navigate: NavigateFunction; fetchData: () => void }) => {
+    axios(`${__SERVER_URL__}api/forum/topics/${id}`, {
       method: 'delete',
       headers: {
         Accept: 'application/json',
@@ -89,7 +81,7 @@ export const postEmojies = createAsyncThunk(
       author_id: authorId,
       emoji: emoji,
     });
-    axios('http://localhost:3001/api/forum/emoji', {
+    axios(`${__SERVER_URL__}api/forum/emoji`, {
       method: 'post',
       data: requestData,
       headers: {
@@ -99,6 +91,42 @@ export const postEmojies = createAsyncThunk(
       responseType: 'json',
     })
       .then(() => fetchData())
+      .catch(() => {
+        showError();
+      });
+  }
+);
+
+export const createTopic = createAsyncThunk(
+  'forumTopic/createTopic',
+  async ({
+    values,
+    userId,
+    navigate,
+  }: {
+    navigate: NavigateFunction;
+    userId: string | null;
+    values: string;
+  }) => {
+    const data = JSON.stringify({ title: values, author_id: userId });
+    axios(`${__SERVER_URL__}api/forum/topics`, {
+      method: 'post',
+      data: data,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      responseType: 'json',
+    })
+      .then((response) => {
+        if (response.data.id) {
+          try {
+            navigate('/forum');
+          } catch {
+            showError();
+          }
+        }
+      })
       .catch(() => {
         showError();
       });

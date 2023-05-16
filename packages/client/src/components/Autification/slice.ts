@@ -51,10 +51,8 @@ export const userReducer = createSlice({
 export const { setUser, removeUser } = userReducer.actions;
 export default userReducer.reducer;
 
-const redirectUri = `http://localhost:3000/`;
-
 export const loginWithToken = createAsyncThunk('user/token', async () => {
-  axios(`https://ya-praktikum.tech/api/v2/oauth/yandex/service-id?redirect_uri=${redirectUri}`, {
+  axios(`${__API_BASE_URL__}oauth/yandex/service-id?redirect_uri=${__REDIRECT_URL__}`, {
     method: 'get',
     headers: {
       Accept: 'application/json',
@@ -64,7 +62,7 @@ export const loginWithToken = createAsyncThunk('user/token', async () => {
     responseType: 'json',
   })
     .then((response) => {
-      document.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.data.service_id}&redirect_uri=${redirectUri}`;
+      document.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${response.data.service_id}&redirect_uri=${__REDIRECT_URL__}`;
     })
     .catch(() => {
       showError();
@@ -83,7 +81,7 @@ export const signInWithToken = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    axios('https://ya-praktikum.tech/api/v2/oauth/yandex', {
+    axios(`${__API_BASE_URL__}oauth/yandex`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -91,7 +89,7 @@ export const signInWithToken = createAsyncThunk(
       },
       withCredentials: true,
       responseType: 'json',
-      data: { code: code, redirect_uri: redirectUri },
+      data: { code: code, redirect_uri: __REDIRECT_URL__ },
     })
       .then((response) => {
         if (response.data === 'OK') {
@@ -128,7 +126,7 @@ export const handleSubmitLogin = createAsyncThunk(
     thunkAPI
   ) => {
     const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/auth/signin', {
+    axios(`${__API_BASE_URL__}auth/signin`, {
       method: 'post',
       data: data,
       headers: {
@@ -171,7 +169,7 @@ export const getCurrentUser = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    axios(`https://ya-praktikum.tech/api/v2/auth/user`, {
+    axios(`${__API_BASE_URL__}auth/user`, {
       method: 'get',
       headers: {
         Accept: '*/*',
@@ -239,7 +237,7 @@ export const changeUserProfile = createAsyncThunk(
 
     console.log(data);
 
-    axios('https://ya-praktikum.tech/api/v2/user/profile', {
+    axios(`${__API_BASE_URL__}user/profile`, {
       method: 'put',
       data: data,
       headers: {
@@ -266,7 +264,7 @@ export const changeUserPassword = createAsyncThunk(
   'user/profile',
   async ({ navigate, values }: { navigate: NavigateFunction; values: ChangePasswordType }) => {
     const data = JSON.stringify(values);
-    fetch('https://ya-praktikum.tech/api/v2/user/password', {
+    fetch(`${__API_BASE_URL__}user/password`, {
       method: 'post',
       body: data,
       headers: {
@@ -288,7 +286,7 @@ export const uploadAvatar = createAsyncThunk(
   'user/avatar',
   async ({ image, navigate }: { navigate: NavigateFunction; image: FormData }, thunkAPI) => {
     try {
-      const result = await axios(`https://ya-praktikum.tech/api/v2/user/profile/avatar`, {
+      const result = await axios(`${__API_BASE_URL__}user/profile/avatar`, {
         method: 'put',
         data: image,
         headers: {
@@ -331,7 +329,7 @@ export const handleSubmitRegistration = createAsyncThunk(
     setFieldError: React.Dispatch<React.SetStateAction<null>>;
   }) => {
     const data = JSON.stringify(values);
-    axios('https://ya-praktikum.tech/api/v2/auth/signup', {
+    axios(`${__API_BASE_URL__}auth/signup`, {
       method: 'post',
       data: data,
       headers: {
@@ -352,7 +350,7 @@ export const handleSubmitRegistration = createAsyncThunk(
 
 export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
   try {
-    fetch('https://ya-praktikum.tech/api/v2/auth/logout', {
+    fetch(`${__API_BASE_URL__}auth/logout`, {
       method: 'post',
       credentials: 'include',
       headers: {

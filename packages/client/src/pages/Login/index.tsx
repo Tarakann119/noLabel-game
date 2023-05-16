@@ -71,7 +71,12 @@ export const Login = () => {
               value={values.password}
               error={errors.password}
             />
-            <Button text='Вход' type='submit' className='custom-button' />
+            <Button
+              text='Вход'
+              type='submit'
+              className='custom-button'
+              style={{ marginBottom: '10px' }}
+            />
             <Button
               text='Войти с помощью Яндекс.ID'
               type='button'

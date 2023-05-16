@@ -30,7 +30,7 @@ export default forumMessagesReducer.reducer;
 export const getMessagesForTopic = createAsyncThunk(
   'forumMessages/messagesForTopic',
   async ({ id }: { id: string | number | undefined }) => {
-    const response = await axios(`http://localhost:3001/api/forum/messages/topic/${id}`);
+    const response = await axios(`${__SERVER_URL__}api/forum/messages/topic/${id}`);
     return response.data;
   }
 );
@@ -38,7 +38,7 @@ export const getMessagesForTopic = createAsyncThunk(
 export const deleteCurrentMessage = createAsyncThunk(
   'forumMessages/deleteMessages',
   async ({ id, fetchData }: { id: string | number | undefined; fetchData: () => void }) => {
-    await axios(`http://localhost:3001/api/forum/messages/${id}`, {
+    await axios(`${__SERVER_URL__}api/forum/messages/${id}`, {
       method: 'delete',
       headers: {
         Accept: 'application/json',
@@ -73,7 +73,7 @@ export const postTopicMessage = createAsyncThunk(
       author_id: author_id,
       topic_id: topic_id,
     });
-    await axios('http://localhost:3001/api/forum/messages', {
+    await axios(`${__SERVER_URL__}api/forum/messages`, {
       method: 'post',
       data: data,
       headers: {
@@ -85,7 +85,7 @@ export const postTopicMessage = createAsyncThunk(
       .then(() => {
         fetchData();
       })
-      .catch((e) => {
+      .catch(() => {
         showError();
       });
     setMessageContent('');

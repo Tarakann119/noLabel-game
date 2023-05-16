@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { Title } from '@/components/Title';
 import { getDataForLeaderBoard, getLeaderboard, getUserScore } from '@/store/selectors';
+import { uuid } from '@/utils/generateId';
 
 import { LeaderboardView } from './LeaderboardView';
 
@@ -27,7 +28,7 @@ export const Rating = () => {
       ) : null}
       <div className='board__list'>
         {leaderboardList.map((player) => (
-          <LeaderboardView key={player.id} {...player} />
+          <LeaderboardView key={uuid()} {...player} />
         ))}
       </div>
     </div>

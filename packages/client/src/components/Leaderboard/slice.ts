@@ -53,7 +53,7 @@ export const fetchLeaderboard = createAsyncThunk('leaderboard/fetchLeaderboard',
     cursor: 0,
     limit: 20,
   };
-  return await axios('https://ya-praktikum.tech/api/v2/leaderboard/all', {
+  return await axios(`${__API_BASE_URL__}leaderboard/all`, {
     method: 'post',
     data: JSON.stringify(data),
     headers: {
@@ -68,6 +68,7 @@ export const pushUserScore = createAsyncThunk(
   'leaderboard/pushUserScore',
   async ({ score }: pushLeaderboardRequest, thunkAPI) => {
     try {
+      //@ts-expect-error thats will work
       const user = currentUser(thunkAPI.getState());
       const data = {
         data: {
@@ -81,7 +82,7 @@ export const pushUserScore = createAsyncThunk(
         ratingFieldName: 'towerDefenceScore',
       };
 
-      await axios('https://ya-praktikum.tech/api/v2/leaderboard', {
+      await axios(`${__API_BASE_URL__}leaderboard`, {
         method: 'post',
         data: JSON.stringify(data),
         headers: {

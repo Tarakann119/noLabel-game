@@ -1,15 +1,14 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axios from 'axios';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { Button } from '@/components/Button';
+import { createTopic } from '@/components/ForumSlice/forumSlice';
 import { InputValidate } from '@/components/InputValidate';
 import { Title } from '@/components/Title';
 import { currentUser } from '@/store/selectors';
-import { showError } from '@/utils/ShowError';
+import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 const CreatePostSchema = Yup.object().shape({
   title: Yup.string().required('Введите название темы.'),
@@ -18,6 +17,8 @@ const CreatePostSchema = Yup.object().shape({
 export const CreateTopic = () => {
   const user = useSelector(currentUser);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   return (
     <main className='container-content container-content_main bg-image_login'>
       <div className='forum__container'>
@@ -27,29 +28,7 @@ export const CreateTopic = () => {
           }}
           validationSchema={CreatePostSchema}
           onSubmit={(values) => {
-            const data = JSON.stringify({ title: values.title, author_id: user.id });
-            axios('http://localhost:3001/api/forum/topics', {
-              method: 'post',
-              data: data,
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              responseType: 'json',
-            })
-              .then((response) => {
-                if (response.data.id) {
-                  try {
-                    toast.success('Тема успешно создана!');
-                    navigate('/forum');
-                  } catch {
-                    showError();
-                  }
-                }
-              })
-              .catch(() => {
-                showError();
-              });
+            dispatch(createTopic({ values: values.title, userId: user.id, navigate: navigate }));
           }}>
           {({ errors, values, handleChange }) => (
             <Form>
