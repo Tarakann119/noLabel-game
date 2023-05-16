@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 
+import { checkAuthMiddleware } from '../../middlewares/checkAuth';
 import * as emojiController from '../controllers/emojiController';
 
 export const emoji = Router();
@@ -7,6 +8,7 @@ export const emoji = Router();
 emoji
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
+  .use('/', checkAuthMiddleware)
 
   /** Запрос на получение всех эмодзи по id сообщения */
   .get('/all/:message_id', emojiController.getAllEmojiByMessageId)

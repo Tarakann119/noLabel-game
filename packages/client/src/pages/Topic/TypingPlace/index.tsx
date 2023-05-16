@@ -10,7 +10,6 @@ import { useAppDispatch } from '@/utils/hooks/reduxHooks';
 
 import './index.scss';
 
-
 export function TypingPlace({
   topic_id,
   messageContent,
@@ -33,7 +32,6 @@ export function TypingPlace({
         message: '',
       }}
       onSubmit={() => {
-
         dispatch(
           postTopicMessage({
             text: messageContent,

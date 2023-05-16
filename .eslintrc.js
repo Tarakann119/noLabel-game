@@ -14,14 +14,12 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'simple-import-sort'],
   ignorePatterns: ['**/dist/**/*.js', 'init.js'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
   },
   'overrides': [
     // override "simple-import-sort" config

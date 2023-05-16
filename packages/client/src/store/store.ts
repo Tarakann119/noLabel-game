@@ -1,4 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+
+import userReducer from '@/components/Autification/slice';
+import forumTopicReducer from '@/components/ForumSlice/forumSlice';
+import forumMessagesReducer from '@/components/ForumSlice/messagesSlice';
+import gameReducer from '@/components/Game/slice';
+import leaderboardReducer from '@/components/Leaderboard/slice';
+import isLoadingReducer from '@/components/LoaderComponent/slice';
+import themeReducer from '@/components/Theme/slice';
+
 declare global {
   interface Window {
     __PRELOADED_STATE__?: object;
@@ -11,13 +20,6 @@ if (!import.meta.env.SSR) {
   delete window.__PRELOADED_STATE__;
 }
 
-import userReducer from '@/components/Autification/slice';
-import forumTopicReducer from '@/components/ForumSlice/forumSlice';
-import forumMessagesReducer from '@/components/ForumSlice/messagesSlice';
-import gameReducer from '@/components/GameField/slice';
-import leaderboardReducer from '@/components/Leaderboard/slice';
-import isLoadingReducer from '@/components/LoaderComponent/slice';
-import themeReducer from '@/components/Theme/slice';
 const reducers = combineReducers({
   theme: themeReducer,
   game: gameReducer,

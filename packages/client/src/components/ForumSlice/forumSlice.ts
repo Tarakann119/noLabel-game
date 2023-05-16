@@ -24,23 +24,27 @@ export const forumTopicReducer = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getForumTopics.fulfilled, (state, action) => {
       state.forumTopic = action.payload;
-    }),
-      builder.addCase(getCurrentTopic.fulfilled, (state, action) => {
-        state.forumTopic.push(action.payload);
-      });
+    });
+    builder.addCase(getCurrentTopic.fulfilled, (state, action) => {
+      state.forumTopic.push(action.payload);
+    });
   },
 });
 export const { setForumTopic, setTopicData } = forumTopicReducer.actions;
 export default forumTopicReducer.reducer;
 
 export const getForumTopics = createAsyncThunk('forumTopic/getTopics', async () => {
-  const response = await axios(`${SERVER_URL}api/forum/topics/all`);
+  const response = await axios(`${SERVER_URL}api/forum/topics/all`, {
+    withCredentials: true,
+  });
   return response.data;
 });
 export const getCurrentTopic = createAsyncThunk(
   'forumTopic/getCurrentTopic',
   async ({ id }: { id: number | string | undefined }) => {
-    const response = await axios(`${SERVER_URL}api/forum/topics/${id}`);
+    const response = await axios(`${SERVER_URL}api/forum/topics/${id}`, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
@@ -62,6 +66,7 @@ export const deleteForumTopic = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .catch(() => {
         showError();
@@ -98,6 +103,7 @@ export const postEmojies = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .then(() => fetchData())
       .catch(() => {
@@ -126,6 +132,7 @@ export const createTopic = createAsyncThunk(
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      withCredentials: true,
     })
       .then((response) => {
         if (response.data.id) {

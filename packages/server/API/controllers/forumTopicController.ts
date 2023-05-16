@@ -83,25 +83,12 @@ export const getAllForumTopic = async (req: Request, res: Response) => {
 export const createOrUpdateForumTopic = async (req: Request, res: Response) => {
   try {
     const reqTopic: ForumTopic = req.body;
-
-    // TODO: проверка на существование пользователя отключена, пока нет прокси для авторизации
-    const user: User | null = await User.findByPk(reqTopic.author_id);
-    // if (!user) {
-    //   res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Пользователь не найден' });
-    //   return;
-    // }
-    // Этот костыль нужен, чтобы в темах форума отображался пользователь Аноним, если пользователь не найден
-    // после добавления прокси для авторизации, этот костыль можно будет удалить
-    if (!user) {
-      await User.create({
-        id: reqTopic.author_id,
-        first_name: 'Аноним',
-        second_name: 'Аноним',
-      } as User);
+    if (res.locals?.user?.id !== reqTopic.author_id) {
+      res.status(StatusCodes.BAD_REQUEST).json({ reason: 'Некорректный запрос' });
+      return;
     }
+    const author = res.locals.user as User;
     const newTopic = await ForumTopic.upsert(reqTopic);
-    const author: User | null = await User.findByPk(reqTopic.author_id);
-    console.log(newTopic);
     if (newTopic) {
       await ForumMessage.create({
         topic_id: newTopic[0].id,

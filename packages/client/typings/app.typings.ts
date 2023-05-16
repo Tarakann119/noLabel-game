@@ -149,6 +149,12 @@ export type APIResponseError = {
   };
 };
 
+export enum GameButtons {
+  PAUSE = 'pause',
+  QUICK = 'quick',
+  SOUND = 'sound',
+  FULLSCREEN = 'fullscreen',
+}
 
 export type ForumTopicType = {
   id: number | string | undefined;
