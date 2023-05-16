@@ -4,9 +4,6 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 
-// import { YandexAPIRepositoryServer } from './src/repository/YandexAPIRepositoryServer'
-// import { YandexAPIRepository } from './repository/YandexAPIRepository'
-
 const instance = axios.create({
   baseURL: 'https://ya-praktikum.tech',
   withCredentials: true,
@@ -63,19 +60,6 @@ async function start() {
   app.use("*", async (req, res) => {
     try {
       const url = req.originalUrl;
-
-      // await fetch('https://ya-praktikum.tech/api/v2/auth/user', {
-      //   method: 'GET',
-      //   headers: {
-      //     Cookie: req.headers.cookie || '',
-      //   },
-      // }).then(async (response) => {
-      //   console.log(await response.json());
-      // });
-
-      // console.log('cookies', req.headers.cookie);
-
-      // console.log(1);
 
       let template, render;
       if (!isProduction) {
