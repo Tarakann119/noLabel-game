@@ -92,7 +92,8 @@ async function start() {
       const htmlWithReplacements = template
         .replace(`<!--app-html-->`, html)
         .replace(`<!--css-->`, `${css ? `<style>${css}</style>` : ''} `)
-        .replace(`<!--store-data-->`, JSON.stringify(initialState).replace(/</g, '\\u003c'));
+        .replace(`<!--store-data-->`, JSON.stringify(initialState)
+        .replace(/</g, '\\u003c'));
       res.status(200).set({ "Content-Type": "text/html" }).end(htmlWithReplacements);
     } catch (e) {
       !isProduction && vite.ssrFixStacktrace(e);

@@ -42,7 +42,6 @@ export const getForumTopics = createAsyncThunk('forumTopic/getTopics', async () 
 export const getCurrentTopic = createAsyncThunk(
   'forumTopic/getCurrentTopic',
   async ({ id }: { id: number | string | undefined }) => {
-
     const response = await axios(`${SERVER_URL}api/forum/topics/${id}`, {
       withCredentials: true,
     });
@@ -51,15 +50,7 @@ export const getCurrentTopic = createAsyncThunk(
 );
 export const deleteForumTopic = createAsyncThunk(
   'forumTopic/deleteTopic',
-  async ({
-    id,
-    navigate,
-    fetchData,
-  }: {
-    id: number;
-    navigate: NavigateFunction;
-    fetchData: () => void;
-  }) => {
+  async ({ id, navigate }: { id: number; navigate: NavigateFunction; fetchData: () => void }) => {
     axios(`${SERVER_URL}api/forum/topics/${id}`, {
       method: 'delete',
       headers: {
@@ -121,7 +112,7 @@ export const createTopic = createAsyncThunk(
     navigate,
   }: {
     navigate: NavigateFunction;
-    userId: string | null;
+    userId: number | string | null;
     values: string;
   }) => {
     const data = JSON.stringify({ title: values, author_id: userId });

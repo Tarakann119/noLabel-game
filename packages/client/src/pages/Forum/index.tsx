@@ -29,7 +29,7 @@ export const Forum = () => {
     );
     return searchRes;
   }, [searchItem, items]);
-  console.log(items);
+
   return (
     <div
       className={classNames(

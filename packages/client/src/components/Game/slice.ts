@@ -25,7 +25,6 @@ const gameReducer = createSlice({
       state.screen = payload;
     },
     setMap: (state, { payload }) => {
-      console.log(payload);
       state.map.name = payload.mapName;
       state.map.settings = payload.mapSettings;
       state.map.track = payload.track.default;

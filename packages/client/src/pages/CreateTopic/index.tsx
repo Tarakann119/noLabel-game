@@ -1,8 +1,5 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { SERVER_URL } from '@typings/constants';
-import axios from 'axios';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -12,7 +9,6 @@ import { InputValidate } from '@/components/InputValidate';
 import { Title } from '@/components/Title';
 import { currentUser } from '@/store/selectors';
 import { useAppDispatch } from '@/utils/hooks/reduxHooks';
-import { showError } from '@/utils/ShowError';
 
 const CreatePostSchema = Yup.object().shape({
   title: Yup.string().required('Введите название темы.'),
