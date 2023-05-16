@@ -1,0 +1,39 @@
+@import '@/assets/styles/helpers/helpers';
+
+.button-img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  //added animation for button-img to hover
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &_close {
+    background: url('./img/Close.png') no-repeat center;
+    background-size: cover;
+  }
+
+  &_logout {
+    background: url('./img/logout.svg') no-repeat center;
+    background-size: cover;
+  }
+
+  &_up {
+    background: url('./img/logout.svg') no-repeat center;
+    background-size: cover;
+    rotate: 90deg;
+  }
+
+  &_github {
+    background: url('./img/github.png') no-repeat center;
+    background-size: cover;
+  }
+
+  &_telegram {
+    background: url('./img/telegram.png') no-repeat center;
+    background-size: cover;
+  }
+}

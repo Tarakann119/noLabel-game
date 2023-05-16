@@ -1,0 +1,46 @@
+@import '@/assets/styles/helpers/helpers';
+
+.typing-place {
+  display: grid;
+  grid-template-columns: 10fr 1fr 3fr;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.typing-place .input.full-width {
+  flex: 1 0 80%;
+  max-width: 100%;
+}
+
+.typing-place .input.full-width .input__control {
+  height: 100%;
+}
+
+.typing-place .send-message-btn {
+  width: 82px;
+  height: 62px;
+  background-repeat: no-repeat;
+  background-position: 10px 0;
+  background-size: contain;
+}
+
+.DraftEditor-root {
+  width: 80%;
+  height: 150px;
+  margin: auto;
+  padding: 20px;
+  overflow-y: scroll;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 20px;
+  font-family: $font-primary;
+  background-color: var(--ui-fields-bg);
+  border-radius: 12px;
+  box-shadow: 0 0 6px 1px rgb(0 0 0 / 50%);
+}
+
+.e13wqaj6,
+.ejr02pv {
+  color: var(--text-secondary);
+  background-color: var(--ui-fields-bg) !important;
+}

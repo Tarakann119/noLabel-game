@@ -1,0 +1,32 @@
+@font-face {
+  font-weight: 400;
+  font-family: Cormorant;
+  font-style: normal;
+  src: url('Cormorant-Regular.woff2') format('woff2'), url('Cormorant-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: Cormorant;
+  font-style: normal;
+  src: url('Cormorant-Semibold.woff2') format('woff2'),
+    url('Cormorant-Semibold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: Cormorant;
+  font-style: italic;
+  src: url('Cormorant-Bold.woff2') format('woff2'), url('Cormorant-Bold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: 'romvel Cyr';
+  font-style: normal;
+  src: url('RomvelCyr.ttf') format('truetype');
+  font-display: swap;
+}

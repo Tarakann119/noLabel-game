@@ -1,0 +1,52 @@
+@import '@/assets/styles/helpers/helpers';
+
+%button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 215px;
+  max-width: 428px;
+  height: 58px;
+  padding: 0 20px;
+  color: var(--text-primary);
+  font-weight: 400;
+  font-size: 24px;
+  font-family: $font-defence;
+  font-style: normal;
+  line-height: 100%;
+  text-transform: uppercase;
+  background: var(--text-secondary);
+  border: 3px solid var(--ui-button-border);
+  box-shadow: 0 14px 24px rgb(0 0 0 / 25%);
+  cursor: pointer;
+  transition: 0.1s ease-in;
+}
+
+.button {
+  @extend %border-button;
+  @extend %button;
+
+  &:hover {
+    filter: drop-shadow(0 0 8px var(--text-secondary));
+  }
+
+  &:active {
+    filter: drop-shadow(0 0 10px var(--text-primary));
+  }
+
+  &:disabled {
+    background: linear-gradient(90deg, #7a7063 0%, #474640 100%);
+  }
+
+  &:disabled:hover {
+    filter: none;
+  }
+
+  &_view_secondary {
+    border: 2px solid var(--ui-primary);
+  }
+
+  &_view_ghost {
+    width: fit-content;
+  }
+}

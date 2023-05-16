@@ -1,0 +1,28 @@
+// Fonts
+$font-safe: tahoma, geneva, verdana, sans-serif;
+$font-primary: cormorant-bold, $font-safe;
+$font-secondary: romvel cyr, $font-safe;
+$font-defence: romvel cyr, $font-safe;
+$font-h1-size: 64px;
+
+//Border
+%border-button {
+  border: 3px solid var(--ui-button-border);
+  border-radius: 5px;
+  box-shadow: 0 14px 24px rgb(0 0 0 / 25%);
+}
+
+.bg-image {
+  background: var(--ui-bgpicture-start);
+  background-size: cover;
+
+  &_login {
+    background: var(--ui-bgpicture-login);
+    background-size: cover;
+  }
+
+  &_404 {
+    background: var(--ui-bgpicture-404);
+    background-size: cover;
+  }
+}

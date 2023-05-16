@@ -1,0 +1,58 @@
+@import '@/assets/styles/helpers/helpers';
+
+::-webkit-scrollbar {
+  width: 6px;
+  background: var(--background);
+  border-radius: 6px;
+
+  &-track {
+    border-radius: 6px;
+  }
+
+  &-thumb {
+    background: var(--text-primary-10);
+    border-radius: 6px;
+
+    &:hover {
+      background: var(--ui-primary);
+    }
+  }
+}
+
+.board {
+  width: 350px;
+  height: 720px;
+  margin-top: 32px;
+  filter: drop-shadow(0 0 8px var(--overlay));
+
+  &__title {
+    height: 39px;
+    color: var(--ui-primary);
+  }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 18px;
+    font-family: $font-primary;
+  }
+
+  &__user {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--text-secondary);
+  }
+
+  &__list {
+    width: 372px;
+    height: 520px;
+    overflow-y: scroll;
+  }
+
+  &__button {
+    margin-top: 24px;
+  }
+}

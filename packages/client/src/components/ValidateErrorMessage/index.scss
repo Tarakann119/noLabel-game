@@ -1,0 +1,55 @@
+@import '@/assets/styles/helpers/helpers';
+
+.validate-error-message {
+  &__container {
+    position: relative;
+    top: -5px;
+    left: 120px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    min-height: 90px;
+    padding: 17px 11px;
+    background: rgb(50 52 53 / 95%);
+    border-radius: 12px;
+    box-shadow: 0 0 10px #323435;
+
+    &_title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__title {
+    color: var(--text-primary);
+    font-weight: 400;
+    font-size: 24px;
+    font-family: $font-defence;
+    line-height: 100%;
+    text-transform: uppercase;
+    text-shadow: 4px 4px 20px #b1ad99;
+  }
+
+  &__error-text {
+    width: 100%;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 20px;
+    font-family: $font-primary;
+    line-height: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+  }
+}
+
+[hidden] {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}

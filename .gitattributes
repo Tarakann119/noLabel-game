@@ -1,0 +1,11 @@
+* text=auto
+* text eol=lf
+
+
+**/*.ttf binary
+**/*.woff binary
+**/*.woff2 binary
+**/*.png binary
+**/*.jpg binary
+**/*.mp3 binary
+

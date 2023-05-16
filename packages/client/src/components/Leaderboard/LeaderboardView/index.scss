@@ -1,0 +1,45 @@
+@import '@/assets/styles/helpers/helpers';
+
+.player {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  margin-bottom: 15px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 18px;
+  font-family: $font-secondary;
+  text-transform: capitalize;
+
+  &__number {
+    width: 20px;
+    margin-right: 10px;
+    font-size: 26px;
+  }
+
+  &__profile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 260px;
+  }
+
+  &__score {
+    width: 69px;
+    font-size: 26px;
+    text-align: right;
+  }
+
+  &__image {
+    width: 40px;
+    margin: 0;
+  }
+
+  &__name {
+    margin-left: 10px;
+    overflow: hidden;
+    font-size: 26px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

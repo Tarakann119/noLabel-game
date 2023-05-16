@@ -1,0 +1,41 @@
+@import '@/assets/styles/helpers/helpers';
+
+.input {
+  &__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 12px 0;
+  }
+
+  &__wrapper {
+    width: 300px;
+    max-width: 300px;
+    height: 56px;
+    max-height: 56px;
+    background-color: var(--ui-fields-bg);
+    border-radius: 12px;
+
+    &:active,
+    &:focus,
+    &:hover {
+      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px var(--ui-primary);
+    }
+
+    &-error {
+      box-shadow: 0 0 20px rgb(255 255 255 / 15%), 0 0 20px var(--ui-danger);
+    }
+  }
+
+  &__label {
+    height: 100%;
+    margin-right: 60px;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 20px;
+    font-family: $font-defence;
+    line-height: 1.5;
+  }
+}

@@ -1,0 +1,38 @@
+@keyframes shadow {
+  0% {
+    filter: drop-shadow(0 0 10px rgb(255 249 249 / 80%));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 30px rgb(255 255 255 / 80%));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 10px rgb(255 249 249 / 80%));
+  }
+}
+
+.loader {
+  position: absolute;
+  width: 273px;
+  height: 279px;
+  background: url('./img/Loader.png') no-repeat;
+  background-size: cover;
+  animation: shadow infinite;
+  animation-duration: 2s;
+}
+
+.loader-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  background: rgb(0 0 0 / 63%);
+}

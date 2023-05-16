@@ -1,0 +1,60 @@
+@import '@/assets/styles/helpers/helpers';
+
+.leaderboard {
+  &__user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 20%;
+    min-height: 35px;
+    margin: 10px 0;
+    padding: 0 10px;
+    color: var(--text-primary);
+    font-weight: 150;
+    font-size: 18px;
+    font-family: $font-defence;
+    letter-spacing: 4px;
+    text-shadow: 0 0 5px rgb(0 0 0 / 89%);
+    background: var(--header-footer-gradient);
+    border-radius: 5px;
+    box-shadow: 0 0 7px rgb(255 255 255 / 78%);
+    // анимация leaderboard__user при наведении
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+
+    &-text {
+      overflow: visible;
+      white-space: nowrap;
+    }
+
+    @keyframes load {
+      0% {
+        width: 20%;
+      }
+    }
+
+    animation: load 1s;
+
+    &_current {
+      color: var(--text-primary);
+      background: var(--ui-primary);
+      box-shadow: 0 0 12px var(--ui-primary);
+    }
+  }
+
+  &__user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 600px;
+    margin: 20px 0;
+    padding: 10px;
+    overflow-y: scroll;
+  }
+}
