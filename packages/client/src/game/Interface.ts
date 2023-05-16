@@ -51,7 +51,7 @@ export class Interface {
     const centerX = canvas.width / 2 - btnSize;
     const centerY = canvas.height / 2 - btnSize;
 
-    play_circle.isCursorInButtonBorders = (cursor) => {
+    play_circle.isCursorInButtonBorders = (cursor: { x: number; y: number }) => {
       return (
         cursor.x >= centerX &&
         cursor.x <= centerX + btnSize * 2 &&
@@ -60,19 +60,19 @@ export class Interface {
       );
     };
 
-    pause.isCursorInButtonBorders = (cursor) =>
+    pause.isCursorInButtonBorders = (cursor: { x: number; y: number }) =>
       cursor.x >= offsetX &&
       cursor.x <= offsetX + btnSize &&
       cursor.y >= bottomInterfaceOffset &&
       cursor.y <= bottomInterfaceOffset + btnSize;
 
-    fullscreen.isCursorInButtonBorders = (cursor) =>
+    fullscreen.isCursorInButtonBorders = (cursor: { x: number; y: number }) =>
       cursor.x >= offsetX &&
       cursor.x <= offsetX + btnSize &&
       cursor.y >= offsetY &&
       cursor.y <= offsetY + btnSize;
 
-    sound.isCursorInButtonBorders = (cursor) =>
+    sound.isCursorInButtonBorders = (cursor: { x: number; y: number }) =>
       cursor.x >= rightInterfaceOffset &&
       cursor.x <= rightInterfaceOffset + btnSize &&
       cursor.y >= bottomInterfaceOffset &&
