@@ -1,13 +1,13 @@
 import * as path from 'path';
 import { Sequelize, type SequelizeOptions } from 'sequelize-typescript';
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = process.env;
+const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, DB_HOST } = process.env;
 
 export const initPostgreSQLConnection = async (): Promise<Sequelize | undefined> => {
   let sequelize;
 
   const sequelizeOptions: SequelizeOptions = {
-    host: 'localhost',
+    host: DB_HOST,
     port: POSTGRES_PORT ? Number(POSTGRES_PORT) : 5432,
     username: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
@@ -34,7 +34,12 @@ export const initPostgreSQLConnection = async (): Promise<Sequelize | undefined>
     await sequelize?.sync({ alter: true });
     console.log('✅  Все модели синхронизированы');
   } catch (e) {
-    console.error('❌  Не удалось синхронизировать модели');
+    console.error(
+      '❌  Не удалось синхронизировать модели',
+      DB_HOST,
+      POSTGRES_USER,
+      POSTGRES_PASSWORD
+    );
     console.error(e);
   }
 
